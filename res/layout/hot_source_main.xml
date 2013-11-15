@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:layout_margin="5dip" 
+    android:background="@drawable/login_div_bg">
+     <ListView android:id="@+id/HotSrcTitleView"
+           android:layout_width="fill_parent"
+    	  	 android:layout_height="90dp"
+    	  	 android:background="@drawable/boder"
+    	  	 android:layout_margin="2dip"
+    	 	 android:orientation="vertical"/>
+     <android.support.v4.view.ViewPager
+          android:id = "@+id/hotMainPager"  
+		android:layout_margin="2dip"
+          android:layout_width="fill_parent"
+          android:layout_height="fill_parent"/>
+</LinearLayout>

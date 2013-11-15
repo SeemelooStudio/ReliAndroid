@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   <string name="app_name">北京热力信息移动发布平台</string>
+   <string name="main_item_one_name">热力日报</string>
+   <string name="main_item_two_name">预警信息</string>
+   <string name="main_item_three_name">天气预报</string>
+   <string name="main_item_four_name">信息上传</string>
+   <string name="main_item_five_name">热源信息</string>
+   <string name="main_item_six_name">热力站信息</string>
+</resources>

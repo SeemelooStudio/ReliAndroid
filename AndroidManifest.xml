@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.ui"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk android:minSdkVersion="15" />
+
+    <application
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/CustomTheme">
+        <activity
+            android:name=".LoginActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        　　<!--申明activity--> 
+     <activity android:name="org.achartengine.GraphicalActivity" />
+　　	<activity android:name="MainPageActivity"></activity>
+	<activity android:name="DailyListActivity"></activity>
+	<activity android:name="DailyDetailActivity"></activity>
+	<activity android:name="WarnListActivity"></activity>
+	<activity android:name="WarnDetailActivity"></activity>
+	<activity android:name="WeatherListActivity"></activity>
+	<activity android:name="WeatherDetailActivity"></activity>
+	<activity android:name="HotSourceMainActivity"></activity>
+	<activity android:name="HotSourceDetailActivity"></activity>
+	<activity android:name="HotSourceQueryActivity"></activity>
+	<activity android:name="HotPositionMainActivity"></activity>
+	<activity android:name="HotPositionDetailActivity"></activity>
+	<activity android:name="HotPositionQueryActivity"></activity>
+    </application>
+
+</manifest>

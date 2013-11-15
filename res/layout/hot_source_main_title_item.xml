@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     android:id="@+id/hot_source_item_div"
+	android:layout_width="fill_parent"
+	android:layout_height="90dp"
+	android:layout_margin="5dip"
+	android:orientation="vertical">
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"  
+	    android:layout_width="match_parent"  
+	    android:layout_height="70dip"
+	    android:orientation="horizontal">
+	        	<ImageView android:id="@+id/hotItemLeftImage"
+			    android:layout_width="40dp"
+			    android:layout_height="40dp"
+			    android:layout_marginLeft="35dip"
+			    android:layout_marginTop="5dip"
+			    android:background="@drawable/hot_item_left"/>
+		    	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"  
+			    android:layout_width="match_parent"  
+			     android:layout_height="60dp"
+			     android:layout_marginLeft="20dip"
+			     android:layout_marginTop="5dip"
+			     android:orientation="vertical">
+			   <TextView
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:id="@+id/hotSrcTitleAllnum"
+				    android:text="共18个"
+				    android:textSize="12sp"/>
+			   <TextView
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:id="@+id/hotSrcTitle"
+				    android:text="热源信息"
+				    android:textSize="25sp"/>
+		   </LinearLayout>
+	   </LinearLayout>
+	   <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"  
+		    android:layout_width="match_parent"  
+		    android:layout_height="wrap_content"
+		    android:layout_marginTop="50dip"
+		    android:orientation="vertical">
+			<TextView 
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:id="@+id/hotSrcTitleAllDay"
+			    android:layout_marginLeft="95dip"
+			    android:text="今日累计供热:100,457GJ"
+			    android:textSize="12sp"/>
+			<TextView
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:id="@+id/hotSrcTitleAllNet"
+			    android:layout_marginLeft="95dip"
+			    android:text="全网瞬时供热:73.2GJ"
+			    android:textSize="12sp"/>
+ 		</LinearLayout>
+</RelativeLayout>
