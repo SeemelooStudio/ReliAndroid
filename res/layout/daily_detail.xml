@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/daily_detail_div"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_margin="10dip"
+    android:background="@drawable/login_div_bg"
+    android:orientation="vertical" >
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      android:layout_width="fill_parent" 
+	 android:layout_height="30dp"
+	 android:background="@drawable/title_bg">
+	      <TextView android:id="@+id/labMainTitle" 
+		        	android:layout_width="fill_parent" 
+		        	android:layout_height="fill_parent"
+		        	android:layout_marginLeft="30dip"
+		        	android:layout_marginTop="5dip"  
+		        	android:text="热力日报" 
+		        	style="@style/labStyle"/>
+    </LinearLayout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      android:layout_width="fill_parent" 
+	 android:layout_height="30dp"
+	 android:background="@drawable/title_sub_bg">
+	      <TextView android:id="@+id/labsubTitle" 
+		        	android:layout_width="fill_parent" 
+		        	android:layout_height="fill_parent"
+		        	android:layout_marginTop="5dip"  
+		        	android:text="XXXX气象站"
+		          style="@style/labStyle"/>
+    </LinearLayout>
+    <TextView android:layout_width="fill_parent" 
+	    android:layout_height="20dp"
+	    android:layout_marginTop="1dip"
+	    android:text="生产运行情况"
+	    android:background="@drawable/title_sub_bg"
+	    style="@style/labStyle"/>
+     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      android:layout_width="fill_parent" 
+	 android:layout_height="250dp"
+	 android:scrollbarStyle="outsideOverlay"
+	 android:background="@drawable/title_sub_bg">
+      <ListView  
+	        android:id="@+id/daily_dellist" 
+	        android:background="#343434"
+	        android:layout_height="match_parent"
+	        android:layout_width="match_parent"
+	        android:scrollbarStyle="outsideOverlay"/>
+    </LinearLayout>
+    <TextView android:layout_width="fill_parent" 
+	       android:layout_height="40dp"
+	       android:text="根据天气情况"
+	       style="@style/labStyle"
+	       android:background="@drawable/title_sub_bg"/>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      android:layout_width="fill_parent" 
+	 android:layout_height="match_parent"
+	 android:layout_marginTop="1dip"
+	 android:background="@drawable/title_sub_bg">
+      <TextView android:layout_width="fill_parent" 
+	        	android:layout_height="fill_parent"
+	        	android:text="天气预报"
+	        	style="@style/labStyle"/>
+    </LinearLayout>
+</LinearLayout>
