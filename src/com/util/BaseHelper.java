@@ -12,12 +12,13 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.widget.Toast;
 
 
 public class BaseHelper {
 
     /**
-     * 显示消息对话框
      * @param context
      * @param title
      * @param message
@@ -25,17 +26,37 @@ public class BaseHelper {
      * @param cancelable
      * @return
      */
-	public static ProgressDialog showProgress(Context context,
-			CharSequence title, CharSequence message, boolean indeterminate,
-			boolean cancelable)
+	public static ProgressDialog showProgress(Context context,CharSequence message, 
+			boolean indeterminate)
 	{
 		ProgressDialog dialog = new ProgressDialog(context);
-		dialog.setTitle(title);
 		dialog.setMessage(message);
 		dialog.setIndeterminate(indeterminate);
-		dialog.setCancelable(false);
+		dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 		dialog.show();
 		return dialog;
+	}
+	
+	
+	/**
+	 * 
+	 * @param strErrMsg
+	 */
+	public static void  showErrorDialog(final Activity activity, String strErrMsg){
+		
+		 AlertDialog.Builder digErrInfo = new AlertDialog.Builder(activity);
+		 digErrInfo.setTitle("错误信息");
+		 digErrInfo.setMessage(strErrMsg);
+	    	
+		 digErrInfo.setPositiveButton("确定", new DialogInterface.OnClickListener()
+	     {
+	          public void onClick(DialogInterface dialog, int which)
+	          {   
+	        	 activity.finish();
+	          }
+	     });
+
+		 digErrInfo.show(); 	  
 	}
 	
 
@@ -53,6 +74,18 @@ public class BaseHelper {
 		tDialog.setPositiveButton("确定",null);
 		tDialog.show();
 	}
+	
+	/**
+	 * 显示弹出对话款
+	 * @param context
+	 * @param strTitle
+	 * @param strText
+	 */
+	public static void showToastMsg(Activity context,String strMsg)
+	{
+		Toast.makeText(context, strMsg, Toast.LENGTH_SHORT).show();
+	}
+	
 	
 
 	/**
