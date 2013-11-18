@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Window;
+import android.webkit.WebView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -16,10 +17,10 @@ import com.model.DailyDetailItem;
 
 public class DailyDetailActivity extends Activity {
 
-	
+	 private WebView webPdfView; 
 	 private TextView labSubTitle;
 	 private String ListId;
-	 private ListView delLlistView;  
+	 private ListView listDelView;  
 	 private List<HashMap<String, Object>> listData; 
 	 private ArrayList<DailyDetailItem>  dbDatalist = new ArrayList<DailyDetailItem>();  
 	  
@@ -40,12 +41,12 @@ public class DailyDetailActivity extends Activity {
 		    }
 		    
 		    listData = this.getDataByListId(ListId);
-		    delLlistView = (ListView) findViewById(R.id.daily_dellist);  
-		    delLlistView.setAdapter(new SimpleAdapter(getApplicationContext(),listData, R.layout.daily_detail_item,  
+		    listDelView = (ListView) findViewById(R.id.daily_dellist);  
+		    listDelView.setAdapter(new SimpleAdapter(getApplicationContext(),listData, R.layout.daily_detail_item,  
 					  new String[] { "fct_name", "is_join", "all_num", "on_num"  }, 
 					  new int[] {R.id.fct_name, R.id.is_join, R.id.all_num,R.id.on_num}));
 	        //Ìí¼ÓÊÂ¼þ
-		    delLlistView.setTextFilterEnabled(true); 
+		    listDelView.setTextFilterEnabled(true); 
 	 }
 	 
 

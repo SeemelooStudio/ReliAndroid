@@ -1,11 +1,19 @@
 package com.ui;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.model.UserInfo;
+import com.reqst.BusinessRequest;
+import com.util.BaseHelper;
+import com.util.ConstDefine;
 
 public class LoginActivity extends Activity implements android.view.View.OnClickListener{
 	
@@ -14,6 +22,10 @@ public class LoginActivity extends Activity implements android.view.View.OnClick
 	private EditText txtUserId;
 	private EditText txtPwd;
 	
+	private String strMenu ="";
+	
+	
+	private ProgressDialog diaLogProgress= null;
 	
     /** Called when the activity is first created. */
     @Override
@@ -45,15 +57,25 @@ public class LoginActivity extends Activity implements android.view.View.OnClick
    			if(checkInPutData(txtUserId.getText().toString(),txtPwd.getText().toString()) == false)
    				return;
    			
-			//连接服务器进行密码校验
-			//String  strMsg = "用户名："+ txtUserId.getText()+"\r\n"; 
-			//strMsg  += "密 码:" + txtPwd.getText(); 
-			//BaseHelper.showDialog(this, "消息", strMsg);
-				
-			//校验成功跳转主画面
-			Intent intent = new Intent(LoginActivity.this, MainPageActivity.class); 
-			startActivity(intent); 
-
+   			diaLogProgress = BaseHelper.showProgress(LoginActivity.this,ConstDefine.I_MSG_0002,false);
+   	        new Thread() {
+   	            public void run() { 
+   	                    Message msgSend = new Message();
+   	            	    try {
+   	            	    	
+   	            	    	UserInfo userInfo = new UserInfo();
+   	            	    	userInfo.setStrUserId(txtUserId.getText().toString());
+   	            	    	userInfo.setStrUserName(txtUserId.getText().toString());
+   	            	    	userInfo.setStrUserPwd(txtPwd.getText().toString());
+   	            	    	strMenu = BusinessRequest.getMainMenuByLoginUser(userInfo);
+   	            	    	this.sleep(ConstDefine.HTTP_TIME_OUT);
+   	            	    	msgSend.what = ConstDefine.MSG_I_HANDLE_OK;
+   						} catch (Exception e) {
+   							msgSend.what = ConstDefine.MSG_I_HANDLE_Fail;
+   						}
+   	                    handler.sendMessage(msgSend);
+   	            	}
+   	        	}.start();
    		}
    		else if(R.id.btnForgetPwd == v.getId())
    		{
@@ -64,6 +86,30 @@ public class LoginActivity extends Activity implements android.view.View.OnClick
    		
    	}
     
+    /**
+     * 
+     */
+    private Handler handler = new Handler() {               
+        public void handleMessage(Message message) {
+                switch (message.what) {
+                case ConstDefine.MSG_I_HANDLE_OK:                                        
+                	//close process
+               
+        			Intent intent = new Intent(LoginActivity.this, MainPageActivity.class);
+        			Bundle mBundle = new Bundle();
+            		mBundle.putString("lstMemu",strMenu);
+            		intent.putExtras(mBundle);
+        			startActivity(intent); 
+        		 	diaLogProgress.dismiss();
+                    break;
+                case ConstDefine.MSG_I_HANDLE_Fail:                                        
+                	//close process
+                	diaLogProgress.dismiss();
+                	BaseHelper.showToastMsg(LoginActivity.this,ConstDefine.E_MSG_0001);
+                    break;
+                }
+        }
+    };
     
     /*
      * 输入的用户名密码校验

@@ -6,7 +6,6 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -19,20 +18,18 @@ import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 
-import com.chart.impl.AverageTemperatureChart;
 import com.ctral.MainScrollLayout;
 import com.util.ViewPageAdapter;
 
 public class MainPageActivity extends Activity {
 	
 	public static final String TAG = "MainPageActivity";
-	private boolean isOpen = false;
 
 	private MainScrollLayout scrollLayout;
 	private ViewPager viewpage;
-	private LayoutInflater mInflater;
-	private ArrayList<View> views;
-	private ImageView main_mask_bg;
+	private LayoutInflater layflater;
+	private ArrayList<View> listViews;
+	private ImageView imgMaskbg;
 
 	private MyOnClickListener myOnClickListener;
 
@@ -41,29 +38,35 @@ public class MainPageActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE); 
 		setContentView(R.layout.main_page_layout);
-		initView();
+		
+		//get param
+		Intent inten = this.getIntent();
+        Bundle mBundle = inten.getExtras();
+	    if (mBundle == null )  return;
+	   
+	    //init main page
+		initView(mBundle.getString("lstMemu"));
 	}
 
 	/**
 	 * init the pageView
 	 */
-	private void initView() {
-		mInflater = LayoutInflater.from(this);
-		views = new ArrayList<View>();
+	private void initView(String strMenu) {
+		layflater = LayoutInflater.from(this);
+		listViews = new ArrayList<View>();
 		myOnClickListener = new MyOnClickListener();
 		
 		viewpage = (ViewPager) findViewById(R.id.pager);
 		
 		//use mainScrollLayout
 		scrollLayout = (MainScrollLayout) findViewById(R.id.mainScrollLayout);
-		String strMenu="123456";
-		RelativeLayout item1 = (RelativeLayout) mInflater.inflate(R.layout.main_page_item_1, null).findViewById(R.id.main_page_item1);
-		RelativeLayout item2 = (RelativeLayout) mInflater.inflate(R.layout.main_page_item_2, null).findViewById(R.id.main_page_item2);
-		RelativeLayout item3 = (RelativeLayout) mInflater.inflate(R.layout.main_page_item_3, null).findViewById(R.id.main_page_item3);
-		RelativeLayout item4 = (RelativeLayout) mInflater.inflate(R.layout.main_page_item_4, null).findViewById(R.id.main_page_item4);
-		RelativeLayout item5 = (RelativeLayout) mInflater.inflate(R.layout.main_page_item_5, null).findViewById(R.id.main_page_item5);
-		RelativeLayout item6 = (RelativeLayout) mInflater.inflate(R.layout.main_page_item_6, null).findViewById(R.id.main_page_item6);
-		RelativeLayout item7 = (RelativeLayout) mInflater.inflate(R.layout.main_page_item_7, null).findViewById(R.id.main_page_item7);
+		RelativeLayout item1 = (RelativeLayout) layflater.inflate(R.layout.main_page_item_1, null).findViewById(R.id.main_page_item1);
+		RelativeLayout item2 = (RelativeLayout) layflater.inflate(R.layout.main_page_item_2, null).findViewById(R.id.main_page_item2);
+		RelativeLayout item3 = (RelativeLayout) layflater.inflate(R.layout.main_page_item_3, null).findViewById(R.id.main_page_item3);
+		RelativeLayout item4 = (RelativeLayout) layflater.inflate(R.layout.main_page_item_4, null).findViewById(R.id.main_page_item4);
+		RelativeLayout item5 = (RelativeLayout) layflater.inflate(R.layout.main_page_item_5, null).findViewById(R.id.main_page_item5);
+		RelativeLayout item6 = (RelativeLayout) layflater.inflate(R.layout.main_page_item_6, null).findViewById(R.id.main_page_item6);
+		RelativeLayout item7 = (RelativeLayout) layflater.inflate(R.layout.main_page_item_7, null).findViewById(R.id.main_page_item7);
 		//TODO
 		
 		List<RelativeLayout> itemList = new ArrayList<RelativeLayout>();
@@ -119,18 +122,25 @@ public class MainPageActivity extends Activity {
 		{ 
 			TableLayout pageLayout = new TableLayout(this);
 			pageLayout.removeAllViews();
-			for(int r = 0;r < 3 && rowIndex < rowList.size()-1 ;r++)
-			{
-				rowIndex = i * 3 + r;
-				TableRow rowlayout = (TableRow)rowList.get(rowIndex);
+			
+			if(rowList.size() == 1){
+				TableRow rowlayout = (TableRow)rowList.get(0);
 				pageLayout.addView(rowlayout);
+			}else{
+				for(int r = 0;r < 3 && rowIndex < rowList.size() - 1 ;r++)
+				{
+					rowIndex = i * 3 + r;
+					TableRow rowlayout = (TableRow)rowList.get(rowIndex);
+					pageLayout.addView(rowlayout);
+				}
 			}
-			views.add(pageLayout);
+			
+			listViews.add(pageLayout);
 		}
 		
-		main_mask_bg = (ImageView) findViewById(R.id.main_page_menu);
-		main_mask_bg.setOnClickListener(myOnClickListener);
-		viewpage.setAdapter(new ViewPageAdapter(views));
+		imgMaskbg = (ImageView) findViewById(R.id.main_page_menu);
+		imgMaskbg.setOnClickListener(myOnClickListener);
+		viewpage.setAdapter(new ViewPageAdapter(listViews));
 	}
 
     /**
