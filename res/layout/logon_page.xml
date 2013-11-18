@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:layout_margin="5dip" 
+    android:background="#fff">
+       <ImageView
+            android:id="@+id/imgLogon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dip"
+            android:layout_marginTop="100dip"
+            android:src="@drawable/logon_image" />
+        <TextView
+            android:id="@+id/txtLogonName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="32dip"
+            android:layout_marginTop="50dip"
+            android:text="@string/app_name"
+            android:textSize="20sp" />
+</LinearLayout>
