@@ -17,8 +17,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
+import android.widget.TextView;
 
 import com.ctral.MainScrollLayout;
+import com.util.BaseHelper;
+import com.util.ConstDefine;
 import com.util.ViewPageAdapter;
 
 public class MainPageActivity extends Activity {
@@ -30,8 +33,19 @@ public class MainPageActivity extends Activity {
 	private LayoutInflater layflater;
 	private ArrayList<View> listViews;
 	private ImageView imgMaskbg;
+	
+	//tool
+	private TextView txthelpMenu;
+	private TextView txtconectMenu;
+	private TextView txtAboutMenu;
+	
+	private ImageView imgSetMenu;
+	private ImageView imgUserMenu;
 
-	private MyOnClickListener myOnClickListener;
+	
+	//event
+	private MainItemOnClickListener mainItemClickListener;
+	private ToolItemOnClickListener toolItemClickListener;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -44,17 +58,46 @@ public class MainPageActivity extends Activity {
         Bundle mBundle = inten.getExtras();
 	    if (mBundle == null )  return;
 	   
+	    //init tool
+	    this.initToolView();
+	    
 	    //init main page
-		initView(mBundle.getString("lstMemu"));
+		this.initView(mBundle.getString("lstMemu"));
+		
+		
 	}
 
+	/**
+	 * tool click
+	 */
+	private  void initToolView()
+	{
+		toolItemClickListener= new ToolItemOnClickListener();
+		
+		//right menu
+		imgSetMenu = (ImageView) findViewById(R.id.settingMenu);
+		imgSetMenu.setOnClickListener(toolItemClickListener);
+		imgUserMenu = (ImageView) findViewById(R.id.userMenu);
+		imgUserMenu.setOnClickListener(toolItemClickListener);
+		
+		//sub menu
+		txthelpMenu = (TextView) findViewById(R.id.help_menu);
+		txthelpMenu.setOnClickListener(toolItemClickListener);
+		txtconectMenu = (TextView) findViewById(R.id.conect_menu);
+		txtconectMenu.setOnClickListener(toolItemClickListener);
+		txtAboutMenu = (TextView) findViewById(R.id.main_about);
+		txtAboutMenu.setOnClickListener(toolItemClickListener);
+	}
+	
+	
+	
 	/**
 	 * init the pageView
 	 */
 	private void initView(String strMenu) {
 		layflater = LayoutInflater.from(this);
 		listViews = new ArrayList<View>();
-		myOnClickListener = new MyOnClickListener();
+		mainItemClickListener= new MainItemOnClickListener();
 		
 		viewpage = (ViewPager) findViewById(R.id.pager);
 		
@@ -98,11 +141,11 @@ public class MainPageActivity extends Activity {
 			rowlayout.setId(i);
 			
 			RelativeLayout col1 = (RelativeLayout)itemList.get(i*2);
-			col1.setOnClickListener(myOnClickListener);
+			col1.setOnClickListener(mainItemClickListener);
 			rowlayout.addView(col1.getRootView(), 0);
 			if((i*2+1) < itemList.size()){
 				RelativeLayout col2 = (RelativeLayout)itemList.get(i*2+1);
-				col2.setOnClickListener(myOnClickListener);
+				col2.setOnClickListener(mainItemClickListener);
 				rowlayout.addView(col2.getRootView(), 1);
 			}
 			rowList.add(rowlayout);
@@ -139,7 +182,7 @@ public class MainPageActivity extends Activity {
 		}
 		
 		imgMaskbg = (ImageView) findViewById(R.id.main_page_menu);
-		imgMaskbg.setOnClickListener(myOnClickListener);
+		imgMaskbg.setOnClickListener(mainItemClickListener);
 		viewpage.setAdapter(new ViewPageAdapter(listViews));
 	}
 
@@ -148,7 +191,7 @@ public class MainPageActivity extends Activity {
      * @author zhaors
      *
      */
-	public class MyOnClickListener implements OnClickListener {
+	private class MainItemOnClickListener implements OnClickListener {
 
 		public void onClick(View v) {
 			switch (v.getId()) {
@@ -203,4 +246,36 @@ public class MainPageActivity extends Activity {
 			}
 		}
 	}
+
+	 /**
+     * click listren
+     * @author zhaors
+     *
+     */
+	private class ToolItemOnClickListener implements OnClickListener {
+
+		public void onClick(View v) {
+			switch (v.getId()) {
+			case R.id.help_menu:
+				BaseHelper.showToastMsg(MainPageActivity.this,ConstDefine.I_MSG_0004);
+				break;
+			case R.id.conect_menu:
+				BaseHelper.showToastMsg(MainPageActivity.this,ConstDefine.I_MSG_0004);
+				break;
+			case R.id.main_about:
+				BaseHelper.showToastMsg(MainPageActivity.this,ConstDefine.I_MSG_0004);
+				break;
+			case R.id.settingMenu:
+				BaseHelper.showToastMsg(MainPageActivity.this,ConstDefine.I_MSG_0004);
+				break;
+			case R.id.userMenu:
+				BaseHelper.showToastMsg(MainPageActivity.this,ConstDefine.I_MSG_0004);
+				break;
+			default:
+				break;
+			}
+		}
+	}
+
+
 }

@@ -9,15 +9,15 @@
             android:id="@+id/imgLogon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="50dip"
-            android:layout_marginTop="100dip"
+            android:layout_marginLeft="85dip"
+            android:layout_marginTop="110dip"
             android:src="@drawable/logon_image" />
         <TextView
             android:id="@+id/txtLogonName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="32dip"
-            android:layout_marginTop="50dip"
+            android:layout_marginTop="60dip"
             android:text="@string/app_name"
             android:textSize="20sp" />
 </LinearLayout>

@@ -4,9 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.json.JSONException;
+
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -15,8 +20,11 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
+import com.model.ListItem;
 import com.model.WarnListItem;
+import com.reqst.BusinessRequest;
 import com.util.BaseHelper;
+import com.util.ConstDefine;
 
 public class WarnListActivity extends Activity implements android.view.View.OnClickListener{
 
@@ -25,22 +33,21 @@ public class WarnListActivity extends Activity implements android.view.View.OnCl
 	private Button   btnWarnShow;
 	private Button   btnWarnEdit;
 
-
-    private List<HashMap<String, Object>> listData; 
-    private ArrayList<WarnListItem>  dbDatalist = new ArrayList<WarnListItem>();  
-	  
+	private ProgressDialog diaLogProgress= null;	
+    private List<HashMap<String, Object>> listData;
+    private ArrayList<WarnListItem>  dbWarnlist = new ArrayList<WarnListItem>();  
+    private WarnListItem searchCon = null;
+    
 	 @Override
      public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE); 
         setContentView(R.layout.warn_list);
+        listView = (ListView) findViewById(R.id.list); 
         
-        //获取数据并适配到listview中
-        listData = getListData();
-        listView = (ListView) findViewById(R.id.list);  
-        listView.setAdapter(new SimpleAdapter(getApplicationContext(),listData, R.layout.warn_list_item,  
-				  new String[] { "warn_id", "warn_title", "warn_content", "warn_date","warn_other"}, 
-				  new int[] {R.id.warn_id, R.id.warn_title,R.id.warn_content,R.id.warn_date,R.id.warn_other}));
+        searchCon = new WarnListItem();
+        this.getWarnListbyCondition();
+        
         //添加事件
         listView.setTextFilterEnabled(true); 
         listView.setOnItemClickListener(new OnItemClickListener(){                                                                                    
@@ -59,7 +66,6 @@ public class WarnListActivity extends Activity implements android.view.View.OnCl
         	}
         });
         
-        
         btnWarnRefresh = (Button) findViewById(R.id.btnWarnRefresh);
         btnWarnShow = (Button) findViewById(R.id.btnWarnShow);
         btnWarnEdit = (Button) findViewById(R.id.btnWarnEdit);
@@ -68,27 +74,69 @@ public class WarnListActivity extends Activity implements android.view.View.OnCl
         btnWarnEdit.setOnClickListener((android.view.View.OnClickListener) this);
 	 }
 	 
-	 /*
-     * 加载数据
+	 
+	 /**
+	  * query list
+	  */
+	 private void getWarnListbyCondition()
+	 {
+		 diaLogProgress = BaseHelper.showProgress(WarnListActivity.this,ConstDefine.I_MSG_0003,false);
+	        new Thread() {
+	            public void run() { 
+	                    Message msgSend = new Message();
+	            	    try {
+	            	    	
+	            	    	this.sleep(ConstDefine.HTTP_TIME_OUT);
+	            	    	
+	            	        //get mapList
+	            	    	listData = getWarnListData(searchCon);
+	            	    	
+	            	    	msgSend.what = ConstDefine.MSG_I_HANDLE_OK;
+						} catch (Exception e) {
+							msgSend.what = ConstDefine.MSG_I_HANDLE_Fail;
+						}
+	                    handler.sendMessage(msgSend);
+	            	}
+	        }.start();
+	 }
+			 
+	 
+    /**
+     * http handler result
      */
-    public List<HashMap<String, Object>> getListData() {  
+    private Handler handler = new Handler() {               
+        public void handleMessage(Message message) {
+                switch (message.what) {
+                case ConstDefine.MSG_I_HANDLE_OK:                                        
+        		 	diaLogProgress.dismiss();
+        		 	 listView.setAdapter(new SimpleAdapter(getApplicationContext(),listData, R.layout.warn_list_item,  
+        					  new String[] { "warn_id", "warn_title", "warn_content", "warn_date","warn_other"}, 
+        					  new int[] {R.id.warn_id, R.id.warn_title,R.id.warn_content,R.id.warn_date,R.id.warn_other}));
+                    break;
+                case ConstDefine.MSG_I_HANDLE_Fail:                                        
+                	//close process
+                	diaLogProgress.dismiss();
+                	BaseHelper.showToastMsg(WarnListActivity.this,ConstDefine.E_MSG_0001);
+                    break;
+	            }
+	        }
+	  };
+		
+	  
+	  
+    /**
+     * 
+     * @return
+     * @throws JSONException 
+     */
+    private List<HashMap<String, Object>> getWarnListData(WarnListItem pSearchCon) throws JSONException {  
        
-        //原始数据
-        dbDatalist = new ArrayList<WarnListItem>();
-        for(int i=0; i<13; i++)
-        {
-        	WarnListItem  lst = new WarnListItem();
-        	lst.setWarn_id("" +i);
-        	lst.setWarn_title("左家庄热力站连续三日超标" +i);
-        	lst.setWarn_content("左家庄热力站连续三日超标%10，左家庄热力站连续三日超标%20" +i);
-          	lst.setWarn_date("13:30");
-        	lst.setWarn_other("image");
-        	dbDatalist.add(lst);
-        }
+        //get weatherList
+    	dbWarnlist =  BusinessRequest.getWarnList(pSearchCon);
         
-        //拼装数据
-        List<HashMap<String, Object>> data = new ArrayList<HashMap<String, Object>>(); 
-        for (WarnListItem oneRec: dbDatalist) 
+        //adapt weatherList
+        List<HashMap<String, Object>> warnList = new ArrayList<HashMap<String, Object>>(); 
+        for (WarnListItem oneRec: dbWarnlist) 
         {   
         	HashMap<String, Object> item = new HashMap<String, Object>();  
 	        item.put("warn_id", oneRec.getWarn_id()); 
@@ -96,13 +144,13 @@ public class WarnListActivity extends Activity implements android.view.View.OnCl
 	        item.put("warn_content", oneRec.getWarn_content()); 
 	        item.put("warn_date", oneRec.getWarn_date()); 
 	        item.put("list_other", oneRec.getWarn_other()); 
-	        data.add(item);  
+	        warnList.add(item);  
         }
         
-        //返回结果
-        return data;
-    }  
-	  
+        //return
+        return warnList;
+    } 
+	    
     /*
      * 按钮处理事件
      * @see android.view.View.OnClickListener#onClick(android.view.View)
@@ -111,7 +159,8 @@ public class WarnListActivity extends Activity implements android.view.View.OnCl
    	{
    		if(R.id.btnWarnRefresh == v.getId())
    		{
-   			BaseHelper.showDialog(this, "消息", "刷新");
+   		  searchCon.setWarn_id("00001");
+   		  this.getWarnListbyCondition();
    		}
    		else if(R.id.btnWarnShow == v.getId())
    		{

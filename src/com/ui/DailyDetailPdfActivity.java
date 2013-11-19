@@ -41,8 +41,7 @@ public class DailyDetailPdfActivity extends Activity {
    	                    Message msgSend = new Message();
    	            	    try {
    	            	    	this.sleep(ConstDefine.HTTP_TIME_OUT);
-   	            	    	//String pdfUrl = "http://www8.cao.go.jp/okinawa/8/2012/0409-1-1.pdf"; 
-   	            	    	String pdfUrl = "http://localhost:8090/web1/zhunzheng.pdf";
+   	            	    	String pdfUrl = "http://www8.cao.go.jp/okinawa/8/2012/0409-1-1.pdf"; 
    	            	    	loadDailPdf(webPdfView,pdfUrl); 
    	            	    	msgSend.what = ConstDefine.MSG_I_HANDLE_OK;
    						} catch (Exception e) {

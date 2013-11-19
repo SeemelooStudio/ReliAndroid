@@ -7,4 +7,5 @@
    <string name="main_item_four_name">信息上传</string>
    <string name="main_item_five_name">热源信息</string>
    <string name="main_item_six_name">热力站信息</string>
+   <string name="main_item_serven_name">知识库</string>
 </resources>
