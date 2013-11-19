@@ -6,24 +6,24 @@
     <RelativeLayout
         android:id="@+id/main_page_item7"
         android:layout_width="125dp"
-        android:layout_height="110dp"
+        android:layout_height="115dp"
         android:background="@drawable/main_item_bg_1" >
 
         <ImageView
             android:id="@+id/main_item_image7"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dip"
-            android:layout_marginTop="20dip"
-            android:src="@drawable/main_item_one_image" />
+            android:layout_marginLeft="40dip"
+            android:layout_marginTop="30dip"
+            android:src="@drawable/main_item_serven_image" />
 
         <TextView
             style="@style/mainTitleStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/main_item_image7"
-            android:layout_marginLeft="30dip"
-            android:layout_marginTop="15dip"
-            android:text="@string/main_item_one_name" />
+            android:layout_marginLeft="32dip"
+            android:layout_marginTop="10dip"
+            android:text="@string/main_item_serven_name" />
     </RelativeLayout>
 </RelativeLayout>

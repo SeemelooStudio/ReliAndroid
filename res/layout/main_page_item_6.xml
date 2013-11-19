@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="40dip"
-            android:layout_marginTop="20dip"
+            android:layout_marginTop="30dip"
             android:src="@drawable/main_item_six_image" />
 
         <TextView
@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/main_item_six_image"
-            android:layout_marginLeft="25dip"
+            android:layout_marginLeft="20dip"
             android:layout_marginTop="10dip"
             android:text="@string/main_item_six_name" />
     </RelativeLayout>

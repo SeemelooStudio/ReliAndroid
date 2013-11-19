@@ -3,7 +3,7 @@
     android:layout_width="match_parent"  
     android:layout_height="0dip"
     android:orientation="horizontal"
-    android:background="@drawable/login_div_bg">
+    android:background="@drawable/main_layout_bg">
     <SearchView 
         android:id="@+id/hot_positon_search_view" 
         android:layout_margin="5dip" 

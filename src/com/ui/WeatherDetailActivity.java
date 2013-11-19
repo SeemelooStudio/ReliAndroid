@@ -10,11 +10,15 @@ import org.achartengine.chart.PointStyle;
 import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
+import org.json.JSONException;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.widget.ImageView;
@@ -26,8 +30,12 @@ import android.widget.TabHost;
 import android.widget.TabWidget;
 import android.widget.TextView;
 
+import com.model.WarnListItem;
 import com.model.WeatherDetailItem;
+import com.model.WeatherDetailTempInfo;
+import com.reqst.BusinessRequest;
 import com.util.BaseHelper;
+import com.util.ConstDefine;
 
 
 public class WeatherDetailActivity extends Activity implements SearchView.OnQueryTextListener {
@@ -55,7 +63,10 @@ public class WeatherDetailActivity extends Activity implements SearchView.OnQuer
     private ArrayList<WeatherDetailItem>  twoTabDbDatalist = new ArrayList<WeatherDetailItem>();
     private ArrayList<WeatherDetailItem>  fourTabDbDatalist = new ArrayList<WeatherDetailItem>();  
   
-    
+	private ProgressDialog diaLogProgress = null;
+	private String strListId = "";
+	private WeatherDetailTempInfo tabOneDetail = null;;
+
 	 @Override
 	 public void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
@@ -66,6 +77,9 @@ public class WeatherDetailActivity extends Activity implements SearchView.OnQuer
 	        Bundle mBundle = inten.getExtras();
 	        if (mBundle == null )  return;
 	        
+	        strListId = mBundle.getString("list_id");
+		    if(strListId== null || strListId.length() <= 0) return;
+		  
 	        //获tabhost
 	        myTabhost = (TabHost) this.findViewById(R.id.weatherDetailsTabHost);  
 	        myTabhost.setup();
@@ -108,36 +122,125 @@ public class WeatherDetailActivity extends Activity implements SearchView.OnQuer
 			
 	 }
 	 
+	@Override  
+    public boolean onQueryTextChange(String newText) {  
+     	List<HashMap<String, Object>>  resultlst = searchHisItem(newText);  
+        updateLayout(resultlst);  
+        return false;  
+     } 
 	 
-	 /**
-	  * 设置第一个tab画面数据
-	  */
+    @Override  
+    public boolean onQueryTextSubmit(String query) {  
+        // TODO Auto-generated method stub  
+	   return false;  
+    }  
+
+	   
+    /**
+     * 
+     */
 	 private void setOneTabDate(){
 		 
-		 //获取数据并适配到listview中
 		oneTabListView = (ListView) findViewById(R.id.oneTabList);
 		txtOneTab1 = (TextView) findViewById(R.id.txtOneTab1);
 		txtOneTab2 = (TextView) findViewById(R.id.txtOneTab2);
 		txtOneTab3 = (TextView) findViewById(R.id.txtOneTab3);
-		
-		//设置左边数据
-		txtOneTab1.setText("30");
-		txtOneTab2.setText("XXX气象站");
-		String strMsg  = "体感温度：31" + "\n";
-		       strMsg += "温度：48" + "\n";
-		       strMsg += "风速：64km/h" + "\n";
-		       strMsg += "风向：西南" + "\n";
-		       strMsg += "更新时间：2013-07-08 13:34";
-		txtOneTab3.setText(strMsg);
-		
-	    //设置list数据
-	 	oneTabListData = getOneTabListData();
-	 	oneTabListView.setAdapter(new SimpleAdapter(getApplicationContext(),oneTabListData, R.layout.weather_detail_item,  
-	 			 new String[] { "w_time", "w_wendu", "w_tianqi" }, 
-				  new int[] {R.id.w_time, R.id.w_wendu, R.id.w_tianqi}));
-	 	oneTabListView.setTextFilterEnabled(true); 
-		 
+			
+		 tabOneDetail  = new WeatherDetailTempInfo();
+    	 diaLogProgress = BaseHelper.showProgress(WeatherDetailActivity.this,ConstDefine.I_MSG_0003,false);
+	        new Thread() {
+	            public void run() { 
+	                    Message msgSend = new Message();
+	            	    try {
+	            	    	
+	            	    	this.sleep(ConstDefine.HTTP_TIME_OUT);
+	            	    	
+	            	    	//get today weatherInfo
+	            	    	tabOneDetail = BusinessRequest.getWenduTabDetailById(strListId,"1");
+	            	    	
+	            		 	oneTabListData = getWenduTabListData(strListId,"1");
+	            	    	
+	            	    	msgSend.what = ConstDefine.MSG_I_HANDLE_OK;
+						} catch (Exception e) {
+							msgSend.what = ConstDefine.MSG_I_HANDLE_Fail;
+						}
+	            	    oneTabhandler.sendMessage(msgSend);
+	            	}
+	        	}.start();	 
 	 }
+	 
+	 /**
+	  * 
+	  */
+	 private Handler oneTabhandler = new Handler() {               
+        public void handleMessage(Message message) {
+                switch (message.what) {
+                case ConstDefine.MSG_I_HANDLE_OK:                                        
+        		 	diaLogProgress.dismiss();
+        		 	
+        		 	//setDetails
+        			txtOneTab1.setText(tabOneDetail.getStrTemp());
+        			txtOneTab2.setText(tabOneDetail.getStrName());
+        			String strMsg  = "体感温度："+ tabOneDetail.getStrTiWen() + "\n";
+        			       strMsg += "温度："+ tabOneDetail.getStrWendu() + "\n";
+        			       strMsg += "风速："+ tabOneDetail.getStrFengsu() + "\n";
+        			       strMsg += "风向："+ tabOneDetail.getStrFengxiang() + "\n";
+        			       strMsg += "更新时间："+ tabOneDetail.getStrUpTime();
+        			txtOneTab3.setText(strMsg);
+        			
+        			//set temperature list
+        		 	oneTabListView.setAdapter(new SimpleAdapter(getApplicationContext(),oneTabListData, R.layout.weather_detail_item,  
+        		 			 new String[] { "w_time", "w_wendu", "w_tianqi" }, 
+        					  new int[] {R.id.w_time, R.id.w_wendu, R.id.w_tianqi}));
+        		 	oneTabListView.setTextFilterEnabled(true); 
+                    break;
+                case ConstDefine.MSG_I_HANDLE_Fail:                                        
+                	//close process
+                	diaLogProgress.dismiss();
+                	BaseHelper.showToastMsg(WeatherDetailActivity.this,ConstDefine.E_MSG_0001);
+                    break;
+	            }
+	        }
+	  };
+	 
+	  
+	  /**
+	   * 
+	   * @return
+	 * @throws JSONException 
+	   */
+	  private List<HashMap<String, Object>> getWenduTabListData(String strListId ,String dayFlag) throws JSONException {  
+	       
+		    
+		  	ArrayList<WeatherDetailItem> wenduDbDatalist = new ArrayList<WeatherDetailItem>();
+	      
+		  	tabOneDetail.setStrListId(strListId);
+		  	tabOneDetail.setStrDayFlag(dayFlag);
+		  	wenduDbDatalist = BusinessRequest.getWenduTabDetailListById(tabOneDetail);
+		  	
+			//getate
+			List<HashMap<String, Object>> wenDuList = new ArrayList<HashMap<String, Object>>(); 
+			for (WeatherDetailItem oneRec: wenduDbDatalist) 
+			{   
+				HashMap<String, Object> item = new HashMap<String, Object>();  
+			    item.put("w_time", oneRec.getW_time()); 
+			    item.put("w_wendu", oneRec.getW_wendu()); 
+			    item.put("w_tianqi", oneRec.getW_tianqi()); 
+			    wenDuList.add(item);  
+			}
+			
+			//return
+			return wenDuList;
+	    } 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
 	 
 	 /**
 	  * 设置第一个tab画面数据
@@ -190,24 +293,12 @@ public class WeatherDetailActivity extends Activity implements SearchView.OnQuer
 		 
 	 }
 	 
-	  @Override  
-     public boolean onQueryTextChange(String newText) {  
-     	List<HashMap<String, Object>>  resultlst = searchHisItem(newText);  
-        updateLayout(resultlst);  
-        return false;  
-     } 
-	 
-   @Override  
-    public boolean onQueryTextSubmit(String query) {  
-        // TODO Auto-generated method stub  
-	   return false;  
-   }  
-
+	
 	 /**
 	 * 重置ListView值
 	 * @param resultList
 	 */
-	public void updateLayout(List<HashMap<String, Object>> resultList) {  
+	private void updateLayout(List<HashMap<String, Object>> resultList) {  
 		fourTabListView.setAdapter(new SimpleAdapter(getApplicationContext(),resultList, R.layout.weather_detail_item,  
 				  new String[] { "w_time", "w_wendu", "w_tianqi" }, 
 				  new int[] {R.id.w_time, R.id.w_wendu, R.id.w_tianqi}));
@@ -239,36 +330,8 @@ public class WeatherDetailActivity extends Activity implements SearchView.OnQuer
 	}  
 	 
 
- 	/*
-     * 加载数据
-     */
-	private List<HashMap<String, Object>> getOneTabListData() {  
-       
-        //原始数据
-    	oneTabDbDatalist = new ArrayList<WeatherDetailItem>();
-        for(int i=0; i<14; i++)
-        {
-        	WeatherDetailItem  lst = new WeatherDetailItem();
-        	lst.setW_time("4" + i + ":PM");
-        	lst.setW_wendu("2" +i);
-        	lst.setW_tianqi("小雨");
-        	oneTabDbDatalist.add(lst);
-        }
-        
-        //拼装数据
-        List<HashMap<String, Object>> data = new ArrayList<HashMap<String, Object>>(); 
-        for (WeatherDetailItem oneRec: oneTabDbDatalist) 
-        {   
-        	HashMap<String, Object> item = new HashMap<String, Object>();  
-	        item.put("w_time", oneRec.getW_time()); 
-	        item.put("w_wendu", oneRec.getW_wendu()); 
-	        item.put("w_tianqi", oneRec.getW_tianqi()); 
-	        data.add(item);  
-        }
-        
-        //返回结果
-        return data;
-    } 
+
+	
     
  	/*
      * 加载数据

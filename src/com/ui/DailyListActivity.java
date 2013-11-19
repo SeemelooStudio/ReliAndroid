@@ -24,6 +24,7 @@ import android.widget.SearchView;
 import android.widget.SimpleAdapter;
 
 import com.model.ListItem;
+import com.model.WarnListItem;
 import com.reqst.BusinessRequest;
 import com.util.BaseHelper;
 import com.util.ConstDefine;
@@ -40,30 +41,16 @@ public class DailyListActivity extends Activity implements  SearchView.OnQueryTe
 	    private List<HashMap<String, Object>> listData; 
 	    private ArrayList<ListItem>  dbDatalist = new ArrayList<ListItem>();  
 	    private ProgressDialog diaLogProgress= null;
+	    private ListItem searchCon = null;
 		
 	    @Override  
 	    protected void onCreate(Bundle savedInstanceState) {  
     	    super.onCreate(savedInstanceState);
     	    setContentView(R.layout.daily_list); 
     	    listView = (ListView) findViewById(R.id.list); 
-    	    diaLogProgress = BaseHelper.showProgress(DailyListActivity.this,ConstDefine.I_MSG_0003,false);
-   	        new Thread() {
-   	            public void run() { 
-   	                    Message msgSend = new Message();
-   	            	    try {
-   	            	    	
-   	            	    	this.sleep(ConstDefine.HTTP_TIME_OUT);
-   	            	    	
-   	            	        //获取数据并适配到listview中
-   	            	    	listData = getListData();
-   	            	    	
-   	            	    	msgSend.what = ConstDefine.MSG_I_HANDLE_OK;
-   						} catch (Exception e) {
-   							msgSend.what = ConstDefine.MSG_I_HANDLE_Fail;
-   						}
-   	                    handler.sendMessage(msgSend);
-   	            	}
-   	        }.start();
+    	   
+    	    searchCon = new ListItem();
+    	    this.getDailyListbyCondition();
    	        	
 	        listView.setTextFilterEnabled(true); 
     	    listView.setOnItemClickListener(new OnItemClickListener(){                                                                                    
@@ -106,6 +93,32 @@ public class DailyListActivity extends Activity implements  SearchView.OnQueryTe
 	        return false;  
 	    }  
 	    
+	    /***
+	     * 
+	     */
+	    private void getDailyListbyCondition()
+		{
+    	    diaLogProgress = BaseHelper.showProgress(DailyListActivity.this,ConstDefine.I_MSG_0003,false);
+   	        new Thread() {
+   	            public void run() { 
+   	                    Message msgSend = new Message();
+   	            	    try {
+   	            	    	
+   	            	    	this.sleep(ConstDefine.HTTP_TIME_OUT);
+   	            	    	
+   	            	        //获取数据并适配到listview中
+   	            	    	listData = getDailyListData(searchCon);
+   	            	    	
+   	            	    	msgSend.what = ConstDefine.MSG_I_HANDLE_OK;
+   						} catch (Exception e) {
+   							msgSend.what = ConstDefine.MSG_I_HANDLE_Fail;
+   						}
+   	                    handler.sendMessage(msgSend);
+   	            	}
+   	        }.start();
+	    	
+	    	
+		 }
 	    /**
 	     * http handler result
 	     */
@@ -170,10 +183,10 @@ public class DailyListActivity extends Activity implements  SearchView.OnQueryTe
 	     * @return
 	     * @throws JSONException 
 	     */
-	    private List<HashMap<String, Object>> getListData() throws JSONException {  
+	    private List<HashMap<String, Object>> getDailyListData(ListItem pSearchCon) throws JSONException {  
 	       
 	        //get dailyList
-	        dbDatalist =  BusinessRequest.getDailyList();
+	        dbDatalist =  BusinessRequest.getDailyList(pSearchCon);
 	        
 	        //adapt dailyList
 	        List<HashMap<String, Object>> dailyList = new ArrayList<HashMap<String, Object>>(); 

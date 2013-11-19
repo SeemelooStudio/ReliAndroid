@@ -6,15 +6,15 @@
     <RelativeLayout
         android:id="@+id/main_page_item2"
         android:layout_width="125dp"
-        android:layout_height="110dp"
+        android:layout_height="115dp"
         android:layout_marginLeft="5dip"
         android:background="@drawable/main_item_bg_1" >
         <ImageView
             android:id="@+id/main_item_two_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dip"
-            android:layout_marginTop="10dip"
+            android:layout_marginLeft="40dip"
+            android:layout_marginTop="40dip"
             android:src="@drawable/main_item_two_image" />
 
         <TextView
@@ -22,8 +22,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/main_item_two_image"
-            android:layout_marginLeft="30dip"
-            android:layout_marginTop="15dip"
+            android:layout_marginLeft="25dip"
+            android:layout_marginTop="8dip"
             android:text="@string/main_item_two_name" />
     </RelativeLayout>
 
