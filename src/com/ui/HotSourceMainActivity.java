@@ -8,10 +8,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -21,13 +24,17 @@ import android.widget.TableRow;
 import com.model.HotSrcMainItem;
 import com.model.HotSrcTitleInfo;
 import com.util.ViewPageAdapter;
+import com.util.ViewPageChangeListener;
 
 public class HotSourceMainActivity extends Activity {
 
-	   private ListView titleView;
-	   private ViewPager viewpage;
-	   
-	   private ArrayList<View> views;
+		private ListView titleView;
+		private ViewPager viewpage;
+		   
+		private ArrayList<View> views;
+		private ViewGroup viewGroup;
+		private ImageView imageView;  
+		private ImageView[] imageViews; 
 	   
 	    @Override                                                                                            
 	    public void onCreate(Bundle savedInstanceState) {                                                    
@@ -175,8 +182,24 @@ public class HotSourceMainActivity extends Activity {
 			views.add(pageLayout);
 		}
         
+		imageViews = new ImageView[views.size()];  
+		viewGroup = (ViewGroup)findViewById(R.id.hotSorceViewGroup);  
+	    for (int i = 0; i < views.size(); i++) {  
+            imageView = new ImageView(HotSourceMainActivity.this);  
+            imageView.setLayoutParams(new LayoutParams(20,20));  
+            imageView.setPadding(30, 0, 10, 0);  
+            imageViews[i] = imageView;            
+            if (i == 0) {  
+                imageViews[i].setBackgroundResource(R.drawable.page_indicator_focused);  
+            } else {  
+                imageViews[i].setBackgroundResource(R.drawable.page_indicator);  
+            }             
+            viewGroup.addView(imageViews[i]);  
+        } 
+	    
 		//add pages
 		viewpage.setAdapter(new ViewPageAdapter(views));
+		viewpage.setOnPageChangeListener(new ViewPageChangeListener(imageViews)); 
 	  }
      
 }  

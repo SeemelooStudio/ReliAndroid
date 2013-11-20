@@ -7,13 +7,17 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -23,6 +27,7 @@ import com.ctral.MainScrollLayout;
 import com.util.BaseHelper;
 import com.util.ConstDefine;
 import com.util.ViewPageAdapter;
+import com.util.ViewPageChangeListener;
 
 public class MainPageActivity extends Activity {
 	
@@ -41,7 +46,8 @@ public class MainPageActivity extends Activity {
 	
 	private ImageView imgSetMenu;
 	private ImageView imgUserMenu;
-
+	
+	private TextView txtShowPage;
 	
 	//event
 	private MainItemOnClickListener mainItemClickListener;
@@ -163,27 +169,35 @@ public class MainPageActivity extends Activity {
 		int rowIndex = 0;
 		for(int i = 0; i < pageNum; i++ )
 		{ 
-			TableLayout pageLayout = new TableLayout(this);
-			pageLayout.removeAllViews();
+			LinearLayout pageLayout=new LinearLayout(this);
+			LayoutParams ltp=new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
+			 
+			TableLayout tbLayout = new TableLayout(this);
+			tbLayout.removeAllViews();
 			
 			if(rowList.size() == 1){
 				TableRow rowlayout = (TableRow)rowList.get(0);
-				pageLayout.addView(rowlayout);
+				tbLayout.addView(rowlayout);
 			}else{
 				for(int r = 0;r < 3 && rowIndex < rowList.size() - 1 ;r++)
 				{
 					rowIndex = i * 3 + r;
 					TableRow rowlayout = (TableRow)rowList.get(rowIndex);
-					pageLayout.addView(rowlayout);
+					tbLayout.addView(rowlayout);
 				}
 			}
-			
+			pageLayout.addView(tbLayout, ltp);
 			listViews.add(pageLayout);
 		}
 		
 		imgMaskbg = (ImageView) findViewById(R.id.main_page_menu);
 		imgMaskbg.setOnClickListener(mainItemClickListener);
 		viewpage.setAdapter(new ViewPageAdapter(listViews));
+		viewpage.setOnPageChangeListener(new ViewPageChangeListener()); 
+		
+		txtShowPage = (TextView)findViewById(R.id.txtViewGroup); 
+    	txtShowPage.setText("1/" + listViews.size());
+
 	}
 
     /**
@@ -276,6 +290,27 @@ public class MainPageActivity extends Activity {
 			}
 		}
 	}
+	
+	private class ViewPageChangeListener implements OnPageChangeListener {  
+	 	  
+		
+	     @Override  
+	     public void onPageScrollStateChanged(int arg0) {  
+	         // TODO Auto-generated method stub  
 
+	     }  
+
+	     @Override  
+	     public void onPageScrolled(int arg0, float arg1, int arg2) {  
+	         // TODO Auto-generated method stub  
+
+	     }  
+
+	     @Override  
+	     public void onPageSelected(int arg0) { 
+	    	 String pageNum = (arg0+1) + "/" + listViews.size();
+	    	 txtShowPage.setText(pageNum);
+	     }  
+	 }  
 
 }
