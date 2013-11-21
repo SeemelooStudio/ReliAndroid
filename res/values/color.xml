@@ -9,4 +9,11 @@
     <color name="dodger_blue">#ff33b5e5</color>
     <color name="main_blue">#ff0175c1</color>
     <color name="dim_gray">#FF333333</color>
+    
+    <color name="white">#ffffffff</color>
+    <color name="black">#ff000000</color>
+    <color name="blue">#ffccddff</color>
+    <color name="grey">#ff808080</color>
+    <color name="pls_talk_normal">#ff707277</color>
+    <color name="search_hint">#ffcccccc</color>
 </resources>
