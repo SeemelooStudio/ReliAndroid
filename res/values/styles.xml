@@ -13,8 +13,10 @@
 	   <item name="android:textColor">#FFF</item>
 	   <item name="android:textSize">18sp</item> 
     </style>
-    <style name="CustomTheme">
-        <item name="android:windowNoTitle">false</item>
-        <item name="android:windowBackground">?android:windowFrame</item>
+    <style name="CustomTheme" parent="@android:style/Theme.DeviceDefault.Light">
+        
+    </style>
+    <style name="CustomThemeNoActionBar" parent="@android:style/Theme.DeviceDefault.NoActionBar">
+        <item name="android:textSize">14sp</item>
     </style>
 </resources>

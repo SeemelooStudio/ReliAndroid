@@ -3,4 +3,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="translucent_bg">#00000000</color>
     <color name="lightwhite">#ddd</color>
+    <color name="light_steel_blue">#FFB0C4DE</color>
 </resources>
