@@ -37,6 +37,7 @@
 	<activity android:name="HotPositionMainActivity"></activity>
 	<activity android:name="HotPositionDetailActivity"></activity>
 	<activity android:name="HotPositionQueryActivity"></activity>
+	<activity android:name="MsgUpMainActivity"></activity>
     </application>
 
 </manifest>
