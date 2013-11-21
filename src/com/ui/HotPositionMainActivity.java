@@ -4,39 +4,50 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 
 import com.model.HotSrcMainItem;
 import com.model.HotSrcTitleInfo;
+import com.util.BaseHelper;
+import com.util.ConstDefine;
 import com.util.ViewPageAdapter;
+import com.util.ViewPageChangeListener;
 
 public class HotPositionMainActivity extends Activity {
 
-	   private ListView titleView;
-	   private ViewPager viewpage;
+	    private ListView titleView;
+	    private ViewPager viewpage;
 	   
-	   private ArrayList<View> views;
-	   
+	    private ArrayList<View> views;
+		private ViewGroup viewGroup;
+		private ImageView imageView;  
+		private ImageView[] imageViews; 
+		
+		private ProgressDialog diaLogProgress= null;
+		 
 	    @Override                                                                                            
 	    public void onCreate(Bundle savedInstanceState) {                                                    
 			super.onCreate(savedInstanceState);
 			requestWindowFeature(Window.FEATURE_NO_TITLE); 
 			setContentView(R.layout.hot_position_main);
 			
-			titleView = (ListView) findViewById(R.id.HotPosTitleView);                                                                  
-			titleView.setAdapter(getHostTitleAdapter());
+			titleView = (ListView) findViewById(R.id.HotPosTitleView);
 			titleView.setOnItemClickListener(new OnItemClickListener(){                                                                                    
 	        	public void onItemClick(AdapterView<?> parent, View arg1, int position, long id) 
 	        	{   
@@ -47,10 +58,59 @@ public class HotPositionMainActivity extends Activity {
 	        });
 			
 			viewpage = (ViewPager) findViewById(R.id.hotPosMainPager);
-			this.InitGridView();
+			
+			this.getHotPositionList();
 	  }
 	  
 
+    /**
+     * 
+     */
+	private void getHotPositionList()
+	{
+		diaLogProgress = BaseHelper.showProgress(HotPositionMainActivity.this,ConstDefine.I_MSG_0003,false);
+	    new Thread() {
+	        public void run() { 
+	                Message msgSend = new Message();
+	        	    try {
+	        	    	
+	        	    	this.sleep(ConstDefine.HTTP_TIME_OUT);
+	        	    	
+	        	        //get mapList
+	        	    	msgSend.what = ConstDefine.MSG_I_HANDLE_OK;
+					} catch (Exception e) {
+						msgSend.what = ConstDefine.MSG_I_HANDLE_Fail;
+					}
+	                handler.sendMessage(msgSend);
+	        	}
+	    }.start();
+		
+	}  
+	    
+    /**
+     * http handler result
+     */
+    private Handler handler = new Handler() {               
+        public void handleMessage(Message message) {
+                switch (message.what) {
+                case ConstDefine.MSG_I_HANDLE_OK:                                        
+        		 	diaLogProgress.dismiss();
+        		 	
+        		 	titleView.setAdapter(getHostTitleAdapter());
+        			
+        		 	InitGridView();
+        		 	
+        		    break;
+                case ConstDefine.MSG_I_HANDLE_Fail:                                        
+                	//close process
+                	diaLogProgress.dismiss();
+                	BaseHelper.showToastMsg(HotPositionMainActivity.this,ConstDefine.E_MSG_0001);
+                    break;
+	            }
+	        }
+	  };
+	    
+  
 	 /**
 	  * 获取热源头部信息适配器
 	  * @return
@@ -90,7 +150,7 @@ public class HotPositionMainActivity extends Activity {
 		  
         //原始数据
         ArrayList<HotSrcMainItem>  dbhostSrcLst = new ArrayList<HotSrcMainItem>();
-        for(int i=0; i<10; i++)
+        for(int i=0; i<30; i++)
         {
         	HotSrcMainItem  item = new HotSrcMainItem();
         	item.setHotsrcId(i+"");
@@ -170,8 +230,24 @@ public class HotPositionMainActivity extends Activity {
 			views.add(pageLayout);
 		}
         
+		imageViews = new ImageView[views.size()];  
+		viewGroup = (ViewGroup)findViewById(R.id.hotPositionViewGroup);  
+	    for (int i = 0; i < views.size(); i++) {  
+            imageView = new ImageView(HotPositionMainActivity.this);  
+            imageView.setLayoutParams(new LayoutParams(20,20));  
+            imageView.setPadding(30, 0, 10, 0);  
+            imageViews[i] = imageView;            
+            if (i == 0) {  
+                imageViews[i].setBackgroundResource(R.drawable.page_indicator_focused);  
+            } else {  
+                imageViews[i].setBackgroundResource(R.drawable.page_indicator);  
+            }             
+            viewGroup.addView(imageViews[i]);  
+        } 
+	    
 		//add pages
 		viewpage.setAdapter(new ViewPageAdapter(views));
+		viewpage.setOnPageChangeListener(new ViewPageChangeListener(imageViews)); 
 	  }
      
 }  

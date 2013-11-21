@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +26,8 @@ import android.widget.TableRow;
 
 import com.model.HotSrcMainItem;
 import com.model.HotSrcTitleInfo;
+import com.util.BaseHelper;
+import com.util.ConstDefine;
 import com.util.ViewPageAdapter;
 import com.util.ViewPageChangeListener;
 
@@ -36,6 +41,9 @@ public class HotSourceMainActivity extends Activity {
 		private ImageView imageView;  
 		private ImageView[] imageViews; 
 	   
+		private ProgressDialog diaLogProgress= null;
+		 
+		
 	    @Override                                                                                            
 	    public void onCreate(Bundle savedInstanceState) {                                                    
 			super.onCreate(savedInstanceState);
@@ -43,7 +51,6 @@ public class HotSourceMainActivity extends Activity {
 			setContentView(R.layout.hot_source_main);
 			
 			titleView = (ListView) findViewById(R.id.HotSrcTitleView);                                                                  
-			titleView.setAdapter(getHostTitleAdapter());
 			titleView.setOnItemClickListener(new OnItemClickListener(){                                                                                    
 	        	public void onItemClick(AdapterView<?> parent, View arg1, int position, long id) 
 	        	{   
@@ -54,10 +61,60 @@ public class HotSourceMainActivity extends Activity {
 	        });
 			
 			viewpage = (ViewPager) findViewById(R.id.hotMainPager);
-			this.InitGridView();
+			
+			this.getHotSourceList();
+			
 	  }
 	  
+    /**
+     * 
+     */
+	private void getHotSourceList()
+	{
+		diaLogProgress = BaseHelper.showProgress(HotSourceMainActivity.this,ConstDefine.I_MSG_0003,false);
+	    new Thread() {
+	        public void run() { 
+	                Message msgSend = new Message();
+	        	    try {
+	        	    	
+	        	    	this.sleep(ConstDefine.HTTP_TIME_OUT);
+	        	    	
+	        	        //get mapList
+	        	    	msgSend.what = ConstDefine.MSG_I_HANDLE_OK;
+					} catch (Exception e) {
+						msgSend.what = ConstDefine.MSG_I_HANDLE_Fail;
+					}
+	                handler.sendMessage(msgSend);
+	        	}
+	    }.start();
+		
+	}  
 
+	 /**
+     * http handler result
+     */
+    private Handler handler = new Handler() {               
+        public void handleMessage(Message message) {
+                switch (message.what) {
+                case ConstDefine.MSG_I_HANDLE_OK:                                        
+        		 	diaLogProgress.dismiss();
+        		 	
+        		 	titleView.setAdapter(getHostTitleAdapter());
+        			
+        			InitGridView();
+        		 	
+        		    break;
+                case ConstDefine.MSG_I_HANDLE_Fail:                                        
+                	//close process
+                	diaLogProgress.dismiss();
+                	BaseHelper.showToastMsg(HotSourceMainActivity.this,ConstDefine.E_MSG_0001);
+                    break;
+	            }
+	        }
+	  };
+	    
+	
+	
 	 /**
 	  * 获取热源头部信息适配器
 	  * @return
@@ -102,7 +159,7 @@ public class HotSourceMainActivity extends Activity {
 		  
         //原始数据
         ArrayList<HotSrcMainItem>  dbhostSrcLst = new ArrayList<HotSrcMainItem>();
-        for(int i=0; i<12; i++)
+        for(int i=0; i<32; i++)
         {
         	HotSrcMainItem  item = new HotSrcMainItem();
         	item.setHotsrcId(i+"");
