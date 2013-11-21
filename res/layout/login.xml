@@ -4,7 +4,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:background="#FFFFFF"
+    android:padding="@dimen/medium_margin"
     >
 
     <EditText
@@ -13,7 +13,9 @@
         android:layout_height="wrap_content"
         android:hint="@string/username"
         android:inputType="text"
-        android:singleLine="true" />
+        android:singleLine="true"
+        android:layout_marginBottom="@dimen/medium_margin"
+        android:layout_marginTop="@dimen/medium_margin"  />
 
     <EditText
         android:id="@+id/txtPwd"
@@ -21,18 +23,22 @@
         android:layout_height="wrap_content"
         android:hint="@string/password"
         android:inputType="textPassword"
-        android:singleLine="true" />
+        android:singleLine="true"
+        android:layout_marginBottom="@dimen/medium_margin" />
 
     <Button
         android:id="@+id/btnLogin"
+        style="@style/PrimaryButton"
         android:layout_width="fill_parent"
-        android:layout_height="40dp"
-        android:text="@string/login" />
+        android:text="@string/login"
+        android:drawableLeft="@drawable/ic_1_navigation_accept_white"
+        android:drawablePadding="@dimen/small_margin" />
 
     <Button
         android:id="@+id/btnForgetPwd"
+        style="@style/LinkButton"
         android:layout_width="fill_parent"
-        android:layout_height="40dp"
+        android:drawableLeft="@drawable/ic_2_action_about"
         android:text="@string/forget_password" />
 
 </LinearLayout>
