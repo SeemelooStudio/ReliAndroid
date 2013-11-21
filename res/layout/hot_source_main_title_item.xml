@@ -7,13 +7,13 @@
 	android:orientation="vertical">
 	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"  
 	    android:layout_width="match_parent"  
-	    android:layout_height="70dip"
+	    android:layout_height="60dip"
 	    android:orientation="horizontal">
 	        	<ImageView android:id="@+id/hotItemLeftImage"
 			    android:layout_width="40dp"
 			    android:layout_height="40dp"
 			    android:layout_marginLeft="35dip"
-			    android:layout_marginTop="5dip"
+			    android:layout_marginTop="20dip"
 			    android:background="@drawable/hot_item_left"/>
 		    	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"  
 			    android:layout_width="match_parent"  

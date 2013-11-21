@@ -11,9 +11,16 @@
     	  	 android:background="@drawable/boder"
     	  	 android:layout_margin="2dip"
     	 	 android:orientation="vertical"/>
-     <android.support.v4.view.ViewPager
+      <android.support.v4.view.ViewPager
           android:id = "@+id/hotMainPager"  
 		android:layout_margin="2dip"
           android:layout_width="fill_parent"
-          android:layout_height="fill_parent"/>
+          android:layout_height="380dp"/>
+       <LinearLayout
+           android:id = "@+id/hotSorceViewGroup"
+           android:layout_height="20dp"
+           android:layout_width="fill_parent"
+           android:gravity="center_horizontal"
+		 android:orientation="horizontal">
+       </LinearLayout>
 </LinearLayout>
