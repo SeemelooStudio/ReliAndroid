@@ -11,21 +11,22 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.ViewGroup.LayoutParams;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
-import android.widget.TableLayout;
-import android.widget.TableRow;
+import android.widget.TextView;
 
 import com.model.HotSrcMainItem;
 import com.model.HotSrcTitleInfo;
+import com.reqst.BusinessRequest;
 import com.util.BaseHelper;
 import com.util.ConstDefine;
 import com.util.ViewPageAdapter;
@@ -33,16 +34,20 @@ import com.util.ViewPageChangeListener;
 
 public class HotSourceMainActivity extends Activity {
 
-		private ListView titleView;
+		private RelativeLayout titleView;
 		private ViewPager viewpage;
-		   
-		private ArrayList<View> views;
+		
+		private TextView txtAllnum;
+		private TextView txtAllDay;
+		private TextView txtAllNet;
 		private ViewGroup viewGroup;
 		private ImageView imageView;  
 		private ImageView[] imageViews; 
-	   
 		private ProgressDialog diaLogProgress= null;
-		 
+		private HotSrcTitleInfo  titleInfo = null;
+		
+		private ArrayList<View> views;
+		private ArrayList<HotSrcMainItem>  dbhostSrcLst = null;
 		
 	    @Override                                                                                            
 	    public void onCreate(Bundle savedInstanceState) {                                                    
@@ -50,28 +55,35 @@ public class HotSourceMainActivity extends Activity {
 			requestWindowFeature(Window.FEATURE_NO_TITLE); 
 			setContentView(R.layout.hot_source_main);
 			
-			titleView = (ListView) findViewById(R.id.HotSrcTitleView);                                                                  
-			titleView.setOnItemClickListener(new OnItemClickListener(){                                                                                    
-	        	public void onItemClick(AdapterView<?> parent, View arg1, int position, long id) 
-	        	{   
-	        		//跳转到详细画面
-	 	        	Intent intent = new Intent(HotSourceMainActivity.this, HotSourceQueryActivity.class); 
-	    			startActivity(intent);
-	        	}
-	        });
-			
-			viewpage = (ViewPager) findViewById(R.id.hotMainPager);
-			
-			this.getHotSourceList();
-			
+			//init view
+			this.initHotSourceView();
 	  }
 	  
     /**
-     * 
+     * get hostSoruce list
      */
-	private void getHotSourceList()
+	private void initHotSourceView()
 	{
+		titleView = (RelativeLayout) findViewById(R.id.HotSrcTitleView);                                                                  
+		titleView.setOnClickListener(new OnClickListener(){                                                                                    
+        	public void onClick(View v) 
+        	{   
+        		if(R.id.HotSrcTitleView == v.getId())
+           		{
+	 	        	Intent intent = new Intent(HotSourceMainActivity.this, HotSourceQueryActivity.class); 
+	    			startActivity(intent);
+           		}
+        	}
+        });
+		
+		txtAllnum = (TextView) findViewById(R.id.hotSrcTitleAllnum);
+		txtAllDay = (TextView) findViewById(R.id.hotSrcTitleAllDay);
+		txtAllNet = (TextView) findViewById(R.id.hotSrcTitleAllNet);
+
+		titleInfo = new HotSrcTitleInfo();
+		dbhostSrcLst = new ArrayList<HotSrcMainItem>();
 		diaLogProgress = BaseHelper.showProgress(HotSourceMainActivity.this,ConstDefine.I_MSG_0003,false);
+		
 	    new Thread() {
 	        public void run() { 
 	                Message msgSend = new Message();
@@ -79,6 +91,12 @@ public class HotSourceMainActivity extends Activity {
 	        	    	
 	        	    	this.sleep(ConstDefine.HTTP_TIME_OUT);
 	        	    	
+	        	    	// get itemList
+	        	    	dbhostSrcLst = BusinessRequest.getHotSourceMainList();
+	        	    	
+	        	    	//get static Info
+	        	    	titleInfo = BusinessRequest.getHotSourceAllStatic();
+
 	        	        //get mapList
 	        	    	msgSend.what = ConstDefine.MSG_I_HANDLE_OK;
 					} catch (Exception e) {
@@ -89,7 +107,7 @@ public class HotSourceMainActivity extends Activity {
 	    }.start();
 		
 	}  
-
+	
 	 /**
      * http handler result
      */
@@ -99,9 +117,13 @@ public class HotSourceMainActivity extends Activity {
                 case ConstDefine.MSG_I_HANDLE_OK:                                        
         		 	diaLogProgress.dismiss();
         		 	
-        		 	titleView.setAdapter(getHostTitleAdapter());
-        			
-        			InitGridView();
+        		 	//show title
+        		 	txtAllnum.setText("共" + titleInfo.getAll_num() + "个"); 
+        		 	txtAllDay.setText("今日累计供热:" + titleInfo.getToday_num() + "GJ"); 
+        		 	txtAllNet.setText("全网瞬时供热:" + titleInfo.getNet_num() + "GJ"); 
+                
+        		 	//show grideview
+        		 	setHotSourceGridView();
         		 	
         		    break;
                 case ConstDefine.MSG_I_HANDLE_Fail:                                        
@@ -113,64 +135,14 @@ public class HotSourceMainActivity extends Activity {
 	        }
 	  };
 	    
-	
-	
-	 /**
-	  * 获取热源头部信息适配器
-	  * @return
-	  */
-	 private SimpleAdapter getHostTitleAdapter(){
-		  
-		    //组装原始列表
-	   
-            HotSrcTitleInfo  titleInfo = new HotSrcTitleInfo();
-            titleInfo.setTitle("热源厂信息");
-            titleInfo.setAll_num("共20个");
-            titleInfo.setToday_num("今日累计供热:100,457GJ");
-            titleInfo.setNet_num("全网瞬时供热:73.2GJ");
-    
-	        
-	        //设置影视关系
-            ArrayList<HashMap<String, Object>> hotSrcTitleList = new ArrayList<HashMap<String,Object>>();
-        	HashMap<String, Object> hotSrcTitle = new HashMap<String, Object>();
-        	hotSrcTitle.put("hotSrcTitleAllnum", titleInfo.getAll_num()); 
-        	hotSrcTitle.put("hotSrcTitle", titleInfo.getTitle()); 
-        	hotSrcTitle.put("hotSrcTitleAllDay", titleInfo.getToday_num()); 
-        	hotSrcTitle.put("hotSrcTitleAllNet", titleInfo.getNet_num()); 
-        	hotSrcTitleList.add(hotSrcTitle);
-	  
-	        
-	        //添加适配器
-	        SimpleAdapter saItem = new SimpleAdapter(this,hotSrcTitleList, R.layout.hot_source_main_title_item,//xml实现                                                               
-	              new String[]{"hotSrcTitleAllnum","hotSrcTitle","hotSrcTitleAllDay","hotSrcTitleAllNet"},                                 
-	              new int[]{R.id.hotSrcTitleAllnum,R.id.hotSrcTitle,R.id.hotSrcTitleAllDay,R.id.hotSrcTitleAllNet});
-		  
-			  //结果返回
-			  return saItem;	
-		  }
-	
-	
-     /**
-     * 热源信息列表匹配
-     * @return
-     */
-	  private void InitGridView()
+	  /**
+	   * 
+	   */
+	  private void setHotSourceGridView()
 	  {
 		  
-        //原始数据
-        ArrayList<HotSrcMainItem>  dbhostSrcLst = new ArrayList<HotSrcMainItem>();
-        for(int i=0; i<32; i++)
-        {
-        	HotSrcMainItem  item = new HotSrcMainItem();
-        	item.setHotsrcId(i+"");
-        	item.setTitle(i+"号热源");
-        	item.setWenduLeft("8" +i+".88");
-        	item.setWenduLeftPa("1.35MPa");
-        	item.setWenduRight("4" +i+".66");
-        	item.setWenduRightPa("0.32MPa");
-        	dbhostSrcLst.add(item);
-        }
-        
+		viewpage = (ViewPager) findViewById(R.id.hotMainPager);
+		
     	//create page
 		int pageNum =0;
 		if(dbhostSrcLst.size() >= 9 && (dbhostSrcLst.size() % 9) == 0){			
@@ -198,39 +170,34 @@ public class HotSourceMainActivity extends Activity {
 				itemIndex = i * 9 + r;
 				HotSrcMainItem oneItem =(HotSrcMainItem) dbhostSrcLst.get(itemIndex); 
 				HashMap<String, Object> hotSrcItem = new HashMap<String, Object>();
-	        	hotSrcItem.put("hotItemId", oneItem.getTitle()); 
-	        	hotSrcItem.put("hotItemTitle", oneItem.getTitle()); 
-	        	hotSrcItem.put("hotItemLeftText", oneItem.getWenduLeft()); 
-	        	hotSrcItem.put("hotItemLeftTxtPa", oneItem.getWenduLeftPa()); 
-	        	hotSrcItem.put("hotItemRightText", oneItem.getWenduRight());
-	        	hotSrcItem.put("hotItemRightTxtPa", oneItem.getWenduRightPa()); 
+	        	hotSrcItem.put("hotSrcItemId", oneItem.getTitle()); 
+	        	hotSrcItem.put("hotSrcItemTitle", oneItem.getTitle()); 
+	        	hotSrcItem.put("hotSrcItemLeftText", oneItem.getWenduLeft()); 
+	        	hotSrcItem.put("hotSrcItemLeftTxtPa", oneItem.getWenduLeftPa()); 
+	        	hotSrcItem.put("hotSrcItemRightText", oneItem.getWenduRight());
+	        	hotSrcItem.put("hotSrcItemRightTxtPa", oneItem.getWenduRightPa()); 
 		        hotSrcItemList.add(hotSrcItem);
 			}
 	        
-	        //添加适配器
 	        SimpleAdapter saItem = new SimpleAdapter(this,  hotSrcItemList, R.layout.hot_source_main_item,//xml实现                                                               
-	              new String[]{"hotItemId","hotItemTitle","hotItemLeftText","hotItemRightText"},                                 
-	              new int[]{R.id.hotItemId,R.id.hotItemTitle,R.id.hotItemLeftText,R.id.hotItemRightText});
+	              new String[]{"hotSrcItemId","hotSrcItemTitle","hotSrcItemLeftText","hotSrcItemRightText","hotSrcItemLeftTxtPa","hotSrcItemRightTxtPa"},                                 
+	              new int[]{R.id.hotSrcItemId,R.id.hotSrcItemTitle,R.id.hotSrcItemLeftText,R.id.hotSrcItemRightText,R.id.hotSrcItemLeftTxtPa,R.id.hotSrcItemRightTxtPa});
 			gridview.setAdapter(saItem); 
-			
-			//添加点击事件                                                                           
+			                                                                     
 			gridview.setOnItemClickListener(
 			new OnItemClickListener(){                                                                                    
 			    public void onItemClick(AdapterView<?> arg0, View arg1,int arg2,long arg3)       
 			    {                                                                                
-			        int index=arg2+1;//id是从0开始的，所以需要+1 
+			        int index=arg2+1;
 				
-					//热力日报 画面
 	        		HashMap<String, Object> hotSrcItem = (HashMap<String, Object>) ((GridView)arg0).getItemAtPosition(arg2);
 					Intent intent = new Intent(HotSourceMainActivity.this, HotSourceDetailActivity.class); 
 					startActivity(intent);
 					
 					Bundle mBundle = new Bundle();
-	        		mBundle.putString("hotItemId", hotSrcItem.get("hotItemId").toString());
-	        		mBundle.putString("hotItemTitle", hotSrcItem.get("hotItemTitle").toString());
-	        		
-				    //Toast.makeText(getApplicationContext(), "你按下了选项："+index, 0).show();   
-				    //Toast用于向用户显示一些帮助/提示                                           
+	        		mBundle.putString("hotSrcItemId", hotSrcItem.get("hotSrcItemId").toString());
+	        		mBundle.putString("hotSrcItemTitle", hotSrcItem.get("hotSrcItemTitle").toString());
+                       
 			    }                                                                                
 			}); 
 			
