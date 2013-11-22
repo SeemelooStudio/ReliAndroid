@@ -68,7 +68,7 @@ public class DailyListActivity extends Activity implements  SearchView.OnQueryTe
     	    });
     	    
             //初始化标题栏
-            this.getActionBar().setDisplayShowHomeEnabled(false);  
+            this.getActionBar().setDisplayShowHomeEnabled(true);  
 	        this.getActionBar().setDisplayShowTitleEnabled(false);  
 	        this.getActionBar().setDisplayShowCustomEnabled(true);  
 	        LayoutInflater mInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);  
