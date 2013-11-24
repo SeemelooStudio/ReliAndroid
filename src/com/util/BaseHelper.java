@@ -1,5 +1,6 @@
 package com.util;
 
+import java.net.URLEncoder;
 import java.util.List;
 
 import org.achartengine.chart.PointStyle;
@@ -13,6 +14,13 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.webkit.DownloadListener;
+import android.webkit.WebSettings.LayoutAlgorithm;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 
@@ -129,7 +137,94 @@ public class BaseHelper {
         }
         return renderer;
       }
-	
 
-	
+    
+    /**
+	  * 
+	  * @param pdfView
+	  * @param strUrl
+	 * @throws Exception 
+	  */
+	 public static void loadNetPdfFile(WebView pdfView,String strUrl) throws Exception{
+		 try {
+			 pdfView.getSettings().setJavaScriptEnabled(true); 
+			 pdfView.getSettings().setSupportZoom(true); 
+			 pdfView.getSettings().setDomStorageEnabled(true); 
+			 pdfView.getSettings().setAllowFileAccess(true); 
+			 pdfView.getSettings().setPluginsEnabled(true); 
+			 pdfView.getSettings().setUseWideViewPort(true); 
+			 pdfView.getSettings().setBuiltInZoomControls(true); 
+			 pdfView.requestFocus(); 
+			 pdfView.getSettings().setLoadWithOverviewMode(true); 
+			 pdfView.getSettings().setLayoutAlgorithm(LayoutAlgorithm.SINGLE_COLUMN); 
+			 pdfView.loadUrl("http://docs.google.com/gview?embedded=true&url="+ strUrl); 
+			 
+			 pdfView.setWebViewClient(new WebViewClient() { 
+			       @Override 
+			       public void onPageStarted(WebView view, String url,Bitmap favicon) { 
+			         super.onPageStarted(view, url, favicon); 
+			       } 
+			       @Override 
+			       public boolean shouldOverrideUrlLoading(WebView view, String url) { 
+			         view.loadUrl(url); 
+			         return true; 
+			       } 
+			       @Override 
+			       public void onPageFinished(WebView view, String url) { 
+			         super.onPageFinished(view, url);
+			       } 
+			       @Override 
+			       public void onReceivedError(WebView view, int errorCode, 
+			           String description, String failingUrl) { 
+			           super.onReceivedError(view, errorCode, description, failingUrl);
+			       } 
+			  }); 
+			 
+			 pdfView.setDownloadListener(new DownloadListener() { 
+			       @Override
+			       public void onDownloadStart(String url, String userAgent,
+			    		   String contentDisposition, String mimetype,long contentLength) { 
+				         System.out.println("=========>¿ªÊ¼ÏÂÔØ url =" + url); 
+				         Uri uri = Uri.parse(url);
+				         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+				         //startActivity(intent); 
+			       } 
+			  }); 
+			 
+			 
+		 } 
+		 catch (Exception ex)
+		 {
+			 throw ex;
+		 }
+	 }
+
+	 /**
+	  * 
+	  * @param pdfView
+	  * @param strUrl
+	 * @throws Exception 
+	  */
+	 public static void loadPdfFile(WebView pdfView,String strUrl) throws Exception{
+		 
+		 try {
+			 pdfView.getSettings().setJavaScriptEnabled(true);
+			 pdfView.getSettings().setSupportZoom(true);
+			 pdfView.getSettings().setDomStorageEnabled(true);
+			 pdfView.getSettings().setAllowFileAccess(true);
+			 pdfView.getSettings().setPluginsEnabled(true);
+			 pdfView.getSettings().setUseWideViewPort(true);
+			 pdfView.getSettings().setBuiltInZoomControls(true);
+			 pdfView.requestFocus();
+			 pdfView.getSettings().setLoadWithOverviewMode(true);
+			 pdfView.getSettings().setLayoutAlgorithm(LayoutAlgorithm.SINGLE_COLUMN);
+			 String data="<iframe src='http://docs.google.com/gview?embedded=true&url="+strUrl+"'"+"width='100%'height='100%'style='border:none;'></iframe>";
+			 //pdfView.loadData(data,"text/html","UTF-8");
+			 pdfView.loadData(URLEncoder.encode(data,"UTF-8"),"text/html","UTF-8");
+		 } 
+		 catch (Exception ex)
+		 {
+			 throw ex;
+		 }
+	}
 }

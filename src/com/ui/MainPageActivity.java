@@ -235,8 +235,7 @@ public class MainPageActivity extends Activity {
 				startActivity(intent_6);
 				break;
 			case R.id.main_page_item7:
-				AverageTemperatureChart temchart = new AverageTemperatureChart();
-				Intent intent_7 = temchart.execute(MainPageActivity.this);
+				Intent intent_7 = new Intent(MainPageActivity.this, KnowledgeBaseListActivity.class); 
 				startActivity(intent_7);
 				break;
 			case R.id.main_page_menu:

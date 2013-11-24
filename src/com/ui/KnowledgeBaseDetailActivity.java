@@ -7,35 +7,39 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.Window;
-import android.webkit.WebSettings.LayoutAlgorithm;
 import android.webkit.WebView;
 import android.widget.TextView;
 
 import com.util.BaseHelper;
 import com.util.ConstDefine;
 
-public class DailyDetailPdfActivity extends Activity {
+public class KnowledgeBaseDetailActivity extends Activity {
 
+	 private String txtDocId = "";
+	 private TextView txtDocTitle;
 	 private WebView webPdfView; 
-	 private TextView txtDailyDate;
 	 private ProgressDialog diaLogProgress= null;
+	 
+	
 		
 	 @Override
 	 public void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
 	        requestWindowFeature(Window.FEATURE_NO_TITLE); 
-	        setContentView(R.layout.daily_detail_pdf);
+	        setContentView(R.layout.knowledge_base_detail);
 	        
 	        Intent inten = this.getIntent();
 	        Bundle mBundle = inten.getExtras();
 		    if (mBundle != null ) 
 		    {
-		    	txtDailyDate  = (TextView) findViewById(R.id.txtDailyDate);  
-		    	txtDailyDate.setText(mBundle.getString("list_name"));
+		    	txtDocTitle = (TextView) findViewById(R.id.txtDocTitle);  
+		    	txtDocTitle.setText(mBundle.getString("strDocName"));
+		    	txtDocId = mBundle.getString("strDocId");
 		    }
 
-		    webPdfView = (WebView) findViewById(R.id.webDialyPdfView); 
-		    diaLogProgress = BaseHelper.showProgress(DailyDetailPdfActivity.this,ConstDefine.I_MSG_0003,false);
+		    webPdfView = (WebView) findViewById(R.id.knowledgePdfView); 
+
+		    diaLogProgress = BaseHelper.showProgress(KnowledgeBaseDetailActivity.this,ConstDefine.I_MSG_0003,false);
    	        new Thread() {
    	            public void run() { 
    	                    Message msgSend = new Message();
@@ -49,7 +53,7 @@ public class DailyDetailPdfActivity extends Activity {
    						}
    	                    handler.sendMessage(msgSend);
    	            	}
-   	        }.start();   	
+   	        }.start();
 	 }
 
     /**
@@ -64,7 +68,7 @@ public class DailyDetailPdfActivity extends Activity {
                 case ConstDefine.MSG_I_HANDLE_Fail:                                        
                 	//close process
 	                	diaLogProgress.dismiss();
-	                	BaseHelper.showToastMsg(DailyDetailPdfActivity.this,ConstDefine.E_MSG_0001);
+	                	BaseHelper.showToastMsg(KnowledgeBaseDetailActivity.this,ConstDefine.E_MSG_0001);
 	                    break;
 	            }
 	        }

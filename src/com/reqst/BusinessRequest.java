@@ -13,6 +13,7 @@ import android.util.Log;
 import com.model.HotPosMainItem;
 import com.model.HotSrcMainItem;
 import com.model.HotSrcTitleInfo;
+import com.model.KnowledgeBaseItem;
 import com.model.ListItem;
 import com.model.UserInfo;
 import com.model.WarnListItem;
@@ -392,5 +393,33 @@ public class BusinessRequest {
 		return hotStaticInfo;
 	}
 	
+	
+	/**
+	 * get Daily list
+	 * @return
+	 * @throws JSONException 
+	 */
+	public static ArrayList<KnowledgeBaseItem> getKnowledgeBaseList(KnowledgeBaseItem objSearchCon) throws JSONException 
+	{
+		JSONStringer jsonStrCon = JsonHelper.toJSONString(objSearchCon);
+		
+		Log.v("jsonStrCondition", jsonStrCon.toString());
+		//ServerHttpRequest httpReq = new ServerHttpRequest();
+		//String strResp = httpReq.dopost(ConstDefine.S_GET_USERINFO, jsonStrCon);
+		//ArrayList<ListItem>  lstDaily = (ArrayList<ListItem>) JsonHelper.parseCollection(strResp, List.class, ListItem.class);	
+		//TODO
+		
+		ArrayList<KnowledgeBaseItem>  lstDaily = new ArrayList<KnowledgeBaseItem>();
+		for(int i=0; i<9; i++)
+        {
+			KnowledgeBaseItem  item = new KnowledgeBaseItem();
+        	item.setStrDocId("" +i);
+        	item.setStrDocName("ÎÄµµ" +i);
+        	item.setStrDocUpTime("2013-01-2" +i);
+        	lstDaily.add(item);
+        }
+
+	   return  lstDaily;
+	}
 	
 }
