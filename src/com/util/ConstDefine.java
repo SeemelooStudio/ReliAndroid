@@ -16,7 +16,7 @@ public class ConstDefine
 	public static final String HTTP_ENCODE = "UTF-8";
 	
 	//http url
-	public static final String S_GET_USERINFO = "/Mush/Host/Service/setMsg";
+	public static final String S_GET_USERINFO = "http://192.168.1.106:11223/MobileService/Authentication/";
 	
 
 	

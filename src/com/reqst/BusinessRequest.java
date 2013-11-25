@@ -14,6 +14,7 @@ import com.model.UserInfo;
 import com.model.WarnListItem;
 import com.model.WeatherDetailItem;
 import com.model.WeatherDetailTempInfo;
+import com.util.ConstDefine;
 import com.util.JsonHelper;
 
 public class BusinessRequest {
@@ -34,10 +35,10 @@ public class BusinessRequest {
 		try {
 			
 			Log.v("jsonStrUser", jsonStrUser.toString());
-			//ServerHttpRequest httpReq = new ServerHttpRequest();
-			//String strResp = httpReq.dopost(ConstDefine.S_GET_USERINFO, jsonStrUser);
+			ServerHttpRequest httpReq = new ServerHttpRequest();
+			String strResp = httpReq.doGet(ConstDefine.S_GET_USERINFO + "zhaoyaqi");
 			//TODO
-			String strResp = "{'strMemu':'1234567'}";  //test
+			//String strResp = "{'strMenu':'1234567'}";  //test
 			//change userInfo
 			Log.v("strResp", strResp);
 			
@@ -48,7 +49,7 @@ public class BusinessRequest {
 		}
 		
 		//return
-		return respUser.getStrMemu();
+		return respUser.getStrMenu();
 	}
 	
 	
