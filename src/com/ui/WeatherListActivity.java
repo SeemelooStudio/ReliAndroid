@@ -157,9 +157,9 @@ public class WeatherListActivity extends Activity implements  SearchView.OnQuery
 	    for (ListItem oneRec: dbWeatherlist) 
 	    {   
 	    	HashMap<String, Object> item = new HashMap<String, Object>();  
-	        item.put("list_id", oneRec.getList_id()); 
-	        item.put("list_name", oneRec.getList_name()); 
-	        item.put("list_other", oneRec.getList_other()); 
+	        item.put("list_id", oneRec.getStrListId()); 
+	        item.put("list_name", oneRec.getStrListName()); 
+	        item.put("list_other", oneRec.getStrListOther()); 
 	        weatherList.add(item);  
 	    }
 	    
@@ -178,14 +178,14 @@ public class WeatherListActivity extends Activity implements  SearchView.OnQuery
         
         for (int i = 0; i < dbWeatherlist.size(); i++) 
         { 	
-            int index =((ListItem) dbWeatherlist.get(i)).getList_name().indexOf(name);  
+            int index =((ListItem) dbWeatherlist.get(i)).getStrListName().indexOf(name);  
             
             // 存在匹配的数据  重新组装List
             if (index != -1) {
             	HashMap<String, Object> item = new HashMap<String, Object>();  
-     	        item.put("list_id", dbWeatherlist.get(i).getList_id()); 
-     	        item.put("list_name", dbWeatherlist.get(i).getList_name()); 
-     	        item.put("list_other", dbWeatherlist.get(i).getList_other()); 
+     	        item.put("list_id", dbWeatherlist.get(i).getStrListId()); 
+     	        item.put("list_name", dbWeatherlist.get(i).getStrListName()); 
+     	        item.put("list_other", dbWeatherlist.get(i).getStrListOther()); 
      	        mSearchList.add(item);  
             }  
         }  

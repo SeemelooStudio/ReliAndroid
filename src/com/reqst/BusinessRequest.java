@@ -19,6 +19,7 @@ import com.model.UserInfo;
 import com.model.WarnListItem;
 import com.model.WeatherDetailItem;
 import com.model.WeatherDetailTempInfo;
+import com.util.ConstDefine;
 import com.model.WeatherPreChartItem;
 import com.util.JsonHelper;
 
@@ -40,10 +41,11 @@ public class BusinessRequest {
 		try {
 			
 			Log.v("jsonStrUser", jsonStrUser.toString());
-			//ServerHttpRequest httpReq = new ServerHttpRequest();
-			//String strResp = httpReq.dopost(ConstDefine.S_GET_USERINFO, jsonStrUser);
+			ServerHttpRequest httpReq = new ServerHttpRequest();
+			String strRequestAddress = ConstDefine.WEB_SERVICE_URL + ConstDefine.S_GET_USERINFO.replace("{UserName}", "zhaoyaqi");
+			String strResp = httpReq.doGet(strRequestAddress);
 			//TODO
-			String strResp = "{'strMemu':'1234567'}";  //test
+			//String strResp = "{'strMenu':'1234567'}";  //test
 			//change userInfo
 			Log.v("strResp", strResp);
 			
@@ -54,7 +56,7 @@ public class BusinessRequest {
 		}
 		
 		//return
-		return respUser.getStrMemu();
+		return respUser.getStrMenu();
 	}
 	
 	
@@ -63,27 +65,25 @@ public class BusinessRequest {
 	 * @return
 	 * @throws JSONException 
 	 */
-	public static ArrayList<ListItem> getDailyList(ListItem objSearchCon) throws JSONException 
+	public static ArrayList<ListItem> getDailyList(ListItem objSearchCon) throws Exception 
 	{
 		JSONStringer jsonStrCon = JsonHelper.toJSONString(objSearchCon);
 		
 		Log.v("jsonStrCondition", jsonStrCon.toString());
-		//ServerHttpRequest httpReq = new ServerHttpRequest();
-		//String strResp = httpReq.dopost(ConstDefine.S_GET_USERINFO, jsonStrCon);
-		//ArrayList<ListItem>  lstDaily = (ArrayList<ListItem>) JsonHelper.parseCollection(strResp, List.class, ListItem.class);	
-		//TODO
 		
-		ArrayList<ListItem>  lstDaily = new ArrayList<ListItem>();
-		for(int i=0; i<10; i++)
-        {
-        	ListItem  item = new ListItem();
-        	item.setList_id("" +i);
-        	item.setList_name("name" +i);
-        	item.setList_other("other" +i);
-        	lstDaily.add(item);
-        }
+		
+		ServerHttpRequest httpReq = new ServerHttpRequest();
+		String strRequestAddress = ConstDefine.WEB_SERVICE_URL + ConstDefine.S_GET_DAILYREPORTS;
+		try {
+			String strResp = httpReq.doGet(strRequestAddress);
+			ArrayList<ListItem>  lstDaily = (ArrayList<ListItem>) JsonHelper.parseCollection(strResp, List.class, ListItem.class);	
+			return  lstDaily;
+		}
+		catch(Exception ex) {
+			throw ex;
+		}
 
-	   return  lstDaily;
+	   
 	}
 	
 	/**
@@ -167,9 +167,9 @@ public class BusinessRequest {
 		for(int i=0; i<10; i++)
         {
 			ListItem  item = new ListItem();
-			item.setList_id(""+i);
-			item.setList_name("Ë«ÓÜÊ÷ÆøÏóÕ¾" +i);
-			item.setList_other("18/26" +i);
+			item.setStrListId(""+i);
+			item.setStrListName("Ë«ÓÜÊ÷ÆøÏóÕ¾" +i);
+			item.setStrListOther("18/26" +i);
 			lstWeather.add(item);
         }
 

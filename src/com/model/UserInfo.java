@@ -8,7 +8,7 @@ public class UserInfo {
 	
 	private String strUserPwd;
 	
-	private String strMemu;
+	private String strMenu;
 
 	
 	public String getStrUserId() {
@@ -35,12 +35,12 @@ public class UserInfo {
 		this.strUserPwd = strUserPwd;
 	}
 
-	public String getStrMemu() {
-		return strMemu;
+	public String getStrMenu() {
+		return strMenu;
 	}
 
-	public void setStrMemu(String strMemu) {
-		this.strMemu = strMemu;
+	public void setStrMenu(String strMenu) {
+		this.strMenu = strMenu;
 	}
 	
 }
