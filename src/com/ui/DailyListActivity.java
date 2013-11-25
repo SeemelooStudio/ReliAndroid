@@ -71,6 +71,7 @@ public class DailyListActivity extends Activity implements  SearchView.OnQueryTe
 	        searchView = (SearchView) findViewById(R.id.daily_search_view);    
 	        searchView.setOnQueryTextListener(this);  
 	        searchView.setSubmitButtonEnabled(true);
+	        getActionBar().setDisplayHomeAsUpEnabled(true);
 	    }  
 	  
 	    @Override  

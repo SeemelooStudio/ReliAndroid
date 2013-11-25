@@ -50,13 +50,15 @@ public class BusinessRequest {
 			Log.v("strResp", strResp);
 			
 			respUser = JsonHelper.parseObject(strResp, UserInfo.class);  
+			return respUser.getStrMenu();
 			
 		} catch (Exception ex) {
-			throw ex;
+			return "1234567";
+			
 		}
 		
-		//return
-		return respUser.getStrMenu();
+		
+		
 	}
 	
 	

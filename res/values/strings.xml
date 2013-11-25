@@ -15,4 +15,12 @@
    <string name="password_hint">请输入密码</string>
    <string name="login">登录</string>
    <string name="forget_password">找回密码</string>
+   <string name="heat_daily">热力日报</string>
+   <string name="warning">预警信息</string>
+   <string name="weather">天气预报</string>
+   <string name="infomation_upload">信息上传</string>
+   <string name="heat_source">热源信息</string>
+   <string name="station">热力站信息</string>
+   <string name="knowledge_base">知识库</string>
+   <string name="search_hint">查询条件</string>
 </resources>

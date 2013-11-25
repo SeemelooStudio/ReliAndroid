@@ -33,19 +33,19 @@ public class LoginActivity extends Activity implements android.view.View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
         
-        //°´Å¥´¦Àí
+        //ï¿½ï¿½Å¥ï¿½ï¿½ï¿½ï¿½
         btnLogin = (Button) findViewById(R.id.btnLogin);
         btnForgetPwd = (Button) findViewById(R.id.btnForgetPwd);
         btnLogin.setOnClickListener((android.view.View.OnClickListener) this);
         btnForgetPwd.setOnClickListener((android.view.View.OnClickListener) this);
         
-        //ÎÄ±¾¿ò´¦Àí
+        //ï¿½Ä±ï¿½ï¿½ï¿½ï¿½ï¿½
         txtUserId = (EditText) findViewById(R.id.txtUserId);
         txtPwd = (EditText) findViewById(R.id.txtPwd);
     }
     
     /*
-     * °´Å¥´¦ÀíÊÂ¼þ
+     * ï¿½ï¿½Å¥ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½
      * @see android.view.View.OnClickListener#onClick(android.view.View)
      */
     public void onClick(View v)
@@ -53,7 +53,7 @@ public class LoginActivity extends Activity implements android.view.View.OnClick
    		if(R.id.btnLogin == v.getId())
    		{
    			
-   			//ÊäÈëµÄÓÃ»§ÃûÃÜÂëÐ£Ñé
+   			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð£ï¿½ï¿½
    			if(checkInPutData(txtUserId.getText().toString(),txtPwd.getText().toString()) == false)
    				return;
    			
@@ -112,19 +112,19 @@ public class LoginActivity extends Activity implements android.view.View.OnClick
     };
     
     /*
-     * ÊäÈëµÄÓÃ»§ÃûÃÜÂëÐ£Ñé
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð£ï¿½ï¿½
      */
     private boolean checkInPutData(String strkUserId ,String strPwd ) {
     	
-    	 //¿ÕÖµÐ£Ñé
+    	 //ï¿½ï¿½ÖµÐ£ï¿½ï¿½
 		 if(strkUserId.trim().length() <= 0 || strkUserId.trim().length() <= 0)
 		 {
 			 
-			//Toast.makeText(getApplicationContext(), "ÇëÏÈÊäÈëÓÃ»§ÃûºÍÃÜÂë¡£", 0).show();   
+			//Toast.makeText(getApplicationContext(), "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ë¡£", 0).show();   
 			return true;  
 		 }
 		  
-		 //ÓÃ»§ÃûÃÜÂë·þÎñÆ÷Ð£Ñé
+		 //ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð£ï¿½ï¿½
 		 //TODO
 		 return true;
     }
