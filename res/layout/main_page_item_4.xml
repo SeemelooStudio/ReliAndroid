@@ -6,7 +6,7 @@
     <RelativeLayout
         android:id="@+id/main_page_item4"
         android:layout_width="125dp"
-        android:layout_height="115dp"
+        android:layout_height="120dp"
         android:layout_below="@id/main_page_item2"
         android:layout_marginLeft="5dip"
         android:layout_marginTop="5dip"
@@ -17,22 +17,22 @@
             android:id="@+id/main_item_four_image1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dip"
-            android:layout_marginTop="20dip"
+            android:layout_marginLeft="@dimen/xlarge_margin"
+            android:layout_marginTop="@dimen/large_margin"
             android:src="@drawable/main_item_four_image1" />
  	   <ImageView
             android:id="@+id/main_item_four_image2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="32dip"
-            android:layout_marginTop="13dip"
+            android:layout_marginLeft="@dimen/xlarge_margin"
+            android:layout_marginTop="@dimen/medium_margin"
             android:layout_below="@+id/main_item_four_image1"
             android:src="@drawable/main_item_four_image2" />
  	   <TextView
             android:id="@+id/main_item_four_txt1"
             style="@style/mainTitleStyle"
             android:layout_marginLeft="65dip"
-            android:layout_marginTop="15dip"
+            android:layout_marginTop="@dimen/large_margin"
             android:layout_width="50dp"
             android:layout_height="20dp"
             android:text="5"

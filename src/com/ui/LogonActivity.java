@@ -23,7 +23,7 @@ public class LogonActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE); 
         setContentView(R.layout.logon_page);
         
-    	diaLogProgress = BaseHelper.showProgress(LogonActivity.this,ConstDefine.I_MSG_0001,false);
+    	//diaLogProgress = BaseHelper.showProgress(LogonActivity.this,ConstDefine.I_MSG_0001,false);
    	        new Thread() {
             public void run() {  
             	    try {
@@ -33,8 +33,7 @@ public class LogonActivity extends Activity {
 						e.printStackTrace();
 					}
                     //TODO show logpage
-	            	Intent intent = new Intent(LogonActivity.this, LoginActivity.class); 
-	    			startActivity(intent); 
+	            
                     Message msgSend = new Message();
                     msgSend.what = ConstDefine.MSG_I_HANDLE_OK;
                     handler.sendMessage(msgSend);
@@ -51,8 +50,10 @@ public class LogonActivity extends Activity {
                 switch (message.what) {
                 case ConstDefine.MSG_I_HANDLE_OK:                                        
                 	//close process
-                	diaLogProgress.dismiss(); 
-                        break;
+                	//diaLogProgress.dismiss(); 
+                	Intent intent = new Intent(LogonActivity.this, LoginActivity.class); 
+	    			startActivity(intent); 
+                    break;
                 }
         }
     };

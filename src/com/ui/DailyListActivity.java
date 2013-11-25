@@ -151,14 +151,14 @@ public class DailyListActivity extends Activity implements  SearchView.OnQueryTe
 	        
 	        for (int i = 0; i < dbDatalist.size(); i++) 
 	        { 	
-	            int index =((ListItem) dbDatalist.get(i)).getList_name().indexOf(name);  
+	            int index =((ListItem) dbDatalist.get(i)).getStrListName().indexOf(name);  
 	            
 	            // 存在匹配的数据  重新组装List
 	            if (index != -1) {
 	            	HashMap<String, Object> item = new HashMap<String, Object>();  
-	     	        item.put("list_id", dbDatalist.get(i).getList_id()); 
-	     	        item.put("list_name", dbDatalist.get(i).getList_name()); 
-	     	        item.put("list_other", dbDatalist.get(i).getList_other()); 
+	     	        item.put("list_id", dbDatalist.get(i).getStrListId()); 
+	     	        item.put("list_name", dbDatalist.get(i).getStrListName()); 
+	     	        item.put("list_other", dbDatalist.get(i).getStrListOther()); 
 	     	        mSearchList.add(item);  
 	            }  
 	        }  
@@ -183,7 +183,7 @@ public class DailyListActivity extends Activity implements  SearchView.OnQueryTe
 	     * @return
 	     * @throws JSONException 
 	     */
-	    private List<HashMap<String, Object>> getDailyListData(ListItem pSearchCon) throws JSONException {  
+	    private List<HashMap<String, Object>> getDailyListData(ListItem pSearchCon) throws Exception {  
 	       
 	        //get dailyList
 	        dbDatalist =  BusinessRequest.getDailyList(pSearchCon);
@@ -193,9 +193,9 @@ public class DailyListActivity extends Activity implements  SearchView.OnQueryTe
 	        for (ListItem oneRec: dbDatalist) 
 	        {   
 	        	HashMap<String, Object> item = new HashMap<String, Object>();  
-		        item.put("list_id", oneRec.getList_id()); 
-		        item.put("list_name", oneRec.getList_name()); 
-		        item.put("list_other", oneRec.getList_other()); 
+		        item.put("list_id", oneRec.getStrListId()); 
+		        item.put("list_name", oneRec.getStrListName()); 
+		        item.put("list_other", oneRec.getStrListOther()); 
 		        dailyList.add(item);  
 	        }
 	        

@@ -42,7 +42,7 @@ public class DailyDetailPdfActivity extends Activity {
    	            	    try {
    	            	    	this.sleep(ConstDefine.HTTP_TIME_OUT);
    	            	    	String pdfUrl = "http://www8.cao.go.jp/okinawa/8/2012/0409-1-1.pdf"; 
-   	            	    	loadDailPdf(webPdfView,pdfUrl); 
+   	            	    	BaseHelper.loadNetPdfFile(webPdfView,pdfUrl); 
    	            	    	msgSend.what = ConstDefine.MSG_I_HANDLE_OK;
    						} catch (Exception e) {
    							msgSend.what = ConstDefine.MSG_I_HANDLE_Fail;
@@ -52,62 +52,6 @@ public class DailyDetailPdfActivity extends Activity {
    	        }.start();   	
 	 }
 
-	 
-	 /**
-	  * 
-	  * @param pdfView
-	  * @param strUrl
-	 * @throws Exception 
-	  */
-	 private void loadDailPdf(WebView pdfView,String strUrl) throws Exception{
-		 try {
-			 pdfView.getSettings().setJavaScriptEnabled(true); 
-			 pdfView.getSettings().setSupportZoom(true); 
-			 pdfView.getSettings().setDomStorageEnabled(true); 
-			 pdfView.getSettings().setAllowFileAccess(true); 
-			 pdfView.getSettings().setPluginsEnabled(true); 
-			 pdfView.getSettings().setUseWideViewPort(true); 
-			 pdfView.getSettings().setBuiltInZoomControls(true); 
-			 pdfView.requestFocus(); 
-			 pdfView.getSettings().setLoadWithOverviewMode(true); 
-			 pdfView.getSettings().setLayoutAlgorithm(LayoutAlgorithm.SINGLE_COLUMN); 
-			 pdfView.loadUrl("http://docs.google.com/gview?embedded=true&url=" +strUrl); 
-		 } 
-		 catch (Exception ex)
-		 {
-			 throw ex;
-		 }
-	 }
-	 
-	 
-	 /**
-	  * 
-	  * @param pdfView
-	  * @param strUrl
-	 * @throws Exception 
-	  */
-	 private void loadPdfFile(WebView pdfView,String strUrl) throws Exception{
-		 
-		 try {
-			 pdfView.getSettings().setJavaScriptEnabled(true);
-			 pdfView.getSettings().setSupportZoom(true);
-			 pdfView.getSettings().setDomStorageEnabled(true);
-			 pdfView.getSettings().setAllowFileAccess(true);
-			 pdfView.getSettings().setPluginsEnabled(true);
-			 pdfView.getSettings().setUseWideViewPort(true);
-			 pdfView.getSettings().setBuiltInZoomControls(true);
-			 pdfView.requestFocus();
-			 pdfView.getSettings().setLoadWithOverviewMode(true);
-			 pdfView.getSettings().setLayoutAlgorithm(LayoutAlgorithm.SINGLE_COLUMN);
-			 String data="<iframesrc='http://docs.google.com/gview?embedded=true&url="+strUrl+"'"+"width='100%'height='100%'style='border:none;'></iframe>";
-			 pdfView.loadData(data,"text/html","UTF-8");
-		 } 
-		 catch (Exception ex)
-		 {
-			 throw ex;
-		 }
-	}
-	 
     /**
      * 
      */

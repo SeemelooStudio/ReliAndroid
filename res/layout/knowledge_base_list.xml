@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"  
+    xmlns:tools="http://schemas.android.com/tools"  
+    android:layout_width="match_parent"  
+    android:layout_height="match_parent" 
+    android:orientation="vertical"
+    android:scrollbarStyle="outsideOverlay"
+    android:background="@drawable/main_layout_bg">
+     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"  
+	    android:layout_width="match_parent"  
+	    android:layout_height="40dip"
+	    android:layout_margin="5dip" 
+	    android:orientation="horizontal">
+	    <SearchView 
+	        android:id="@+id/knowledgeSearch" 
+	        android:background="#969696"
+	        android:layout_width="0dip"  
+	        android:layout_height="match_parent"  
+	        android:layout_weight="1"  
+	        android:iconifiedByDefault="false"  
+	        android:inputType="textFilter"  
+	        android:queryHint="请输入查询条件" >  
+	    </SearchView> 
+	</LinearLayout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      android:layout_width="fill_parent" 
+	 android:layout_height="20dp"
+	 android:layout_marginLeft="5dip"
+	 android:layout_marginRight="5dip"
+	 android:background="@drawable/title_sub_bg">
+	      <TextView android:layout_width="match_parent" 
+		        	android:layout_height="match_parent"
+		        	android:text="知识库文档列表" 
+		        	style="@style/labStyle"/>
+    </LinearLayout>
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"  
+	    xmlns:tools="http://schemas.android.com/tools"  
+	    android:layout_width="match_parent"  
+	    android:layout_height="match_parent" 
+	    android:scrollbarStyle="outsideOverlay">  
+	    <ListView  
+		        android:id="@+id/knowledgeList" 
+		        android:layout_marginTop="2dip"
+		        android:layout_marginLeft="5dip"
+		        android:layout_marginRight="5dip"
+		        android:layout_marginBottom="5dip"
+		        android:layout_width="match_parent"  
+		        android:layout_height="match_parent"
+		        android:background="#343434"
+		        android:scrollbarStyle="outsideOverlay"/>
+	</LinearLayout>
+</LinearLayout>

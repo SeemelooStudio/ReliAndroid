@@ -7,22 +7,28 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.chart.impl.AverageTemperatureChart;
 import com.ctral.MainScrollLayout;
 import com.util.BaseHelper;
 import com.util.ConstDefine;
 import com.util.ViewPageAdapter;
+import com.util.ViewPageChangeListener;
 
 public class MainPageActivity extends Activity {
 	
@@ -41,7 +47,8 @@ public class MainPageActivity extends Activity {
 	
 	private ImageView imgSetMenu;
 	private ImageView imgUserMenu;
-
+	
+	private TextView txtShowPage;
 	
 	//event
 	private MainItemOnClickListener mainItemClickListener;
@@ -163,27 +170,35 @@ public class MainPageActivity extends Activity {
 		int rowIndex = 0;
 		for(int i = 0; i < pageNum; i++ )
 		{ 
-			TableLayout pageLayout = new TableLayout(this);
-			pageLayout.removeAllViews();
+			LinearLayout pageLayout=new LinearLayout(this);
+			LayoutParams ltp=new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
+			 
+			TableLayout tbLayout = new TableLayout(this);
+			tbLayout.removeAllViews();
 			
 			if(rowList.size() == 1){
 				TableRow rowlayout = (TableRow)rowList.get(0);
-				pageLayout.addView(rowlayout);
+				tbLayout.addView(rowlayout);
 			}else{
 				for(int r = 0;r < 3 && rowIndex < rowList.size() - 1 ;r++)
 				{
 					rowIndex = i * 3 + r;
 					TableRow rowlayout = (TableRow)rowList.get(rowIndex);
-					pageLayout.addView(rowlayout);
+					tbLayout.addView(rowlayout);
 				}
 			}
-			
+			pageLayout.addView(tbLayout, ltp);
 			listViews.add(pageLayout);
 		}
 		
 		imgMaskbg = (ImageView) findViewById(R.id.main_page_menu);
 		imgMaskbg.setOnClickListener(mainItemClickListener);
 		viewpage.setAdapter(new ViewPageAdapter(listViews));
+		viewpage.setOnPageChangeListener(new ViewPageChangeListener()); 
+		
+		txtShowPage = (TextView)findViewById(R.id.txtViewGroup); 
+    	txtShowPage.setText("1/" + listViews.size());
+
 	}
 
     /**
@@ -200,41 +215,31 @@ public class MainPageActivity extends Activity {
 				startActivity(intent_1);
 				break;
 			case R.id.main_page_item2:
-				//预警 画面
 				Intent intent_2 = new Intent(MainPageActivity.this,WarnListActivity.class); 
 				startActivity(intent_2);
-				break;
-				
+				break;				
 			case R.id.main_page_item3:
-				//预警 画面
 				Intent intent_3 = new Intent(MainPageActivity.this, WeatherListActivity.class); 
 				startActivity(intent_3);
 				break;
-				
 			case R.id.main_page_item4:
-				//预警 画面
-				Intent intent_4 = new Intent(MainPageActivity.this, HotSourceMainActivity.class); 
+				Intent intent_4 = new Intent(MainPageActivity.this, MsgUpMainActivity.class); 
 				startActivity(intent_4);
-				break;
-				
+				break;				
 			case R.id.main_page_item5:
-				//预警 画面
 				Intent intent_5 = new Intent(MainPageActivity.this, HotSourceMainActivity.class); 
 				startActivity(intent_5);
-				break;
-				
+				break;				
 			case R.id.main_page_item6:
-				//预警 画面
-				//AverageTemperatureChart temchart = new AverageTemperatureChart();
-				//Intent intent_6 = temchart.execute(MainPageActivity.this);
-				//startActivity(intent_6);
 				Intent intent_6 = new Intent(MainPageActivity.this, HotPositionMainActivity.class); 
 				startActivity(intent_6);
 				break;
-				
+			case R.id.main_page_item7:
+				Intent intent_7 = new Intent(MainPageActivity.this, KnowledgeBaseListActivity.class); 
+				startActivity(intent_7);
+				break;
 			case R.id.main_page_menu:
 				Log.i(TAG, "main_menu");
-				//这里主要是为了适配一些屏幕不同的分辨率
 				DisplayMetrics metrics = new DisplayMetrics();
 				MainPageActivity.this.getWindowManager().getDefaultDisplay().getMetrics(metrics);
 				int width = metrics.widthPixels;
@@ -276,6 +281,27 @@ public class MainPageActivity extends Activity {
 			}
 		}
 	}
+	
+	private class ViewPageChangeListener implements OnPageChangeListener {  
+	 	  
+		
+	     @Override  
+	     public void onPageScrollStateChanged(int arg0) {  
+	         // TODO Auto-generated method stub  
 
+	     }  
+
+	     @Override  
+	     public void onPageScrolled(int arg0, float arg1, int arg2) {  
+	         // TODO Auto-generated method stub  
+
+	     }  
+
+	     @Override  
+	     public void onPageSelected(int arg0) { 
+	    	 String pageNum = (arg0+1) + "/" + listViews.size();
+	    	 txtShowPage.setText(pageNum);
+	     }  
+	 }  
 
 }
