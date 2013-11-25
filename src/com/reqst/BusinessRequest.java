@@ -39,14 +39,10 @@ public class BusinessRequest {
 		UserInfo respUser = new UserInfo();
 		
 		try {
-			
 			Log.v("jsonStrUser", jsonStrUser.toString());
 			ServerHttpRequest httpReq = new ServerHttpRequest();
 			String strRequestAddress = ConstDefine.WEB_SERVICE_URL + ConstDefine.S_GET_USERINFO.replace("{UserName}", "zhaoyaqi");
 			String strResp = httpReq.doGet(strRequestAddress);
-			//TODO
-			//String strResp = "{'strMenu':'1234567'}";  //test
-			//change userInfo
 			Log.v("strResp", strResp);
 			
 			respUser = JsonHelper.parseObject(strResp, UserInfo.class);  
@@ -91,29 +87,21 @@ public class BusinessRequest {
 	 * @return
 	 * @throws JSONException 
 	 */
-	public static ArrayList<WarnListItem> getWarnList(WarnListItem objSearchCon) throws JSONException 
+	public static ArrayList<WarnListItem> getWarnList(WarnListItem objSearchCon) throws Exception 
 	{
 		JSONStringer jsonStrCon = JsonHelper.toJSONString(objSearchCon);
 		Log.v("jsonStrCondition", jsonStrCon.toString());
 		
-		//ServerHttpRequest httpReq = new ServerHttpRequest();
-		//String strResp = httpReq.dopost(ConstDefine.S_GET_USERINFO, jsonStrCon);
-		//ArrayList<WarnListItem>  lstWarn = (ArrayList<WarnListItem>) JsonHelper.parseCollection(strResp, List.class, WarnListItem.class);	
-		//TODO
-		
-		ArrayList<WarnListItem>  lstWarn = new ArrayList<WarnListItem>();
-        for(int i=0; i<13; i++)
-        {
-        	WarnListItem  lst = new WarnListItem();
-        	lst.setWarn_id("" +i);
-        	lst.setWarn_title("左家庄热力站连续三日超标" +i);
-        	lst.setWarn_content("左家庄热力站连续三日超标%10，左家庄热力站连续三日超标%20" +i);
-          	lst.setWarn_date("13:30");
-        	lst.setWarn_other("image");
-        	lstWarn.add(lst);
-        }
-
-	   return  lstWarn;
+		ServerHttpRequest httpReq = new ServerHttpRequest();
+		String strRequestAddress = ConstDefine.WEB_SERVICE_URL + ConstDefine.S_GET_WARNINGS;
+		try {
+			String strResp = httpReq.doGet(strRequestAddress);
+			ArrayList<WarnListItem>  lstWarn = (ArrayList<WarnListItem>) JsonHelper.parseCollection(strResp, List.class, WarnListItem.class);	
+			return  lstWarn;
+		}catch(Exception ex){
+			throw ex;
+		}
+	   
 	}
 	
 	
