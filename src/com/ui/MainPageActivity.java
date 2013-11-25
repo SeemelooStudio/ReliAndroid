@@ -23,6 +23,7 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.chart.impl.AverageTemperatureChart;
 import com.ctral.MainScrollLayout;
 import com.util.BaseHelper;
 import com.util.ConstDefine;
@@ -214,41 +215,31 @@ public class MainPageActivity extends Activity {
 				startActivity(intent_1);
 				break;
 			case R.id.main_page_item2:
-				//预警 画面
 				Intent intent_2 = new Intent(MainPageActivity.this,WarnListActivity.class); 
 				startActivity(intent_2);
-				break;
-				
+				break;				
 			case R.id.main_page_item3:
-				//预警 画面
 				Intent intent_3 = new Intent(MainPageActivity.this, WeatherListActivity.class); 
 				startActivity(intent_3);
 				break;
-				
 			case R.id.main_page_item4:
-				//预警 画面
-				Intent intent_4 = new Intent(MainPageActivity.this, HotSourceMainActivity.class); 
+				Intent intent_4 = new Intent(MainPageActivity.this, MsgUpMainActivity.class); 
 				startActivity(intent_4);
-				break;
-				
+				break;				
 			case R.id.main_page_item5:
-				//预警 画面
 				Intent intent_5 = new Intent(MainPageActivity.this, HotSourceMainActivity.class); 
 				startActivity(intent_5);
-				break;
-				
+				break;				
 			case R.id.main_page_item6:
-				//预警 画面
-				//AverageTemperatureChart temchart = new AverageTemperatureChart();
-				//Intent intent_6 = temchart.execute(MainPageActivity.this);
-				//startActivity(intent_6);
 				Intent intent_6 = new Intent(MainPageActivity.this, HotPositionMainActivity.class); 
 				startActivity(intent_6);
 				break;
-				
+			case R.id.main_page_item7:
+				Intent intent_7 = new Intent(MainPageActivity.this, KnowledgeBaseListActivity.class); 
+				startActivity(intent_7);
+				break;
 			case R.id.main_page_menu:
 				Log.i(TAG, "main_menu");
-				//这里主要是为了适配一些屏幕不同的分辨率
 				DisplayMetrics metrics = new DisplayMetrics();
 				MainPageActivity.this.getWindowManager().getDefaultDisplay().getMetrics(metrics);
 				int width = metrics.widthPixels;

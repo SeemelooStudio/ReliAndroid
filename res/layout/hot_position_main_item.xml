@@ -3,7 +3,7 @@
      android:id="@+id/hot_position_item_div"
      android:layout_margin="5dip"
 	android:layout_width="100dp"
-	android:layout_height="130dp"
+	android:layout_height="125dp"
 	android:background="@drawable/boder"
 	android:orientation="vertical">
 	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"  
@@ -64,7 +64,7 @@
 	   	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"  
 		    android:layout_width="match_parent"  
 		    android:layout_height="wrap_content"
-		    android:layout_marginTop="100dip"
+		    android:layout_marginTop="95dip"
 		    android:orientation="horizontal"
 		    android:gravity="center">
 		   <TextView  android:id="@+id/hotPosItemTitle"
