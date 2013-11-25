@@ -112,7 +112,7 @@ public class WarnDetailActivity extends Activity implements android.view.View.On
                 case ConstDefine.MSG_I_HANDLE_OK:                                        
         		 	diaLogProgress.dismiss();
         		 	//set details
-        		 	txtWarnContent.setText(warnInfo.getWarn_content());
+        		 	txtWarnContent.setText(warnInfo.getStrWarnContent());
                     break;
                 case ConstDefine.MSG_I_HANDLE_Fail:                                        
                 	//close process

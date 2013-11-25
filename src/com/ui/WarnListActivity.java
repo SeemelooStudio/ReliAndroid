@@ -129,7 +129,7 @@ public class WarnListActivity extends Activity implements android.view.View.OnCl
      * @return
      * @throws JSONException 
      */
-    private List<HashMap<String, Object>> getWarnListData(WarnListItem pSearchCon) throws JSONException {  
+    private List<HashMap<String, Object>> getWarnListData(WarnListItem pSearchCon) throws Exception {  
        
         //get weatherList
     	dbWarnlist =  BusinessRequest.getWarnList(pSearchCon);
@@ -139,11 +139,11 @@ public class WarnListActivity extends Activity implements android.view.View.OnCl
         for (WarnListItem oneRec: dbWarnlist) 
         {   
         	HashMap<String, Object> item = new HashMap<String, Object>();  
-	        item.put("warn_id", oneRec.getWarn_id()); 
-	        item.put("warn_title", oneRec.getWarn_title()); 
-	        item.put("warn_content", oneRec.getWarn_content()); 
-	        item.put("warn_date", oneRec.getWarn_date()); 
-	        item.put("list_other", oneRec.getWarn_other()); 
+	        item.put("warn_id", oneRec.getStrWarnId()); 
+	        item.put("warn_title", oneRec.getStrWarnTitle()); 
+	        item.put("warn_content", oneRec.getStrWarnContent()); 
+	        item.put("warn_date", oneRec.getStrWarnDate()); 
+	        item.put("list_other", oneRec.getStrWarnOther()); 
 	        warnList.add(item);  
         }
         
@@ -159,7 +159,7 @@ public class WarnListActivity extends Activity implements android.view.View.OnCl
    	{
    		if(R.id.btnWarnRefresh == v.getId())
    		{
-   		  searchCon.setWarn_id("00001");
+   		  searchCon.setStrWarnId("00001");
    		  this.getWarnListbyCondition();
    		}
    		else if(R.id.btnWarnShow == v.getId())

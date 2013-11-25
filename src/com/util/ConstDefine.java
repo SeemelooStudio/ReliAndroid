@@ -11,7 +11,7 @@ public class ConstDefine
 	
 	
 	//http
-	public static final int HTTP_TIME_OUT = 2*1000;
+	public static final int HTTP_TIME_OUT = 10*1000;
 	public static final int HTTP_BUFF_SIZE = 8192;
 	public static final String HTTP_ENCODE = "UTF-8";
 	
@@ -20,6 +20,7 @@ public class ConstDefine
 	public static final String S_GET_USERINFO = "/MobileService/Users/{UserName}";
 	public static final String S_GET_DAILYREPORTS = "/MobileService/DailyReports";
 	public static final String S_GET_DAILYREPORT = "/MobileService/DailyReports/{DailyReportId}";
+	public static final String S_GET_WARNINGS = "/MobileService/Warnings";
 	
 	//show msg info
 	public static final String I_MSG_0001 = "应用在努力加载中...";
