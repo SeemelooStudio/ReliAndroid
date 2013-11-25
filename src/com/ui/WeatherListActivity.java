@@ -147,7 +147,7 @@ public class WeatherListActivity extends Activity implements  SearchView.OnQuery
 	* @return
 	* @throws JSONException
 	*/
-	   private List<HashMap<String, Object>> getWeatherListData(ListItem pSearchCon) throws JSONException {  
+	   private List<HashMap<String, Object>> getWeatherListData(ListItem pSearchCon) throws Exception {  
 	       
 	        //get weatherList
 	   dbWeatherlist =  BusinessRequest.getWeatherList(pSearchCon);

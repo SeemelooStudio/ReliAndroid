@@ -21,7 +21,8 @@ public class ConstDefine
 	public static final String S_GET_DAILYREPORTS = "/MobileService/DailyReports";
 	public static final String S_GET_DAILYREPORT = "/MobileService/DailyReports/{DailyReportId}";
 	public static final String S_GET_WARNINGS = "/MobileService/Warnings";
-	
+	public static final String S_GET_OFFICIALWEATHER = "/MobileService/Weathers/{weatherTypeId}";
+	public static final String S_GET_WEATHERSTATIONS = "/MobileService/Weathers";
 	//show msg info
 	public static final String I_MSG_0001 = "应用在努力加载中...";
 	public static final String I_MSG_0002 = "权限验证中，请稍候...";

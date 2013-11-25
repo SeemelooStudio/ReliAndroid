@@ -29,6 +29,7 @@ import com.chart.impl.WeatherPreChart;
 import com.model.WeatherDetailItem;
 import com.model.WeatherDetailTempInfo;
 import com.model.WeatherPreChartItem;
+import com.model.WeatherType;
 import com.reqst.BusinessRequest;
 import com.util.BaseHelper;
 import com.util.ConstDefine;
@@ -85,15 +86,15 @@ public class WeatherDetailActivity extends Activity implements SearchView.OnQuer
 	        myTabhost.setup();
 	    	
 	    	myTabhost.addTab(myTabhost.newTabSpec("One")
-					.setIndicator("½ñÈÕÎÂ¶È",getResources().getDrawable(R.drawable.ic_launcher))
+					.setIndicator("ä»Šæ—¥å¤©æ°”",getResources().getDrawable(R.drawable.ic_launcher))
 					.setContent(R.id.widget_layout_one));
-			myTabhost.addTab(myTabhost.newTabSpec("Two").setIndicator("×òÈÕÎÂ¶È",
+			myTabhost.addTab(myTabhost.newTabSpec("Two").setIndicator("æ˜¨æ—¥å¤©æ°”",
 									getResources().getDrawable(R.drawable.snow))
 							.setContent(R.id.widget_layout_two));
-			myTabhost.addTab(myTabhost.newTabSpec("Three").setIndicator("7ÈÕÎÂ¶È",
+			myTabhost.addTab(myTabhost.newTabSpec("Three").setIndicator("ä¸ƒæ—¥é¢„æŠ¥",
 									getResources().getDrawable(R.drawable.drizzle2))
 							.setContent(R.id.widget_layout_three));
-			myTabhost.addTab(myTabhost.newTabSpec("four").setIndicator("ÀúÊ·¼ÇÂ¼",
+			myTabhost.addTab(myTabhost.newTabSpec("four").setIndicator("å†å²ä¿¡æ¯",
 					getResources().getDrawable(R.drawable.sunny))
 			.setContent(R.id.widget_layout_four));
 			
@@ -103,8 +104,8 @@ public class WeatherDetailActivity extends Activity implements SearchView.OnQuer
 				TextView tv=(TextView)tabWidget.getChildAt(i).findViewById(android.R.id.title);
 				tv.setGravity(BIND_AUTO_CREATE);
 				tv.setPadding(0, 0,0, 0);
-				tv.setTextSize(10);//ÉèÖÃ×ÖÌåµÄ´óĞ¡£»
-				tv.setTextColor(Color.BLACK);//ÉèÖÃ×ÖÌåµÄÑÕÉ«£»
+				tv.setTextSize(10);//Ã‰Ã¨Ã–ÃƒÃ—Ã–ÃŒÃ¥ÂµÃ„Â´Ã³ÃÂ¡Â£Â»
+				tv.setTextColor(Color.BLACK);//Ã‰Ã¨Ã–ÃƒÃ—Ã–ÃŒÃ¥ÂµÃ„Ã‘Ã•Ã‰Â«Â£Â»
 				//set tab image
 				ImageView iv=(ImageView)tabWidget.getChildAt(i).findViewById(android.R.id.icon);
 			}
@@ -149,12 +150,12 @@ public class WeatherDetailActivity extends Activity implements SearchView.OnQuer
         	    	this.sleep(ConstDefine.HTTP_TIME_OUT);
         	    	
         	    	//get today weatherInfo
-        	    	tabOneDetail = BusinessRequest.getWenduTabDetailById(strListId,"1");
+        	    	tabOneDetail = BusinessRequest.getWenduTabDetailById(strListId,WeatherType.Today.getStrValue());
         		 	tabOneListData = getWenduTabListData(strListId,"1");
         	    	
         		 	//get TheeTab Data
-        		 	tabTwoDetail = BusinessRequest.getWenduTabDetailById(strListId,"0");
-        		 	tabTwoListData = getWenduTabListData(strListId,"0");
+        		 	tabTwoDetail = BusinessRequest.getWenduTabDetailById(strListId,WeatherType.Yesterday.getStrValue());
+        		 	tabTwoListData = getWenduTabListData(strListId,WeatherType.Yesterday.getStrValue());
         		 	
         		 	//get Theee Tab Data
         		 	weatherChartLst =  BusinessRequest.getWeatherChartList();
@@ -182,7 +183,7 @@ public class WeatherDetailActivity extends Activity implements SearchView.OnQuer
         		 	diaLogProgress.dismiss();
         		 	
         		 	//set one tab
-        		 	setOneTabData();
+        		 	setTodaysData();
         		 	
         		 	//set two tab
         		 	setTwoTabData();
@@ -256,7 +257,7 @@ public class WeatherDetailActivity extends Activity implements SearchView.OnQuer
 	  /**
 	   * 
 	   */
-	 private void setOneTabData(){
+	 private void setTodaysData(){
 	 
 		oneTabListView = (ListView) findViewById(R.id.oneTabList);
 		txtOneTab1 = (TextView) findViewById(R.id.txtOneTab1);
@@ -266,11 +267,10 @@ public class WeatherDetailActivity extends Activity implements SearchView.OnQuer
 		//setDetails
 		txtOneTab1.setText(tabOneDetail.getStrTemp());
 		txtOneTab2.setText(tabOneDetail.getStrName());
-		String strMsg  = "Ìå¸ĞÎÂ¶È£º"+ tabOneDetail.getStrTiWen() + "\n";
-		       strMsg += "ÎÂ¶È£º"+ tabOneDetail.getStrWendu() + "\n";
-		       strMsg += "·çËÙ£º"+ tabOneDetail.getStrFengsu() + "\n";
-		       strMsg += "·çÏò£º"+ tabOneDetail.getStrFengxiang() + "\n";
-		       strMsg += "¸üĞÂÊ±¼ä£º"+ tabOneDetail.getStrUpTime();
+		String strMsg  = "ä»Šæ—¥é¢„æŠ¥æœ€é«˜æ¸©åº¦"+ tabOneDetail.getStrForecastHighest() + "\n";
+		       strMsg += "ä»Šæ—¥é¢„æŠ¥æœ€ä½æ¸©åº¦"+ tabOneDetail.getStrForecastLowest() + "\n";
+		       strMsg += "ä»Šæ—¥é¢„æŠ¥å¹³å‡æ¸©åº¦"+ tabOneDetail.getStrForecastAverage() + "\n";
+		       strMsg += "æ›´æ–°æ—¶é—´"+ tabOneDetail.getStrUpTime();
 		txtOneTab3.setText(strMsg);
 		
 		//set temperature list
@@ -287,23 +287,25 @@ public class WeatherDetailActivity extends Activity implements SearchView.OnQuer
 	  */
 	 private void setTwoTabData(){
 		 
-		 //»ñÈ¡Êı¾İ²¢ÊÊÅäµ½listviewÖĞ
+		 //Â»Ã±ÃˆÂ¡ÃŠÃ½Â¾ÃÂ²Â¢ÃŠÃŠÃ…Ã¤ÂµÂ½listviewÃ–Ã
 		twoTabListView = (ListView) findViewById(R.id.twoTabList);
 		txtTwoTab1 = (TextView) findViewById(R.id.txtTwoTab1);
 		txtTwoTab2 = (TextView) findViewById(R.id.txtTwoTab2);
 		txtTwoTab3 = (TextView) findViewById(R.id.txtTwoTab3);
 		
-		//ÉèÖÃ×ó±ßÊı¾İ
+		//Ã‰Ã¨Ã–ÃƒÃ—Ã³Â±ÃŸÃŠÃ½Â¾Ã
 		txtTwoTab1.setText(tabTwoDetail.getStrTemp());
 		txtTwoTab2.setText(tabTwoDetail.getStrName());
-		String strMsg  = "Ìå¸ĞÎÂ¶È£º"+ tabTwoDetail.getStrTiWen() + "\n";
-		       strMsg += "ÎÂ¶È£º"+ tabTwoDetail.getStrWendu() + "\n";
-		       strMsg += "·çËÙ£º"+ tabTwoDetail.getStrFengsu() + "\n";
-		       strMsg += "·çÏò£º"+ tabTwoDetail.getStrFengxiang() + "\n";
-		       strMsg += "¸üĞÂÊ±¼ä£º"+ tabTwoDetail.getStrUpTime();
+		String strMsg  = "æ˜¨æ—¥é¢„æŠ¥æœ€é«˜æ¸©åº¦"+ tabOneDetail.getStrForecastHighest() + "\n";
+	       strMsg += "æ˜¨æ—¥é¢„æŠ¥æœ€ä½æ¸©åº¦"+ tabOneDetail.getStrForecastLowest() + "\n";
+	       strMsg += "æ˜¨æ—¥é¢„æŠ¥å¹³å‡æ¸©åº¦"+ tabOneDetail.getStrForecastAverage() + "\n";
+	       strMsg  = "æ˜¨æ—¥å®å†µæœ€é«˜æ¸©åº¦"+ tabOneDetail.getStrActualHighest() + "\n";
+	       strMsg += "æ˜¨æ—¥å®å†µæœ€ä½æ¸©åº¦"+ tabOneDetail.getStrActualLowest() + "\n";
+	       strMsg += "æ˜¨æ—¥å®å†µå¹³å‡æ¸©åº¦"+ tabOneDetail.getStrActualAverage() + "\n";
+	       strMsg += "æ›´æ–°æ—¶é—´"+ tabOneDetail.getStrUpTime();
 		txtTwoTab3.setText(strMsg);
 		
-	    //ÉèÖÃlistÊı¾İ
+	    //Ã‰Ã¨Ã–ÃƒlistÃŠÃ½Â¾Ã
 		twoTabListView.setAdapter(new SimpleAdapter(getApplicationContext(),tabTwoListData, R.layout.weather_detail_item,  
 	 			 new String[] { "w_time", "w_wendu", "w_tianqi" }, 
 				  new int[] {R.id.w_time, R.id.w_wendu, R.id.w_tianqi}));
@@ -353,7 +355,7 @@ public class WeatherDetailActivity extends Activity implements SearchView.OnQuer
 	} 
 	
    /**
-     * ¸ù¾İÃû³Æ²éÑ¯
+     * Â¸Ã¹Â¾ÃÃƒÃ»Â³Ã†Â²Ã©Ã‘Â¯
      * @param name
      * @return
      */
@@ -364,7 +366,7 @@ public class WeatherDetailActivity extends Activity implements SearchView.OnQuer
 	    for (int i = 0; i < fourTabDbDatalist.size(); i++) 
 	    { 	
 	        int index =((WeatherDetailItem) fourTabDbDatalist.get(i)).getW_time().indexOf(name);  
-	        // ´æÔÚÆ¥ÅäµÄÊı¾İ  ÖØĞÂ×é×°List
+	        // Â´Ã¦Ã”ÃšÃ†Â¥Ã…Ã¤ÂµÃ„ÃŠÃ½Â¾Ã  Ã–Ã˜ÃÃ‚Ã—Ã©Ã—Â°List
 		    if (index != -1) {
 		    	HashMap<String, Object> item = new HashMap<String, Object>(); 
 		    	item.put("w_time", fourTabDbDatalist.get(i).getW_time()); 

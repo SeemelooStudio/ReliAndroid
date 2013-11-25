@@ -19,6 +19,7 @@ import com.model.UserInfo;
 import com.model.WarnListItem;
 import com.model.WeatherDetailItem;
 import com.model.WeatherDetailTempInfo;
+import com.model.WeatherType;
 import com.util.ConstDefine;
 import com.model.WeatherPreChartItem;
 import com.util.JsonHelper;
@@ -41,7 +42,7 @@ public class BusinessRequest {
 		try {
 			Log.v("jsonStrUser", jsonStrUser.toString());
 			ServerHttpRequest httpReq = new ServerHttpRequest();
-			String strRequestAddress = ConstDefine.WEB_SERVICE_URL + ConstDefine.S_GET_USERINFO.replace("{UserName}", "zhaoyaqi");
+			String strRequestAddress = ConstDefine.WEB_SERVICE_URL + ConstDefine.S_GET_USERINFO.replace("{UserName}", user.getStrUserName());
 			String strResp = httpReq.doGet(strRequestAddress);
 			Log.v("strResp", strResp);
 			
@@ -141,27 +142,23 @@ public class BusinessRequest {
 	 * @return
 	 * @throws JSONException
 	 */
-	public static ArrayList<ListItem> getWeatherList(ListItem objSearchCon) throws JSONException 
+	public static ArrayList<ListItem> getWeatherList(ListItem objSearchCon) throws Exception 
 	{
 		JSONStringer jsonStrCon = JsonHelper.toJSONString(objSearchCon);
 		
 		Log.v("jsonStrCondition", jsonStrCon.toString());
-		//ServerHttpRequest httpReq = new ServerHttpRequest();
-		//String strResp = httpReq.dopost(ConstDefine.S_GET_USERINFO, jsonStrCon);
-		//ArrayList<ListItem>  lstWeather = (ArrayList<ListItem>) JsonHelper.parseCollection(strResp, List.class, ListItem.class);	
-		//TODO
 		
-		ArrayList<ListItem>  lstWeather = new ArrayList<ListItem>();
-		for(int i=0; i<10; i++)
-        {
-			ListItem  item = new ListItem();
-			item.setStrListId(""+i);
-			item.setStrListName("Ë«ÓÜÊ÷ÆøÏóÕ¾" +i);
-			item.setStrListOther("18/26" +i);
-			lstWeather.add(item);
-        }
-
-	   return  lstWeather;
+		ServerHttpRequest httpReq = new ServerHttpRequest();
+		String strRequestAddress = ConstDefine.WEB_SERVICE_URL + ConstDefine.S_GET_WEATHERSTATIONS;
+		
+		try {
+			String strResp = httpReq.doGet(strRequestAddress);
+			ArrayList<ListItem>  lstWeather = (ArrayList<ListItem>) JsonHelper.parseCollection(strResp, List.class, ListItem.class);	
+			return  lstWeather;
+		}
+		catch (Exception ex) {
+			throw ex;
+		}
 	}
 	
 	
@@ -174,26 +171,21 @@ public class BusinessRequest {
 	 */
 	public static WeatherDetailTempInfo getWenduTabDetailById(String strListId,String strDayFlag) throws Exception{
 		
-		//create parame
-		Map<String, String> mapParam = new HashMap();
-		mapParam.put("list_id", strListId);
-		mapParam.put("day_id", strDayFlag);
-		WeatherDetailTempInfo respInfo = new WeatherDetailTempInfo();
 		
+		String requestAddress = (ConstDefine.WEB_SERVICE_URL + ConstDefine.S_GET_OFFICIALWEATHER).replace("{weatherTypeId}", WeatherType.Today.getStrValue());
 		try {
-			
+			//create parame
+			//Map<String, String> mapParam = new HashMap();
+			//mapParam.put("list_id", strListId);
+			//mapParam.put("day_id", strDayFlag);
 			ServerHttpRequest httpReq = new ServerHttpRequest();
-			//String strResp = httpReq.doGet(ConstDefine.S_GET_USERINFO, mapParam);
-			//TODO
-			String strResp = "{'strTemp':'80'}";  //test
-			respInfo = JsonHelper.parseObject(strResp, WeatherDetailTempInfo.class);  
-			
+			String strResp = httpReq.doGet(requestAddress);
+			WeatherDetailTempInfo respInfo = JsonHelper.parseObject(strResp, WeatherDetailTempInfo.class);  
+			return respInfo;
 		} catch (Exception ex) {
 			throw ex;
 		}
 		
-		//return
-		return respInfo;
 	}
 	
 	
