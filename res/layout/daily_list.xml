@@ -1,22 +1,17 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"  
+<?xml version="1.0" encoding="utf-8"?><LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"  
     xmlns:tools="http://schemas.android.com/tools"  
     android:layout_width="match_parent"  
     android:layout_height="match_parent" 
     android:orientation="vertical"
     android:scrollbarStyle="outsideOverlay"
-    android:background="@drawable/main_layout_bg">
-    <TextView android:id="@+id/labsubTitle" 
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-		android:text="热力日报"  />
+    >
     <SearchView 
         android:id="@+id/daily_search_view" 
         android:layout_width="fill_parent"  
         android:layout_height="wrap_content"  
         android:iconifiedByDefault="false"  
         android:inputType="textFilter"  
-        android:queryHint="请输入查询条件" >  
+        android:queryHint="@string/search_hint" >  
     </SearchView> 
 	
 	<ListView  

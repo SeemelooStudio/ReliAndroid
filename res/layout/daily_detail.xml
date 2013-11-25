@@ -6,7 +6,7 @@
     android:layout_margin="10dip"
     android:background="@drawable/main_layout_bg"
     android:orientation="vertical" >
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
       android:layout_width="fill_parent" 
 	 android:layout_height="30dp"
 	 android:background="@drawable/title_bg">
@@ -18,7 +18,7 @@
 		        	android:text="热力日报" 
 		        	style="@style/labStyle"/>
     </LinearLayout>
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout 
       android:layout_width="fill_parent" 
 	 android:layout_height="30dp"
 	 android:background="@drawable/title_sub_bg">
@@ -35,7 +35,7 @@
 	    android:text="生产运行情况"
 	    android:background="@drawable/title_sub_bg"
 	    style="@style/labStyle"/>
-     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     <LinearLayout 
       android:layout_width="fill_parent" 
 	 android:layout_height="250dp"
 	 android:scrollbarStyle="outsideOverlay"
@@ -52,7 +52,7 @@
 	       android:text="根据天气情况"
 	       style="@style/labStyle"
 	       android:background="@drawable/title_sub_bg"/>
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout 
       android:layout_width="fill_parent" 
 	 android:layout_height="match_parent"
 	 android:layout_marginTop="1dip"

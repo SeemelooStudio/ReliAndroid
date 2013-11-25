@@ -28,6 +28,7 @@
            parent="@android:style/Widget.DeviceDefault.Light.ActionBar.Solid.Inverse">
         <item name="android:background">@color/main_blue</item>
         <item name="android:textSize">12sp</item>
+        <item name="android:icon">@drawable/main_item_one_image</item>
     </style>
     <!-- Button styles -->
     <style name="NormalButton" parent="@android:style/Widget.DeviceDefault.Light.Button">

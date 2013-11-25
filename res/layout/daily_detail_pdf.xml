@@ -3,42 +3,22 @@
     android:id="@+id/daily_detail_div"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:layout_margin="10dip"
-    android:background="@drawable/main_layout_bg"
     android:orientation="vertical" >
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-      android:layout_width="fill_parent" 
-	 android:layout_height="30dp"
-	 android:background="@drawable/title_bg">
-	      <TextView android:id="@+id/txtDailyTitle" 
-		        	android:layout_width="fill_parent" 
-		        	android:layout_height="fill_parent"
-		        	android:layout_marginLeft="30dip"
-		        	android:layout_marginTop="5dip"  
-		        	android:text="热力日报" 
-		        	style="@style/labStyle"/>
-    </LinearLayout>
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-      android:layout_width="fill_parent" 
-	 android:layout_height="30dp"
-	 android:background="@drawable/title_sub_bg">
+
+
 	      <TextView android:id="@+id/txtDailyDate" 
 		        	android:layout_width="fill_parent" 
 		        	android:layout_height="fill_parent"
 		        	android:layout_marginTop="5dip"  
-		        	android:text="XXXX气象站"
+		        	android:text="更新时间"
 		          style="@style/labStyle"/>
-    </LinearLayout> 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-      android:layout_width="fill_parent" 
-	 android:layout_height="match_parent"
-	 android:layout_marginTop="2dip"
-	 android:background="@drawable/title_sub_bg">
-	    <WebView xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+	    <WebView 
 	          android:id="@+id/webDialyPdfView"
 	          android:scrollbarStyle="outsideOverlay"
       		android:layout_width="fill_parent"
       		android:layout_height="fill_parent">
 	    </WebView>
-	</LinearLayout>
+
 </LinearLayout>

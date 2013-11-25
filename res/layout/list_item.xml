@@ -1,16 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>   
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="24dp"
+    android:layout_height="40dp"
     android:orientation="horizontal">
 	<TextView android:id="@+id/list_id"
-	    android:layout_width="15dp"
-	    android:layout_marginLeft="5dp"
-	    android:layout_height="wrap_content" />
-	<TextView android:id="@+id/list_name"
-	    android:layout_width="240dp"
-	    android:layout_height="wrap_content" />
+	    android:layout_width="@dimen/xlarge_margin"
+	    android:layout_marginLeft="@dimen/small_margin"
+	    android:layout_height="wrap_content"
+	    android:layout_gravity="center_vertical"
+	    android:text="0" />
 	<TextView android:id="@+id/list_other"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content" />
+	    android:layout_width="@dimen/xlarge_margin"
+	    android:layout_height="wrap_content"
+	    android:layout_gravity="center_vertical"
+	     android:text="0"  />
+	<TextView android:id="@+id/list_name"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_gravity="center_vertical"
+	     android:text="0"  />
+	
 </LinearLayout>
