@@ -67,17 +67,10 @@ public class DailyListActivity extends Activity implements  SearchView.OnQueryTe
   	        	}
     	    });
     	    
-            //初始化标题栏
-            this.getActionBar().setDisplayShowHomeEnabled(true);  
-	        this.getActionBar().setDisplayShowTitleEnabled(false);  
-	        this.getActionBar().setDisplayShowCustomEnabled(true);  
-	        LayoutInflater mInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);  
-	        View mTitleView = mInflater.inflate(R.layout.daily_list_search, null);  
-	        getActionBar().setCustomView(mTitleView,  
-	                new ActionBar.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));  
-	        searchView = (SearchView) mTitleView.findViewById(R.id.daily_search_view);    
+            //init search view
+	        searchView = (SearchView) findViewById(R.id.daily_search_view);    
 	        searchView.setOnQueryTextListener(this);  
-	        searchView.setSubmitButtonEnabled(false);
+	        searchView.setSubmitButtonEnabled(true);
 	    }  
 	  
 	    @Override  

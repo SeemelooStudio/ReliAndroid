@@ -6,31 +6,23 @@
     android:orientation="vertical"
     android:scrollbarStyle="outsideOverlay"
     android:background="@drawable/main_layout_bg">
-    <LinearLayout 
-     android:layout_width="fill_parent" 
-	 android:layout_height="20dp"
-	 android:layout_marginLeft="5dip"
-	 android:layout_marginRight="5dip"
-	 android:background="@drawable/title_sub_bg">
-	      <TextView android:id="@+id/labsubTitle" 
-		        	android:layout_width="match_parent" 
-		        	android:layout_height="match_parent"
-		        	android:text="热力日报" 
-		        	style="@style/labStyle"/>
-    </LinearLayout>
-	<LinearLayout  
-	    android:layout_width="match_parent"  
-	    android:layout_height="match_parent" 
-	    android:scrollbarStyle="outsideOverlay">  
-	    <ListView  
+    <TextView android:id="@+id/labsubTitle" 
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+		android:text="热力日报"  />
+    <SearchView 
+        android:id="@+id/daily_search_view" 
+        android:layout_width="fill_parent"  
+        android:layout_height="wrap_content"  
+        android:iconifiedByDefault="false"  
+        android:inputType="textFilter"  
+        android:queryHint="请输入查询条件" >  
+    </SearchView> 
+	
+	<ListView  
 		        android:id="@+id/list" 
-		        android:layout_marginTop="2dip"
-		        android:layout_marginLeft="5dip"
-		        android:layout_marginRight="5dip"
-		        android:layout_marginBottom="5dip"
-		        android:layout_width="match_parent"  
+		        android:layout_width="fill_parent"  
 		        android:layout_height="match_parent"
-		        android:background="#343434"
 		        android:scrollbarStyle="outsideOverlay"/>
-	</LinearLayout>
+
 </LinearLayout>

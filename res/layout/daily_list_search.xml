@@ -4,7 +4,7 @@
     android:layout_height="0dip"
     android:orientation="horizontal" >
     <SearchView 
-        android:id="@+id/daily_search_view" 
+        android:id="@+id/daily_search_view_backup" 
         android:layout_margin="@dimen/small_margin" 
         android:layout_width="fill_parent"  
         android:layout_height="wrap_content"  
