@@ -1,5 +1,7 @@
 package com.util;
 
+import android.R;
+
 
 
 public class ConstDefine 
@@ -25,12 +27,12 @@ public class ConstDefine
 	public static final String S_GET_WEATHERSTATIONS = "/MobileService/WeatherStations";
 	public static final String S_GET_OFFICIALWEATHERDETAILS = "/MobileService/Weathers?from={fromDate}&to={toDate}";
 	//show msg info
-	public static final String I_MSG_0001 = "Ó¦ÓÃÔÚÅ¬Á¦¼ÓÔØÖĞ...";
-	public static final String I_MSG_0002 = "È¨ÏŞÑéÖ¤ÖĞ£¬ÇëÉÔºò...";
-	public static final String I_MSG_0003 = "Êı¾İ¼ÓÔØÖĞ£¬ÇëÉÔºò...";
-	public static final String I_MSG_0004 = "ÕıÔÚÅ¬Á¦½¨ÉèÖĞ...";
+	public static final String I_MSG_0001 = "fail";
+	public static final String I_MSG_0002 = "wait";
+	public static final String I_MSG_0003 = "æ­£åœ¨è·å–æ•°æ®ï¼Œè¯·ç¨å€™";
+	public static final String I_MSG_0004 = "è¯¥åŠŸèƒ½å°šæœªå¼€æ”¾ï¼Œè¯·æ›´æ–°ç‰ˆæœ¬åå†è¯•";
 
 	//show msg err
-	public static final String E_MSG_0001 = "ÍøÂç×´¿ö²»ºÃ£¬ÇëÉÔºòÔÙÊÔ.";
+	public static final String E_MSG_0001 = "è·å–å¤±è´¥";
 	
 }

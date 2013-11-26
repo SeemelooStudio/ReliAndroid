@@ -57,7 +57,7 @@ public class LoginActivity extends Activity implements android.view.View.OnClick
    			if(checkInPutData(txtUserId.getText().toString(),txtPwd.getText().toString()) == false)
    				return;
    			
-   			diaLogProgress = BaseHelper.showProgress(LoginActivity.this,ConstDefine.I_MSG_0002,false);
+   			diaLogProgress = BaseHelper.showProgress(LoginActivity.this,getString(R.string.log_in_message),false);
    	        new Thread() {
    	            public void run() { 
    	                    Message msgSend = new Message();
@@ -105,7 +105,7 @@ public class LoginActivity extends Activity implements android.view.View.OnClick
                 case ConstDefine.MSG_I_HANDLE_Fail:                                        
                 	//close process
                 	diaLogProgress.dismiss();
-                	BaseHelper.showToastMsg(LoginActivity.this,ConstDefine.E_MSG_0001);
+                	BaseHelper.showToastMsg(LoginActivity.this,getString(R.string.connect_fail_message));
                     break;
                 }
         }
