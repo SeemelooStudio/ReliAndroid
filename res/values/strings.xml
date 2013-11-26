@@ -23,4 +23,6 @@
    <string name="station">热力站信息</string>
    <string name="knowledge_base">知识库</string>
    <string name="search_hint">查询条件</string>
+   <string name="log_in_message">正在连网验证，请稍候……</string>
+   <string name="connect_fail_message">连接失败，请确认网络链接正常</string>
 </resources>
