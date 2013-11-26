@@ -15,14 +15,15 @@ public class ConstDefine
 	public static final int HTTP_BUFF_SIZE = 8192;
 	public static final String HTTP_ENCODE = "UTF-8";
 	
-	public static final String WEB_SERVICE_URL = "http://192.168.1.105:11223";
+	public static final String WEB_SERVICE_URL = "http://192.168.1.109:11223";
 	//http url
 	public static final String S_GET_USERINFO = "/MobileService/Users/{UserName}";
 	public static final String S_GET_DAILYREPORTS = "/MobileService/DailyReports";
 	public static final String S_GET_DAILYREPORT = "/MobileService/DailyReports/{DailyReportId}";
 	public static final String S_GET_WARNINGS = "/MobileService/Warnings";
 	public static final String S_GET_OFFICIALWEATHER = "/MobileService/Weathers/{weatherTypeId}";
-	public static final String S_GET_WEATHERSTATIONS = "/MobileService/Weathers";
+	public static final String S_GET_WEATHERSTATIONS = "/MobileService/WeatherStations";
+	public static final String S_GET_OFFICIALWEATHERDETAILS = "/MobileService/Weathers?from={fromDate}&to={toDate}";
 	//show msg info
 	public static final String I_MSG_0001 = "应用在努力加载中...";
 	public static final String I_MSG_0002 = "权限验证中，请稍候...";

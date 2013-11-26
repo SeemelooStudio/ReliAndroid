@@ -197,27 +197,23 @@ public class BusinessRequest {
 	 * @return
 	 * @throws JSONException
 	 */
-	public static ArrayList<WeatherDetailItem> getWenduTabDetailListById(WeatherDetailTempInfo objSearchCon) throws JSONException 
+	public static ArrayList<WeatherDetailItem> getWenduTabDetailListById(WeatherDetailTempInfo objSearchCon) throws Exception 
 	{
 		JSONStringer jsonStrCon = JsonHelper.toJSONString(objSearchCon);
 		
 		Log.v("jsonStrCondition", jsonStrCon.toString());
-		//ServerHttpRequest httpReq = new ServerHttpRequest();
-		//String strResp = httpReq.dopost(ConstDefine.S_GET_USERINFO, jsonStrCon);
-		//ArrayList<WeatherDetailItem>  lstWeather = (ArrayList<WeatherDetailItem>) JsonHelper.parseCollection(strResp, List.class, WeatherDetailItem.class);	
-		//TODO
 		
-		ArrayList<WeatherDetailItem>  lstWendu = new ArrayList<WeatherDetailItem>();
-	  	for(int i=0; i<14; i++)
-        {
-        	WeatherDetailItem  wendu= new WeatherDetailItem();
-        	wendu.setW_time("4" + i + ":PM");
-        	wendu.setW_wendu("2" +i);
-        	wendu.setW_tianqi("ะกำ๊");
-        	lstWendu.add(wendu);
-        }
-
-	   return  lstWendu;
+		ServerHttpRequest httpReq = new ServerHttpRequest();
+		String strRequestAddress = (ConstDefine.WEB_SERVICE_URL + ConstDefine.S_GET_OFFICIALWEATHERDETAILS).replace("{fromDate}", "2013-11-23").replace("{toDate}", "2013-11-28");
+		try {
+			String strResp = httpReq.doGet(strRequestAddress);
+			ArrayList<WeatherDetailItem>  lstWeather = (ArrayList<WeatherDetailItem>) JsonHelper.parseCollection(strResp, List.class, WeatherDetailItem.class);	
+			return  lstWeather;
+		}
+		catch (Exception ex){
+			throw ex;
+		}
+	   
 	}
 	
 	
@@ -225,24 +221,18 @@ public class BusinessRequest {
      * 
      * @return
      */
-    public static ArrayList<WeatherDetailItem> getWeatherHisListData() {  
+    public static ArrayList<WeatherDetailItem> getWeatherHisListData() throws Exception  {  
        
-		//ServerHttpRequest httpReq = new ServerHttpRequest();
-		//String strResp = httpReq.dopost(ConstDefine.S_GET_USERINFO, jsonStrCon);
-		//ArrayList<WeatherDetailItem>  weatherHislist = (ArrayList<WeatherDetailItem>) JsonHelper.parseCollection(strResp, List.class, WeatherDetailItem.class);	
-		//TODO
-    	
-    	ArrayList <WeatherDetailItem> weatherHislist = new ArrayList<WeatherDetailItem>();
-        for(int i=0; i<20; i++)
-        {
-        	WeatherDetailItem  lst = new WeatherDetailItem();
-        	lst.setW_time("4" + i + ":PM");
-        	lst.setW_wendu("2" +i);
-        	lst.setW_tianqi("ะกำ๊");
-        	weatherHislist.add(lst);
-        }
-
-        return weatherHislist;
+		ServerHttpRequest httpReq = new ServerHttpRequest();
+		String strRequestAddress = (ConstDefine.WEB_SERVICE_URL + ConstDefine.S_GET_OFFICIALWEATHERDETAILS).replace("{fromDate}", "2013-11-23").replace("{toDate}", "2013-11-28");
+		try {
+			String strResp = httpReq.doGet(strRequestAddress);
+			ArrayList<WeatherDetailItem>  lstWeather = (ArrayList<WeatherDetailItem>) JsonHelper.parseCollection(strResp, List.class, WeatherDetailItem.class);	
+			return  lstWeather;
+		}
+		catch (Exception ex){
+			throw ex;
+		}
     } 
 	
 	

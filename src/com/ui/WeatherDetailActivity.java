@@ -186,7 +186,7 @@ public class WeatherDetailActivity extends Activity implements SearchView.OnQuer
         		 	setTodaysData();
         		 	
         		 	//set two tab
-        		 	setTwoTabData();
+        		 	setYesterdayData();
         		 	
         		 	//set three tab
         		 	setThreeWeatherChart();
@@ -210,7 +210,7 @@ public class WeatherDetailActivity extends Activity implements SearchView.OnQuer
 	   * @return
 	 * @throws JSONException 
 	   */
-	  private List<HashMap<String, Object>> getWenduTabListData(String strListId ,String dayFlag) throws JSONException {  
+	  private List<HashMap<String, Object>> getWenduTabListData(String strListId ,String dayFlag) throws Exception {  
 	   
 	    
 	  	ArrayList<WeatherDetailItem> wenduDbDatalist = new ArrayList<WeatherDetailItem>();
@@ -238,7 +238,7 @@ public class WeatherDetailActivity extends Activity implements SearchView.OnQuer
 	 * 
 	 * @return
 	 */
-	private List<HashMap<String, Object>> getFourTabListData() {  
+	private List<HashMap<String, Object>> getFourTabListData() throws Exception{  
 	   
 		fourTabDbDatalist =  BusinessRequest.getWeatherHisListData();
 		List<HashMap<String, Object>> tabFourDatalist = new ArrayList<HashMap<String, Object>>(); 
@@ -265,7 +265,7 @@ public class WeatherDetailActivity extends Activity implements SearchView.OnQuer
 		txtOneTab3 = (TextView) findViewById(R.id.txtOneTab3);
 				
 		//setDetails
-		txtOneTab1.setText(tabOneDetail.getStrTemp());
+		txtOneTab1.setText(tabOneDetail.getStrForecastAverage());
 		txtOneTab2.setText(tabOneDetail.getStrName());
 		String strMsg  = "今日预报最高温度"+ tabOneDetail.getStrForecastHighest() + "\n";
 		       strMsg += "今日预报最低温度"+ tabOneDetail.getStrForecastLowest() + "\n";
@@ -285,7 +285,7 @@ public class WeatherDetailActivity extends Activity implements SearchView.OnQuer
 	 /**
 	  * 
 	  */
-	 private void setTwoTabData(){
+	 private void setYesterdayData(){
 		 
 		 //»ñÈ¡Êý¾Ý²¢ÊÊÅäµ½listviewÖÐ
 		twoTabListView = (ListView) findViewById(R.id.twoTabList);
@@ -294,15 +294,15 @@ public class WeatherDetailActivity extends Activity implements SearchView.OnQuer
 		txtTwoTab3 = (TextView) findViewById(R.id.txtTwoTab3);
 		
 		//ÉèÖÃ×ó±ßÊý¾Ý
-		txtTwoTab1.setText(tabTwoDetail.getStrTemp());
+		txtTwoTab1.setText(tabTwoDetail.getStrActualAverage());
 		txtTwoTab2.setText(tabTwoDetail.getStrName());
-		String strMsg  = "昨日预报最高温度"+ tabOneDetail.getStrForecastHighest() + "\n";
-	       strMsg += "昨日预报最低温度"+ tabOneDetail.getStrForecastLowest() + "\n";
-	       strMsg += "昨日预报平均温度"+ tabOneDetail.getStrForecastAverage() + "\n";
-	       strMsg  = "昨日实况最高温度"+ tabOneDetail.getStrActualHighest() + "\n";
-	       strMsg += "昨日实况最低温度"+ tabOneDetail.getStrActualLowest() + "\n";
-	       strMsg += "昨日实况平均温度"+ tabOneDetail.getStrActualAverage() + "\n";
-	       strMsg += "更新时间"+ tabOneDetail.getStrUpTime();
+		String strMsg  = "昨日预报最高温度"+ tabTwoDetail.getStrForecastHighest() + "\n";
+	       strMsg += "昨日预报最低温度"+ tabTwoDetail.getStrForecastLowest() + "\n";
+	       strMsg += "昨日预报平均温度"+ tabTwoDetail.getStrForecastAverage() + "\n";
+	       strMsg  = "昨日实况最高温度"+ tabTwoDetail.getStrActualHighest() + "\n";
+	       strMsg += "昨日实况最低温度"+ tabTwoDetail.getStrActualLowest() + "\n";
+	       strMsg += "昨日实况平均温度"+ tabTwoDetail.getStrActualAverage() + "\n";
+	       strMsg += "更新时间"+ tabTwoDetail.getStrUpTime();
 		txtTwoTab3.setText(strMsg);
 		
 	    //ÉèÖÃlistÊý¾Ý
