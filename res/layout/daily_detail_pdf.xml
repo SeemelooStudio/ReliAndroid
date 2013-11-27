@@ -4,16 +4,6 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
-
-
-	      <TextView android:id="@+id/txtDailyDate" 
-		        	android:layout_width="fill_parent" 
-		        	android:layout_height="fill_parent"
-		        	android:layout_marginTop="5dip"  
-		        	android:text="更新时间"
-		          style="@style/labStyle"/>
-
-
 	    <WebView 
 	          android:id="@+id/webDialyPdfView"
 	          android:scrollbarStyle="outsideOverlay"

@@ -262,19 +262,19 @@ public class MainPageActivity extends Activity {
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.help_menu:
-				BaseHelper.showToastMsg(MainPageActivity.this,ConstDefine.I_MSG_0004);
+				BaseHelper.showToastMsg(MainPageActivity.this, getString(R.string.under_construction_message));
 				break;
 			case R.id.conect_menu:
-				BaseHelper.showToastMsg(MainPageActivity.this,ConstDefine.I_MSG_0004);
+				BaseHelper.showToastMsg(MainPageActivity.this, getString(R.string.under_construction_message));
 				break;
 			case R.id.main_about:
-				BaseHelper.showToastMsg(MainPageActivity.this,ConstDefine.I_MSG_0004);
+				BaseHelper.showToastMsg(MainPageActivity.this, getString(R.string.under_construction_message));
 				break;
 			case R.id.settingMenu:
-				BaseHelper.showToastMsg(MainPageActivity.this,ConstDefine.I_MSG_0004);
+				BaseHelper.showToastMsg(MainPageActivity.this, getString(R.string.under_construction_message));
 				break;
 			case R.id.userMenu:
-				BaseHelper.showToastMsg(MainPageActivity.this,ConstDefine.I_MSG_0004);
+				BaseHelper.showToastMsg(MainPageActivity.this, getString(R.string.under_construction_message));
 				break;
 			default:
 				break;
@@ -283,8 +283,7 @@ public class MainPageActivity extends Activity {
 	}
 	
 	private class ViewPageChangeListener implements OnPageChangeListener {  
-	 	  
-		
+
 	     @Override  
 	     public void onPageScrollStateChanged(int arg0) {  
 	         // TODO Auto-generated method stub  

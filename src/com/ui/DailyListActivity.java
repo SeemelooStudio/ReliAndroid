@@ -14,7 +14,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.NavUtils;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
@@ -56,7 +58,7 @@ public class DailyListActivity extends Activity implements  SearchView.OnQueryTe
     	    listView.setOnItemClickListener(new OnItemClickListener(){                                                                                    
   	        	public void onItemClick(AdapterView<?> parent, View arg1, int position, long id) 
   	        	{   
-  	        		//Ìø×ªµ½ÏêÏ¸»­Ãæ
+  	        		//ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ï¿½ï¿½ï¿½
   	        		HashMap<String, Object> ListItem = (HashMap<String, Object>) listView.getItemAtPosition(position);
   	        		Intent intent = new Intent(DailyListActivity.this, DailyDetailPdfActivity.class); 
   	        		Bundle mBundle = new Bundle();
@@ -85,7 +87,17 @@ public class DailyListActivity extends Activity implements  SearchView.OnQueryTe
 	    public boolean onQueryTextSubmit(String query) {  
 	        // TODO Auto-generated method stub  
 	        return false;  
-	    }  
+	    } 
+	    @Override
+		public boolean onOptionsItemSelected(MenuItem item) {
+			 switch (item.getItemId()) {
+			    // Respond to the action bar's Up/Home button
+			    case android.R.id.home:
+			        NavUtils.navigateUpFromSameTask(this);
+			        return true;
+			    }
+			    return super.onOptionsItemSelected(item);
+		 }
 	    
 	    /***
 	     * 
@@ -100,7 +112,7 @@ public class DailyListActivity extends Activity implements  SearchView.OnQueryTe
    	            	    	
    	            	    	this.sleep(ConstDefine.HTTP_TIME_OUT);
    	            	    	
-   	            	        //»ñÈ¡Êý¾Ý²¢ÊÊÅäµ½listviewÖÐ
+   	            	        //ï¿½ï¿½È¡ï¿½ï¿½Ý²ï¿½ï¿½ï¿½ï¿½äµ½listviewï¿½ï¿½
    	            	    	listData = getDailyListData(searchCon);
    	            	    	
    	            	    	msgSend.what = ConstDefine.MSG_I_HANDLE_OK;
@@ -135,7 +147,7 @@ public class DailyListActivity extends Activity implements  SearchView.OnQueryTe
 		  };
 		  
 	    /**
-	     * ¸ù¾ÝÃû³Æ²éÑ¯
+	     * ï¿½ï¿½ï¿½ï¿½ï¿½Æ²ï¿½Ñ¯
 	     * @param name
 	     * @return
 	     */
@@ -147,7 +159,7 @@ public class DailyListActivity extends Activity implements  SearchView.OnQueryTe
 	        { 	
 	            int index =((ListItem) dbDatalist.get(i)).getStrListName().indexOf(name);  
 	            
-	            // ´æÔÚÆ¥ÅäµÄÊý¾Ý  ÖØÐÂ×é×°List
+	            // ï¿½ï¿½ï¿½ï¿½Æ¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×°List
 	            if (index != -1) {
 	            	HashMap<String, Object> item = new HashMap<String, Object>();  
 	     	        item.put("list_id", dbDatalist.get(i).getStrListId()); 
@@ -157,7 +169,7 @@ public class DailyListActivity extends Activity implements  SearchView.OnQueryTe
 	            }  
 	        }  
             
-	        //·µ»Ø½á¹û
+	        //ï¿½ï¿½ï¿½Ø½ï¿½ï¿½
 	        return mSearchList;  
 	    }  
 	  

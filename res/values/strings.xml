@@ -25,4 +25,5 @@
    <string name="search_hint">查询条件</string>
    <string name="log_in_message">正在连网验证，请稍候……</string>
    <string name="connect_fail_message">连接失败，请确认网络链接正常</string>
+   <string name="under_construction_message">该功能尚未开放，请更新版本后再试</string>
 </resources>

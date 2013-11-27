@@ -30,7 +30,7 @@ public class ConstDefine
 	public static final String I_MSG_0001 = "fail";
 	public static final String I_MSG_0002 = "wait";
 	public static final String I_MSG_0003 = "正在获取数据，请稍候";
-	public static final String I_MSG_0004 = "该功能尚未开放，请更新版本后再试";
+	public static final String I_MSG_0004 = "under construction";
 
 	//show msg err
 	public static final String E_MSG_0001 = "获取失败";

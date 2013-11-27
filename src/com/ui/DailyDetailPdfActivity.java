@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.NavUtils;
+import android.view.MenuItem;
 import android.view.Window;
 import android.webkit.WebSettings.LayoutAlgorithm;
 import android.webkit.WebView;
@@ -23,15 +25,14 @@ public class DailyDetailPdfActivity extends Activity {
 	 @Override
 	 public void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
-	        requestWindowFeature(Window.FEATURE_NO_TITLE); 
 	        setContentView(R.layout.daily_detail_pdf);
+	        getActionBar().setDisplayHomeAsUpEnabled(true);
 	        
 	        Intent inten = this.getIntent();
 	        Bundle mBundle = inten.getExtras();
 		    if (mBundle != null ) 
 		    {
-		    	txtDailyDate  = (TextView) findViewById(R.id.txtDailyDate);  
-		    	txtDailyDate.setText(mBundle.getString("list_name"));
+		    	this.setTitle( mBundle.getString( "list_name" ) );
 		    }
 
 		    webPdfView = (WebView) findViewById(R.id.webDialyPdfView); 
@@ -41,7 +42,7 @@ public class DailyDetailPdfActivity extends Activity {
    	                    Message msgSend = new Message();
    	            	    try {
    	            	    	this.sleep(ConstDefine.HTTP_TIME_OUT);
-   	            	    	String pdfUrl = "http://www8.cao.go.jp/okinawa/8/2012/0409-1-1.pdf"; 
+   	            	    	String pdfUrl = "http://manuals.info.apple.com/MANUALS/1000/MA1643/en_US/macbook_air-13-inch-mid-2013_quick_start.pdf"; 
    	            	    	BaseHelper.loadNetPdfFile(webPdfView,pdfUrl); 
    	            	    	msgSend.what = ConstDefine.MSG_I_HANDLE_OK;
    						} catch (Exception e) {
@@ -50,6 +51,16 @@ public class DailyDetailPdfActivity extends Activity {
    	                    handler.sendMessage(msgSend);
    	            	}
    	        }.start();   	
+	 }
+	 @Override
+	 public boolean onOptionsItemSelected(MenuItem item) {
+		 switch (item.getItemId()) {
+		    // Respond to the action bar's Up/Home button
+		    case android.R.id.home:
+		        NavUtils.navigateUpFromSameTask(this);
+		        return true;
+		    }
+		    return super.onOptionsItemSelected(item);
 	 }
 
     /**

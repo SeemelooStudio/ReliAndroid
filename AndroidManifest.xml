@@ -32,14 +32,13 @@
 	    android:label="@string/heat_daily">
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
-            android:value="MainPageActivity" />
+            android:value="com.ui.MainPageActivity" />
 	</activity>
 	<activity android:name="DailyDetailActivity"></activity>
-	<activity android:name="DailyDetailPdfActivity"
-	    android:label="@string/heat_daily">
+	<activity android:name="DailyDetailPdfActivity">
 	     <meta-data
             android:name="android.support.PARENT_ACTIVITY"
-            android:value="DailyListActivity" />
+            android:value="com.ui.DailyListActivity" />
 	</activity>
 	<activity android:name="WarnListActivity"></activity>
 	<activity android:name="WarnDetailActivity"></activity>
