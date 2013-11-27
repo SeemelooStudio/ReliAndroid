@@ -118,9 +118,9 @@ public class HotSourceMainActivity extends Activity {
         		 	diaLogProgress.dismiss();
         		 	
         		 	//show title
-        		 	txtAllnum.setText("π≤" + titleInfo.getAll_num() + "∏ˆ"); 
-        		 	txtAllDay.setText("ΩÒ»’¿€º∆π©»»:" + titleInfo.getToday_num() + "GJ"); 
-        		 	txtAllNet.setText("»´Õ¯À≤ ±π©»»:" + titleInfo.getNet_num() + "GJ"); 
+        		 	txtAllnum.setText("ÂÖ±" + titleInfo.getStrCountHeatSources()+ "‰∏™"); 
+        		 	txtAllDay.setText("‰∏úÈÉ®Èù¢ÁßØ:" + titleInfo.getStrEastArea() + ",Ë•øÈÉ®Èù¢ÁßØ:" +  titleInfo.getStrWestArea() + "Âπ≥ÊñπÁ±≥"); 
+        		 	txtAllNet.setText("ÊÄªÁÉ≠Ë¥üËç∑:" + titleInfo.getStrHeatLoad() + "GJ"); 
                 
         		 	//show grideview
         		 	setHotSourceGridView();
@@ -170,16 +170,16 @@ public class HotSourceMainActivity extends Activity {
 				itemIndex = i * 9 + r;
 				HotSrcMainItem oneItem =(HotSrcMainItem) dbhostSrcLst.get(itemIndex); 
 				HashMap<String, Object> hotSrcItem = new HashMap<String, Object>();
-	        	hotSrcItem.put("hotSrcItemId", oneItem.getTitle()); 
-	        	hotSrcItem.put("hotSrcItemTitle", oneItem.getTitle()); 
-	        	hotSrcItem.put("hotSrcItemLeftText", oneItem.getWenduLeft()); 
-	        	hotSrcItem.put("hotSrcItemLeftTxtPa", oneItem.getWenduLeftPa()); 
-	        	hotSrcItem.put("hotSrcItemRightText", oneItem.getWenduRight());
-	        	hotSrcItem.put("hotSrcItemRightTxtPa", oneItem.getWenduRightPa()); 
+	        	hotSrcItem.put("hotSrcItemId", oneItem.getStrHeatSourceName()); 
+	        	hotSrcItem.put("hotSrcItemTitle", oneItem.getStrHeatSourceName()); 
+	        	hotSrcItem.put("hotSrcItemLeftText", oneItem.getStrPressureOut()); 
+	        	hotSrcItem.put("hotSrcItemLeftTxtPa", oneItem.getStrTemperatureOut()); 
+	        	hotSrcItem.put("hotSrcItemRightText", oneItem.getStrPressureIn());
+	        	hotSrcItem.put("hotSrcItemRightTxtPa", oneItem.getStrTemperatureIn()); 
 		        hotSrcItemList.add(hotSrcItem);
 			}
 	        
-	        SimpleAdapter saItem = new SimpleAdapter(this,  hotSrcItemList, R.layout.hot_source_main_item,//xml µœ÷                                                               
+	        SimpleAdapter saItem = new SimpleAdapter(this,  hotSrcItemList, R.layout.hot_source_main_item,//xml µÔøΩÔøΩ                                                               
 	              new String[]{"hotSrcItemId","hotSrcItemTitle","hotSrcItemLeftText","hotSrcItemRightText","hotSrcItemLeftTxtPa","hotSrcItemRightTxtPa"},                                 
 	              new int[]{R.id.hotSrcItemId,R.id.hotSrcItemTitle,R.id.hotSrcItemLeftText,R.id.hotSrcItemRightText,R.id.hotSrcItemLeftTxtPa,R.id.hotSrcItemRightTxtPa});
 			gridview.setAdapter(saItem); 

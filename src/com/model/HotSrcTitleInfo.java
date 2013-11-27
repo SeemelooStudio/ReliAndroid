@@ -2,46 +2,46 @@ package com.model;
 
 public class HotSrcTitleInfo {
 
-	private String title;
+	private String strCountHeatSources;
 	
-	private String all_num;
+	private String strEastArea;
 	
-	private String today_num;
+	private String strWestArea;
 	
-	private String net_num;
+	private String strHeatLoad;
 	
 	private String imgsrc;
 
-	public String getTitle() {
-		return title;
+	public String getStrCountHeatSources() {
+		return strCountHeatSources;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
+	public void setStrCountHeatSources(String strCountHeatSources) {
+		this.strCountHeatSources = strCountHeatSources;
 	}
 
-	public String getAll_num() {
-		return all_num;
+	public String getStrEastArea() {
+		return strEastArea;
 	}
 
-	public void setAll_num(String all_num) {
-		this.all_num = all_num;
+	public void setStrEastArea(String strEastArea) {
+		this.strEastArea = strEastArea;
 	}
 
-	public String getToday_num() {
-		return today_num;
+	public String getStrWestArea() {
+		return strWestArea;
 	}
 
-	public void setToday_num(String today_num) {
-		this.today_num = today_num;
+	public void setStrWestArea(String strWestArea) {
+		this.strWestArea = strWestArea;
 	}
 
-	public String getNet_num() {
-		return net_num;
+	public String getStrHeatLoad() {
+		return strHeatLoad;
 	}
 
-	public void setNet_num(String net_num) {
-		this.net_num = net_num;
+	public void setStrHeatLoad(String strHeatLoad) {
+		this.strHeatLoad = strHeatLoad;
 	}
 
 	public String getImgsrc() {

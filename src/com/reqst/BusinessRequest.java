@@ -15,6 +15,7 @@ import com.model.HotSrcMainItem;
 import com.model.HotSrcTitleInfo;
 import com.model.KnowledgeBaseItem;
 import com.model.ListItem;
+import com.model.MainPageSummary;
 import com.model.UserInfo;
 import com.model.WarnListItem;
 import com.model.WeatherDetailItem;
@@ -289,72 +290,47 @@ public class BusinessRequest {
      * 
      * @return
      */
-	public static ArrayList<HotPosMainItem> getHotPositionMainList(){
-		
-		 ArrayList<HotPosMainItem>  dbhostSrcLst = new ArrayList<HotPosMainItem>();
-	     for(int i=0; i<30; i++)
-	     {
-	    	 HotPosMainItem  item = new HotPosMainItem();
-	     	item.setHotPosId(i+"");
-	     	item.setTitle(i+"ºÅÈÈÁ¦Õ¾");
-	     	item.setWenduLeft("8" +i+".88");
-	     	item.setWenduLeftPa("1.35MPa");
-	     	item.setWenduRight("4" +i+".66");
-	     	item.setWenduRightPa("0.32MPa");
-	     	dbhostSrcLst.add(item);
-	     }
-	
-	     return dbhostSrcLst;
+	public static ArrayList<HotPosMainItem> getHotPositionMainList() throws Exception{ 
+		ServerHttpRequest httpReq = new ServerHttpRequest();
+		String strRequestAddress = (ConstDefine.WEB_SERVICE_URL + ConstDefine.S_GET_STATIONS).replace("{UserName}", "zhaoyaqi");
+		try {
+			String strResp = httpReq.doGet(strRequestAddress);
+			ArrayList<HotPosMainItem>  lstHotSrc = (ArrayList<HotPosMainItem>) JsonHelper.parseCollection(strResp, List.class, HotPosMainItem.class);	
+			return  lstHotSrc;
+		}
+		catch (Exception ex){
+			throw ex;
+		}
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	/**
 	 * get hot source main List
 	 * @return
 	 */
-	public static ArrayList<HotSrcMainItem> getHotSourceMainList(){
-		
-		   ArrayList<HotSrcMainItem>  dbhostSrcLst = new ArrayList<HotSrcMainItem>();
-	        for(int i=0; i<32; i++)
-	        {
-	        	HotSrcMainItem  item = new HotSrcMainItem();
-	        	item.setHotsrcId(i+"");
-	        	item.setTitle(i+"ºÅÈÈÔ´");
-	        	item.setWenduLeft("8" +i+".88");
-	        	item.setWenduLeftPa("1.35MPa");
-	        	item.setWenduRight("4" +i+".66");
-	        	item.setWenduRightPa("0.32MPa");
-	        	dbhostSrcLst.add(item);
-	        }
-		
-		return dbhostSrcLst;
+	public static ArrayList<HotSrcMainItem> getHotSourceMainList() throws Exception{
+		ServerHttpRequest httpReq = new ServerHttpRequest();
+		String strRequestAddress = (ConstDefine.WEB_SERVICE_URL + ConstDefine.S_GET_HEATSOURCES);
+		try {
+			String strResp = httpReq.doGet(strRequestAddress);
+			ArrayList<HotSrcMainItem>  lstHotSrc = (ArrayList<HotSrcMainItem>) JsonHelper.parseCollection(strResp, List.class, HotSrcMainItem.class);	
+			return  lstHotSrc;
+		}
+		catch (Exception ex){
+			throw ex;
+		}
 	}
-	
-	
 	/**
 	 * 
 	 * @return
 	 * @throws Exception
 	 */
 	public static HotSrcTitleInfo getHotSourceAllStatic() throws Exception{
-		
-
 		HotSrcTitleInfo hotStaticInfo = new HotSrcTitleInfo();
-		
 		try {
 			
 			ServerHttpRequest httpReq = new ServerHttpRequest();
-			//String strResp = httpReq.doGet(ConstDefine.S_GET_USERINFO, mapParam);
-			//TODO
-			String strResp = "{'all_num':'30', 'today_num':'100,457','net_num':'73.2'}";  //test
+			String strRequestAddress = ConstDefine.WEB_SERVICE_URL + ConstDefine.S_GET_HEATSOURCESUMMARY;
+			String strResp = httpReq.doGet(strRequestAddress);
 			hotStaticInfo = JsonHelper.parseObject(strResp, HotSrcTitleInfo.class);  
 			
 		} catch (Exception ex) {
@@ -386,12 +362,26 @@ public class BusinessRequest {
         {
 			KnowledgeBaseItem  item = new KnowledgeBaseItem();
         	item.setStrDocId("" +i);
-        	item.setStrDocName("ÎÄµµ" +i);
+        	item.setStrDocName("ï¿½Äµï¿½" +i);
         	item.setStrDocUpTime("2013-01-2" +i);
         	lstDaily.add(item);
         }
 
 	   return  lstDaily;
+	}
+	
+	public static MainPageSummary getMainPageSummary() throws Exception
+	{
+		MainPageSummary mainPageSummary = new MainPageSummary();
+		try {	
+			ServerHttpRequest httpReq = new ServerHttpRequest();
+			String strRequestAddress = ConstDefine.WEB_SERVICE_URL + ConstDefine.S_GET_SUMMARY;
+			String strResp = httpReq.doGet(strRequestAddress);
+			mainPageSummary = JsonHelper.parseObject(strResp, MainPageSummary.class);  
+		} catch (Exception ex) {
+			throw ex;
+		}
+		return mainPageSummary;
 	}
 	
 }

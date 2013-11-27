@@ -1,6 +1,7 @@
 package com.ui;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import android.app.Activity;
@@ -19,6 +20,7 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.SimpleAdapter;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -97,6 +99,14 @@ public class MainPageActivity extends Activity {
 	}
 	
 	
+	private void fillItemThree(RelativeLayout item)
+	{
+		List<HashMap<String, Object>> wenDuList = new ArrayList<HashMap<String, Object>>(); 
+		HashMap<String, Object> hwendu = new HashMap<String, Object> ();
+		hwendu.put("highestLowest", "2/-3");
+		wenDuList.add(hwendu);
+	}
+	
 	
 	/**
 	 * init the pageView
@@ -117,6 +127,8 @@ public class MainPageActivity extends Activity {
 		RelativeLayout item5 = (RelativeLayout) layflater.inflate(R.layout.main_page_item_5, null).findViewById(R.id.main_page_item5);
 		RelativeLayout item6 = (RelativeLayout) layflater.inflate(R.layout.main_page_item_6, null).findViewById(R.id.main_page_item6);
 		RelativeLayout item7 = (RelativeLayout) layflater.inflate(R.layout.main_page_item_7, null).findViewById(R.id.main_page_item7);
+		
+		
 		//TODO
 		
 		List<RelativeLayout> itemList = new ArrayList<RelativeLayout>();
