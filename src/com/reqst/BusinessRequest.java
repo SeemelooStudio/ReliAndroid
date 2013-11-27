@@ -296,7 +296,7 @@ public class BusinessRequest {
 	     {
 	    	 HotPosMainItem  item = new HotPosMainItem();
 	     	item.setHotPosId(i+"");
-	     	item.setTitle(i+"ºÅÈÈÁ¦Õ¾");
+	     	item.setTitle(i+"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ¾");
 	     	item.setWenduLeft("8" +i+".88");
 	     	item.setWenduLeftPa("1.35MPa");
 	     	item.setWenduRight("4" +i+".66");
@@ -320,22 +320,30 @@ public class BusinessRequest {
 	 * get hot source main List
 	 * @return
 	 */
-	public static ArrayList<HotSrcMainItem> getHotSourceMainList(){
+	public static ArrayList<HotSrcMainItem> getHotSourceMainList() throws Exception{
+		ServerHttpRequest httpReq = new ServerHttpRequest();
+		String strRequestAddress = (ConstDefine.WEB_SERVICE_URL + ConstDefine.S_GET_HEATSOURCES);
+		try {
+			String strResp = httpReq.doGet(strRequestAddress);
+			ArrayList<HotSrcMainItem>  lstHotSrc = (ArrayList<HotSrcMainItem>) JsonHelper.parseCollection(strResp, List.class, HotSrcMainItem.class);	
+			return  lstHotSrc;
+		}
+		catch (Exception ex){
+			throw ex;
+			//ArrayList<HotSrcMainItem>  dbhostSrcLst = new ArrayList<HotSrcMainItem>();
+	        //for(int i=0; i<32; i++)
+	        //{
+	        //	HotSrcMainItem  item = new HotSrcMainItem();
+	        //	item.setHotsrcId(i+"");
+	        //	item.setTitle(i+"ï¿½ï¿½ï¿½ï¿½Ô´");
+	        //	item.setWenduLeft("8" +i+".88");
+	        //	item.setWenduLeftPa("1.35MPa");
+	        //	item.setWenduRight("4" +i+".66");
+	        //	item.setWenduRightPa("0.32MPa");
+	        //	dbhostSrcLst.add(item);
+	        //}
+		}
 		
-		   ArrayList<HotSrcMainItem>  dbhostSrcLst = new ArrayList<HotSrcMainItem>();
-	        for(int i=0; i<32; i++)
-	        {
-	        	HotSrcMainItem  item = new HotSrcMainItem();
-	        	item.setHotsrcId(i+"");
-	        	item.setTitle(i+"ºÅÈÈÔ´");
-	        	item.setWenduLeft("8" +i+".88");
-	        	item.setWenduLeftPa("1.35MPa");
-	        	item.setWenduRight("4" +i+".66");
-	        	item.setWenduRightPa("0.32MPa");
-	        	dbhostSrcLst.add(item);
-	        }
-		
-		return dbhostSrcLst;
 	}
 	
 	
@@ -386,7 +394,7 @@ public class BusinessRequest {
         {
 			KnowledgeBaseItem  item = new KnowledgeBaseItem();
         	item.setStrDocId("" +i);
-        	item.setStrDocName("ÎÄµµ" +i);
+        	item.setStrDocName("ï¿½Äµï¿½" +i);
         	item.setStrDocUpTime("2013-01-2" +i);
         	lstDaily.add(item);
         }

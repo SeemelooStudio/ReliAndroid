@@ -26,6 +26,8 @@ public class ConstDefine
 	public static final String S_GET_OFFICIALWEATHER = "/MobileService/Weathers/{weatherTypeId}";
 	public static final String S_GET_WEATHERSTATIONS = "/MobileService/WeatherStations";
 	public static final String S_GET_OFFICIALWEATHERDETAILS = "/MobileService/Weathers?from={fromDate}&to={toDate}";
+	public static final String S_GET_HEATSOURCES = "/MobileService/HeatSources";
+	
 	//show msg info
 	public static final String I_MSG_0001 = "fail";
 	public static final String I_MSG_0002 = "wait";

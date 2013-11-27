@@ -2,64 +2,64 @@ package com.model;
 
 public class HotSrcMainItem {
 
-	private String hotsrcId;
+	private String strHeatSourceId;
 	
-	private String title;
+	private String strHeatSourceName;
 	
-	private String wenduLeft;
+	private String strPressureOut;
 	
-	private String wenduLeftPa;
+	private String strPressureIn;
 	
-	private String wenduRight;
+	private String strTemperatureOut;
 	
-	private String wenduRightPa;
+	private String strTemperatureIn;
 
-	public String getHotsrcId() {
-		return hotsrcId;
+	public String getStrHeatSourceId() {
+		return strHeatSourceId;
 	}
 
-	public void setHotsrcId(String hotsrcId) {
-		this.hotsrcId = hotsrcId;
+	public void setStrHeatSourceId(String strHeatSourceId) {
+		this.strHeatSourceId = strHeatSourceId;
 	}
 
-	public String getTitle() {
-		return title;
+	public String getStrHeatSourceName() {
+		return strHeatSourceName;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
+	public void setStrHeatSourceName(String strHeatSourceName) {
+		this.strHeatSourceName = strHeatSourceName;
 	}
 
-	public String getWenduLeft() {
-		return wenduLeft;
+	public String getStrPressureOut() {
+		return strPressureOut;
 	}
 
-	public void setWenduLeft(String wenduLeft) {
-		this.wenduLeft = wenduLeft;
+	public void setStrPressureOut(String strPressureOut) {
+		this.strPressureOut = strPressureOut;
 	}
 
-	public String getWenduRight() {
-		return wenduRight;
+	public String getStrPressureIn() {
+		return strPressureIn;
 	}
 
-	public void setWenduRight(String wenduRight) {
-		this.wenduRight = wenduRight;
+	public void setStrPressureIn(String strPressureIn) {
+		this.strPressureIn = strPressureIn;
 	}
 
-	public String getWenduLeftPa() {
-		return wenduLeftPa;
+	public String getStrTemperatureOut() {
+		return strTemperatureOut;
 	}
 
-	public void setWenduLeftPa(String wenduLeftPa) {
-		this.wenduLeftPa = wenduLeftPa;
+	public void setStrTemperatureOut(String strTemperatureOut) {
+		this.strTemperatureOut = strTemperatureOut;
 	}
 
-	public String getWenduRightPa() {
-		return wenduRightPa;
+	public String getStrTemperatureIn() {
+		return strTemperatureIn;
 	}
 
-	public void setWenduRightPa(String wenduRightPa) {
-		this.wenduRightPa = wenduRightPa;
+	public void setStrTemperatureIn(String strTemperatureIn) {
+		this.strTemperatureIn = strTemperatureIn;
 	}
 
 }
