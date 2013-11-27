@@ -88,9 +88,6 @@ public class HotSourceMainActivity extends Activity {
 	        public void run() { 
 	                Message msgSend = new Message();
 	        	    try {
-	        	    	
-	        	    	this.sleep(ConstDefine.HTTP_TIME_OUT);
-	        	    	
 	        	    	// get itemList
 	        	    	dbhostSrcLst = BusinessRequest.getHotSourceMainList();
 	        	    	

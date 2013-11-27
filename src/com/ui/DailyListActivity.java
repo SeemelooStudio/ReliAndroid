@@ -109,12 +109,7 @@ public class DailyListActivity extends Activity implements  SearchView.OnQueryTe
    	            public void run() { 
    	                    Message msgSend = new Message();
    	            	    try {
-   	            	    	
-   	            	    	this.sleep(ConstDefine.HTTP_TIME_OUT);
-   	            	    	
-   	            	        //��ȡ��ݲ����䵽listview��
    	            	    	listData = getDailyListData(searchCon);
-   	            	    	
    	            	    	msgSend.what = ConstDefine.MSG_I_HANDLE_OK;
    						} catch (Exception e) {
    							msgSend.what = ConstDefine.MSG_I_HANDLE_Fail;
@@ -122,8 +117,6 @@ public class DailyListActivity extends Activity implements  SearchView.OnQueryTe
    	                    handler.sendMessage(msgSend);
    	            	}
    	        }.start();
-	    	
-	    	
 		 }
 	    /**
 	     * http handler result

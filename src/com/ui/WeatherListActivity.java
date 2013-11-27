@@ -43,7 +43,7 @@ public class WeatherListActivity extends Activity implements  SearchView.OnQuery
         super.onCreate(savedInstanceState);
         setContentView(R.layout.weather_list);
 	        
-        //³õÊ¼»¯±êÌâÀ¸
+        //ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         this.getActionBar().setDisplayShowHomeEnabled(false);  
         this.getActionBar().setDisplayShowTitleEnabled(false);  
         this.getActionBar().setDisplayShowCustomEnabled(true);  
@@ -64,7 +64,7 @@ public class WeatherListActivity extends Activity implements  SearchView.OnQuery
         listView.setOnItemClickListener(new OnItemClickListener(){                                                                                    
         	public void onItemClick(AdapterView<?> parent, View arg1, int position, long id) 
         	{   
-        		//Ìø×ªµ½ÏêÏ¸»­Ãæ
+        		//ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ï¿½ï¿½ï¿½
         		HashMap<String, Object> ListItem = (HashMap<String, Object>) listView.getItemAtPosition(position);
         		Intent intent = new Intent(WeatherListActivity.this, WeatherDetailActivity.class); 
         		Bundle mBundle = new Bundle();
@@ -102,12 +102,8 @@ public class WeatherListActivity extends Activity implements  SearchView.OnQuery
             public void run() { 
                     Message msgSend = new Message();
             	    try {
-            	    	
-            	    	this.sleep(ConstDefine.HTTP_TIME_OUT);
-            	    	
             	        //get mapList
             	    	listData = getWeatherListData(searchCon);
-            	    	
             	    	msgSend.what = ConstDefine.MSG_I_HANDLE_OK;
 					} catch (Exception e) {
 						msgSend.what = ConstDefine.MSG_I_HANDLE_Fail;
@@ -168,7 +164,7 @@ public class WeatherListActivity extends Activity implements  SearchView.OnQuery
 	} 
 	 
     /**
-     * ¸ù¾ÝÃû³Æ²éÑ¯
+     * ï¿½ï¿½ï¿½ï¿½ï¿½Æ²ï¿½Ñ¯
      * @param name
      * @return
      */
@@ -180,7 +176,6 @@ public class WeatherListActivity extends Activity implements  SearchView.OnQuery
         { 	
             int index =((ListItem) dbWeatherlist.get(i)).getStrListName().indexOf(name);  
             
-            // ´æÔÚÆ¥ÅäµÄÊý¾Ý  ÖØÐÂ×é×°List
             if (index != -1) {
             	HashMap<String, Object> item = new HashMap<String, Object>();  
      	        item.put("list_id", dbWeatherlist.get(i).getStrListId()); 
@@ -190,13 +185,12 @@ public class WeatherListActivity extends Activity implements  SearchView.OnQuery
             }  
         }  
      
-        //·µ»Ø½á¹û
         return mSearchList;  
     }  
   
     
     /**
-     * ÖØÖÃListViewÖµ
+     * ï¿½ï¿½ï¿½ï¿½ListViewÖµ
      * @param resultList
      */
     private void updateLayout(List<HashMap<String, Object>> resultList) {  

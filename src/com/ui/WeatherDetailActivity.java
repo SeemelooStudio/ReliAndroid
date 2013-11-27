@@ -146,9 +146,6 @@ public class WeatherDetailActivity extends Activity implements SearchView.OnQuer
             public void run() { 
                 Message msgSend = new Message();
         	    try {
-        	    	
-        	    	this.sleep(ConstDefine.HTTP_TIME_OUT);
-        	    	
         	    	//get today weatherInfo
         	    	tabOneDetail = BusinessRequest.getWenduTabDetailById(strListId,WeatherType.Today.getStrValue());
         		 	tabOneListData = getWenduTabListData(strListId,"1");

@@ -44,10 +44,10 @@ public class ChattingAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ViewHolder holder = null;
 		ChatMessage message = chatMessages.get(position);
-		if (convertView == null || (holder = (ViewHolder) convertView.getTag()).flag != message.getDirection()) {
+		if (convertView == null || (holder = (ViewHolder) convertView.getTag()).flag != message.getIntDirection()) {
 
 			holder = new ViewHolder();
-			if (message.getDirection() == ChatMessage.MESSAGE_FROM) {
+			if (message.getIntDirection() == ChatMessage.MESSAGE_FROM) {
 				holder.flag = ChatMessage.MESSAGE_FROM;
 
 				convertView = LayoutInflater.from(context).inflate(R.layout.msg_up_item_from, null);
@@ -59,14 +59,14 @@ public class ChattingAdapter extends BaseAdapter {
 			holder.text = (TextView) convertView.findViewById(R.id.chatting_content_itv);
 			convertView.setTag(holder);
 		}
-		holder.text.setText(message.getContent());
+		holder.text.setText(message.getStrMessageContent());
 
 		return convertView;
 	}
     
 	
 	
-	//ÓÅ»¯listviewµÄAdapter
+	//ï¿½Å»ï¿½listviewï¿½ï¿½Adapter
 	static class ViewHolder {
 		TextView text;
 		int flag;
