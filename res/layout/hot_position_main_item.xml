@@ -16,6 +16,14 @@
 			    android:layout_marginLeft="15dip"
 			    android:layout_marginTop="15dip"
 			    android:background="@drawable/hot_item_left"/>
+	        <TextView
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:id="@+id/hotPosItemLeftLabel"
+			    android:layout_marginLeft="5dip"
+			    android:layout_marginTop="10dip"
+			    android:text="今日"
+			    android:textSize="10sp"/>
 		   <TextView
 			    android:layout_width="wrap_content"
 			    android:layout_height="wrap_content"
@@ -23,7 +31,7 @@
 			    android:layout_marginLeft="5dip"
 			    android:layout_marginTop="10dip"
 			    android:text="123.544"
-			    android:textSize="15sp"/>
+			    android:textSize="12sp"/>
 		   <TextView
 			    android:layout_width="wrap_content"
 			    android:layout_height="wrap_content"
@@ -44,6 +52,14 @@
 			    android:layout_marginLeft="15dip"
 			    android:layout_marginTop="15dip"
 			    android:background="@drawable/hot_item_right"/>
+		    <TextView
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:id="@+id/hotPosItemRightLabel"
+			    android:layout_marginLeft="5dip"
+			    android:layout_marginTop="10dip"
+			    android:text="昨日"
+			    android:textSize="10sp"/>
 			<TextView 
 			    android:layout_width="wrap_content"
 			    android:layout_height="wrap_content"
@@ -51,11 +67,19 @@
 			    android:layout_marginLeft="5dip"
 			    android:layout_marginTop="10dip"
 			    android:text="89.544"
-			    android:textSize="15sp"/>
+			    android:textSize="12sp"/>
 			<TextView
 			    android:layout_width="wrap_content"
 			    android:layout_height="wrap_content"
 			    android:id="@+id/hotPosItemRightTxtPa"
+			    android:layout_marginLeft="-40dip"
+			    android:layout_marginTop="30dip"
+			    android:text="1.35MPa"
+			    android:textSize="12sp"/>
+			<TextView
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:id="@+id/hotPosItemRightTxtPa2"
 			    android:layout_marginLeft="-40dip"
 			    android:layout_marginTop="30dip"
 			    android:text="1.35MPa"

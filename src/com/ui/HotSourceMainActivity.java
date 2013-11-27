@@ -118,9 +118,9 @@ public class HotSourceMainActivity extends Activity {
         		 	diaLogProgress.dismiss();
         		 	
         		 	//show title
-        		 	txtAllnum.setText("��" + titleInfo.getAll_num() + "��"); 
-        		 	txtAllDay.setText("�����ۼƹ���:" + titleInfo.getToday_num() + "GJ"); 
-        		 	txtAllNet.setText("ȫ��˲ʱ����:" + titleInfo.getNet_num() + "GJ"); 
+        		 	txtAllnum.setText("共" + titleInfo.getStrCountHeatSources()+ "个"); 
+        		 	txtAllDay.setText("东部面积:" + titleInfo.getStrEastArea() + ",西部面积:" +  titleInfo.getStrWestArea() + "平方米"); 
+        		 	txtAllNet.setText("总热负荷:" + titleInfo.getStrHeatLoad() + "GJ"); 
                 
         		 	//show grideview
         		 	setHotSourceGridView();

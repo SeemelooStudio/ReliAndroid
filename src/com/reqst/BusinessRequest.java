@@ -289,32 +289,18 @@ public class BusinessRequest {
      * 
      * @return
      */
-	public static ArrayList<HotPosMainItem> getHotPositionMainList(){
-		
-		 ArrayList<HotPosMainItem>  dbhostSrcLst = new ArrayList<HotPosMainItem>();
-	     for(int i=0; i<30; i++)
-	     {
-	    	 HotPosMainItem  item = new HotPosMainItem();
-	     	item.setHotPosId(i+"");
-	     	item.setTitle(i+"������վ");
-	     	item.setWenduLeft("8" +i+".88");
-	     	item.setWenduLeftPa("1.35MPa");
-	     	item.setWenduRight("4" +i+".66");
-	     	item.setWenduRightPa("0.32MPa");
-	     	dbhostSrcLst.add(item);
-	     }
-	
-	     return dbhostSrcLst;
+	public static ArrayList<HotPosMainItem> getHotPositionMainList() throws Exception{ 
+		ServerHttpRequest httpReq = new ServerHttpRequest();
+		String strRequestAddress = (ConstDefine.WEB_SERVICE_URL + ConstDefine.S_GET_STATIONS).replace("{UserName}", "zhaoyaqi");
+		try {
+			String strResp = httpReq.doGet(strRequestAddress);
+			ArrayList<HotPosMainItem>  lstHotSrc = (ArrayList<HotPosMainItem>) JsonHelper.parseCollection(strResp, List.class, HotPosMainItem.class);	
+			return  lstHotSrc;
+		}
+		catch (Exception ex){
+			throw ex;
+		}
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	/**
 	 * get hot source main List
@@ -330,39 +316,20 @@ public class BusinessRequest {
 		}
 		catch (Exception ex){
 			throw ex;
-			//ArrayList<HotSrcMainItem>  dbhostSrcLst = new ArrayList<HotSrcMainItem>();
-	        //for(int i=0; i<32; i++)
-	        //{
-	        //	HotSrcMainItem  item = new HotSrcMainItem();
-	        //	item.setHotsrcId(i+"");
-	        //	item.setTitle(i+"����Դ");
-	        //	item.setWenduLeft("8" +i+".88");
-	        //	item.setWenduLeftPa("1.35MPa");
-	        //	item.setWenduRight("4" +i+".66");
-	        //	item.setWenduRightPa("0.32MPa");
-	        //	dbhostSrcLst.add(item);
-	        //}
 		}
-		
 	}
-	
-	
 	/**
 	 * 
 	 * @return
 	 * @throws Exception
 	 */
 	public static HotSrcTitleInfo getHotSourceAllStatic() throws Exception{
-		
-
 		HotSrcTitleInfo hotStaticInfo = new HotSrcTitleInfo();
-		
 		try {
 			
 			ServerHttpRequest httpReq = new ServerHttpRequest();
-			//String strResp = httpReq.doGet(ConstDefine.S_GET_USERINFO, mapParam);
-			//TODO
-			String strResp = "{'all_num':'30', 'today_num':'100,457','net_num':'73.2'}";  //test
+			String strRequestAddress = ConstDefine.WEB_SERVICE_URL + ConstDefine.S_GET_HEATSOURCESUMMARY;
+			String strResp = httpReq.doGet(strRequestAddress);
 			hotStaticInfo = JsonHelper.parseObject(strResp, HotSrcTitleInfo.class);  
 			
 		} catch (Exception ex) {

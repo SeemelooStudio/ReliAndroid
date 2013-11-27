@@ -103,9 +103,7 @@ public class HotPositionMainActivity extends Activity {
                 switch (message.what) {
                 case ConstDefine.MSG_I_HANDLE_OK:                                        
         		 	diaLogProgress.dismiss();
-        		 	
-        		 	txtAllnum.setText("¹²" + dbhostPosLst.size() + "¸ö¹Ø¼üÈÈÁ¦Õ¾");
-        		 	 
+        		 	txtAllnum.setText("å…±" + dbhostPosLst.size() + "ä¸ªçƒ­åŠ›ç«™");
                     //set grid view
         		 	setHotPositionGridView();
         		 	
@@ -121,7 +119,7 @@ public class HotPositionMainActivity extends Activity {
 	    
   
      /**
-     * ÈÈÔ´ÐÅÏ¢ÁÐ±íÆ¥Åä
+     * ï¿½ï¿½Ô´ï¿½ï¿½Ï¢ï¿½Ð±ï¿½Æ¥ï¿½ï¿½
      * @return
      */
 	  private void setHotPositionGridView()
@@ -154,18 +152,19 @@ public class HotPositionMainActivity extends Activity {
 				itemIndex = i * 9 + r;
 				HotPosMainItem oneItem =(HotPosMainItem) dbhostPosLst.get(itemIndex); 
 				HashMap<String, Object> hotPosItem = new HashMap<String, Object>();
-				hotPosItem.put("hotPosItemId", oneItem.getHotPosId()); 
-				hotPosItem.put("hotPosItemTitle", oneItem.getTitle()); 
-				hotPosItem.put("hotPosItemLeftText", oneItem.getWenduLeft()); 
-				hotPosItem.put("hotPosItemLeftTxtPa", oneItem.getWenduLeftPa()); 
-				hotPosItem.put("hotPosItemRightText", oneItem.getWenduRight());
-				hotPosItem.put("hotPosItemRightTxtPa", oneItem.getWenduRightPa()); 
+				hotPosItem.put("hotPosItemId", oneItem.getStrStationId()); 
+				hotPosItem.put("hotPosItemTitle", oneItem.getStrStationName()); 
+				hotPosItem.put("hotPosItemLeftText", oneItem.getStrActualGJToday()); 
+				hotPosItem.put("hotPosItemLeftTxtPa", oneItem.getStrPlannedGJToday()); 
+				hotPosItem.put("hotPosItemRightText", oneItem.getStrActualGJYesterday());
+				hotPosItem.put("hotPosItemRightTxtPa", oneItem.getStrPlannedGJYesterday()); 
+				hotPosItem.put("hotPosItemRightTxtPa2", oneItem.getStrCalculatedGJYesterday()); 
 				hotPosItemList.add(hotPosItem);
 			}
 	        
 	        SimpleAdapter saItem = new SimpleAdapter(this,  hotPosItemList, R.layout.hot_position_main_item,//xml                                                              
-	              new String[]{"hotPosItemId","hotPosItemTitle","hotPosItemLeftText","hotPosItemRightText","hotPosItemLeftTxtPa","hotPosItemRightTxtPa"},                                 
-	              new int[]{R.id.hotPosItemId,R.id.hotPosItemTitle,R.id.hotPosItemLeftText,R.id.hotPosItemRightText,R.id.hotPosItemLeftTxtPa,R.id.hotPosItemRightTxtPa});
+	              new String[]{"hotPosItemId","hotPosItemTitle","hotPosItemLeftText","hotPosItemRightText","hotPosItemLeftTxtPa","hotPosItemRightTxtPa", "hotPosItemRightTxtPa2"},                                 
+	              new int[]{R.id.hotPosItemId,R.id.hotPosItemTitle,R.id.hotPosItemLeftText,R.id.hotPosItemRightText,R.id.hotPosItemLeftTxtPa,R.id.hotPosItemRightTxtPa, R.id.hotPosItemRightTxtPa2});
 			gridview.setAdapter(saItem); 
 			                                                                    
 			gridview.setOnItemClickListener(

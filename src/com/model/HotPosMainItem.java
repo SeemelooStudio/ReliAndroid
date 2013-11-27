@@ -2,64 +2,73 @@ package com.model;
 
 public class HotPosMainItem {
 
-	private String hotPosId;
+	private String strStationId;
 	
-	private String title;
+	private String strStationName;
 	
-	private String wenduLeft;
+	private String strPlannedGJToday;
 	
-	private String wenduLeftPa;
+	private String strPlannedGJYesterday;
 	
-	private String wenduRight;
+	private String strActualGJToday;
 	
-	private String wenduRightPa;
-
-	public String getHotPosId() {
-		return hotPosId;
+	private String strActualGJYesterday;
+	
+	private String strCalculatedGJYesterday;
+	
+	public String getStrStationId() {
+		return strStationId;
 	}
 
-	public void setHotPosId(String hotPosId) {
-		this.hotPosId = hotPosId;
+	public void setStrStationId(String strStationId) {
+		this.strStationId = strStationId;
 	}
 
-	public String getTitle() {
-		return title;
+	public String getStrStationName() {
+		return strStationName;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
+	public void setStrStationName(String strStationName) {
+		this.strStationName = strStationName;
 	}
 
-	public String getWenduLeft() {
-		return wenduLeft;
+	public String getStrPlannedGJToday() {
+		return strPlannedGJToday;
 	}
 
-	public void setWenduLeft(String wenduLeft) {
-		this.wenduLeft = wenduLeft;
+	public void setStrPlannedGJToday(String strPlannedGJToday) {
+		this.strPlannedGJToday = strPlannedGJToday;
 	}
 
-	public String getWenduLeftPa() {
-		return wenduLeftPa;
+	public String getStrActualGJToday() {
+		return strActualGJToday;
 	}
 
-	public void setWenduLeftPa(String wenduLeftPa) {
-		this.wenduLeftPa = wenduLeftPa;
+	public void setStrActualGJToday(String strActualGJToday) {
+		this.strActualGJToday = strActualGJToday;
 	}
 
-	public String getWenduRight() {
-		return wenduRight;
+	public String getStrPlannedGJYesterday() {
+		return strPlannedGJYesterday;
 	}
 
-	public void setWenduRight(String wenduRight) {
-		this.wenduRight = wenduRight;
+	public void setStrPlannedGJYesterday(String strPlannedGJYesterday) {
+		this.strPlannedGJYesterday = strPlannedGJYesterday;
 	}
 
-	public String getWenduRightPa() {
-		return wenduRightPa;
+	public String getStrCalculatedGJYesterday() {
+		return strCalculatedGJYesterday;
 	}
 
-	public void setWenduRightPa(String wenduRightPa) {
-		this.wenduRightPa = wenduRightPa;
+	public void setStrCalculatedGJYesterday(String strCalculatedGJYesterday) {
+		this.strCalculatedGJYesterday = strCalculatedGJYesterday;
 	}
 
+	public String getStrActualGJYesterday() {
+		return strActualGJYesterday;
+	}
+
+	public void setStrActualGJYesterday(String strActualGJYesterday) {
+		this.strActualGJYesterday = strActualGJYesterday;
+	}
 }
