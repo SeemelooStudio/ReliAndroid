@@ -106,7 +106,6 @@ public class HotPositionMainActivity extends Activity {
         		 	txtAllnum.setText("共" + dbhostPosLst.size() + "个热力站");
                     //set grid view
         		 	setHotPositionGridView();
-        		 	
         		    break;
                 case ConstDefine.MSG_I_HANDLE_Fail:                                        
                 	//close process
@@ -116,8 +115,6 @@ public class HotPositionMainActivity extends Activity {
 	            }
 	        }
 	  };
-	    
-  
      /**
      * ��Դ��Ϣ�б�ƥ��
      * @return

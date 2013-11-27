@@ -15,6 +15,7 @@ import com.model.HotSrcMainItem;
 import com.model.HotSrcTitleInfo;
 import com.model.KnowledgeBaseItem;
 import com.model.ListItem;
+import com.model.MainPageSummary;
 import com.model.UserInfo;
 import com.model.WarnListItem;
 import com.model.WeatherDetailItem;
@@ -367,6 +368,20 @@ public class BusinessRequest {
         }
 
 	   return  lstDaily;
+	}
+	
+	public static MainPageSummary getMainPageSummary() throws Exception
+	{
+		MainPageSummary mainPageSummary = new MainPageSummary();
+		try {	
+			ServerHttpRequest httpReq = new ServerHttpRequest();
+			String strRequestAddress = ConstDefine.WEB_SERVICE_URL + ConstDefine.S_GET_SUMMARY;
+			String strResp = httpReq.doGet(strRequestAddress);
+			mainPageSummary = JsonHelper.parseObject(strResp, MainPageSummary.class);  
+		} catch (Exception ex) {
+			throw ex;
+		}
+		return mainPageSummary;
 	}
 	
 }
