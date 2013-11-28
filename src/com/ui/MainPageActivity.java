@@ -110,15 +110,6 @@ public class MainPageActivity extends Activity {
 	}
 	
 	
-	private void fillItemThree(RelativeLayout item)
-	{
-		List<HashMap<String, Object>> wenDuList = new ArrayList<HashMap<String, Object>>(); 
-		HashMap<String, Object> hwendu = new HashMap<String, Object> ();
-		hwendu.put("highestLowest", "2/-3");
-		wenDuList.add(hwendu);
-	}
-	
-	
 	/**
 	 * init the pageView
 	 */

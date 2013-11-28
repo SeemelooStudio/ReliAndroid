@@ -13,7 +13,7 @@ public class ConstDefine
 	public static final int HTTP_BUFF_SIZE = 8192;
 	public static final String HTTP_ENCODE = "UTF-8";
 	
-	public static final String WEB_SERVICE_URL = "http://192.168.1.109:11223";
+	public static final String WEB_SERVICE_URL = "http://192.168.1.104:11223";
 	//http url
 	public static final String S_GET_USERINFO = "/MobileService/Users/{UserName}";
 	public static final String S_GET_DAILYREPORTS = "/MobileService/DailyReports";
@@ -27,6 +27,7 @@ public class ConstDefine
 	public static final String S_GET_STATIONS = "/MobileService/{UserName}/Stations";
 	public static final String S_GET_SUMMARY = "/MobileService/Summary";
 	public static final String S_GET_MESSAGES = "/MobileService/{UserName}/Messages";
+	public static final String S_DAILY_REPORT_ROOT = "/DailyReports/";
 	//show msg info
 	public static final String I_MSG_0001 = "fail";
 	public static final String I_MSG_0002 = "wait";
