@@ -40,8 +40,7 @@
             android:name="android.support.PARENT_ACTIVITY"
             android:value="com.ui.DailyListActivity" />
 	</activity>
-	<activity android:name="WarnListActivity" android:label="@string/warning"
->
+	<activity android:name="WarnListActivity" android:label="@string/warning">
 	     <meta-data
             android:name="android.support.PARENT_ACTIVITY"
             android:value="com.ui.MainPageActivity" />
@@ -55,7 +54,9 @@
 	<activity android:name="HotPositionMainActivity"></activity>
 	<activity android:name="HotPositionDetailActivity"></activity>
 	<activity android:name="HotPositionQueryActivity"></activity>
-	<activity android:name="MsgUpMainActivity"></activity>
+	<activity android:name="MsgUpMainActivity"
+	    android:windowSoftInputMode="stateVisible|adjustResize">
+	</activity>
 	<activity android:name="KnowledgeBaseDetailActivity"></activity>
 	<activity android:name="KnowledgeBaseListActivity"></activity>
     </application>

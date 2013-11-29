@@ -1,19 +1,25 @@
 package com.ui;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +30,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.SearchView;
+import android.widget.SearchView.OnQueryTextListener;
 
 import com.model.ChatMessage;
 import com.reqst.BusinessRequest;
@@ -38,38 +46,51 @@ public class MsgUpMainActivity extends Activity {
 	private ListView chatHistoryLv;
 	private Button sendBtn;
 	private EditText textEditor;
-	private ImageView sendImageIv;
-	private ImageView captureImageIv;
-	private PopupWindow menuWindow = null;
+	//private ImageView sendImageIv;
+	//private ImageView captureImageIv;
+	//private PopupWindow menuWindow = null;
 	private ProgressDialog diaLogProgress = null;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.msg_up_main);
-		this.getActionBar().setDisplayShowHomeEnabled(false);  
-        this.getActionBar().setDisplayShowTitleEnabled(false);  
-        this.getActionBar().setDisplayShowCustomEnabled(true);  
-		LayoutInflater mInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);  
-	    View mTitleView = mInflater.inflate(R.layout.msg_up_title_bar, null);  
-	    getActionBar().setCustomView(mTitleView,new ActionBar.LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT));  
-
 		chatHistoryLv = (ListView) findViewById(R.id.chatting_history_lv);
 		setAdapterForThis();
 		sendBtn = (Button) findViewById(R.id.send_button);
 		textEditor = (EditText) findViewById(R.id.text_editor);
-		sendImageIv = (ImageView) findViewById(R.id.send_image);
-		captureImageIv = (ImageView) findViewById(R.id.capture_image);
 		sendBtn.setOnClickListener(l);
-		sendImageIv.setOnClickListener(l);
-		captureImageIv.setOnClickListener(l);
-		
+		this.getActionBar().setDisplayShowHomeEnabled(true);  
 	}
 
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu items for use in the action bar
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.messager_activity_actions, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+	
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		    // Respond to the action bar's Up/Home button
+			case R.id.action_camera:
+				Intent i = new Intent();
+				i.setType("image/*");
+				i.setAction(Intent.ACTION_GET_CONTENT);
+				startActivityForResult(i, Activity.DEFAULT_KEYS_SHORTCUT);
+			    return true;
+			case R.id.action_photos:
+				Intent it = new Intent("android.media.action.IMAGE_CAPTURE");
+				startActivityForResult(it, Activity.DEFAULT_KEYS_DIALER);
+				return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+	
 	// set adapter
 	private void setAdapterForThis() {
 		initMessages();
-		
 	}
 
 	// add listView data
@@ -107,41 +128,27 @@ public class MsgUpMainActivity extends Activity {
 	            }
 	        }
 	  };
-	/**
-	 * ����ʱ�����
-	 */
-	private View.OnClickListener l = new View.OnClickListener() {
-
-		@Override
-		public void onClick(View v) {
-
-			if (v.getId() == sendBtn.getId()) {
-				String str = textEditor.getText().toString();
-				String sendStr;
-				if (str != null
-						&& (sendStr = str.trim().replaceAll("\r", "").replaceAll("\t", "").replaceAll("\n", "")
-								.replaceAll("\f", "")) != "") {
-					sendMessage(sendStr);
-
-				}
-				textEditor.setText("");
-
-			} else if (v.getId() == sendImageIv.getId()) {
-				Intent i = new Intent();
-				i.setType("image/*");
-				i.setAction(Intent.ACTION_GET_CONTENT);
-				startActivityForResult(i, Activity.DEFAULT_KEYS_SHORTCUT);
-			} else if (v.getId() == captureImageIv.getId()) {
-				Intent it = new Intent("android.media.action.IMAGE_CAPTURE");
-				startActivityForResult(it, Activity.DEFAULT_KEYS_DIALER);
+	
+	  private View.OnClickListener l = new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (v.getId() == sendBtn.getId()) {
+					String str = textEditor.getText().toString();
+					String sendStr;
+					if (str != null
+							&& (sendStr = str.trim().replaceAll("\r", "").replaceAll("\t", "").replaceAll("\n", "")
+									.replaceAll("\f", "")) != "") {
+						sendMessage(sendStr);
+			
+					}
+					textEditor.setText("");
+				} 
 			}
-		}
-
-		private void sendMessage(String sendStr) {
-			messages.add(new ChatMessage(ChatMessage.MESSAGE_TO, sendStr));
-			chatHistoryAdapter.notifyDataSetChanged();
-		}
-
-	};
+			
+			private void sendMessage(String sendStr) {
+				messages.add(new ChatMessage(ChatMessage.MESSAGE_TO, sendStr));
+				chatHistoryAdapter.notifyDataSetChanged();
+			}
+	  };
 
 }

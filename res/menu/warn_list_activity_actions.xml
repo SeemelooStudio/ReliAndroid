@@ -11,5 +11,4 @@
           android:icon="@drawable/ic_action_refresh_white"
           android:showAsAction="always"
           />
-    
 </menu>

@@ -27,48 +27,37 @@ public class DailyDetailActivity extends Activity {
 	 
 	 @Override
 	 public void onCreate(Bundle savedInstanceState) {
-	        super.onCreate(savedInstanceState);
-	        requestWindowFeature(Window.FEATURE_NO_TITLE); 
-	        setContentView(R.layout.daily_detail);
-	        
-	        Intent inten = this.getIntent();
-	        Bundle mBundle = inten.getExtras();
-		    if (mBundle != null ) 
-		    {
-		    	ListId = mBundle.getString("list_id");
-		        labSubTitle  = (TextView) findViewById(R.id.labsubTitle);  
-		        labSubTitle.setText(mBundle.getString("list_name"));
-		    }
-		    
-		    listData = this.getDataByListId(ListId);
-		    listDelView = (ListView) findViewById(R.id.daily_dellist);  
-		    listDelView.setAdapter(new SimpleAdapter(getApplicationContext(),listData, R.layout.daily_detail_item,  
-					  new String[] { "fct_name", "is_join", "all_num", "on_num"  }, 
-					  new int[] {R.id.fct_name, R.id.is_join, R.id.all_num,R.id.on_num}));
-	        //添加事件
-		    listDelView.setTextFilterEnabled(true); 
+		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE); 
+		setContentView(R.layout.daily_detail);
+		Intent inten = this.getIntent();
+		Bundle mBundle = inten.getExtras();
+		if (mBundle != null ) 
+		{
+			ListId = mBundle.getString("list_id");
+		    labSubTitle  = (TextView) findViewById(R.id.labsubTitle);  
+		    labSubTitle.setText(mBundle.getString("list_name"));
+		}
+		
+		listData = this.getDataByListId(ListId);
+		listDelView = (ListView) findViewById(R.id.daily_dellist);  
+		listDelView.setAdapter(new SimpleAdapter(getApplicationContext(),listData, R.layout.daily_detail_item,  
+				  new String[] { "fct_name", "is_join", "all_num", "on_num"  }, 
+				  new int[] {R.id.fct_name, R.id.is_join, R.id.all_num,R.id.on_num}));
+		
+		listDelView.setTextFilterEnabled(true); 
 	 }
 	 
-
-	 
-	  
-	    /*
-	     * 加载数据
-	     */
 	 private List<HashMap<String, Object>> getDataByListId(String strListId) {  
-	       
-	        //原始数据
 	        dbDatalist = new ArrayList<DailyDetailItem>();
 	        for(int i=0; i<20; i++)
 	        {
 	        	DailyDetailItem  delLst = new DailyDetailItem();
 	        	if(i == 0){
-	        		
-	        		//添加表头
-	        		delLst.setFct_name("热力厂");
-		        	delLst.setIs_join("热电联产");
-		        	delLst.setAll_num("热水炉台数");
-		        	delLst.setOn_num("运行台数");
+	        		delLst.setFct_name("锟斤拷锟斤拷锟斤拷");
+		        	delLst.setIs_join("锟饺碉拷锟斤拷锟斤拷");
+		        	delLst.setAll_num("锟斤拷水炉台锟斤拷");
+		        	delLst.setOn_num("锟斤拷锟斤拷台锟斤拷");
 	        	}
 	        	else
 	        	{
@@ -77,11 +66,9 @@ public class DailyDetailActivity extends Activity {
 		        	delLst.setAll_num("" +i+1);
 		        	delLst.setOn_num("" +i+1);
 	        	}
-	        	
 	        	dbDatalist.add(delLst);
 	        }
 	        
-	        //拼装数据
 	        List<HashMap<String, Object>> data = new ArrayList<HashMap<String, Object>>(); 
 	        for (DailyDetailItem oneRec: dbDatalist) 
 	        {   
@@ -93,7 +80,6 @@ public class DailyDetailActivity extends Activity {
 		        data.add(item);  
 	        }
 	        
-	        //返回结果
 	        return data;
 	    }
 	 

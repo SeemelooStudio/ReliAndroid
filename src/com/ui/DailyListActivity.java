@@ -135,11 +135,6 @@ public class DailyListActivity extends Activity implements  SearchView.OnQueryTe
 		        }
 		  };
 		  
-	    /**
-	     * �����Ʋ�ѯ
-	     * @param name
-	     * @return
-	     */
 	    private List<HashMap<String, Object>> searchItem(String name) 
 	    {  
 	    	List<HashMap<String, Object>> mSearchList = new ArrayList<HashMap<String, Object>>(); 
@@ -148,7 +143,6 @@ public class DailyListActivity extends Activity implements  SearchView.OnQueryTe
 	        { 	
 	            int index =((ListItem) dbDatalist.get(i)).getStrListName().indexOf(name);  
 	            
-	            // ����ƥ������  ������װList
 	            if (index != -1) {
 	            	HashMap<String, Object> item = new HashMap<String, Object>();  
 	     	        item.put("list_id", dbDatalist.get(i).getStrListId()); 

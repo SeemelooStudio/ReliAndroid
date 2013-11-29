@@ -48,6 +48,9 @@
    <string name="lowest_tempreture">最低温度</string>
    <string name="average_tempreture">平均温度</string>
    <string name="update_time">更新时间</string>
+   <string name="send_message_hint">输入消息</string>
+   <string name="take_photo">拍照</string>
+   <string name="upload_photo">上传照片</string>
 
 
 

@@ -54,27 +54,24 @@ public class WarnListActivity extends Activity implements android.view.View.OnCl
         searchCon = new WarnListItem();
         this.getWarnListbyCondition();
         
-
         listView.setTextFilterEnabled(true); 
-        listView.setOnItemClickListener(new OnItemClickListener(){                                                                                    
-        	public void onItemClick(AdapterView<?> parent, View arg1, int position, long id) 
-        	{   
-
-        		HashMap<String, Object> ListItem = (HashMap<String, Object>) listView.getItemAtPosition(position);
-        		Intent intent = new Intent(WarnListActivity.this, WarnDetailActivity.class); 
-        		Bundle mBundle = new Bundle();
-        		mBundle.putString("warn_id", ListItem.get("warn_id").toString());
-        		mBundle.putString("warn_title", ListItem.get("warn_title").toString());
-        		mBundle.putString("warn_date", ListItem.get("warn_date").toString());
-        		mBundle.putString("warn_content", ListItem.get("warn_content").toString());
-        		intent.putExtras(mBundle);
-        		startActivity(intent);
-        	}
-        });
+        listView.setOnItemClickListener(
+    		new OnItemClickListener(){                                                                                    
+	        	public void onItemClick(AdapterView<?> parent, View arg1, int position, long id) 
+	        	{   
+	        		HashMap<String, Object> ListItem = (HashMap<String, Object>) listView.getItemAtPosition(position);
+	        		Intent intent = new Intent(WarnListActivity.this, WarnDetailActivity.class); 
+	        		Bundle mBundle = new Bundle();
+	        		mBundle.putString("warn_id", ListItem.get("warn_id").toString());
+	        		mBundle.putString("warn_title", ListItem.get("warn_title").toString());
+	        		mBundle.putString("warn_date", ListItem.get("warn_date").toString());
+	        		mBundle.putString("warn_content", ListItem.get("warn_content").toString());
+	        		intent.putExtras(mBundle);
+	        		startActivity(intent);
+	        	}
+    		});
         getActionBar().setDisplayHomeAsUpEnabled(true);
 	 }
-	 
-	 
 	 
 	 @Override
 	 public boolean onCreateOptionsMenu(Menu menu) {
@@ -104,7 +101,6 @@ public class WarnListActivity extends Activity implements android.view.View.OnCl
 				 
 				return false;
 			}
-			
 			
 		});  
 		
