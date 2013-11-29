@@ -4,18 +4,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.achartengine.GraphicalView;
 import org.json.JSONException;
 
+import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.ActionBar.TabListener;
-import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -23,20 +21,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup.LayoutParams;
-import android.view.Window;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.SearchView;
-import android.widget.SimpleAdapter;
-import android.widget.TabHost;
-import android.widget.TabWidget;
-import android.widget.TextView;
 
-import com.chart.impl.WeatherPreChart;
 import com.model.WeatherDetailItem;
 import com.model.WeatherDetailTempInfo;
 import com.model.WeatherPreChartItem;
@@ -125,7 +110,6 @@ public class WeatherDetailActivity extends FragmentActivity implements TabListen
         }   	
     }
 
-
     
     @Override  
     public void onTabReselected(Tab tab, FragmentTransaction ft) {  
@@ -135,7 +119,6 @@ public class WeatherDetailActivity extends FragmentActivity implements TabListen
     @Override  
     public void onTabSelected(Tab tab, FragmentTransaction ft) {   
         _viewPager.setCurrentItem(tab.getPosition()); 
-		
     }  
   
     @Override  
@@ -170,7 +153,8 @@ public class WeatherDetailActivity extends FragmentActivity implements TabListen
 	 }
 	 
 
-	 private Handler oneTabhandler = new Handler() {               
+	 @SuppressLint("HandlerLeak")
+	private Handler oneTabhandler = new Handler() {               
         public void handleMessage(Message message) {
                 switch (message.what) {
                 case ConstDefine.MSG_I_HANDLE_OK:                                        

@@ -44,11 +44,12 @@
    <string name="history">历史</string>
    <string name="forcast">预报</string>
    <string name="actrual">实际</string>
-   <string name="highest_tempreture">最高温度</string>
-   <string name="lowest_tempreture">最低温度</string>
-   <string name="average_tempreture">平均温度</string>
+   <string name="highest_tempreture">最高</string>
+   <string name="lowest_tempreture">最低</string>
+   <string name="average_tempreture">平均</string>
+   <string name="wind">风力</string>
    <string name="update_time">更新时间</string>
-
+   <string name="degree_unit">°</string>
 
 
 
