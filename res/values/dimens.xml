@@ -8,7 +8,11 @@
     <dimen name="small_padding">6dip</dimen>
     <dimen name="button_height">40dp</dimen>
     <dimen name="small_font_size">10sp</dimen>
-    <dimen name="large_font_size">16sp</dimen>
+    <dimen name="medium_font_size">16sp</dimen>
+    <dimen name="large_font_size">24sp</dimen>
+    <dimen name="xlarge_font_size">32sp</dimen>
+    <dimen name="xxlarge_font_size">54sp</dimen>
     <dimen name="number_label_width">20dp</dimen>
+    <dimen name="list_title_font_size">16sp</dimen>
     <dimen name="round_rect_radius">5dp</dimen>
 </resources>
