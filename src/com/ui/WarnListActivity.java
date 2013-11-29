@@ -41,19 +41,18 @@ public class WarnListActivity extends Activity implements android.view.View.OnCl
 	 @Override
      public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE); 
         setContentView(R.layout.warn_list);
         listView = (ListView) findViewById(R.id.list); 
         
         searchCon = new WarnListItem();
         this.getWarnListbyCondition();
         
-        //Ìí¼ÓÊÂ¼þ
+        //ï¿½ï¿½ï¿½ï¿½Â¼ï¿½
         listView.setTextFilterEnabled(true); 
         listView.setOnItemClickListener(new OnItemClickListener(){                                                                                    
         	public void onItemClick(AdapterView<?> parent, View arg1, int position, long id) 
         	{   
-        		//Ìø×ªµ½ÏêÏ¸»­Ãæ
+        		//ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ï¿½ï¿½ï¿½
         		HashMap<String, Object> ListItem = (HashMap<String, Object>) listView.getItemAtPosition(position);
         		Intent intent = new Intent(WarnListActivity.this, WarnDetailActivity.class); 
         		Bundle mBundle = new Bundle();
@@ -152,7 +151,7 @@ public class WarnListActivity extends Activity implements android.view.View.OnCl
     } 
 	    
     /*
-     * °´Å¥´¦ÀíÊÂ¼þ
+     * ï¿½ï¿½Å¥ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½
      * @see android.view.View.OnClickListener#onClick(android.view.View)
      */
     public void onClick(View v)
@@ -164,11 +163,11 @@ public class WarnListActivity extends Activity implements android.view.View.OnCl
    		}
    		else if(R.id.btnWarnShow == v.getId())
    		{
-   			BaseHelper.showDialog(this, "ÏûÏ¢", "·Å´ó");
+   			BaseHelper.showDialog(this, "ï¿½ï¿½Ï¢", "ï¿½Å´ï¿½");
    		}
    		else if(R.id.btnWarnEdit == v.getId())
    		{
-   			BaseHelper.showDialog(this, "ÏûÏ¢", "±à¼­");
+   			BaseHelper.showDialog(this, "ï¿½ï¿½Ï¢", "ï¿½à¼­");
    		}
    	}
 }

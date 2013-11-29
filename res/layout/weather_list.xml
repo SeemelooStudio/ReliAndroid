@@ -4,7 +4,14 @@
     android:layout_width="match_parent"  
     android:layout_height="match_parent" 
     android:orientation="vertical" >
-
+    <SearchView 
+        android:id="@+id/weather_search_view" 
+        android:layout_width="fill_parent"  
+        android:layout_height="wrap_content"  
+        android:iconifiedByDefault="false"  
+        android:inputType="textFilter"  
+        android:queryHint="请输入查询条件" >  
+    </SearchView> 
 	<ListView  
 		        android:id="@+id/list" 
 		        android:layout_width="fill_parent"  
