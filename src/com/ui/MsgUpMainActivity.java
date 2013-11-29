@@ -40,7 +40,6 @@ public class MsgUpMainActivity extends Activity {
 	private EditText textEditor;
 	private ImageView sendImageIv;
 	private ImageView captureImageIv;
-	private View recording;
 	private PopupWindow menuWindow = null;
 	private ProgressDialog diaLogProgress = null;
 	
@@ -64,40 +63,7 @@ public class MsgUpMainActivity extends Activity {
 		sendBtn.setOnClickListener(l);
 		sendImageIv.setOnClickListener(l);
 		captureImageIv.setOnClickListener(l);
-		recording = findViewById(R.id.recording);
-		recording.setOnTouchListener(new View.OnTouchListener() {
-
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				int action = event.getAction();
-
-				switch (action) {
-				case MotionEvent.ACTION_UP:
-					v.setBackgroundResource(R.drawable.hold_to_talk_normal);
-					if (menuWindow != null)
-						menuWindow.dismiss();
-					Log.d(TAG, "---onTouchEvent action:ACTION_UP");
-					break;
-				case MotionEvent.ACTION_DOWN:
-					v.setBackgroundResource(R.drawable.hold_to_talk_pressed);
-					ViewGroup root = (ViewGroup) findViewById(R.id.chat_root);
-					View view = LayoutInflater.from(MsgUpMainActivity.this).inflate(R.layout.msg_up_audio_recorder_ring, null);
-					menuWindow = new PopupWindow(view, 180, 180);
-					// @+id/recorder_ring
-					view.findViewById(R.id.recorder_ring).setVisibility(View.VISIBLE);
-					view.setBackgroundResource(R.drawable.pls_talk);
-					menuWindow.showAtLocation(root, Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0);
-					Log.d(TAG, "---onTouchEvent action:ACTION_DOWN");
-					// AudioRecorder recorder=new AudioRecorder();
-
-					break;
-
-				}
-
-				return true;
-			}
-		});
-
+		
 	}
 
 	// set adapter
