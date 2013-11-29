@@ -60,7 +60,7 @@ public class DailyListActivity extends Activity implements  SearchView.OnQueryTe
   	        	public void onItemClick(AdapterView<?> parent, View arg1, int position, long id) 
   	        	{   
   	        		HashMap<String, Object> ListItem = (HashMap<String, Object>) listView.getItemAtPosition(position);
-  	        		String pdfUrl = "http://58.31.100.2:11223" + ConstDefine.S_DAILY_REPORT_ROOT + ListItem.get("list_name").toString();
+  	        		String pdfUrl = ConstDefine.WEB_SERVICE_URL + ConstDefine.S_DAILY_REPORT_ROOT + ListItem.get("list_name").toString();
   	        		new DownloadPDFTask(mActivity).execute(pdfUrl);
   	        	}
     	    });

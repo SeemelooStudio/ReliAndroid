@@ -68,7 +68,6 @@ public class LoginActivity extends Activity implements android.view.View.OnClick
    	            	    	userInfo.setStrUserName(txtUserId.getText().toString());
    	            	    	userInfo.setStrUserPwd(txtPwd.getText().toString());
    	            	    	strMenu = BusinessRequest.getMainMenuByLoginUser(userInfo);
-   	            	    	this.sleep(ConstDefine.HTTP_TIME_OUT);
    	            	    	msgSend.what = ConstDefine.MSG_I_HANDLE_OK;
    						} catch (Exception e) {
    							msgSend.what = ConstDefine.MSG_I_HANDLE_Fail;

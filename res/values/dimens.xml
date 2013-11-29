@@ -7,6 +7,7 @@
     <dimen name="xxlarge_margin">40dp</dimen>
     <dimen name="button_height">40dp</dimen>
     <dimen name="small_font_size">10sp</dimen>
+    <dimen name="large_font_size">16sp</dimen>
     <dimen name="number_label_width">20dp</dimen>
     <dimen name="round_rect_radius">5dp</dimen>
 </resources>
