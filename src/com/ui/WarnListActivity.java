@@ -54,10 +54,12 @@ public class WarnListActivity extends Activity implements android.view.View.OnCl
         searchCon = new WarnListItem();
         this.getWarnListbyCondition();
         
+
         listView.setTextFilterEnabled(true); 
         listView.setOnItemClickListener(new OnItemClickListener(){                                                                                    
         	public void onItemClick(AdapterView<?> parent, View arg1, int position, long id) 
         	{   
+
         		HashMap<String, Object> ListItem = (HashMap<String, Object>) listView.getItemAtPosition(position);
         		Intent intent = new Intent(WarnListActivity.this, WarnDetailActivity.class); 
         		Bundle mBundle = new Bundle();
@@ -230,4 +232,5 @@ public class WarnListActivity extends Activity implements android.view.View.OnCl
 		
 	} 
 	    
+
 }

@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--App Info -->
    <string name="app_name">北京热力信息移动发布平台</string>
+   <!-- Splash -->
    <string name="company_slogan">送京城温暖，还首都蓝天</string>
+   <!-- Main Menu -->
    <string name="main_item_one_name">热力日报</string>
    <string name="main_item_two_name">预警信息</string>
    <string name="main_item_three_name">天气预报</string>
@@ -9,12 +12,6 @@
    <string name="main_item_five_name">热源信息</string>
    <string name="main_item_six_name">热力站信息</string>
    <string name="main_item_serven_name">知识库</string>
-   <string name="username">用户名</string>
-   <string name="username_hint">请输入用户名</string>
-   <string name="password">密码</string>
-   <string name="password_hint">请输入密码</string>
-   <string name="login">登录</string>
-   <string name="forget_password">找回密码</string>
    <string name="heat_daily">热力日报</string>
    <string name="warning">预警信息</string>
    <string name="weather">天气预报</string>
@@ -22,9 +19,37 @@
    <string name="heat_source">热源信息</string>
    <string name="station">热力站信息</string>
    <string name="knowledge_base">知识库</string>
+   <!-- Login -->
+   <string name="username">用户名</string>
+   <string name="username_hint">请输入用户名</string>
+   <string name="password">密码</string>
+   <string name="password_hint">请输入密码</string>
+   <string name="login">登录</string>
+   <string name="refresh">刷新</string>
+   <string name="forget_password">找回密码</string>
+   
+   <!-- Notification -->
    <string name="search_hint">查询条件</string>
    <string name="log_in_message">正在连网验证，请稍候……</string>
    <string name="connect_fail_message">连接失败，请确认网络链接正常</string>
    <string name="under_construction_message">该功能尚未开放，请更新版本后再试</string>
    <string name="refresh">刷新</string>
+   <string name="loading">加载中</string>
+   
+   <!-- Weather -->
+   <string name="weather">天气</string>
+   <string name="today">今天</string>
+   <string name="yesterday">昨天</string>
+   <string name="week">温度曲线</string>
+   <string name="history">历史</string>
+   <string name="forcast">预报</string>
+   <string name="actrual">实际</string>
+   <string name="highest_tempreture">最高温度</string>
+   <string name="lowest_tempreture">最低温度</string>
+   <string name="average_tempreture">平均温度</string>
+   <string name="update_time">更新时间</string>
+
+
+
+
 </resources>

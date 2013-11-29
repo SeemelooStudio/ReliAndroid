@@ -7,13 +7,24 @@ import java.util.List;
 import org.achartengine.GraphicalView;
 import org.json.JSONException;
 
+import android.app.ActionBar;
+import android.app.ActionBar.Tab;
+import android.app.ActionBar.TabListener;
 import android.app.Activity;
+import android.support.v4.app.Fragment;
+import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.util.Log;
+import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.widget.ImageView;
@@ -35,43 +46,28 @@ import com.util.BaseHelper;
 import com.util.ConstDefine;
 
 
-public class WeatherDetailActivity extends Activity implements SearchView.OnQueryTextListener {
+public class WeatherDetailActivity extends FragmentActivity implements TabListener {
 
-
-	private TabHost myTabhost;
-	private TextView txtTilte;
-	private TextView txtOneTab1;
-	private TextView txtOneTab2;
-	private TextView txtOneTab3;
-	private TextView txtTwoTab1;
-	private TextView txtTwoTab2;
-	private TextView txtTwoTab3;
-	
-    private ListView oneTabListView;
-    private ListView twoTabListView;
-    private ListView fourTabListView; 
-    
-    private SearchView searchView;  
-    
-  
-    private ArrayList<WeatherDetailItem>  oneTabDbDatalist = new ArrayList<WeatherDetailItem>(); 
-    private ArrayList<WeatherDetailItem>  twoTabDbDatalist = new ArrayList<WeatherDetailItem>();
-    private ArrayList<WeatherDetailItem>  fourTabDbDatalist = new ArrayList<WeatherDetailItem>();  
-  
 	private String strListId = "";
-	private ProgressDialog diaLogProgress = null;
-	private WeatherDetailTempInfo tabOneDetail = null;
-	private WeatherDetailTempInfo tabTwoDetail = null;
-	private List<HashMap<String, Object>> tabOneListData;
-	private List<HashMap<String, Object>> tabTwoListData;
-	private List<HashMap<String, Object>> tabFourListData;
+	private ProgressDialog _diaLogProgress = null;
+	private WeatherDetailTempInfo _weatherSummaryToday = null;
+	private WeatherDetailTempInfo _weatherSummaryYesterday = null;
+	private List<HashMap<String, Object>> _weatherDetailsToday;
+	private List<HashMap<String, Object>> _weatherDetailsYesterday;
+    
+	private List<WeatherPreChartItem> _weatherChartItems = null;
+	private ArrayList<WeatherDetailItem>  _weatherDetailsHistory = new ArrayList<WeatherDetailItem>(); 
 	
-	private List<WeatherPreChartItem> weatherChartLst = null;
-
+	private ViewPager _viewPager;  
+    private WeatherFragmentPagerAdapter _viewPagerAdapter; 
+    private WeatherDetailTodayFragment _frgToday;
+    private WeatherDetailYesterdayFragment _frgYesterday;
+    private WeatherDetailWeekFragment _frgWeek;
+    private WeatherDetailHistoryFragment _frgHistory;
+    
 	 @Override
 	 public void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
-	        requestWindowFeature(Window.FEATURE_NO_TITLE);
 	        setContentView(R.layout.weather_detail);
 	        
 	        Intent inten = this.getIntent();
@@ -80,87 +76,90 @@ public class WeatherDetailActivity extends Activity implements SearchView.OnQuer
 	        
 	        strListId = mBundle.getString("list_id");
 		    if(strListId== null || strListId.length() <= 0) return;
-		  
-	        //tabhost
-	        myTabhost = (TabHost) this.findViewById(R.id.weatherDetailsTabHost);  
-	        myTabhost.setup();
-	    	
-	    	myTabhost.addTab(myTabhost.newTabSpec("One")
-					.setIndicator("今日天气",getResources().getDrawable(R.drawable.ic_launcher))
-					.setContent(R.id.widget_layout_one));
-			myTabhost.addTab(myTabhost.newTabSpec("Two").setIndicator("昨日天气",
-									getResources().getDrawable(R.drawable.snow))
-							.setContent(R.id.widget_layout_two));
-			myTabhost.addTab(myTabhost.newTabSpec("Three").setIndicator("七日预报",
-									getResources().getDrawable(R.drawable.drizzle2))
-							.setContent(R.id.widget_layout_three));
-			myTabhost.addTab(myTabhost.newTabSpec("four").setIndicator("历史信息",
-					getResources().getDrawable(R.drawable.sunny))
-			.setContent(R.id.widget_layout_four));
+			setTitle(mBundle.getString("list_name"));
 			
-			 //set tab font
-			 TabWidget tabWidget= myTabhost.getTabWidget() ;
-			 for (int i = 0; i < tabWidget.getChildCount(); i++) {
-				TextView tv=(TextView)tabWidget.getChildAt(i).findViewById(android.R.id.title);
-				tv.setGravity(BIND_AUTO_CREATE);
-				tv.setPadding(0, 0,0, 0);
-				tv.setTextSize(10);//ÉèÖÃ×ÖÌåµÄ´óÐ¡£»
-				tv.setTextColor(Color.BLACK);//ÉèÖÃ×ÖÌåµÄÑÕÉ«£»
-				//set tab image
-				ImageView iv=(ImageView)tabWidget.getChildAt(i).findViewById(android.R.id.icon);
-			}
-	    	myTabhost.setCurrentTab(0);  
-	    	
-	    	//set title
-			txtTilte = (TextView) findViewById(R.id.txtWeaherTitle);
-			txtTilte.setText(mBundle.getString("list_name"));
-			
-			//init tab view data
-			initTabViewData();
-			
-		
+			initFragments();
+			initViewPager();
+		    initActionBar();
 			
 	 }
-	 
-	@Override  
-    public boolean onQueryTextChange(String newText) {  
-     	List<HashMap<String, Object>>  resultlst = searchHisItem(newText);  
-        updateLayout(resultlst);  
-        return false;  
-     } 
-	 
-    @Override  
-    public boolean onQueryTextSubmit(String query) {  
-        // TODO Auto-generated method stub  
-	   return false;  
-    }  
+	@Override
+	public void onStart() {
+		super.onStart();
+		fetchWeatherDetialData();
+	}
+	private void initFragments() {
+	    _frgToday = new WeatherDetailTodayFragment();
+		_frgYesterday = new WeatherDetailYesterdayFragment();
+		_frgWeek = new WeatherDetailWeekFragment();
+		_frgHistory = new WeatherDetailHistoryFragment();		
+	}
+	private void initViewPager() {
+		this._viewPagerAdapter = new WeatherFragmentPagerAdapter(getSupportFragmentManager());  
+       
+        _viewPager = (ViewPager)findViewById(R.id.weather_pager);  
+        _viewPager.setAdapter(_viewPagerAdapter);
+        _viewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {  
+            @Override  
+            public void onPageSelected(int position) {  
+                final ActionBar actionBar = getActionBar();  
+                actionBar.setSelectedNavigationItem(position);  
+            }  
+            @Override  
+            public void onPageScrollStateChanged(int state) {  
+                
+            }  
+        }); 
+        
+		
+	}
+	private void initActionBar(){
+	    //add tabs to ActionBar
+	    final ActionBar actionBar = getActionBar();
+	    actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+	    
+	    for (int i = 0; i < _viewPagerAdapter.getCount(); ++i) {  
+            actionBar.addTab(actionBar.newTab()  
+                    .setText(_viewPagerAdapter.getPageTitle(i))  
+                    .setTabListener(this));  
+        }   	
+    }
 
-	   
-    /**
-     * 
-     */
-	private void initTabViewData(){
+
+    
+    @Override  
+    public void onTabReselected(Tab tab, FragmentTransaction ft) {  
+          
+    }  
+  
+    @Override  
+    public void onTabSelected(Tab tab, FragmentTransaction ft) {   
+        _viewPager.setCurrentItem(tab.getPosition()); 
+		
+    }  
+  
+    @Override  
+    public void onTabUnselected(Tab tab, FragmentTransaction ft) {  
+          
+    } 
+
+	private void fetchWeatherDetialData(){
 		 
-    	diaLogProgress = BaseHelper.showProgress(WeatherDetailActivity.this,ConstDefine.I_MSG_0003,false);
+    	_diaLogProgress = BaseHelper.showProgress(WeatherDetailActivity.this,ConstDefine.I_MSG_0003,false);
         new Thread() {
             public void run() { 
                 Message msgSend = new Message();
         	    try {
-        	    	//get today weatherInfo
-        	    	tabOneDetail = BusinessRequest.getWenduTabDetailById(strListId,WeatherType.Today.getStrValue());
-        		 	tabOneListData = getWenduTabListData(strListId,"1");
-        	    	
-        		 	//get TheeTab Data
-        		 	tabTwoDetail = BusinessRequest.getWenduTabDetailById(strListId,WeatherType.Yesterday.getStrValue());
-        		 	tabTwoListData = getWenduTabListData(strListId,WeatherType.Yesterday.getStrValue());
-        		 	
-        		 	//get Theee Tab Data
-        		 	weatherChartLst =  BusinessRequest.getWeatherChartList();
-        		 	 
-        		 	//get four tab data
-        		 	tabFourListData =  getFourTabListData();
-        		 	
 
+        	    	_weatherSummaryToday = BusinessRequest.getWenduTabDetailById(strListId,WeatherType.Today.getStrValue());
+        		 	_weatherDetailsToday = getWeatherDetailListData(strListId,"1");
+
+        		 	_weatherSummaryYesterday = BusinessRequest.getWenduTabDetailById(strListId,WeatherType.Yesterday.getStrValue());
+        		 	_weatherDetailsYesterday = getWeatherDetailListData(strListId,WeatherType.Yesterday.getStrValue());
+        		 	
+        		 	_weatherChartItems =  BusinessRequest.getWeatherChartList();
+        		 	_weatherDetailsHistory =  BusinessRequest.getWeatherHisListData();
+        		 	
         	    	msgSend.what = ConstDefine.MSG_I_HANDLE_OK;
 					} catch (Exception e) {
 						msgSend.what = ConstDefine.MSG_I_HANDLE_Fail;
@@ -170,31 +169,27 @@ public class WeatherDetailActivity extends Activity implements SearchView.OnQuer
         }.start();	 
 	 }
 	 
-	 /**
-	  * 
-	  */
+
 	 private Handler oneTabhandler = new Handler() {               
         public void handleMessage(Message message) {
                 switch (message.what) {
                 case ConstDefine.MSG_I_HANDLE_OK:                                        
-        		 	diaLogProgress.dismiss();
+        		 	_diaLogProgress.dismiss();
+        		 	_frgToday.setWeatherDetailInfo(_weatherSummaryToday);
+        		    _frgToday.setWeatherDetailList(_weatherDetailsToday);
+        		    _frgYesterday.setWeatherDetailInfo(_weatherSummaryYesterday);
+        		    _frgYesterday.setWeatherDetailList(_weatherDetailsYesterday);
+        		 	_frgWeek.setWeatherDetailList(_weatherChartItems);
+        		 	_frgHistory.setOriginDataList(_weatherDetailsHistory);
         		 	
-        		 	//set one tab
-        		 	setTodaysData();
-        		 	
-        		 	//set two tab
-        		 	setYesterdayData();
-        		 	
-        		 	//set three tab
-        		 	setThreeWeatherChart();
-        		 	
-        		 	//set four tab
-        		 	setFourTabData();
-        		 	
+
+        		 	_frgToday.renderWeatherDetailData();
+        		 	_frgYesterday.renderWeatherDetailData();
+
                     break;
                 case ConstDefine.MSG_I_HANDLE_Fail:                                        
                 	//close process
-                	diaLogProgress.dismiss();
+                	_diaLogProgress.dismiss();
                 	BaseHelper.showToastMsg(WeatherDetailActivity.this,ConstDefine.E_MSG_0001);
                     break;
 	            }
@@ -207,23 +202,22 @@ public class WeatherDetailActivity extends Activity implements SearchView.OnQuer
 	   * @return
 	 * @throws JSONException 
 	   */
-	  private List<HashMap<String, Object>> getWenduTabListData(String strListId ,String dayFlag) throws Exception {  
+	  private List<HashMap<String, Object>> getWeatherDetailListData(String strListId ,String dayFlag) throws Exception {  
 	   
 	    
 	  	ArrayList<WeatherDetailItem> wenduDbDatalist = new ArrayList<WeatherDetailItem>();
       
-	  	tabOneDetail.setStrListId(strListId);
-	  	tabOneDetail.setStrDayFlag(dayFlag);
-	  	wenduDbDatalist = BusinessRequest.getWenduTabDetailListById(tabOneDetail);
+	  	_weatherSummaryToday.setStrListId(strListId);
+	  	_weatherSummaryToday.setStrDayFlag(dayFlag);
+	  	wenduDbDatalist = BusinessRequest.getWenduTabDetailListById(_weatherSummaryToday);
 	  	
-		//getate
 		List<HashMap<String, Object>> wenDuList = new ArrayList<HashMap<String, Object>>(); 
 		for (WeatherDetailItem oneRec: wenduDbDatalist) 
 		{   
 			HashMap<String, Object> item = new HashMap<String, Object>();  
-		    item.put("w_time", oneRec.getW_time()); 
-		    item.put("w_wendu", oneRec.getW_wendu()); 
-		    item.put("w_tianqi", oneRec.getW_tianqi()); 
+		    item.put("time", oneRec.getW_time()); 
+		    item.put("tempreture", oneRec.getW_wendu()); 
+		    item.put("weather", oneRec.getW_tianqi()); 
 		    wenDuList.add(item);  
 		}
 		
@@ -231,150 +225,58 @@ public class WeatherDetailActivity extends Activity implements SearchView.OnQuer
 		return wenDuList;
      } 
 	 
-	/**
-	 * 
-	 * @return
-	 */
-	private List<HashMap<String, Object>> getFourTabListData() throws Exception{  
-	   
-		fourTabDbDatalist =  BusinessRequest.getWeatherHisListData();
-		List<HashMap<String, Object>> tabFourDatalist = new ArrayList<HashMap<String, Object>>(); 
-		for (WeatherDetailItem oneRec: fourTabDbDatalist) 
-		{   
-			HashMap<String, Object> item = new HashMap<String, Object>();  
-		    item.put("w_time", oneRec.getW_time()); 
-			item.put("w_wendu", oneRec.getW_wendu()); 
-			item.put("w_tianqi", oneRec.getW_tianqi()); 
-			tabFourDatalist.add(item);  
-		}
-		
-		return tabFourDatalist;
-	}   
-  
-	  /**
-	   * 
-	   */
-	 private void setTodaysData(){
-	 
-		oneTabListView = (ListView) findViewById(R.id.oneTabList);
-		txtOneTab1 = (TextView) findViewById(R.id.txtOneTab1);
-		txtOneTab2 = (TextView) findViewById(R.id.txtOneTab2);
-		txtOneTab3 = (TextView) findViewById(R.id.txtOneTab3);
-				
-		//setDetails
-		txtOneTab1.setText(tabOneDetail.getStrForecastAverage());
-		txtOneTab2.setText(tabOneDetail.getStrName());
-		String strMsg  = "今日预报最高温度"+ tabOneDetail.getStrForecastHighest() + "\n";
-		       strMsg += "今日预报最低温度"+ tabOneDetail.getStrForecastLowest() + "\n";
-		       strMsg += "今日预报平均温度"+ tabOneDetail.getStrForecastAverage() + "\n";
-		       strMsg += "更新时间"+ tabOneDetail.getStrUpTime();
-		txtOneTab3.setText(strMsg);
-		
-		//set temperature list
-	 	oneTabListView.setAdapter(new SimpleAdapter(getApplicationContext(),tabOneListData, R.layout.weather_detail_item,  
-	 			 new String[] { "w_time", "w_wendu", "w_tianqi" }, 
-				  new int[] {R.id.w_time, R.id.w_wendu, R.id.w_tianqi}));
-	 	oneTabListView.setTextFilterEnabled(true); 
-	 
-	 
-	 }
-	 
-	 /**
-	  * 
-	  */
-	 private void setYesterdayData(){
-		 
-		 //»ñÈ¡Êý¾Ý²¢ÊÊÅäµ½listviewÖÐ
-		twoTabListView = (ListView) findViewById(R.id.twoTabList);
-		txtTwoTab1 = (TextView) findViewById(R.id.txtTwoTab1);
-		txtTwoTab2 = (TextView) findViewById(R.id.txtTwoTab2);
-		txtTwoTab3 = (TextView) findViewById(R.id.txtTwoTab3);
-		
-		//ÉèÖÃ×ó±ßÊý¾Ý
-		txtTwoTab1.setText(tabTwoDetail.getStrActualAverage());
-		txtTwoTab2.setText(tabTwoDetail.getStrName());
-		String strMsg  = "昨日预报最高温度"+ tabTwoDetail.getStrForecastHighest() + "\n";
-	       strMsg += "昨日预报最低温度"+ tabTwoDetail.getStrForecastLowest() + "\n";
-	       strMsg += "昨日预报平均温度"+ tabTwoDetail.getStrForecastAverage() + "\n";
-	       strMsg  = "昨日实况最高温度"+ tabTwoDetail.getStrActualHighest() + "\n";
-	       strMsg += "昨日实况最低温度"+ tabTwoDetail.getStrActualLowest() + "\n";
-	       strMsg += "昨日实况平均温度"+ tabTwoDetail.getStrActualAverage() + "\n";
-	       strMsg += "更新时间"+ tabTwoDetail.getStrUpTime();
-		txtTwoTab3.setText(strMsg);
-		
-	    //ÉèÖÃlistÊý¾Ý
-		twoTabListView.setAdapter(new SimpleAdapter(getApplicationContext(),tabTwoListData, R.layout.weather_detail_item,  
-	 			 new String[] { "w_time", "w_wendu", "w_tianqi" }, 
-				  new int[] {R.id.w_time, R.id.w_wendu, R.id.w_tianqi}));
-		twoTabListView.setTextFilterEnabled(true); 
-		 
-	 }
-	 
-    /**
-     * 
-     */
-    private void setThreeWeatherChart()
-    {
-        //set chartt
-	    WeatherPreChart  weatherChart = new WeatherPreChart(weatherChartLst);
-		LinearLayout layout = (LinearLayout) findViewById(R.id.weather_chart);
-		GraphicalView mChartView = weatherChart.createChart(this);
-		layout.addView(mChartView, new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT));
 
-    }
-    
-    /**
-     * 
-     */
-	private void setFourTabData(){
-		 
-		fourTabListView = (ListView) findViewById(R.id.fourTabList);
-		fourTabListView.setAdapter(new SimpleAdapter(getApplicationContext(),tabFourListData, R.layout.weather_detail_item,  
-				  new String[] { "w_time", "w_wendu", "w_tianqi" }, 
-				  new int[] {R.id.w_time, R.id.w_wendu, R.id.w_tianqi}));
-		fourTabListView.setTextFilterEnabled(true); 
-		
-		searchView = (SearchView) findViewById(R.id.wether_his_search);    
-		searchView.setOnQueryTextListener(this);  
-        searchView.setSubmitButtonEnabled(false); 
-		 
-	 }
-	 
-	
-    /**
-     * 
-     * @param resultList
-     */
-	private void updateLayout(List<HashMap<String, Object>> resultList) {  
-		fourTabListView.setAdapter(new SimpleAdapter(getApplicationContext(),resultList, R.layout.weather_detail_item,  
-				  new String[] { "w_time", "w_wendu", "w_tianqi" }, 
-				  new int[] {R.id.w_time, R.id.w_wendu, R.id.w_tianqi}));
-	} 
-	
-   /**
-     * ¸ù¾ÝÃû³Æ²éÑ¯
-     * @param name
-     * @return
-     */
-   private List<HashMap<String, Object>> searchHisItem(String name) 
-	{  
-		List<HashMap<String, Object>> mSearchHisList = new ArrayList<HashMap<String, Object>>(); 
+	public class WeatherFragmentPagerAdapter extends FragmentPagerAdapter {
+	    private final int TAB_POSITION_TODAY = 0;
+	    private final int TAB_POSITION_YESTERDAY = 1;
+	    private final int TAB_POSITION_WEEK = 2;
+	    private final int TAB_POSITION_HISTORY = 3;
+	    private final int TAB_COUNT = 4;
 	    
-	    for (int i = 0; i < fourTabDbDatalist.size(); i++) 
-	    { 	
-	        int index =((WeatherDetailItem) fourTabDbDatalist.get(i)).getW_time().indexOf(name);  
-	        // ´æÔÚÆ¥ÅäµÄÊý¾Ý  ÖØÐÂ×é×°List
-		    if (index != -1) {
-		    	HashMap<String, Object> item = new HashMap<String, Object>(); 
-		    	item.put("w_time", fourTabDbDatalist.get(i).getW_time()); 
-		        item.put("w_wendu", fourTabDbDatalist.get(i).getW_wendu()); 
-		        item.put("w_tianqi", fourTabDbDatalist.get(i).getW_tianqi()); 
-		        mSearchHisList.add(item);  
-		    } 
-	    }
-	    
-	    return mSearchHisList;
-	}  
-	 
+		public WeatherFragmentPagerAdapter(FragmentManager fm) {
+			super(fm);
+		}
+
+		@Override
+		public Fragment getItem(int position) {
+			switch (position) {
+			case TAB_POSITION_TODAY:
+				return _frgToday;
+			case TAB_POSITION_YESTERDAY:
+				return _frgYesterday;
+			case TAB_POSITION_WEEK:
+				return _frgWeek;
+			case TAB_POSITION_HISTORY:
+				return _frgHistory;
+
+			}
+			throw new IllegalStateException("No fragment at position " + position);
+		}
+
+		@Override
+		public int getCount() {
+			return TAB_COUNT;
+		}
+
+		@Override
+		public CharSequence getPageTitle(int position) {
+			String tabLabel = "";
+			switch (position) {
+			case TAB_POSITION_TODAY:
+				tabLabel = getString(R.string.today);
+				break;
+			case TAB_POSITION_YESTERDAY:
+				tabLabel = getString(R.string.yesterday);
+				break;
+			case TAB_POSITION_WEEK:
+				tabLabel = getString(R.string.week);
+				break;
+			case TAB_POSITION_HISTORY:
+				tabLabel = getString(R.string.history);
+				break;
+			}
+			return tabLabel;
+		}
+	}
 
 }

@@ -9,7 +9,7 @@ public class ConstDefine
 	public static final int MSG_I_HANDLE_Fail = 0x0002;
 	
 	//http
-	public static final int HTTP_TIME_OUT = 10*1000;
+	public static final int HTTP_TIME_OUT = 0*1000;
 	public static final int HTTP_BUFF_SIZE = 8192;
 	public static final String HTTP_ENCODE = "UTF-8";
 	

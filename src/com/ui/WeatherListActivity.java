@@ -43,15 +43,9 @@ public class WeatherListActivity extends Activity implements  SearchView.OnQuery
         super.onCreate(savedInstanceState);
         setContentView(R.layout.weather_list);
 	        
-        //��ʼ��������
-        this.getActionBar().setDisplayShowHomeEnabled(false);  
-        this.getActionBar().setDisplayShowTitleEnabled(false);  
-        this.getActionBar().setDisplayShowCustomEnabled(true);  
-        LayoutInflater mInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);  
-        View mTitleView = mInflater.inflate(R.layout.weather_list_search, null);  
-        getActionBar().setCustomView(mTitleView,  
-                new ActionBar.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));  
-        searchView = (SearchView) mTitleView.findViewById(R.id.weather_search_view); 
+
+        searchView = (SearchView)findViewById(R.id.weather_search_view); 
+
         searchView.setOnQueryTextListener(this);  
         searchView.setSubmitButtonEnabled(false);
         
@@ -176,6 +170,7 @@ public class WeatherListActivity extends Activity implements  SearchView.OnQuery
         { 	
             int index =((ListItem) dbWeatherlist.get(i)).getStrListName().indexOf(name);  
             
+
             if (index != -1) {
             	HashMap<String, Object> item = new HashMap<String, Object>();  
      	        item.put("list_id", dbWeatherlist.get(i).getStrListId()); 
@@ -184,7 +179,7 @@ public class WeatherListActivity extends Activity implements  SearchView.OnQuery
      	        mSearchList.add(item);  
             }  
         }  
-     
+
         return mSearchList;  
     }  
   
