@@ -40,7 +40,12 @@
             android:name="android.support.PARENT_ACTIVITY"
             android:value="com.ui.DailyListActivity" />
 	</activity>
-	<activity android:name="WarnListActivity"></activity>
+	<activity android:name="WarnListActivity" android:label="@string/warning"
+>
+	     <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="com.ui.MainPageActivity" />
+	</activity>
 	<activity android:name="WarnDetailActivity"></activity>
 	<activity android:name="WeatherListActivity"></activity>
 	<activity android:name="WeatherDetailActivity"></activity>

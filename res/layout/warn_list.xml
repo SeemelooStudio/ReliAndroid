@@ -3,50 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"  
     android:layout_width="match_parent"  
     android:layout_height="match_parent"
-    android:layout_margin="5dip" 
     android:orientation="vertical"
-    android:scrollbarStyle="outsideOverlay"
-    android:background="@drawable/main_layout_bg">
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-      android:layout_width="fill_parent" 
-	 android:layout_height="30dp"
-	 android:background="@drawable/warn_title_bg">
-	      <TextView android:id="@+id/labsubTitle" 
-		        	android:layout_width="match_parent" 
-		        	android:layout_height="match_parent"
-		        	android:layout_marginLeft="50dip"
-		        	android:layout_marginTop="5dip" 
-		        	android:text="预警信息" 
-		        	style="@style/labStyle"/>
-    </LinearLayout>
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"  
-	    xmlns:tools="http://schemas.android.com/tools"  
-	    android:layout_width="fill_parent"  
-	    android:layout_height="430dp"
-	    android:scrollbarStyle="outsideOverlay">  
-	    <ListView  
-	        android:id="@+id/list" 
+    android:scrollbarStyle="outsideOverlay">
+
+    <ListView  
+	        android:id="@+id/list2" 
 	        android:layout_width="fill_parent"  
 	        android:layout_height="match_parent"
-	        android:background="#343434"
-	        android:scrollbarStyle="outsideOverlay"/>
-	</LinearLayout>
-	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-      android:layout_width="fill_parent" 
-	 android:layout_height="match_parent" 
-	 android:paddingTop="5dp" 
-	 android:background="@drawable/warn_bottom_bg">
-	 	<Button android:id="@+id/btnWarnRefresh" 
-			android:layout_width="100dp" 
-			android:layout_height="30dp" 
-			android:background="@drawable/warn_fresh_bg" />
-	 	<Button android:id="@+id/btnWarnShow" 
-			android:layout_width="100dp" 
-			android:layout_height="30dp" 
-			android:background="@drawable/warn_show_bg" />
-	 	<Button android:id="@+id/btnWarnEdit" 
-			android:layout_width="100dp" 
-			android:layout_height="30dp" 
-			android:background="@drawable/warn_edit_bg" />
-    </LinearLayout>
+	        android:scrollbarStyle="outsideOverlay"
+	        android:focusable="true"
+	        android:focusableInTouchMode="true"/>
+
 </LinearLayout>

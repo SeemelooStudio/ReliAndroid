@@ -1,12 +1,16 @@
 package com.ui;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.DisplayMetrics;
@@ -19,6 +23,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TableLayout;
@@ -27,6 +32,9 @@ import android.widget.TextView;
 
 import com.chart.impl.AverageTemperatureChart;
 import com.ctral.MainScrollLayout;
+import com.model.MainPageSummary;
+import com.model.WeatherType;
+import com.reqst.BusinessRequest;
 import com.util.BaseHelper;
 import com.util.ConstDefine;
 import com.util.ViewPageAdapter;
@@ -56,6 +64,9 @@ public class MainPageActivity extends Activity {
 	private MainItemOnClickListener mainItemClickListener;
 	private ToolItemOnClickListener toolItemClickListener;
 
+	private ProgressDialog diaLogProgress = null;
+	private MainPageSummary mainPageSummary = null;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -96,15 +107,6 @@ public class MainPageActivity extends Activity {
 		txtconectMenu.setOnClickListener(toolItemClickListener);
 		txtAboutMenu = (TextView) findViewById(R.id.main_about);
 		txtAboutMenu.setOnClickListener(toolItemClickListener);
-	}
-	
-	
-	private void fillItemThree(RelativeLayout item)
-	{
-		List<HashMap<String, Object>> wenDuList = new ArrayList<HashMap<String, Object>>(); 
-		HashMap<String, Object> hwendu = new HashMap<String, Object> ();
-		hwendu.put("highestLowest", "2/-3");
-		wenDuList.add(hwendu);
 	}
 	
 	
@@ -211,8 +213,68 @@ public class MainPageActivity extends Activity {
 		txtShowPage = (TextView)findViewById(R.id.txtViewGroup); 
     	txtShowPage.setText("1/" + listViews.size());
 
+    	initSummaryData();
 	}
 
+	private void initSummaryData(){
+		 
+    	diaLogProgress = BaseHelper.showProgress(MainPageActivity.this,ConstDefine.I_MSG_0003,false);
+        new Thread() {
+            public void run() { 
+                Message msgSend = new Message();
+        	    try {
+        	    	//get today weatherInfo
+        	    	mainPageSummary = BusinessRequest.getMainPageSummary();
+        	    	msgSend.what = ConstDefine.MSG_I_HANDLE_OK;
+					} catch (Exception e) {
+						msgSend.what = ConstDefine.MSG_I_HANDLE_Fail;
+					}
+            	    mainPageSummaryHandler.sendMessage(msgSend);
+            	}
+        }.start();	 
+	 }
+	
+	private Handler mainPageSummaryHandler = new Handler() {               
+        public void handleMessage(Message message) {
+                switch (message.what) {
+                case ConstDefine.MSG_I_HANDLE_OK:                                        
+        		 	diaLogProgress.dismiss();
+        		 	
+        		 	setTemperatureData();
+        		 	setMessagerData();
+                    break;
+                case ConstDefine.MSG_I_HANDLE_Fail:                                        
+                	//close process
+                	diaLogProgress.dismiss();
+                	BaseHelper.showToastMsg(MainPageActivity.this,ConstDefine.E_MSG_0001);
+                    break;
+	            }
+	        }
+	  };
+	  private void setTemperatureData( )
+	  {
+		  TextView tvHighest = (TextView) findViewById(R.id.main_item_three_txt1);
+		  TextView tvToday = (TextView) findViewById(R.id.main_item_three_txt2);
+		  TextView tvWeather = (TextView) findViewById(R.id.main_item_three_txt3);
+		  tvHighest.setText(mainPageSummary.getStrForecastHighest() + "/" + mainPageSummary.getStrForecastLowest());	
+		  ImageView imgWeatherIcon = (ImageView) findViewById(R.id.main_item_three_image);
+		  String weatherIconUri = "@drawable/"+mainPageSummary.getStrWeatherIcon()+"_small.png";
+		  int imageResource = getResources().getIdentifier(weatherIconUri, null, getPackageName());
+		  if(imageResource != 0){
+			  imgWeatherIcon.setImageDrawable(getResources().getDrawable(imageResource));
+		  }
+		  Date today = new Date();
+		  tvToday.setText("北京" + today.getDate() + "日");
+		  tvWeather.setText(mainPageSummary.getStrWind() + " " + mainPageSummary.getStrWeather());
+		  
+	  }
+	  private void setMessagerData( )
+	  {
+		  TextView tvPhotoCount = (TextView) findViewById(R.id.main_item_four_txt1);
+		  TextView tvMessageCount = (TextView) findViewById(R.id.main_item_four_txt2);
+		  tvPhotoCount.setText(mainPageSummary.getStrCountPhotos());
+		  tvMessageCount.setText(mainPageSummary.getStrCountMessages());
+	  }
     /**
      * click listren
      * @author zhaors

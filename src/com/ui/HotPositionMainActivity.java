@@ -79,9 +79,6 @@ public class HotPositionMainActivity extends Activity {
 	        public void run() { 
 	                Message msgSend = new Message();
 	        	    try {
-	        	    	
-	        	    	 this.sleep(ConstDefine.HTTP_TIME_OUT);
-	        	    	
 	        	    	  // get itemList
 	        		 	 dbhostPosLst = BusinessRequest.getHotPositionMainList();
 	        		 	 

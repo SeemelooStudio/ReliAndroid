@@ -45,6 +45,7 @@ public class WeatherListActivity extends Activity implements  SearchView.OnQuery
 	        
 
         searchView = (SearchView)findViewById(R.id.weather_search_view); 
+
         searchView.setOnQueryTextListener(this);  
         searchView.setSubmitButtonEnabled(false);
         
@@ -95,12 +96,8 @@ public class WeatherListActivity extends Activity implements  SearchView.OnQuery
             public void run() { 
                     Message msgSend = new Message();
             	    try {
-            	    	
-            	    	this.sleep(ConstDefine.HTTP_TIME_OUT);
-            	    	
             	        //get mapList
             	    	listData = getWeatherListData(searchCon);
-            	    	
             	    	msgSend.what = ConstDefine.MSG_I_HANDLE_OK;
 					} catch (Exception e) {
 						msgSend.what = ConstDefine.MSG_I_HANDLE_Fail;
@@ -173,7 +170,7 @@ public class WeatherListActivity extends Activity implements  SearchView.OnQuery
         { 	
             int index =((ListItem) dbWeatherlist.get(i)).getStrListName().indexOf(name);  
             
-            // ����ƥ������  ������װList
+
             if (index != -1) {
             	HashMap<String, Object> item = new HashMap<String, Object>();  
      	        item.put("list_id", dbWeatherlist.get(i).getStrListId()); 
@@ -182,8 +179,7 @@ public class WeatherListActivity extends Activity implements  SearchView.OnQuery
      	        mSearchList.add(item);  
             }  
         }  
-     
-        //���ؽ��
+
         return mSearchList;  
     }  
   

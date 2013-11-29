@@ -33,6 +33,7 @@
    <string name="log_in_message">正在连网验证，请稍候……</string>
    <string name="connect_fail_message">连接失败，请确认网络链接正常</string>
    <string name="under_construction_message">该功能尚未开放，请更新版本后再试</string>
+   <string name="refresh">刷新</string>
    <string name="loading">加载中</string>
    
    <!-- Weather -->
@@ -47,5 +48,8 @@
    <string name="lowest_tempreture">最低温度</string>
    <string name="average_tempreture">平均温度</string>
    <string name="update_time">更新时间</string>
+
+
+
 
 </resources>

@@ -5,9 +5,12 @@ import java.util.List;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -23,13 +26,15 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 
 import com.model.ChatMessage;
+import com.reqst.BusinessRequest;
+import com.util.BaseHelper;
 import com.util.ChattingAdapter;
+import com.util.ConstDefine;
 
 public class MsgUpMainActivity extends Activity {
 	protected static final String TAG = "MainActivity";
 	private ChattingAdapter chatHistoryAdapter;
 	private List<ChatMessage> messages = new ArrayList<ChatMessage>();
-
 	private ListView chatHistoryLv;
 	private Button sendBtn;
 	private EditText textEditor;
@@ -37,12 +42,12 @@ public class MsgUpMainActivity extends Activity {
 	private ImageView captureImageIv;
 	private View recording;
 	private PopupWindow menuWindow = null;
-
+	private ProgressDialog diaLogProgress = null;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.msg_up_main);
-		
 		this.getActionBar().setDisplayShowHomeEnabled(false);  
         this.getActionBar().setDisplayShowTitleEnabled(false);  
         this.getActionBar().setDisplayShowCustomEnabled(true);  
@@ -98,22 +103,46 @@ public class MsgUpMainActivity extends Activity {
 	// set adapter
 	private void setAdapterForThis() {
 		initMessages();
-		chatHistoryAdapter = new ChattingAdapter(this, messages);
-		chatHistoryLv.setAdapter(chatHistoryAdapter);
+		
 	}
 
 	// add listView data
 	private void initMessages() {
-		messages.add(new ChatMessage(ChatMessage.MESSAGE_FROM, "hello"));
-		messages.add(new ChatMessage(ChatMessage.MESSAGE_TO, "hello"));
-		messages.add(new ChatMessage(ChatMessage.MESSAGE_FROM, "ÄãºÃÂð£¿"));
-		messages.add(new ChatMessage(ChatMessage.MESSAGE_TO, "·Ç³£ºÃ!"));
-		messages.add(new ChatMessage(ChatMessage.MESSAGE_FROM, "»¶Ó­¹âÁÙÎÒµÄ²©¿Í£¬http://hi.csdn.net/lyfi01"));
-		messages.add(new ChatMessage(ChatMessage.MESSAGE_TO, "¶÷£¬ºÃµÄ£¬Ð»Ð»"));
+		
+		diaLogProgress = BaseHelper.showProgress(MsgUpMainActivity.this,ConstDefine.I_MSG_0003,false);
+        new Thread() {
+            public void run() { 
+                Message msgSend = new Message();
+        	    try {
+        	    	//get today weatherInfo
+        	    	messages = BusinessRequest.getMessages("zhaoyaqi");
+        	    	msgSend.what = ConstDefine.MSG_I_HANDLE_OK;
+					} catch (Exception e) {
+						msgSend.what = ConstDefine.MSG_I_HANDLE_Fail;
+					}
+            	    messagerHandler.sendMessage(msgSend);
+            	}
+        }.start();	
+		
 	}
-
+	private Handler messagerHandler = new Handler() {               
+        public void handleMessage(Message message) {
+                switch (message.what) {
+                case ConstDefine.MSG_I_HANDLE_OK:                                        
+        		 	diaLogProgress.dismiss();
+        		 	chatHistoryAdapter = new ChattingAdapter(getBaseContext(), messages);
+        			chatHistoryLv.setAdapter(chatHistoryAdapter);
+                    break;
+                case ConstDefine.MSG_I_HANDLE_Fail:                                        
+                	//close process
+                	diaLogProgress.dismiss();
+                	BaseHelper.showToastMsg(MsgUpMainActivity.this,ConstDefine.E_MSG_0001);
+                    break;
+	            }
+	        }
+	  };
 	/**
-	 * °´¼üÊ±¼ä¼àÌý
+	 * ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 	private View.OnClickListener l = new View.OnClickListener() {
 

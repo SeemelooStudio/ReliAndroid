@@ -25,6 +25,7 @@ import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.SimpleAdapter;
 
+import com.model.DownloadPDFTask;
 import com.model.ListItem;
 import com.model.WarnListItem;
 import com.reqst.BusinessRequest;
@@ -44,7 +45,7 @@ public class DailyListActivity extends Activity implements  SearchView.OnQueryTe
 	    private ArrayList<ListItem>  dbDatalist = new ArrayList<ListItem>();  
 	    private ProgressDialog diaLogProgress= null;
 	    private ListItem searchCon = null;
-		
+		private Activity mActivity;
 	    @Override  
 	    protected void onCreate(Bundle savedInstanceState) {  
     	    super.onCreate(savedInstanceState);
@@ -53,19 +54,14 @@ public class DailyListActivity extends Activity implements  SearchView.OnQueryTe
     	   
     	    searchCon = new ListItem();
     	    this.getDailyListbyCondition();
-   	        	
+   	        mActivity = this;
 	        listView.setTextFilterEnabled(true); 
     	    listView.setOnItemClickListener(new OnItemClickListener(){                                                                                    
   	        	public void onItemClick(AdapterView<?> parent, View arg1, int position, long id) 
   	        	{   
-  	        		//��ת����ϸ����
   	        		HashMap<String, Object> ListItem = (HashMap<String, Object>) listView.getItemAtPosition(position);
-  	        		Intent intent = new Intent(DailyListActivity.this, DailyDetailPdfActivity.class); 
-  	        		Bundle mBundle = new Bundle();
-  	        		mBundle.putString("list_id", ListItem.get("list_id").toString());
-  	        		mBundle.putString("list_name", ListItem.get("list_name").toString());
-  	        		intent.putExtras(mBundle);
-  	        		startActivity(intent);
+  	        		String pdfUrl = ConstDefine.WEB_SERVICE_URL + ConstDefine.S_DAILY_REPORT_ROOT + ListItem.get("list_name").toString();
+  	        		new DownloadPDFTask(mActivity).execute(pdfUrl);
   	        	}
     	    });
     	    
@@ -109,12 +105,7 @@ public class DailyListActivity extends Activity implements  SearchView.OnQueryTe
    	            public void run() { 
    	                    Message msgSend = new Message();
    	            	    try {
-   	            	    	
-   	            	    	this.sleep(ConstDefine.HTTP_TIME_OUT);
-   	            	    	
-   	            	        //��ȡ��ݲ����䵽listview��
    	            	    	listData = getDailyListData(searchCon);
-   	            	    	
    	            	    	msgSend.what = ConstDefine.MSG_I_HANDLE_OK;
    						} catch (Exception e) {
    							msgSend.what = ConstDefine.MSG_I_HANDLE_Fail;
@@ -122,8 +113,6 @@ public class DailyListActivity extends Activity implements  SearchView.OnQueryTe
    	                    handler.sendMessage(msgSend);
    	            	}
    	        }.start();
-	    	
-	    	
 		 }
 	    /**
 	     * http handler result

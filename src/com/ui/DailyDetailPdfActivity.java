@@ -7,12 +7,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.NavUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.Window;
 import android.webkit.WebSettings.LayoutAlgorithm;
 import android.webkit.WebView;
 import android.widget.TextView;
 
+import com.model.DownloadPDFTask;
 import com.util.BaseHelper;
 import com.util.ConstDefine;
 
@@ -21,7 +23,8 @@ public class DailyDetailPdfActivity extends Activity {
 	 private WebView webPdfView; 
 	 private TextView txtDailyDate;
 	 private ProgressDialog diaLogProgress= null;
-		
+	 private String strDailyReportName = "";
+	
 	 @Override
 	 public void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
@@ -32,25 +35,19 @@ public class DailyDetailPdfActivity extends Activity {
 	        Bundle mBundle = inten.getExtras();
 		    if (mBundle != null ) 
 		    {
-		    	this.setTitle( mBundle.getString( "list_name" ) );
+		    	strDailyReportName = mBundle.getString("list_name");
+		    	this.setTitle( strDailyReportName );
 		    }
-
+		    
 		    webPdfView = (WebView) findViewById(R.id.webDialyPdfView); 
-		    diaLogProgress = BaseHelper.showProgress(DailyDetailPdfActivity.this,ConstDefine.I_MSG_0003,false);
-   	        new Thread() {
-   	            public void run() { 
-   	                    Message msgSend = new Message();
-   	            	    try {
-   	            	    	this.sleep(ConstDefine.HTTP_TIME_OUT);
-   	            	    	String pdfUrl = "http://manuals.info.apple.com/MANUALS/1000/MA1643/en_US/macbook_air-13-inch-mid-2013_quick_start.pdf"; 
-   	            	    	BaseHelper.loadNetPdfFile(webPdfView,pdfUrl); 
-   	            	    	msgSend.what = ConstDefine.MSG_I_HANDLE_OK;
-   						} catch (Exception e) {
-   							msgSend.what = ConstDefine.MSG_I_HANDLE_Fail;
-   						}
-   	                    handler.sendMessage(msgSend);
-   	            	}
-   	        }.start();   	
+		    String pdfUrl = "http://58.31.100.2:11223" + ConstDefine.S_DAILY_REPORT_ROOT + strDailyReportName;
+		    try {
+		    	new DownloadPDFTask(this).execute(pdfUrl);
+		    	//BaseHelper.loadNetPdfFile(webPdfView,pdfUrl); 
+		    }
+		    catch (Exception ex) {
+		    	BaseHelper.showToastMsg(DailyDetailPdfActivity.this,ConstDefine.E_MSG_0001);
+		    }
 	 }
 	 @Override
 	 public boolean onOptionsItemSelected(MenuItem item) {
@@ -63,23 +60,6 @@ public class DailyDetailPdfActivity extends Activity {
 		    return super.onOptionsItemSelected(item);
 	 }
 
-    /**
-     * 
-     */
-    private Handler handler = new Handler() {               
-        public void handleMessage(Message message) {
-                switch (message.what) {
-                case ConstDefine.MSG_I_HANDLE_OK:                                        
-        		 	diaLogProgress.dismiss();
-                    break;
-                case ConstDefine.MSG_I_HANDLE_Fail:                                        
-                	//close process
-	                	diaLogProgress.dismiss();
-	                	BaseHelper.showToastMsg(DailyDetailPdfActivity.this,ConstDefine.E_MSG_0001);
-	                    break;
-	            }
-	        }
-	  };
 }
 
 

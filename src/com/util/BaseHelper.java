@@ -53,10 +53,10 @@ public class BaseHelper {
 	public static void  showErrorDialog(final Activity activity, String strErrMsg){
 		
 		 AlertDialog.Builder digErrInfo = new AlertDialog.Builder(activity);
-		 digErrInfo.setTitle("´íÎóÐÅÏ¢");
+		 digErrInfo.setTitle("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢");
 		 digErrInfo.setMessage(strErrMsg);
 	    	
-		 digErrInfo.setPositiveButton("È·¶¨", new DialogInterface.OnClickListener()
+		 digErrInfo.setPositiveButton("È·ï¿½ï¿½", new DialogInterface.OnClickListener()
 	     {
 	          public void onClick(DialogInterface dialog, int which)
 	          {   
@@ -69,7 +69,7 @@ public class BaseHelper {
 	
 
 	/**
-	 * ÏÔÊ¾µ¯³ö¶Ô»°¿î
+	 * ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½Ô»ï¿½ï¿½ï¿½
 	 * @param context
 	 * @param strTitle
 	 * @param strText
@@ -79,12 +79,12 @@ public class BaseHelper {
 		AlertDialog.Builder tDialog = new AlertDialog.Builder(context);
 		tDialog.setTitle(strTitle);
 		tDialog.setMessage(strText);
-		tDialog.setPositiveButton("È·¶¨",null);
+		tDialog.setPositiveButton("È·ï¿½ï¿½",null);
 		tDialog.show();
 	}
 	
 	/**
-	 * ÏÔÊ¾µ¯³ö¶Ô»°¿î
+	 * ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½Ô»ï¿½ï¿½ï¿½
 	 * @param context
 	 * @param strTitle
 	 * @param strText
@@ -158,7 +158,6 @@ public class BaseHelper {
 			 pdfView.getSettings().setLoadWithOverviewMode(true); 
 			 pdfView.getSettings().setLayoutAlgorithm(LayoutAlgorithm.SINGLE_COLUMN); 
 			 pdfView.loadUrl("http://docs.google.com/gview?embedded=true&url="+ strUrl); 
-			 
 			 pdfView.setWebViewClient(new WebViewClient() { 
 			       @Override 
 			       public void onPageStarted(WebView view, String url,Bitmap favicon) { 
@@ -184,7 +183,7 @@ public class BaseHelper {
 			       @Override
 			       public void onDownloadStart(String url, String userAgent,
 			    		   String contentDisposition, String mimetype,long contentLength) { 
-				         System.out.println("=========>¿ªÊ¼ÏÂÔØ url =" + url); 
+				         System.out.println("=========>ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ url =" + url); 
 				         Uri uri = Uri.parse(url);
 				         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 				         //startActivity(intent); 

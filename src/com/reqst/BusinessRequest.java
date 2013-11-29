@@ -10,6 +10,7 @@ import org.json.JSONStringer;
 
 import android.util.Log;
 
+import com.model.ChatMessage;
 import com.model.HotPosMainItem;
 import com.model.HotSrcMainItem;
 import com.model.HotSrcTitleInfo;
@@ -384,4 +385,17 @@ public class BusinessRequest {
 		return mainPageSummary;
 	}
 	
+	public static ArrayList<ChatMessage> getMessages(String strUserName) throws Exception
+	{
+		ServerHttpRequest httpReq = new ServerHttpRequest();
+		String strRequestAddress = (ConstDefine.WEB_SERVICE_URL + ConstDefine.S_GET_MESSAGES).replace("{UserName}", strUserName);
+		try {
+			String strResp = httpReq.doGet(strRequestAddress);
+			ArrayList<ChatMessage>  lstMessages = (ArrayList<ChatMessage>) JsonHelper.parseCollection(strResp, List.class, ChatMessage.class);	
+			return  lstMessages;
+		}
+		catch (Exception ex){
+			throw ex;
+		}
+	}
 }

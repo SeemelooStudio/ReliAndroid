@@ -5,29 +5,34 @@ public class ChatMessage {
 	public static final int MESSAGE_FROM = 0;
 	public static final int MESSAGE_TO = 1;
 
-	private int direction;
-	private String content;
+	private int intDirection;
+	private String strMessageContent;
 
-	public ChatMessage(int direction, String content) {
+	public ChatMessage(int intDirection, String strMessageContent) {
 		super();
-		this.direction = direction;
-		this.content = content;
+		this.intDirection = intDirection;
+		this.strMessageContent = strMessageContent;
+	}
+	
+	public ChatMessage()
+	{
+		
 	}
 
-	public int getDirection() {
-		return direction;
+	public int getIntDirection() {
+		return intDirection;
 	}
 
-	public void setDirection(int direction) {
-		this.direction = direction;
+	public void setIntDirection(int intDirection) {
+		this.intDirection = intDirection;
 	}
 
-	public void setContent(String content) {
-		this.content = content;
+	public void setStrMessageContent(String strMessageContent) {
+		this.strMessageContent = strMessageContent;
 	}
 
-	public CharSequence getContent() {
-		return content;
+	public CharSequence getStrMessageContent() {
+		return strMessageContent;
 	}
 
 }
