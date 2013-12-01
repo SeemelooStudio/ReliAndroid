@@ -6,10 +6,14 @@ import java.util.HashMap;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
+import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -17,6 +21,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -25,6 +30,7 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.model.HotPosMainItem;
+import com.model.HotSrcMainItem;
 import com.reqst.BusinessRequest;
 import com.util.BaseHelper;
 import com.util.ConstDefine;
@@ -43,7 +49,8 @@ public class HotPositionMainActivity extends Activity {
 		
 		private ArrayList<View> views;
 		private ArrayList<HotPosMainItem>  dbhostPosLst = null;
-		 
+		private static int ROW_COUNT = 4;
+		private static int COLUMN_COUNT = 3;
 	    @Override                                                                                            
 	    public void onCreate(Bundle savedInstanceState) {                                                    
 			super.onCreate(savedInstanceState);
@@ -59,18 +66,6 @@ public class HotPositionMainActivity extends Activity {
        */
 	  private void initHotPositionView()
 	  {
-	  	titleView = (RelativeLayout) findViewById(R.id.HotPosTitleView);
-		titleView.setOnClickListener(new OnClickListener(){                                                                                    
-        	public void onClick(View v) 
-        	{   
-        		if(R.id.HotPosTitleView == v.getId())
-           		{
-	 	        	Intent intent = new Intent(HotPositionMainActivity.this, HotPositionQueryActivity.class); 
-	    			startActivity(intent);
-           		}
-        	}
-        });
-		
 		txtAllnum = (TextView) findViewById(R.id.hotPosTitleAllnum);
 		viewpage = (ViewPager) findViewById(R.id.hotPosMainPager);
 		dbhostPosLst = new ArrayList<HotPosMainItem>();
@@ -100,7 +95,6 @@ public class HotPositionMainActivity extends Activity {
                 switch (message.what) {
                 case ConstDefine.MSG_I_HANDLE_OK:                                        
         		 	diaLogProgress.dismiss();
-        		 	txtAllnum.setText("共" + dbhostPosLst.size() + "个热力站");
                     //set grid view
         		 	setHotPositionGridView();
         		    break;
@@ -112,73 +106,82 @@ public class HotPositionMainActivity extends Activity {
 	            }
 	        }
 	  };
-     /**
-     * ��Դ��Ϣ�б�ƥ��
-     * @return
-     */
+     
+	  private void setStationContent(View viewStation, HotPosMainItem item)
+	  {
+		  TextView tvStationName = (TextView)viewStation.findViewById(R.id.hotPosItemTitle);
+		  TextView tvStationId = (TextView)viewStation.findViewById(R.id.hotPosItemId);
+		  TextView tvTodayActualGJ = (TextView)viewStation.findViewById(R.id.hotPosItemLeftText);
+		  TextView tvTodayPlannedGJ = (TextView)viewStation.findViewById(R.id.hotPosItemLeftTxtPa);
+		  TextView tvYesterdayActualGJ =  (TextView)viewStation.findViewById(R.id.hotPosItemRightText);
+		  TextView tvYesterdayPlannedGJ = (TextView)viewStation.findViewById(R.id.hotPosItemRightTxtPa);
+		  TextView tvYesterdayCalculatedGJ =  (TextView)viewStation.findViewById(R.id.hotPosItemRightTxtPa2);
+		  
+		  tvStationId.setText(item.getStrStationId()); 
+		  tvStationName.setText(item.getStrStationName()); 
+		  tvTodayActualGJ.setText(item.getStrActualGJToday()); 
+		  tvTodayPlannedGJ.setText(item.getStrPlannedGJToday()); 
+		  tvYesterdayActualGJ.setText(item.getStrActualGJYesterday());
+		  tvYesterdayPlannedGJ.setText(item.getStrPlannedGJYesterday()); 
+		  tvYesterdayCalculatedGJ.setText(item.getStrCalculatedGJYesterday()); 
+	  }
+	  private View getHeatSourceCell(HotPosMainItem heatSource, int rowIndex, int columnIndex, int cellWidth, int cellHeight)
+	  {
+		  LayoutInflater inflater = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+		  View viewHeatSource = inflater.inflate(R.layout.hot_position_main_item, null);
+		  setStationContent(viewHeatSource, heatSource);
+		  GridLayout.LayoutParams param =new GridLayout.LayoutParams();
+	      param.rowSpec = GridLayout.spec(GridLayout.UNDEFINED);
+	      param.columnSpec = GridLayout.spec(GridLayout.UNDEFINED);
+	      param.width = cellWidth;
+	      param.height = cellHeight;
+	      if(columnIndex != COLUMN_COUNT - 1){
+		      param.rightMargin=5;
+	      }
+	      param.bottomMargin=5;
+      	  viewHeatSource.setBackgroundResource(R.color.dodger_blue);
+      	  viewHeatSource.setLayoutParams (param);
+      	  return viewHeatSource;
+	  }
 	  private void setHotPositionGridView()
 	  {
 		  
     	//create page
-		int pageNum =0;
-		if(dbhostPosLst.size() >= 9 && (dbhostPosLst.size() % 9) == 0){			
-			pageNum = dbhostPosLst.size()/9;
-		}
-		else	
-		{
-			pageNum = (dbhostPosLst.size()/9) + 1 ;
-		}
-		
+		int pageCount =2;
+		int pageSize = 11;
+		Point size = new Point();
+		  getWindowManager().getDefaultDisplay().getSize(size);
+		  int screenWidth = size.x;
+		  int screenHeight = size.y;
+		  Resources resources = getResources();
+		  DisplayMetrics metrics = resources.getDisplayMetrics();
+		  float px = 10 * (metrics.densityDpi / 160f);
+		  int cellWidth = (int)( (screenWidth - px*2 - 10 ) /3);
+		  int cellHeight = (int) ( (screenHeight - px*2 - 10) /4 );
+		  int bigCellWidth = cellWidth * 2;
         //create page
         views = new ArrayList<View>();
-		for(int i = 0; i < pageNum; i++ )
+		for(int pageIndex = 0; pageIndex < pageCount; pageIndex++ )
 		{ 
-			
 	       	LinearLayout pageLayout = new LinearLayout(this);
 			pageLayout.removeAllViews();
-			GridView gridview = new GridView(this);
-			gridview.setNumColumns(3);
+			GridLayout gridLayout = new GridLayout(this);
+			gridLayout.setColumnCount(COLUMN_COUNT);
+			gridLayout.setRowCount(ROW_COUNT);
 			
-	        int itemIndex = 0;
-	        ArrayList<HashMap<String, Object>> hotPosItemList = new ArrayList<HashMap<String,Object>>();
-	        for(int r = 0;r < 9 && itemIndex < dbhostPosLst.size()-1 ;r++)
+	        for(int cell = 0,itemIndex = pageIndex*pageSize, rowIndex=0, columnIndex=0 ; 
+	        		cell < pageSize && itemIndex < dbhostPosLst.size()-1 ; 
+	        		cell++, itemIndex++)
 			{
-				itemIndex = i * 9 + r;
-				HotPosMainItem oneItem =(HotPosMainItem) dbhostPosLst.get(itemIndex); 
-				HashMap<String, Object> hotPosItem = new HashMap<String, Object>();
-				hotPosItem.put("hotPosItemId", oneItem.getStrStationId()); 
-				hotPosItem.put("hotPosItemTitle", oneItem.getStrStationName()); 
-				hotPosItem.put("hotPosItemLeftText", oneItem.getStrActualGJToday()); 
-				hotPosItem.put("hotPosItemLeftTxtPa", oneItem.getStrPlannedGJToday()); 
-				hotPosItem.put("hotPosItemRightText", oneItem.getStrActualGJYesterday());
-				hotPosItem.put("hotPosItemRightTxtPa", oneItem.getStrPlannedGJYesterday()); 
-				hotPosItem.put("hotPosItemRightTxtPa2", oneItem.getStrCalculatedGJYesterday()); 
-				hotPosItemList.add(hotPosItem);
-			}
-	        
-	        SimpleAdapter saItem = new SimpleAdapter(this,  hotPosItemList, R.layout.hot_position_main_item,//xml                                                              
-	              new String[]{"hotPosItemId","hotPosItemTitle","hotPosItemLeftText","hotPosItemRightText","hotPosItemLeftTxtPa","hotPosItemRightTxtPa", "hotPosItemRightTxtPa2"},                                 
-	              new int[]{R.id.hotPosItemId,R.id.hotPosItemTitle,R.id.hotPosItemLeftText,R.id.hotPosItemRightText,R.id.hotPosItemLeftTxtPa,R.id.hotPosItemRightTxtPa, R.id.hotPosItemRightTxtPa2});
-			gridview.setAdapter(saItem); 
-			                                                                    
-			gridview.setOnItemClickListener(
-			new OnItemClickListener(){                                                                                    
-			    public void onItemClick(AdapterView<?> arg0, View arg1,int arg2,long arg3)       
-			    {                                                                                
-			        int index=arg2+1;
-				
-	        		HashMap<String, Object> hotSrcItem = (HashMap<String, Object>) ((GridView)arg0).getItemAtPosition(arg2);
-					Intent intent = new Intent(HotPositionMainActivity.this, HotPositionDetailActivity.class); 
-					startActivity(intent);
-					
-					Bundle mBundle = new Bundle();
-	        		mBundle.putString("hotPosItemId", hotSrcItem.get("hotPosItemId").toString());
-	        		mBundle.putString("hotPosItemTitle", hotSrcItem.get("hotPosItemTitle").toString());
-			    }                                                                                
-			}); 
-			
-			gridview.setId(i);
-			pageLayout.addView(gridview.getRootView());
+	        	if(columnIndex == COLUMN_COUNT ){
+	        		columnIndex = 0;
+	        		rowIndex++;
+	        	}
+				HotPosMainItem item =(HotPosMainItem) dbhostPosLst.get(itemIndex); 
+				gridLayout.addView(getHeatSourceCell(item, rowIndex, columnIndex, cellWidth, cellHeight ));
+			}    
+			gridLayout.setId(pageIndex);
+			pageLayout.addView(gridLayout.getRootView());
 			views.add(pageLayout);
 		}
         

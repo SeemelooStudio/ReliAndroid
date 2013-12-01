@@ -1,15 +1,25 @@
 package com.ui;
 
+import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
+import android.util.DisplayMetrics;
+import android.util.Log;
+import android.util.TypedValue;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -17,6 +27,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -37,9 +48,7 @@ public class HotSourceMainActivity extends Activity {
 		private RelativeLayout titleView;
 		private ViewPager viewpage;
 		
-		private TextView txtAllnum;
-		private TextView txtAllDay;
-		private TextView txtAllNet;
+		
 		private ViewGroup viewGroup;
 		private ImageView imageView;  
 		private ImageView[] imageViews; 
@@ -47,8 +56,10 @@ public class HotSourceMainActivity extends Activity {
 		private HotSrcTitleInfo  titleInfo = null;
 		
 		private ArrayList<View> views;
-		private ArrayList<HotSrcMainItem>  dbhostSrcLst = null;
+		private ArrayList<HotSrcMainItem>  dbHeatSources = null;
 		
+		private static int ROW_COUNT = 4;
+		private static int COLUMN_COUNT = 3;
 	    @Override                                                                                            
 	    public void onCreate(Bundle savedInstanceState) {                                                    
 			super.onCreate(savedInstanceState);
@@ -64,24 +75,9 @@ public class HotSourceMainActivity extends Activity {
      */
 	private void initHotSourceView()
 	{
-		titleView = (RelativeLayout) findViewById(R.id.HotSrcTitleView);                                                                  
-		titleView.setOnClickListener(new OnClickListener(){                                                                                    
-        	public void onClick(View v) 
-        	{   
-        		if(R.id.HotSrcTitleView == v.getId())
-           		{
-	 	        	Intent intent = new Intent(HotSourceMainActivity.this, HotSourceQueryActivity.class); 
-	    			startActivity(intent);
-           		}
-        	}
-        });
 		
-		txtAllnum = (TextView) findViewById(R.id.hotSrcTitleAllnum);
-		txtAllDay = (TextView) findViewById(R.id.hotSrcTitleAllDay);
-		txtAllNet = (TextView) findViewById(R.id.hotSrcTitleAllNet);
-
 		titleInfo = new HotSrcTitleInfo();
-		dbhostSrcLst = new ArrayList<HotSrcMainItem>();
+		dbHeatSources = new ArrayList<HotSrcMainItem>();
 		diaLogProgress = BaseHelper.showProgress(HotSourceMainActivity.this,ConstDefine.I_MSG_0003,false);
 		
 	    new Thread() {
@@ -89,7 +85,7 @@ public class HotSourceMainActivity extends Activity {
 	                Message msgSend = new Message();
 	        	    try {
 	        	    	// get itemList
-	        	    	dbhostSrcLst = BusinessRequest.getHotSourceMainList();
+	        	    	dbHeatSources = BusinessRequest.getHotSourceMainList();
 	        	    	
 	        	    	//get static Info
 	        	    	titleInfo = BusinessRequest.getHotSourceAllStatic();
@@ -113,12 +109,6 @@ public class HotSourceMainActivity extends Activity {
                 switch (message.what) {
                 case ConstDefine.MSG_I_HANDLE_OK:                                        
         		 	diaLogProgress.dismiss();
-        		 	
-        		 	//show title
-        		 	txtAllnum.setText("共" + titleInfo.getStrCountHeatSources()+ "个"); 
-        		 	txtAllDay.setText("东部面积:" + titleInfo.getStrEastArea() + ",西部面积:" +  titleInfo.getStrWestArea() + "平方米"); 
-        		 	txtAllNet.setText("总热负荷:" + titleInfo.getStrHeatLoad() + "GJ"); 
-                
         		 	//show grideview
         		 	setHotSourceGridView();
         		 	
@@ -132,74 +122,121 @@ public class HotSourceMainActivity extends Activity {
 	        }
 	  };
 	    
-	  /**
-	   * 
-	   */
+	  private void setHeatSourceItemContent( View viewHeatSource, HotSrcMainItem item)
+	  {
+		 TextView tvPressureOut =  (TextView) viewHeatSource.findViewById(R.id.hotSrcItemLeftText);
+		 tvPressureOut.setText(item.getStrPressureOut());
+		 TextView tvPressureIn =  (TextView) viewHeatSource.findViewById(R.id.hotSrcItemRightText);
+		 tvPressureIn.setText(item.getStrPressureIn());
+		 TextView tvTemperatureOut =  (TextView) viewHeatSource.findViewById(R.id.hotSrcItemLeftTxtPa);
+		 tvTemperatureOut.setText(item.getStrPressureOut());
+		 TextView tvTemperatureIn =  (TextView) viewHeatSource.findViewById(R.id.hotSrcItemRightTxtPa);
+		 tvTemperatureIn.setText(item.getStrPressureIn());
+		 TextView tvHeatSourceName = (TextView) viewHeatSource.findViewById(R.id.hotSrcItemTitle);
+		 tvHeatSourceName.setText(item.getStrHeatSourceName());
+	  }
+
+	  private void setHeatSourceSummaryContent( View viewHeatSource, HotSrcTitleInfo title)
+	  {			
+		  TextView txtAllnum = (TextView) viewHeatSource.findViewById(R.id.hotSrcTitleAllnum);
+		  TextView txtAllDay= (TextView) viewHeatSource.findViewById(R.id.hotSrcTitleAllDay);
+		  TextView txtWest = (TextView) viewHeatSource.findViewById(R.id.hotSrcTitleAllWest);
+		  TextView txtAllNet = (TextView) viewHeatSource.findViewById(R.id.hotSrcTitleAllNet);
+		  txtAllnum.setText("共" + dbHeatSources.size() + "个"); 
+		  txtAllDay.setText("东部面积:" + titleInfo.getStrEastArea() + "平方米");
+		  txtWest.setText("西部面积:" +  titleInfo.getStrWestArea() + "平方米"); 
+		  txtAllNet.setText("总热负荷:" + titleInfo.getStrHeatLoad() + "GJ"); 
+	  }
+	  
+	  private View getHeatSourceSummaryCell(HotSrcTitleInfo title, int rowIndex, int columnIndex, int cellWidth, int cellHeight)
+	  {
+		  LayoutInflater inflater = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+		  View viewSummary = inflater.inflate(R.layout.hot_source_main_title_item, null);
+		  setHeatSourceSummaryContent(viewSummary, title);
+		  GridLayout.LayoutParams param =new GridLayout.LayoutParams();
+	      param.rowSpec = GridLayout.spec(rowIndex);
+	      param.columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 2);
+	      param.width = cellWidth;
+	      param.height = cellHeight;
+	      param.bottomMargin=5;
+	      param.rightMargin=5;
+	      viewSummary.setBackgroundResource(R.color.dodger_blue);
+	      viewSummary.setLayoutParams (param);
+    	  param.setGravity(Gravity.FILL);                                                          
+    	  viewSummary.setOnClickListener(new OnClickListener(){                                                                                    
+			  public void onClick(View v) 
+			  {   
+				  Intent intent = new Intent(HotSourceMainActivity.this, HotSourceQueryActivity.class); 
+				  startActivity(intent);
+			  }
+		  });
+    	  return viewSummary;
+	  }
+	  
+	  private View getHeatSourceCell(HotSrcMainItem heatSource, int rowIndex, int columnIndex, int cellWidth, int cellHeight)
+	  {
+		  LayoutInflater inflater = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+		  View viewHeatSource = inflater.inflate(R.layout.hot_source_main_item, null);
+		  setHeatSourceItemContent(viewHeatSource, heatSource);
+		  GridLayout.LayoutParams param =new GridLayout.LayoutParams();
+	      param.rowSpec = GridLayout.spec(GridLayout.UNDEFINED);
+	      param.columnSpec = GridLayout.spec(GridLayout.UNDEFINED);
+	      param.width = cellWidth;
+	      param.height = cellHeight;
+	      if(columnIndex != COLUMN_COUNT - 1){
+		      param.rightMargin=5;
+	      }
+	      param.bottomMargin=5;
+      	  viewHeatSource.setBackgroundResource(R.color.dodger_blue);
+      	  viewHeatSource.setLayoutParams (param);
+      	  return viewHeatSource;
+	  }
 	  private void setHotSourceGridView()
 	  {
-		  
-		viewpage = (ViewPager) findViewById(R.id.hotMainPager);
-		
-    	//create page
-		int pageNum =0;
-		if(dbhostSrcLst.size() >= 9 && (dbhostSrcLst.size() % 9) == 0){			
-			pageNum = dbhostSrcLst.size()/9;
-		}
-		else	
-		{
-			pageNum = (dbhostSrcLst.size()/9) + 1 ;
-		}
-		
+		  viewpage = (ViewPager) findViewById(R.id.hotMainPager);
+		  //create page
+		  int pageNum =2;
+		  int pageSize = 11;
+		  Point size = new Point();
+		  getWindowManager().getDefaultDisplay().getSize(size);
+		  int screenWidth = size.x;
+		  int screenHeight = size.y;
+		  Resources resources = getResources();
+		  DisplayMetrics metrics = resources.getDisplayMetrics();
+		  float px = 10 * (metrics.densityDpi / 160f);
+		  int cellWidth = (int)( (screenWidth - px*2 - 10 ) /3);
+		  int cellHeight = (int) ( (screenHeight - px*2 - 10) /4 );
+		  int bigCellWidth = cellWidth * 2;
         //create page
         views = new ArrayList<View>();
-		for(int i = 0; i < pageNum; i++ )
+		for(int pageIndex = 0; pageIndex < pageNum; pageIndex++ )
 		{ 
-			
-	       	LinearLayout pageLayout = new LinearLayout(this);
+			LinearLayout pageLayout = new LinearLayout(this);
 			pageLayout.removeAllViews();
-			GridView gridview = new GridView(this);
-			gridview.setNumColumns(3);
-			
-	        int itemIndex = 0;
-	        ArrayList<HashMap<String, Object>> hotSrcItemList = new ArrayList<HashMap<String,Object>>();
-	        for(int r = 0;r < 9 && itemIndex < dbhostSrcLst.size()-1 ;r++)
+			GridLayout gridLayout = new GridLayout(this);
+			gridLayout.setColumnCount(COLUMN_COUNT);
+			gridLayout.setRowCount(ROW_COUNT);
+			gridLayout.setOrientation(gridLayout.HORIZONTAL);
+	        for(int cell = 0, rowIndex = 0, columnIndex=0 ,itemIndex = pageIndex * pageSize + cell ; 
+	        		cell < pageSize && itemIndex < dbHeatSources.size()-1 ; 
+	        		cell ++, columnIndex++, itemIndex++)
 			{
-				itemIndex = i * 9 + r;
-				HotSrcMainItem oneItem =(HotSrcMainItem) dbhostSrcLst.get(itemIndex); 
-				HashMap<String, Object> hotSrcItem = new HashMap<String, Object>();
-	        	hotSrcItem.put("hotSrcItemId", oneItem.getStrHeatSourceName()); 
-	        	hotSrcItem.put("hotSrcItemTitle", oneItem.getStrHeatSourceName()); 
-	        	hotSrcItem.put("hotSrcItemLeftText", oneItem.getStrPressureOut()); 
-	        	hotSrcItem.put("hotSrcItemLeftTxtPa", oneItem.getStrTemperatureOut()); 
-	        	hotSrcItem.put("hotSrcItemRightText", oneItem.getStrPressureIn());
-	        	hotSrcItem.put("hotSrcItemRightTxtPa", oneItem.getStrTemperatureIn()); 
-		        hotSrcItemList.add(hotSrcItem);
+				if(columnIndex == COLUMN_COUNT) {
+					columnIndex = 0;
+					rowIndex++;
+				}	
+		        if(rowIndex == 2 && columnIndex == 0){
+		        	gridLayout.addView(getHeatSourceSummaryCell(titleInfo, 2, 0, bigCellWidth, cellHeight));
+		        	columnIndex+=1;
+		        	cell--;
+		        }
+		        else {
+		        	gridLayout.addView(getHeatSourceCell(dbHeatSources.get(itemIndex), rowIndex, columnIndex, cellWidth, cellHeight));
+		        }
 			}
 	        
-	        SimpleAdapter saItem = new SimpleAdapter(this,  hotSrcItemList, R.layout.hot_source_main_item,//xmlʵ��                                                               
-	              new String[]{"hotSrcItemId","hotSrcItemTitle","hotSrcItemLeftText","hotSrcItemRightText","hotSrcItemLeftTxtPa","hotSrcItemRightTxtPa"},                                 
-	              new int[]{R.id.hotSrcItemId,R.id.hotSrcItemTitle,R.id.hotSrcItemLeftText,R.id.hotSrcItemRightText,R.id.hotSrcItemLeftTxtPa,R.id.hotSrcItemRightTxtPa});
-			gridview.setAdapter(saItem); 
-			                                                                     
-			gridview.setOnItemClickListener(
-			new OnItemClickListener(){                                                                                    
-			    public void onItemClick(AdapterView<?> arg0, View arg1,int arg2,long arg3)       
-			    {                                                                                
-			        int index=arg2+1;
-				
-	        		HashMap<String, Object> hotSrcItem = (HashMap<String, Object>) ((GridView)arg0).getItemAtPosition(arg2);
-					Intent intent = new Intent(HotSourceMainActivity.this, HotSourceDetailActivity.class); 
-					startActivity(intent);
-					
-					Bundle mBundle = new Bundle();
-	        		mBundle.putString("hotSrcItemId", hotSrcItem.get("hotSrcItemId").toString());
-	        		mBundle.putString("hotSrcItemTitle", hotSrcItem.get("hotSrcItemTitle").toString());
-                       
-			    }                                                                                
-			}); 
-			
-			gridview.setId(i);
-			pageLayout.addView(gridview.getRootView());
+		    gridLayout.setId(pageIndex);
+		    pageLayout.addView(gridLayout);
 			views.add(pageLayout);
 		}
         
