@@ -19,9 +19,12 @@ public class WeatherDetailTodayFragment extends Fragment {
 	private WeatherDetailTempInfo _weatherSummary;
 	private List<HashMap<String, Object>> _weatherDetails;
 	private TextView _tvUpdateTime;
-	private TextView _tvStationName;
 	private TextView _tvCurrentTempreture;
-	private TextView _tvWeatherSummary;
+	private TextView _tvYesterdayTempreture;
+	private TextView _tvHighestTempreture;
+	private TextView _tvLowestTempreture;
+	private TextView _tvWind;
+	private TextView _tvWeather;
 	private ListView _lvWeatherDetails;
 	
 	@Override
@@ -41,21 +44,25 @@ public class WeatherDetailTodayFragment extends Fragment {
 		_tvUpdateTime = (TextView) view.findViewById(R.id.today_date);
 		_lvWeatherDetails = (ListView)view.findViewById(R.id.oneTabList);
 		_tvCurrentTempreture = (TextView) view.findViewById(R.id.today_average_tempreture);
-		_tvStationName = (TextView) view.findViewById(R.id.today_weather);
-		_tvWeatherSummary = (TextView) view.findViewById(R.id.today_summary);
+		_tvYesterdayTempreture = (TextView) view.findViewById(R.id.yesterday_average_tempreture);
+		_tvWeather = (TextView) view.findViewById(R.id.today_weather);
+		_tvHighestTempreture = (TextView) view.findViewById(R.id.today_highest_tempreture);
+		_tvLowestTempreture = (TextView)view.findViewById(R.id.today_lowest_tempreture);
+		_tvWind = (TextView)view.findViewById(R.id.today_wind);
 	}
 	
 	public void renderWeatherDetailData() {
 		if ( null == _weatherSummary ) {
 			return;
 		}
+		String strDegreeUnit = getActivity().getString(R.string.degree_unit);
 		_tvUpdateTime.setText( _weatherSummary.getStrUpTime() );
-		_tvCurrentTempreture.setText(_weatherSummary.getStrForecastAverage());
-		_tvStationName.setText(_weatherSummary.getStrWeatherShortDescription());
-		String strMsg  =  _weatherSummary.getStrForecastHighest() + getString(R.string.degree_unit) + "  ";
-		strMsg += _weatherSummary.getStrForecastLowest() + getString(R.string.degree_unit);
-
-		_tvWeatherSummary.setText(strMsg);
+		_tvCurrentTempreture.setText(_weatherSummary.getStrForecastAverage() + strDegreeUnit);
+		_tvWeather.setText(_weatherSummary.getStrWeatherShortDescription());
+		_tvYesterdayTempreture.setText(_weatherSummary.getStrForecastAverage() + strDegreeUnit);
+		_tvWind.setText(_weatherSummary.getStrFengsu());
+		_tvHighestTempreture.setText(_weatherSummary.getStrForecastHighest() + strDegreeUnit);
+		_tvLowestTempreture.setText(_weatherSummary.getStrForecastLowest() + strDegreeUnit);
 		
 		
 		if ( null == _weatherDetails ) {

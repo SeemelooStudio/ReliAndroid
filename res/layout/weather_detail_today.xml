@@ -7,71 +7,173 @@
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="180dp"
+        android:layout_height="140dp"
+        android:layout_marginLeft="@dimen/medium_margin"
         android:layout_marginTop="@dimen/medium_margin"
         android:baselineAligned="false" >
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:orientation="vertical" >
+
             <TextView
                 android:id="@+id/today_date"
+                style="@style/whiteText"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/small_font_size"
-                android:textColor="@color/white"
-                android:layout_marginLeft="@dimen/medium_margin"
-                android:text="@string/loading">
+                android:text=""
+                android:textSize="@dimen/small_font_size" >
             </TextView>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" >
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/today_average_tempreture_label"
+                        style="@style/whiteText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/today_average"
+                        android:textColor="@color/white" />
+
+                    <TextView
+                        android:id="@+id/today_average_tempreture"
+                        style="@style/whiteText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/negtive_medium_margin"
+                        android:text="@string/zero"
+                        android:textSize="@dimen/xxlarge_font_size" >
+                    </TextView>
+                </LinearLayout>
+                <View
+                    android:layout_width="1dip"
+                    android:layout_height="@dimen/xxlarge_margin"
+                    android:layout_marginLeft="@dimen/medium_margin"
+                    android:layout_gravity="center"
+                    android:background="@color/grey" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="@dimen/xlarge_margin"
+                    android:layout_marginLeft="@dimen/medium_margin" >
+
+                    <TextView
+                        android:id="@+id/yesterday_average_tempreture_label"
+                        style="@style/grayText"
+                        android:textSize="@dimen/small_font_size"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/yesterday_average" >
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/yesterday_average_tempreture"
+                        style="@style/grayText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/zero" />
+                </LinearLayout>
+            </LinearLayout>
+
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/medium_margin" >
+                android:layout_marginTop="@dimen/negtive_small_margin" >
+
                 <TextView
-                    android:id="@+id/today_average_tempreture"
+                    style="@style/whiteText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/xxlarge_font_size" >
+                    android:text="@string/from_day_to_night" >
                 </TextView>
+
+                <TextView
+                    android:id="@+id/today_highest_tempreture"
+                    style="@style/whiteText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/small_margin"
+                    android:text="@string/zero" >
+                </TextView>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/degree_unit"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/xxlarge_font_size" >
+                    android:text="@string/to"
+                    android:textColor="@color/white" >
+                </TextView>
+
+                <TextView
+                    android:id="@+id/today_lowest_tempreture"
+                    style="@style/whiteText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/small_margin"
+                    android:text="@string/zero" >
                 </TextView>
             </LinearLayout>
-            <TextView
-                android:id="@+id/today_weather"
+
+            <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:layout_marginLeft="@dimen/medium_margin"
-                android:text="@string/loading">
-            </TextView>
-            <TextView
-                android:id="@+id/today_summary"
-                android:layout_width="fill_parent" 
-                android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:layout_marginLeft="@dimen/medium_margin"
-                android:text="@string/loading" >
-            </TextView>
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    style="@style/whiteText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/weather" >
+                </TextView>
+
+                <TextView
+                    android:id="@+id/today_weather"
+                    style="@style/whiteText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/small_margin"
+                    android:text="@string/loading" >
+                </TextView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/small_margin"
+                    android:text="@string/wind"
+                    style="@style/whiteText" >
+                </TextView>
+
+                <TextView
+                    android:id="@+id/today_wind"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/small_margin"
+                    android:text="@string/loading"
+                    style="@style/whiteText" >
+                </TextView>
+            </LinearLayout>
         </LinearLayout>
-        <LinearLayout 
-            android:layout_weight="1"
+
+        <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
+
             <ImageView
                 android:id="@+id/today_weather_icon"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:contentDescription="@string/weather"
                 android:scaleType="fitStart"
-                android:src="@drawable/sunny"
-                android:contentDescription="@string/weather" />
+                android:src="@drawable/sunny" />
         </LinearLayout>
     </LinearLayout>
 
@@ -79,7 +181,8 @@
         android:id="@+id/oneTabList"
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
-        android:scrollbarStyle="outsideOverlay" >
+        android:scrollbarStyle="outsideOverlay"
+        android:layout_margin="@dimen/medium_margin" >
     </ListView>
 
 </LinearLayout>

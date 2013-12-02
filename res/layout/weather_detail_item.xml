@@ -1,20 +1,23 @@
-<?xml version="1.0" encoding="utf-8"?>   
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>   <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="40dp"
     android:orientation="horizontal">
 	<TextView android:id="@+id/w_time"
-	    android:textColor="@color/black"
+	    android:textColor="@color/white"
 	    android:layout_width="0dp"
 	    android:layout_weight="1"
-	    android:text="abc"
+	    android:layout_gravity="center"
+	    android:layout_height="wrap_content"  />
+	<TextView android:id="@+id/w_weather"
+	    android:layout_width="0dp"
+	    android:textColor="@color/white"
+	    android:layout_weight="1"
+	    android:layout_gravity="center"
 	    android:layout_height="wrap_content" />
 	<TextView android:id="@+id/w_tempreture"
 	    android:layout_width="0dp"
+	    android:textColor="@color/white"
 	    android:layout_weight="1"
-	    android:layout_height="wrap_content" />
-	<TextView android:id="@+id/w_weather"
-	    android:layout_width="0dp"
-	    android:layout_weight="1"
+	    android:layout_gravity="center"
 	    android:layout_height="wrap_content" />
 </LinearLayout>

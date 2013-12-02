@@ -1,6 +1,5 @@
 package com.util;
 
-import android.R;
 
 public class ConstDefine 
 {
