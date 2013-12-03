@@ -63,10 +63,10 @@ public class WeatherDetailYesterdayFragment extends Fragment {
 		}
 
 		//set temperature list
-		_lvWeatherDetails.setAdapter(new SimpleAdapter(getActivity(), _weatherDetails, R.layout.weather_detail_item,  
-	 			 new String[] { "time", "tempreture", "weather" }, 
-				  new int[] {R.id.w_time, R.id.w_tempreture, R.id.w_weather}));
-		_lvWeatherDetails.setTextFilterEnabled(true); 
+		_lvWeatherDetails.setAdapter(new SimpleAdapter(getActivity(), _weatherDetails, R.layout.weather_detail_recent_item,  
+	 			 new String[] { "date","day_of_week", "tempreture", "weather" }, 
+				  new int[] {R.id.w_date,R.id.w_day_of_week, R.id.w_tempreture, R.id.w_weather}));
+		_lvWeatherDetails.setTextFilterEnabled(true);  
 
 	}
 	

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -39,6 +40,7 @@ import com.util.BaseHelper;
 import com.util.ConstDefine;
 import com.util.ViewPageAdapter;
 import com.util.ViewPageChangeListener;
+import com.util.WeatherIconHelper;
 
 public class MainPageActivity extends Activity {
 	
@@ -258,10 +260,14 @@ public class MainPageActivity extends Activity {
 		  TextView tvWeather = (TextView) findViewById(R.id.main_item_three_txt3);
 		  tvHighest.setText(mainPageSummary.getStrForecastHighest() + "/" + mainPageSummary.getStrForecastLowest());	
 		  ImageView imgWeatherIcon = (ImageView) findViewById(R.id.main_item_three_image);
-		  String weatherIconUri = "@drawable/"+mainPageSummary.getStrWeatherIcon()+"_small.png";
-		  int imageResource = getResources().getIdentifier(weatherIconUri, null, getPackageName());
-		  if(imageResource != 0){
-			  imgWeatherIcon.setImageDrawable(getResources().getDrawable(imageResource));
+		  
+		  //TODO: read weather icon id and get resource id
+		  Random rand = new Random();
+		  Integer intWeatherId = rand.nextInt(34);
+		  Integer intImageResource = WeatherIconHelper.getWeatherIconResourceId(intWeatherId);
+		  
+		  if(intImageResource != 0){
+			  imgWeatherIcon.setImageDrawable(getResources().getDrawable(intImageResource));
 		  }
 		  Date today = new Date();
 		  tvToday.setText("北京" + today.getDate() + "日");

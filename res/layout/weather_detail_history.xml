@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:iconifiedByDefault="false"
         android:inputType="textFilter"
-        android:queryHint="请输入查询条件" >
+        android:queryHint="@string/search_hint" >
     </SearchView>
 
     <TextView

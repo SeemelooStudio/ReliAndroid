@@ -12,11 +12,13 @@
         android:background="@drawable/main_item_bg_2" >
         <ImageView
             android:id="@+id/main_item_three_image"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/button_height"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dip"
-            android:layout_marginLeft="10dip"
-            android:src="@drawable/main_item_three_image" />
+            android:scaleType="fitStart"
+            android:layout_marginTop="@dimen/large_margin"
+            android:layout_marginLeft="@dimen/small_margin"
+            android:contentDescription="@string/weather"
+            android:src="@drawable/ic_weather_33" />
         <TextView
             android:id="@+id/main_item_three_txt1"
             style="@style/mainTitleStyle"
@@ -24,7 +26,7 @@
             android:layout_marginLeft="50dip"
             android:layout_width="70dp"
             android:layout_height="20dp"
-            android:text="-10/1" 
+            android:text="@string/zero" 
             android:textSize="18sp"/>             
         <TextView
             android:id="@+id/main_item_three_txt2"
@@ -33,7 +35,7 @@
             android:layout_width="70dp"
             android:layout_height="20dp"
             android:layout_below="@id/main_item_three_txt1"
-            android:text="北京23日"
+            android:text="@string/loading"
             android:textSize="12sp" />
        <TextView
             android:id="@+id/main_item_three_txt3"
@@ -42,13 +44,13 @@
             android:layout_width="70dp"
             android:layout_height="20dp"
             android:layout_below="@id/main_item_three_txt2"
-            android:text="晴转阴  微风"
+            android:text="@string/loading"
             android:textSize="12sp" /> 
         <TextView
             style="@style/mainTitleStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/main_item_three_image"
+            android:layout_below="@id/main_item_three_txt2"
             android:layout_marginLeft="30dip"
             android:layout_marginTop="20dip"
             android:text="@string/main_item_three_name" />

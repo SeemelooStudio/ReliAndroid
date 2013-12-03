@@ -52,8 +52,8 @@
         <item name="android:shadowDy">1</item>
         <item name="android:shadowRadius">1</item>
     </style>
-    <style name="grayText" parent="@style/whiteText">
-        <item name="android:textColor">@color/grey</item>
+    <style name="grayText" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/transparent_white</item>
     </style>
     <!--  add by zhaors msg_up_page-->
     <style name="ChattingUISplit">

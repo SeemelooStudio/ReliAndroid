@@ -7,7 +7,7 @@
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="140dp"
+        android:layout_height="160dp"
         android:layout_marginLeft="@dimen/medium_margin"
         android:layout_marginTop="@dimen/medium_margin"
         android:baselineAligned="false" >
@@ -17,7 +17,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:orientation="vertical" >
-
             <TextView
                 android:id="@+id/today_date"
                 style="@style/whiteText"
@@ -38,11 +37,10 @@
 
                     <TextView
                         android:id="@+id/today_average_tempreture_label"
-                        style="@style/whiteText"
+                        style="@style/grayText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/today_average"
-                        android:textColor="@color/white" />
+                        android:text="@string/today_average" />
 
                     <TextView
                         android:id="@+id/today_average_tempreture"
@@ -58,8 +56,9 @@
                     android:layout_width="1dip"
                     android:layout_height="@dimen/xxlarge_margin"
                     android:layout_marginLeft="@dimen/medium_margin"
+                    android:layout_marginTop="@dimen/small_margin"
                     android:layout_gravity="center"
-                    android:background="@color/grey" />
+                    android:background="@color/transparent_white" />
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -91,7 +90,7 @@
                 android:layout_marginTop="@dimen/negtive_small_margin" >
 
                 <TextView
-                    style="@style/whiteText"
+                    style="@style/grayText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/from_day_to_night" >
@@ -110,7 +109,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/to"
-                    android:textColor="@color/white" >
+                    style="@style/grayText" >
                 </TextView>
 
                 <TextView
@@ -128,7 +127,7 @@
                 android:layout_height="wrap_content" >
 
                 <TextView
-                    style="@style/whiteText"
+                    style="@style/grayText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/weather" >
@@ -148,7 +147,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/small_margin"
                     android:text="@string/wind"
-                    style="@style/whiteText" >
+                    style="@style/grayText" >
                 </TextView>
 
                 <TextView
@@ -173,16 +172,21 @@
                 android:layout_height="match_parent"
                 android:contentDescription="@string/weather"
                 android:scaleType="fitStart"
-                android:src="@drawable/sunny" />
+                android:src="@drawable/ic_weather_33" />
         </LinearLayout>
     </LinearLayout>
-
+	<View
+	    android:layout_width="fill_parent"
+	    android:layout_height="1dp"
+	    android:background="@drawable/black_to_white_transparent" />
     <ListView
         android:id="@+id/oneTabList"
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
         android:scrollbarStyle="outsideOverlay"
-        android:layout_margin="@dimen/medium_margin" >
+        android:divider="@android:color/transparent"
+        android:background="@drawable/black_to_transparent"
+        android:padding="@dimen/medium_margin" >
     </ListView>
 
 </LinearLayout>
