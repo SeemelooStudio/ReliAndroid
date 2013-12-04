@@ -29,6 +29,7 @@ import com.model.WeatherType;
 import com.reqst.BusinessRequest;
 import com.util.BaseHelper;
 import com.util.ConstDefine;
+import com.util.DateHelper;
 
 
 public class WeatherDetailActivity extends FragmentActivity implements TabListener {
@@ -198,11 +199,15 @@ public class WeatherDetailActivity extends FragmentActivity implements TabListen
 		List<HashMap<String, Object>> wenDuList = new ArrayList<HashMap<String, Object>>(); 
 		for (WeatherDetailItem oneRec: wenduDbDatalist) 
 		{   
-			HashMap<String, Object> item = new HashMap<String, Object>();  
-		    item.put("time", oneRec.getW_time()); 
-		    item.put("tempreture", oneRec.getW_wendu()); 
-		    item.put("weather", oneRec.getW_tianqi()); 
-		    wenDuList.add(item);  
+			HashMap<String, Object> item = new HashMap<String, Object>();
+			String time = oneRec.getW_time();
+			String strDate = DateHelper.getShortDate(time, "mm/dd/yyyy", getApplicationContext());
+			String strDayOfWeek = DateHelper.getDayOfWeek(time, "mm/dd/yyyy", getApplicationContext());
+		    item.put("date", strDate);
+		    item.put("day_of_week", strDayOfWeek); 
+		    item.put("tempreture", oneRec.getW_wendu() + getString(R.string.degree_unit)); 
+		    item.put("weather", oneRec.getW_iconId()); 
+		    wenDuList.add(item);
 		}
 		
 		//return

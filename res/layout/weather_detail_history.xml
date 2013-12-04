@@ -1,59 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/black"
+    android:padding="@dimen/medium_margin"
     android:orientation="vertical" >
 
-	<LinearLayout android:id="@+id/widget_layout_four"
-				        android:layout_width="fill_parent" 
-				        android:layout_height="fill_parent"
-				        android:background="#fff"
-				        android:orientation="vertical"  >
-					   <LinearLayout 
-						    android:layout_width="fill_parent" 
-					         android:layout_height="wrap_content">
-					   	   <RelativeLayout android:id="@+id/fourTabLeftInfo"
-					   	         android:padding="5dip" 
-							    android:layout_height="100dp" 
-							    android:layout_width="180dp">
-						       	<TextView android:id="@+id/txtfourTab2" 
-						            android:layout_width="fill_parent"
-						            android:layout_height="wrap_content" 
-						            android:text="XXXX气象站"
-						            android:textSize="15sp">
-						       	</TextView>
-						        	<SearchView 
-							        android:id="@+id/wether_his_search"
-							        android:layout_width="fill_parent"  
-							        android:layout_height="30dp"
-							        android:layout_marginLeft="-20dip"
-							        android:layout_marginTop="30dip" 
-							        android:iconifiedByDefault="false"  
-							        android:inputType="textFilter"
-							        android:background="#969696"
-							        android:queryHint="请输入查询条件" >  
-							    </SearchView> 				      
-							</RelativeLayout>
-							<RelativeLayout  android:id="@+id/twoTabRightInfo"
-							    android:layout_height="100dp"
-							    android:layout_width="80dp" 
-							    android:layout_marginRight="5dip">
-							       <TextView android:id="@+id/txtfourTab1" 
-							            android:layout_width="fill_parent"
-							            android:layout_height="wrap_content"
-							            android:paddingTop="5dip" 
-							             android:paddingLeft="30dip" 
-							            android:text="30"
-							            android:textSize="40sp">
-							       </TextView>
-							 </RelativeLayout>
-						 </LinearLayout>
-						<ListView
-						         android:id="@+id/fourTabList"
-						         android:layout_width="fill_parent"
-						         android:layout_height="match_parent"
-						         android:scrollbarStyle="outsideOverlay" >
-						     </ListView>
-					</LinearLayout>   
+    <SearchView
+        android:id="@+id/wether_his_search"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:iconifiedByDefault="false"
+        android:inputType="textFilter"
+        android:queryHint="@string/search_hint" >
+    </SearchView>
+
+    <TextView
+        android:id="@+id/txtfourTab1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="30" >
+    </TextView>
+
+    <ListView
+        android:id="@+id/fourTabList"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:scrollbarStyle="outsideOverlay" >
+    </ListView>
 
 </LinearLayout>

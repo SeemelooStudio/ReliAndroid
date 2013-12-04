@@ -1,5 +1,9 @@
 package com.model;
 
+import java.util.Random;
+
+import com.util.WeatherIconHelper;
+
 public class WeatherDetailItem {
 
 	private String w_time;
@@ -23,6 +27,11 @@ public class WeatherDetailItem {
 	}
 	public void setW_tianqi(String w_tianqi) {
 		this.w_tianqi = w_tianqi;
+	}
+	public Integer getW_iconId(){
+		Random rand = new Random();
+	    Integer intWeatherId = rand.nextInt(34) ;
+		return WeatherIconHelper.getWeatherIconResourceId(intWeatherId);
 	}
 	
 	

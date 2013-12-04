@@ -14,7 +14,7 @@
    <string name="main_item_serven_name">知识库</string>
    <string name="heat_daily">热力日报</string>
    <string name="warning">预警信息</string>
-   <string name="weather">天气预报</string>
+   <string name="weather_forecast">天气预报</string>
    <string name="infomation_upload">信息上传</string>
    <string name="heat_source">热源信息</string>
    <string name="station">热力站信息</string>
@@ -53,10 +53,27 @@
    <string name="take_photo">拍照</string>
    <string name="upload_photo">上传照片</string>
    <string name="degree_unit">°</string>
+   <string name="today_average">今日平均</string>
+   <string name="yesterday_average">昨日平均</string>
+   <string name="from_day_to_night">今天白天到夜间</string>
+   <string name="zero">0</string>
+   <string name="to">至</string>
 
    <!--  HeatSource -->
    <string name="totalHeatLoad">总热负荷:</string>
    <string name="eastArea">东部面积:</string>
    <string name="westArea">西部面积:</string>
    <string name="heatSourceInfo">热源信息</string>
+   
+   <!-- Date -->
+   <string name="year">年</string>
+   <string name="month">月</string>
+   <string name="day">日</string>
+   <string name="monday">星期一</string>
+   <string name="tuesday">星期二</string>
+   <string name="wednesday">星期三</string>
+   <string name="thursday">星期四</string>
+   <string name="friday">星期五</string>
+   <string name="saturday">星期六</string>
+   <string name="sunday">星期日</string>
 </resources>

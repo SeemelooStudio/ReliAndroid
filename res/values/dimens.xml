@@ -5,6 +5,11 @@
     <dimen name="large_margin">20dp</dimen>
     <dimen name="xlarge_margin">30dp</dimen>
     <dimen name="xxlarge_margin">40dp</dimen>
+    <dimen name="negtive_small_margin">-4dp</dimen>
+    <dimen name="negtive_medium_margin">-10dp</dimen>
+    <dimen name="negtive_large_margin">-20dp</dimen>
+    <dimen name="negtive_xlarge_margin">-30dp</dimen>
+    <dimen name="negtive_xxlarge_margin">-40dp</dimen>    
     <dimen name="small_padding">6dip</dimen>
     <dimen name="button_height">40dp</dimen>
     <dimen name="small_font_size">10sp</dimen>
