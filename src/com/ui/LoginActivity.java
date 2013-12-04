@@ -33,30 +33,21 @@ public class LoginActivity extends Activity implements android.view.View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
         
-        //��ť����
         btnLogin = (Button) findViewById(R.id.btnLogin);
         btnForgetPwd = (Button) findViewById(R.id.btnForgetPwd);
         btnLogin.setOnClickListener((android.view.View.OnClickListener) this);
         btnForgetPwd.setOnClickListener((android.view.View.OnClickListener) this);
         
-        //�ı�����
         txtUserId = (EditText) findViewById(R.id.txtUserId);
         txtPwd = (EditText) findViewById(R.id.txtPwd);
     }
     
-    /*
-     * ��ť�����¼�
-     * @see android.view.View.OnClickListener#onClick(android.view.View)
-     */
     public void onClick(View v)
    	{
    		if(R.id.btnLogin == v.getId())
    		{
-   			
-   			//������û�������У��
    			if(checkInPutData(txtUserId.getText().toString(),txtPwd.getText().toString()) == false)
    				return;
-   			
    			diaLogProgress = BaseHelper.showProgress(LoginActivity.this,getString(R.string.log_in_message),false);
    	        new Thread() {
    	            public void run() { 
@@ -67,6 +58,9 @@ public class LoginActivity extends Activity implements android.view.View.OnClick
    	            	    	userInfo.setStrUserId(txtUserId.getText().toString());
    	            	    	userInfo.setStrUserName(txtUserId.getText().toString());
    	            	    	userInfo.setStrUserPwd(txtPwd.getText().toString());
+   	            	    	BusinessRequest.Authentication(userInfo);
+   	            	    	
+   	            	    	
    	            	    	strMenu = BusinessRequest.getMainMenuByLoginUser(userInfo);
    	            	    	msgSend.what = ConstDefine.MSG_I_HANDLE_OK;
    						} catch (Exception e) {
@@ -110,21 +104,12 @@ public class LoginActivity extends Activity implements android.view.View.OnClick
         }
     };
     
-    /*
-     * ������û�������У��
-     */
     private boolean checkInPutData(String strkUserId ,String strPwd ) {
     	
-    	 //��ֵУ��
 		 if(strkUserId.trim().length() <= 0 || strkUserId.trim().length() <= 0)
 		 {
-			 
-			//Toast.makeText(getApplicationContext(), "���������û�������롣", 0).show();   
 			return true;  
 		 }
-		  
-		 //�û������������У��
-		 //TODO
 		 return true;
     }
        

@@ -1,5 +1,8 @@
 package com.reqst;
 
+import java.net.Authenticator;
+import java.net.HttpURLConnection;
+import java.net.PasswordAuthentication;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,6 +11,7 @@ import java.util.Map;
 import org.json.JSONException;
 import org.json.JSONStringer;
 
+import android.util.Base64;
 import android.util.Log;
 
 import com.model.ChatMessage;
@@ -178,10 +182,6 @@ public class BusinessRequest {
 		
 		String requestAddress = (ConstDefine.WEB_SERVICE_URL + ConstDefine.S_GET_OFFICIALWEATHER).replace("{weatherTypeId}", WeatherType.Today.getStrValue());
 		try {
-			//create parame
-			//Map<String, String> mapParam = new HashMap();
-			//mapParam.put("list_id", strListId);
-			//mapParam.put("day_id", strDayFlag);
 			ServerHttpRequest httpReq = new ServerHttpRequest();
 			String strResp = httpReq.doGet(requestAddress);
 			WeatherDetailTempInfo respInfo = JsonHelper.parseObject(strResp, WeatherDetailTempInfo.class);  
@@ -396,6 +396,21 @@ public class BusinessRequest {
 		}
 		catch (Exception ex){
 			throw ex;
+		}
+	}
+	
+	public static void Authentication(UserInfo userInfo) {
+		ServerHttpRequest httpReq = new ServerHttpRequest();
+		String url = ConstDefine.WEB_SERVICE_URL + ConstDefine.S_AUTHENTICATION;
+		Map<String, String> requestData = new HashMap<String, String>();
+		requestData.put("strUserName", userInfo.getStrUserName());
+		requestData.put("strEncodedPassword", Base64.encodeToString(userInfo.getStrUserPwd().getBytes(), Base64.NO_WRAP));
+		try {
+			String response = httpReq.doPost(url, requestData);
+			Log.v("autentication", response);
+		}
+		catch(Exception ex) {
+			
 		}
 	}
 }
