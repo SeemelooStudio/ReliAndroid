@@ -1,7 +1,6 @@
 package com.ui;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -13,24 +12,20 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridLayout;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.model.HotPosMainItem;
-import com.model.HotSrcMainItem;
 import com.reqst.BusinessRequest;
 import com.util.BaseHelper;
 import com.util.ConstDefine;
@@ -51,6 +46,8 @@ public class HotPositionMainActivity extends Activity {
 		private ArrayList<HotPosMainItem>  dbhostPosLst = null;
 		private static int ROW_COUNT = 4;
 		private static int COLUMN_COUNT = 3;
+		private static int PAGE_SIZE =10;
+		
 	    @Override                                                                                            
 	    public void onCreate(Bundle savedInstanceState) {                                                    
 			super.onCreate(savedInstanceState);
@@ -107,7 +104,13 @@ public class HotPositionMainActivity extends Activity {
 	        }
 	  };
      
-	  private void setStationContent(View viewStation, HotPosMainItem item)
+	  
+	  /**
+	   * 
+	   * @param viewStation
+	   * @param item
+	   */
+	  private void setStationItemContent(View viewStation, HotPosMainItem item)
 	  {
 		  TextView tvStationName = (TextView)viewStation.findViewById(R.id.hotPosItemTitle);
 		  TextView tvStationId = (TextView)viewStation.findViewById(R.id.hotPosItemId);
@@ -125,11 +128,59 @@ public class HotPositionMainActivity extends Activity {
 		  tvYesterdayPlannedGJ.setText(item.getStrPlannedGJYesterday()); 
 		  tvYesterdayCalculatedGJ.setText(item.getStrCalculatedGJYesterday()); 
 	  }
-	  private View getHeatSourceCell(HotPosMainItem heatSource, int rowIndex, int columnIndex, int cellWidth, int cellHeight)
+	  
+
+	  /***
+	   * 
+	   * @param title
+	   * @param rowIndex
+	   * @param columnIndex
+	   * @param cellWidth
+	   * @param cellHeight
+	   * @return
+	   */
+	  private View getHeatStationTitleCell(int allCount, int rowIndex, int columnIndex, int cellWidth, int cellHeight)
 	  {
 		  LayoutInflater inflater = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-		  View viewHeatSource = inflater.inflate(R.layout.hot_position_main_item, null);
-		  setStationContent(viewHeatSource, heatSource);
+		  View viewHeatStationTitle = inflater.inflate(R.layout.hot_position_main_title_item, null);
+		  TextView txtAllnum = (TextView) viewHeatStationTitle.findViewById(R.id.hotPosTitleAllnum);
+		  txtAllnum.setText("共" + allCount + "个关键热力站");
+		  GridLayout.LayoutParams param =new GridLayout.LayoutParams();
+	      param.rowSpec = GridLayout.spec(rowIndex);
+	      param.columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 2);
+	      param.width = cellWidth;
+	      param.height = cellHeight;
+	      param.bottomMargin=5;
+	      param.rightMargin=5;
+	      viewHeatStationTitle.setBackgroundResource(R.color.dodger_blue);
+	      viewHeatStationTitle.setLayoutParams (param);
+    	  param.setGravity(Gravity.FILL);                                                          
+    	  viewHeatStationTitle.setOnClickListener(new OnClickListener(){                                                                                    
+			  public void onClick(View v) 
+			  {   
+				  Intent intent = new Intent(HotPositionMainActivity.this, HotPositionQueryActivity.class); 
+				  startActivity(intent);
+			  }
+		  });
+    	  return viewHeatStationTitle;
+	  }
+	  
+	  
+	 
+	  /***
+	   * 
+	   * @param heatSource
+	   * @param rowIndex
+	   * @param columnIndex
+	   * @param cellWidth
+	   * @param cellHeight
+	   * @return
+	   */
+	  private View getHeatStationCell(HotPosMainItem heatSource, int rowIndex, int columnIndex, int cellWidth, int cellHeight)
+	  {
+		  LayoutInflater inflater = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+		  View viewHeatStation= inflater.inflate(R.layout.hot_position_main_item, null);
+		  setStationItemContent(viewHeatStation, heatSource);
 		  GridLayout.LayoutParams param =new GridLayout.LayoutParams();
 	      param.rowSpec = GridLayout.spec(GridLayout.UNDEFINED);
 	      param.columnSpec = GridLayout.spec(GridLayout.UNDEFINED);
@@ -139,47 +190,64 @@ public class HotPositionMainActivity extends Activity {
 		      param.rightMargin=5;
 	      }
 	      param.bottomMargin=5;
-      	  viewHeatSource.setBackgroundResource(R.color.dodger_blue);
-      	  viewHeatSource.setLayoutParams (param);
-      	  return viewHeatSource;
+	      viewHeatStation.setBackgroundResource(R.color.dodger_blue);
+      	  viewHeatStation.setLayoutParams (param);
+      	  return viewHeatStation;
 	  }
+	  
+	  /***
+	   * 
+	   */
 	  private void setHotPositionGridView()
 	  {
 		  
     	//create page
-		int pageCount =2;
-		int pageSize = 11;
+		int pageNum = 1;
+		int pageSize = PAGE_SIZE;
+		if(dbhostPosLst.size()% 10 == 0){
+			pageNum = dbhostPosLst.size() / PAGE_SIZE;
+		}
+		else{
+			pageNum = (dbhostPosLst.size() / PAGE_SIZE) + 1;
+		}
 		Point size = new Point();
-		  getWindowManager().getDefaultDisplay().getSize(size);
-		  int screenWidth = size.x;
-		  int screenHeight = size.y;
-		  Resources resources = getResources();
-		  DisplayMetrics metrics = resources.getDisplayMetrics();
-		  float px = 10 * (metrics.densityDpi / 160f);
-		  int cellWidth = (int)( (screenWidth - px*2 - 10 ) /3);
-		  int cellHeight = (int) ( (screenHeight - px*2 - 10) /4 );
-		  int bigCellWidth = cellWidth * 2;
-        //create page
-        views = new ArrayList<View>();
-		for(int pageIndex = 0; pageIndex < pageCount; pageIndex++ )
+		getWindowManager().getDefaultDisplay().getSize(size);
+		int screenWidth = size.x;
+		int screenHeight = size.y;
+		Resources resources = getResources();
+		DisplayMetrics metrics = resources.getDisplayMetrics();
+		float px = 10 * (metrics.densityDpi / 160f);
+		int cellWidth = (int)( (screenWidth - px*2 - 10 ) /3);
+		int cellHeight = (int) ( (screenHeight - px*2 - 10-50) /4 );
+		int bigCellWidth = cellWidth * 2;
+		//create page
+		views = new ArrayList<View>();
+		for(int pageIndex = 0; pageIndex < pageNum; pageIndex++ )
 		{ 
-	       	LinearLayout pageLayout = new LinearLayout(this);
+		   	LinearLayout pageLayout = new LinearLayout(this);
 			pageLayout.removeAllViews();
 			GridLayout gridLayout = new GridLayout(this);
 			gridLayout.setColumnCount(COLUMN_COUNT);
 			gridLayout.setRowCount(ROW_COUNT);
-			
-	        for(int cell = 0,itemIndex = pageIndex*pageSize, rowIndex=0, columnIndex=0 ; 
-	        		cell < pageSize && itemIndex < dbhostPosLst.size()-1 ; 
-	        		cell++, itemIndex++)
+			gridLayout.setOrientation(gridLayout.HORIZONTAL);
+			for(int cell = 0, rowIndex = 0, columnIndex=0 ,itemIndex = pageIndex * pageSize + cell ; 
+	        		cell < pageSize && itemIndex < dbhostPosLst.size(); 
+	        		cell ++, columnIndex++, itemIndex++)
 			{
-	        	if(columnIndex == COLUMN_COUNT ){
-	        		columnIndex = 0;
-	        		rowIndex++;
-	        	}
-				HotPosMainItem item =(HotPosMainItem) dbhostPosLst.get(itemIndex); 
-				gridLayout.addView(getHeatSourceCell(item, rowIndex, columnIndex, cellWidth, cellHeight ));
-			}    
+		    	if(columnIndex == COLUMN_COUNT ){
+		    		columnIndex = 0;
+		    		rowIndex++;
+		    	}
+		    	if(rowIndex == 1 && columnIndex == 0){
+		        	gridLayout.addView(getHeatStationTitleCell(dbhostPosLst.size(), 2, 0, bigCellWidth, cellHeight));
+		        	columnIndex+=1;
+		        	cell--;
+		        	itemIndex--;
+		        }
+		        else {
+		        	gridLayout.addView(getHeatStationCell(dbhostPosLst.get(itemIndex), rowIndex, columnIndex, cellWidth, cellHeight ));
+		        }
+			} 
 			gridLayout.setId(pageIndex);
 			pageLayout.addView(gridLayout.getRootView());
 			views.add(pageLayout);
