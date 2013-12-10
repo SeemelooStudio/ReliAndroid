@@ -40,6 +40,7 @@
    <string name="today">今天</string>
    <string name="yesterday">昨天</string>
    <string name="week">温度曲线</string>
+   <string name="weather_stations">气象监测站</string>
    <string name="history">历史</string>
    <string name="forcast">预报</string>
    <string name="actrual">实际</string>

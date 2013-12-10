@@ -299,7 +299,7 @@ public class MainPageActivity extends Activity {
 				startActivity(intent_2);
 				break;				
 			case R.id.main_page_item3:
-				Intent intent_3 = new Intent(MainPageActivity.this, WeatherListActivity.class); 
+				Intent intent_3 = new Intent(MainPageActivity.this, WeatherDetailActivity.class); 
 				startActivity(intent_3);
 				break;
 			case R.id.main_page_item4:

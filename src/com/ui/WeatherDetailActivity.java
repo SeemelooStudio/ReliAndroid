@@ -34,7 +34,7 @@ import com.util.DateHelper;
 
 public class WeatherDetailActivity extends FragmentActivity implements TabListener {
 
-	private String strListId = "";
+	private String strListId = "1";
 	private ProgressDialog _diaLogProgress = null;
 	private WeatherDetailTempInfo _weatherSummaryToday = null;
 	private WeatherDetailTempInfo _weatherSummaryYesterday = null;
@@ -55,14 +55,6 @@ public class WeatherDetailActivity extends FragmentActivity implements TabListen
 	 public void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
 	        setContentView(R.layout.weather_detail);
-	        
-	        Intent inten = this.getIntent();
-	        Bundle mBundle = inten.getExtras();
-	        if (mBundle == null )  return;
-	        
-	        strListId = mBundle.getString("list_id");
-		    if(strListId== null || strListId.length() <= 0) return;
-			setTitle(mBundle.getString("list_name"));
 			
 			initFragments();
 			initViewPager();
@@ -217,9 +209,10 @@ public class WeatherDetailActivity extends FragmentActivity implements TabListen
 
 	public class WeatherFragmentPagerAdapter extends FragmentPagerAdapter {
 	    private final int TAB_POSITION_TODAY = 0;
-	    private final int TAB_POSITION_YESTERDAY = 1;
-	    private final int TAB_POSITION_WEEK = 2;
-	    private final int TAB_POSITION_HISTORY = 3;
+	    private final int TAB_POSITION_YESTERDAY = 3;
+	    private final int TAB_POSITION_WEEK = 1;
+	    private final int TAB_POSITION_HISTORY = 2;
+	    private final int TAB_POSITION_STATIONS = 3;
 	    private final int TAB_COUNT = 4;
 	    
 		public WeatherFragmentPagerAdapter(FragmentManager fm) {
@@ -231,12 +224,12 @@ public class WeatherDetailActivity extends FragmentActivity implements TabListen
 			switch (position) {
 			case TAB_POSITION_TODAY:
 				return _frgToday;
-			case TAB_POSITION_YESTERDAY:
-				return _frgYesterday;
 			case TAB_POSITION_WEEK:
 				return _frgWeek;
 			case TAB_POSITION_HISTORY:
 				return _frgHistory;
+			case TAB_POSITION_STATIONS:
+				return _frgYesterday;
 
 			}
 			throw new IllegalStateException("No fragment at position " + position);
@@ -254,15 +247,14 @@ public class WeatherDetailActivity extends FragmentActivity implements TabListen
 			case TAB_POSITION_TODAY:
 				tabLabel = getString(R.string.today);
 				break;
-			case TAB_POSITION_YESTERDAY:
-				tabLabel = getString(R.string.yesterday);
-				break;
 			case TAB_POSITION_WEEK:
 				tabLabel = getString(R.string.week);
 				break;
 			case TAB_POSITION_HISTORY:
 				tabLabel = getString(R.string.history);
 				break;
+			case TAB_POSITION_STATIONS:
+				tabLabel = getString(R.string.weather_stations);
 			}
 			return tabLabel;
 		}
