@@ -2,64 +2,64 @@ package com.model;
 
 public class HotSrcMainItem {
 
-	private String strHeatSourceId;
+	private String heatSourceId;
 	
-	private String strHeatSourceName;
+	private String heatSourceName;
 	
-	private String strPressureOut;
+	private String pressureOut;
 	
-	private String strPressureIn;
+	private String pressureIn;
 	
-	private String strTemperatureOut;
+	private String temperatureOut;
 	
-	private String strTemperatureIn;
+	private String temperatureIn;
 
-	public String getStrHeatSourceId() {
-		return strHeatSourceId;
+	public String getHeatSourceId() {
+		return heatSourceId;
 	}
 
-	public void setStrHeatSourceId(String strHeatSourceId) {
-		this.strHeatSourceId = strHeatSourceId;
+	public void setHeatSourceId(String strHeatSourceId) {
+		this.heatSourceId = strHeatSourceId;
 	}
 
-	public String getStrHeatSourceName() {
-		return strHeatSourceName;
+	public String getHeatSourceName() {
+		return heatSourceName;
 	}
 
-	public void setStrHeatSourceName(String strHeatSourceName) {
-		this.strHeatSourceName = strHeatSourceName;
+	public void setHeatSourceName(String strHeatSourceName) {
+		this.heatSourceName = strHeatSourceName;
 	}
 
-	public String getStrPressureOut() {
-		return strPressureOut;
+	public String getPressureOut() {
+		return pressureOut;
 	}
 
-	public void setStrPressureOut(String strPressureOut) {
-		this.strPressureOut = strPressureOut;
+	public void setPressureOut(String strPressureOut) {
+		this.pressureOut = strPressureOut;
 	}
 
-	public String getStrPressureIn() {
-		return strPressureIn;
+	public String getPressureIn() {
+		return pressureIn;
 	}
 
-	public void setStrPressureIn(String strPressureIn) {
-		this.strPressureIn = strPressureIn;
+	public void setPressureIn(String strPressureIn) {
+		this.pressureIn = strPressureIn;
 	}
 
-	public String getStrTemperatureOut() {
-		return strTemperatureOut;
+	public String getTemperatureOut() {
+		return temperatureOut;
 	}
 
-	public void setStrTemperatureOut(String strTemperatureOut) {
-		this.strTemperatureOut = strTemperatureOut;
+	public void setTemperatureOut(String strTemperatureOut) {
+		this.temperatureOut = strTemperatureOut;
 	}
 
-	public String getStrTemperatureIn() {
-		return strTemperatureIn;
+	public String getTemperatureIn() {
+		return temperatureIn;
 	}
 
-	public void setStrTemperatureIn(String strTemperatureIn) {
-		this.strTemperatureIn = strTemperatureIn;
+	public void setTemperatureIn(String strTemperatureIn) {
+		this.temperatureIn = strTemperatureIn;
 	}
 
 }

@@ -27,36 +27,19 @@ import android.util.Log;
 public class JsonHelper {
 
 	private static String TAG = "JsonHelper";  
-	  
-    /** 
-     * ½«¶ÔÏó×ª»»³ÉJson×Ö·û´® 
-     * @param obj 
-     * @return jsonÀàÐÍ×Ö·û´® 
-     */  
+	   
     public static String toJSON(Object obj) {  
         JSONStringer js = new JSONStringer();  
         serialize(js, obj);  
         return js.toString();  
     } 
     
-    
-    /** 
-     * ½«¶ÔÏó×ª»»³ÉJson×Ö·û´® 
-     * @param obj 
-     * @return jsonÀàÐÍ×Ö·û´® 
-     */  
     public static JSONStringer toJSONString(Object obj) {  
         JSONStringer js = new JSONStringer();  
         serialize(js, obj);  
         return js; 
     }  
     
-  
-    /** 
-     * ÐòÁÐ»¯ÎªJSON 
-     * @param js json¶ÔÏó 
-     * @param o ´ýÐèÐòÁÐ»¯µÄ¶ÔÏó 
-     */  
     private static void serialize(JSONStringer js, Object o) {  
         if (isNull(o)) {  
             try {  
@@ -68,17 +51,17 @@ public class JsonHelper {
         }  
   
         Class<?> clazz = o.getClass();  
-        if (isObject(clazz)) { // ¶ÔÏó  
+        if (isObject(clazz)) { // ï¿½ï¿½ï¿½ï¿½  
             serializeObject(js, o);  
-        } else if (isArray(clazz)) { // Êý×é  
+        } else if (isArray(clazz)) { // ï¿½ï¿½ï¿½ï¿½  
             serializeArray(js, o);  
-        } else if (isCollection(clazz)) { // ¼¯ºÏ  
+        } else if (isCollection(clazz)) { // ï¿½ï¿½ï¿½ï¿½  
             Collection<?> collection = (Collection<?>) o;  
             serializeCollect(js, collection);  
-        }else if (isMap(clazz)) { // ¼¯ºÏ  
+        }else if (isMap(clazz)) { // ï¿½ï¿½ï¿½ï¿½  
             HashMap<?,?> collection = (HashMap<?,?>) o;  
             serializeMap(js, collection);  
-        } else { // µ¥¸öÖµ  
+        } else { // ï¿½ï¿½ï¿½ï¿½Öµ  
             try {  
                 js.value(o);  
             } catch (JSONException e) {  
@@ -87,11 +70,7 @@ public class JsonHelper {
         }  
     }  
   
-    /** 
-     * ÐòÁÐ»¯Êý×é  
-     * @param js    json¶ÔÏó 
-     * @param array Êý×é 
-     */  
+    
     private static void serializeArray(JSONStringer js, Object array) {  
         try {  
             js.array();  
@@ -105,11 +84,7 @@ public class JsonHelper {
         }  
     }  
   
-    /** 
-     * ÐòÁÐ»¯¼¯ºÏ 
-     * @param js    json¶ÔÏó 
-     * @param collection    ¼¯ºÏ 
-     */  
+     
     private static void serializeCollect(JSONStringer js, Collection<?> collection) {  
         try {  
             js.array();  
@@ -122,11 +97,7 @@ public class JsonHelper {
         }  
     }  
       
-    /** 
-     * ÐòÁÐ»¯Map 
-     * @param js    json¶ÔÏó 
-     * @param map   map¶ÔÏó 
-     */  
+     
     private static void serializeMap(JSONStringer js, Map<?,?> map) {  
         try {  
             js.object();  
@@ -144,11 +115,6 @@ public class JsonHelper {
         }  
     }  
   
-    /** 
-     * ÐòÁÐ»¯¶ÔÏó 
-     * @param js    json¶ÔÏó 
-     * @param obj   ´ýÐòÁÐ»¯¶ÔÏó 
-     */  
     private static void serializeObject(JSONStringer js, Object obj) {  
         try {  
             js.object();  
@@ -166,8 +132,10 @@ public class JsonHelper {
                     Object fieldVal = fieldGetMet.invoke(obj, new Object[] {});     
                     String result = null;     
                     if ("Date".equals(fieldType)) {     
-                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.US);     
-                        result = sdf.format((Date)fieldVal);    
+                        //SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.US);     
+                        //result = sdf.format((Date)fieldVal);    
+                    	long ticks = ((Date)fieldVal).getTime();
+                    	result = String.format("/Date(%d+0800)/",ticks);
   
                     } else {     
                         if (null != fieldVal) {     
@@ -186,12 +154,6 @@ public class JsonHelper {
         }  
     }  
   
-    /** 
-     * ÅÐ¶ÏÊÇ·ñ´æÔÚÄ³ÊôÐÔµÄ get·½·¨ 
-     * @param methods   ÒýÓÃ·½·¨µÄÊý×é 
-     * @param fieldMethod   ·½·¨Ãû³Æ 
-     * @return true»òÕßfalse 
-     */  
     public static boolean haveMethod(Method[] methods, String fieldMethod) {  
         for (Method met : methods) {  
             if (fieldMethod.equals(met.getName())) {  
@@ -201,12 +163,6 @@ public class JsonHelper {
         return false;  
     }  
   
-    /** 
-     * Æ´½ÓÄ³ÊôÐÔµÄ get»òÕßset·½·¨ 
-     * @param fieldName ×Ö¶ÎÃû³Æ 
-     * @param methodType    ·½·¨ÀàÐÍ 
-     * @return ·½·¨Ãû³Æ 
-     */  
     public static String parseMethodName(String fieldName,String methodType) {  
         if (null == fieldName || "".equals(fieldName)) {  
             return null;  
@@ -214,14 +170,9 @@ public class JsonHelper {
         return methodType + fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);  
     }  
       
-    /**   
-     * ¸ø×Ö¶Î¸³Öµ   
-     * @param obj  ÊµÀý¶ÔÏó 
-     * @param valMap  Öµ¼¯ºÏ 
-     */    
     public static void setFieldValue(Object obj, Map<String, String> valMap) {     
         Class<?> cls = obj.getClass();     
-        // È¡³öbeanÀïµÄËùÓÐ·½·¨     
+        // È¡ï¿½ï¿½beanï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð·ï¿½ï¿½ï¿½     
         Method[] methods = cls.getDeclaredMethods();     
         Field[] fields = cls.getDeclaredFields();     
     
@@ -265,16 +216,11 @@ public class JsonHelper {
         }     
     
     }   
-      
-    /** 
-     * bean¶ÔÏó×ªMap 
-     * @param obj   ÊµÀý¶ÔÏó 
-     * @return  map¼¯ºÏ 
-     */  
+    
     public static Map<String, String> beanToMap(Object obj) {     
         Class<?> cls = obj.getClass();     
         Map<String, String> valueMap = new HashMap<String, String>();     
-        // È¡³öbeanÀïµÄËùÓÐ·½·¨     
+        // È¡ï¿½ï¿½beanï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð·ï¿½ï¿½ï¿½     
         Method[] methods = cls.getDeclaredMethods();     
         Field[] fields = cls.getDeclaredFields();       
         for (Field field : fields) {     
@@ -306,10 +252,10 @@ public class JsonHelper {
     }     
   
     /** 
-     * ¸ø¶ÔÏóµÄ×Ö¶Î¸³Öµ 
-     * @param obj   ÀàÊµÀý 
-     * @param fieldSetMethod    ×Ö¶Î·½·¨ 
-     * @param fieldType ×Ö¶ÎÀàÐÍ 
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¶Î¸ï¿½Öµ 
+     * @param obj   ï¿½ï¿½Êµï¿½ï¿½ 
+     * @param fieldSetMethod    ï¿½Ö¶Î·ï¿½ï¿½ï¿½ 
+     * @param fieldType ï¿½Ö¶ï¿½ï¿½ï¿½ï¿½ï¿½ 
      * @param value 
      */  
     public static void setFiedlValue(Object obj,Method fieldSetMethod,String fieldType,Object value){  
@@ -349,10 +295,10 @@ public class JsonHelper {
     }  
       
     /** 
-     * ·´ÐòÁÐ»¯¼òµ¥¶ÔÏó 
-     * @param jo    json¶ÔÏó 
-     * @param clazz ÊµÌåÀàÀàÐÍ 
-     * @return  ·´ÐòÁÐ»¯ºóµÄÊµÀý 
+     * ï¿½ï¿½ï¿½ï¿½ï¿½Ð»ï¿½ï¿½òµ¥¶ï¿½ï¿½ï¿½ 
+     * @param jo    jsonï¿½ï¿½ï¿½ï¿½ 
+     * @param clazz Êµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
+     * @return  ï¿½ï¿½ï¿½ï¿½ï¿½Ð»ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½ 
      * @throws JSONException  
      */  
     public static <T> T parseObject(JSONObject jo, Class<T> clazz) throws JSONException {  
@@ -367,7 +313,7 @@ public class JsonHelper {
         if(isMap(clazz)){   
             setField(obj,jo);  
         }else{  
-              // È¡³öbeanÀïµÄËùÓÐ·½·¨     
+              // È¡ï¿½ï¿½beanï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð·ï¿½ï¿½ï¿½     
             Method[] methods = clazz.getDeclaredMethods();     
             Field[] fields = clazz.getDeclaredFields();               
             for (Field f : fields) {  
@@ -387,10 +333,10 @@ public class JsonHelper {
     }  
       
     /** 
-     * ·´ÐòÁÐ»¯¼òµ¥¶ÔÏó 
-     * @param jsonStr   json×Ö·û´® 
-     * @param clazz ÊµÌåÀàÀàÐÍ 
-     * @return  ·´ÐòÁÐ»¯ºóµÄÊµÀý 
+     * ï¿½ï¿½ï¿½ï¿½ï¿½Ð»ï¿½ï¿½òµ¥¶ï¿½ï¿½ï¿½ 
+     * @param jsonStr   jsonï¿½Ö·ï¿½ 
+     * @param clazz Êµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
+     * @return  ï¿½ï¿½ï¿½ï¿½ï¿½Ð»ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½ 
      * @throws JSONException  
      */  
     public static <T> T parseObject(String jsonStr, Class<T> clazz) throws JSONException {  
@@ -408,10 +354,10 @@ public class JsonHelper {
     }  
   
     /** 
-     * ·´ÐòÁÐ»¯Êý×é¶ÔÏó 
-     * @param ja    jsonÊý×é 
-     * @param clazz ÊµÌåÀàÀàÐÍ 
-     * @return  ·´ÐòÁÐ»¯ºóµÄÊý×é 
+     * ï¿½ï¿½ï¿½ï¿½ï¿½Ð»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
+     * @param ja    jsonï¿½ï¿½ï¿½ï¿½ 
+     * @param clazz Êµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
+     * @return  ï¿½ï¿½ï¿½ï¿½ï¿½Ð»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
      */  
     public static <T> T[] parseArray(JSONArray ja, Class<T> clazz) {  
         if (clazz == null || isNull(ja)) {  
@@ -438,10 +384,10 @@ public class JsonHelper {
   
       
     /** 
-     * ·´ÐòÁÐ»¯Êý×é¶ÔÏó 
-     * @param jsonStr   json×Ö·û´® 
-     * @param clazz ÊµÌåÀàÀàÐÍ 
-     * @return  ÐòÁÐ»¯ºóµÄÊý×é 
+     * ï¿½ï¿½ï¿½ï¿½ï¿½Ð»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
+     * @param jsonStr   jsonï¿½Ö·ï¿½ 
+     * @param clazz Êµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
+     * @return  ï¿½ï¿½ï¿½Ð»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
      */  
     public static <T> T[] parseArray(String jsonStr, Class<T> clazz) {  
         if (clazz == null || jsonStr == null || jsonStr.length() == 0) {  
@@ -462,10 +408,10 @@ public class JsonHelper {
     }  
   
     /** 
-     * ·´ÐòÁÐ»¯·ºÐÍ¼¯ºÏ 
-     * @param ja    jsonÊý×é 
-     * @param collectionClazz   ¼¯ºÏÀàÐÍ 
-     * @param genericType   ÊµÌåÀàÀàÐÍ 
+     * ï¿½ï¿½ï¿½ï¿½ï¿½Ð»ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ 
+     * @param ja    jsonï¿½ï¿½ï¿½ï¿½ 
+     * @param collectionClazz   ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
+     * @param genericType   Êµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
      * @return 
      * @throws JSONException  
      */  
@@ -493,11 +439,11 @@ public class JsonHelper {
     }  
   
     /** 
-     * ·´ÐòÁÐ»¯·ºÐÍ¼¯ºÏ 
-     * @param jsonStr   json×Ö·û´® 
-     * @param collectionClazz   ¼¯ºÏÀàÐÍ 
-     * @param genericType   ÊµÌåÀàÀàÐÍ 
-     * @return  ·´ÐòÁÐ»¯ºóµÄÊý×é 
+     * ï¿½ï¿½ï¿½ï¿½ï¿½Ð»ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ 
+     * @param jsonStr   jsonï¿½Ö·ï¿½ 
+     * @param collectionClazz   ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
+     * @param genericType   Êµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
+     * @return  ï¿½ï¿½ï¿½ï¿½ï¿½Ð»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
      * @throws JSONException  
      */  
     public static <T> Collection<T> parseCollection(String jsonStr, Class<?> collectionClazz,  
@@ -508,16 +454,16 @@ public class JsonHelper {
         }  
         JSONArray jo = null;  
         try {  
-            //Èç¹ûÎªÊý×é£¬Ôò´Ë´¦×ª»¯Ê±£¬ÐèÒªÈ¥µôÇ°ÃæµÄ¼ü£¬Ö±½ÓºóÃæµÄ[]ÖÐµÄÖµ  
+            //ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½é£¬ï¿½ï¿½Ë´ï¿½×ªï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ÒªÈ¥ï¿½ï¿½Ç°ï¿½ï¿½Ä¼ï¿½Ö±ï¿½Óºï¿½ï¿½ï¿½ï¿½[]ï¿½Ðµï¿½Öµ  
             int index = jsonStr.indexOf("[");  
             String arrayString=null;   
               
-            //»ñÈ¡Êý×éµÄ×Ö·û´®  
+            //ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½  
             if(-1!=index){  
                 arrayString = jsonStr.substring(index);  
             }  
               
-            //Èç¹ûÎªÊý×é£¬Ê¹ÓÃÊý×é×ª»¯  
+            //ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½é£¬Ê¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½  
             if(null!=arrayString){  
                 jo = new JSONArray(arrayString);  
             }  
@@ -537,9 +483,9 @@ public class JsonHelper {
     }  
   
     /** 
-     * ¸ù¾ÝÀàÐÍ´´½¨¶ÔÏó 
-     * @param clazz ´ý´´½¨ÊµÀýµÄÀàÐÍ 
-     * @return  ÊµÀý¶ÔÏó 
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
+     * @param clazz ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
+     * @return  Êµï¿½ï¿½ï¿½ï¿½ï¿½ 
      * @throws JSONException  
      */  
     @SuppressWarnings({ "unchecked", "rawtypes" })  
@@ -568,9 +514,9 @@ public class JsonHelper {
     }  
       
     /** 
-     * Éè¶¨MapµÄÖµ 
-     * @param obj   ´ý¸³Öµ×Ö¶ÎµÄ¶ÔÏó 
-     * @param jo    jsonÊµÀý 
+     * ï¿½è¶¨Mapï¿½ï¿½Öµ 
+     * @param obj   ï¿½ï¿½Öµï¿½Ö¶ÎµÄ¶ï¿½ï¿½ï¿½ 
+     * @param jo    jsonÊµï¿½ï¿½ 
      */  
     private static void setField(Object obj, JSONObject jo) {  
         try {  
@@ -592,25 +538,25 @@ public class JsonHelper {
     }     
       
     /** 
-     * Éè¶¨×Ö¶ÎµÄÖµ 
-     * @param obj   ´ý¸³Öµ×Ö¶ÎµÄ¶ÔÏó 
-     * @param fieldSetMethod    ×Ö¶Î·½·¨Ãû 
-     * @param field ×Ö¶Î 
-     * @param jo    jsonÊµÀý 
+     * ï¿½è¶¨ï¿½Ö¶Îµï¿½Öµ 
+     * @param obj   ï¿½ï¿½Öµï¿½Ö¶ÎµÄ¶ï¿½ï¿½ï¿½ 
+     * @param fieldSetMethod    ï¿½Ö¶Î·ï¿½ï¿½ï¿½ï¿½ï¿½ 
+     * @param field ï¿½Ö¶ï¿½ 
+     * @param jo    jsonÊµï¿½ï¿½ 
      */  
     private static void setField(Object obj, Method fieldSetMethod,Field field, JSONObject jo) {  
         String name = field.getName();  
         Class<?> clazz = field.getType();       
         try {  
-            if (isArray(clazz)) { // Êý×é  
+            if (isArray(clazz)) { // ï¿½ï¿½ï¿½ï¿½  
                 Class<?> c = clazz.getComponentType();  
                 JSONArray ja = jo.optJSONArray(name);  
                 if (!isNull(ja)) {  
                     Object array = parseArray(ja, c);  
                     setFiedlValue(obj, fieldSetMethod, clazz.getSimpleName(), array);  
                 }  
-            } else if (isCollection(clazz)) { // ·ºÐÍ¼¯ºÏ  
-                // »ñÈ¡¶¨ÒåµÄ·ºÐÍÀàÐÍ  
+            } else if (isCollection(clazz)) { // ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ï¿½  
+                // ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½Ä·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  
                 Class<?> c = null;  
                 Type gType = field.getGenericType();  
                 if (gType instanceof ParameterizedType) {  
@@ -627,18 +573,18 @@ public class JsonHelper {
                     Object o = parseCollection(ja, clazz, c);  
                     setFiedlValue(obj, fieldSetMethod, clazz.getSimpleName(), o);  
                 }  
-            } else if (isSingle(clazz)) { // ÖµÀàÐÍ  
+            } else if (isSingle(clazz)) { // Öµï¿½ï¿½ï¿½ï¿½  
                 Object o = jo.opt(name);  
                 if (o != null) {  
                     setFiedlValue(obj, fieldSetMethod, clazz.getSimpleName(), o);  
                 }  
-            } else if (isObject(clazz)) { // ¶ÔÏó  
+            } else if (isObject(clazz)) { // ï¿½ï¿½ï¿½ï¿½  
                 JSONObject j = jo.optJSONObject(name);  
                 if (!isNull(j)) {  
                     Object o = parseObject(j, clazz);  
                     setFiedlValue(obj, fieldSetMethod, clazz.getSimpleName(), o);  
                 }  
-            } else if (isList(clazz)) { // ÁÐ±í  
+            } else if (isList(clazz)) { // ï¿½Ð±ï¿½  
 //              JSONObject j = jo.optJSONObject(name);  
 //              if (!isNull(j)) {  
 //                  Object o = parseObject(j, clazz);  
@@ -653,25 +599,25 @@ public class JsonHelper {
     }  
       
     /** 
-     * Éè¶¨×Ö¶ÎµÄÖµ  
-     * @param obj   ´ý¸³Öµ×Ö¶ÎµÄ¶ÔÏó 
-     * @param field ×Ö¶Î 
-     * @param jo    jsonÊµÀý 
+     * ï¿½è¶¨ï¿½Ö¶Îµï¿½Öµ  
+     * @param obj   ï¿½ï¿½Öµï¿½Ö¶ÎµÄ¶ï¿½ï¿½ï¿½ 
+     * @param field ï¿½Ö¶ï¿½ 
+     * @param jo    jsonÊµï¿½ï¿½ 
      */  
     @SuppressWarnings("unused")  
     private static void setField(Object obj, Field field, JSONObject jo) {  
         String name = field.getName();  
         Class<?> clazz = field.getType();  
         try {  
-            if (isArray(clazz)) { // Êý×é  
+            if (isArray(clazz)) { // ï¿½ï¿½ï¿½ï¿½  
                 Class<?> c = clazz.getComponentType();  
                 JSONArray ja = jo.optJSONArray(name);  
                 if (!isNull(ja)) {  
                     Object array = parseArray(ja, c);  
                     field.set(obj, array);  
                 }  
-            } else if (isCollection(clazz)) { // ·ºÐÍ¼¯ºÏ  
-                // »ñÈ¡¶¨ÒåµÄ·ºÐÍÀàÐÍ  
+            } else if (isCollection(clazz)) { // ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ï¿½  
+                // ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½Ä·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  
                 Class<?> c = null;  
                 Type gType = field.getGenericType();  
                 if (gType instanceof ParameterizedType) {  
@@ -687,18 +633,18 @@ public class JsonHelper {
                     Object o = parseCollection(ja, clazz, c);  
                     field.set(obj, o);  
                 }  
-            } else if (isSingle(clazz)) { // ÖµÀàÐÍ  
+            } else if (isSingle(clazz)) { // Öµï¿½ï¿½ï¿½ï¿½  
                 Object o = jo.opt(name);  
                 if (o != null) {  
                     field.set(obj, o);  
                 }  
-            } else if (isObject(clazz)) { // ¶ÔÏó  
+            } else if (isObject(clazz)) { // ï¿½ï¿½ï¿½ï¿½  
                 JSONObject j = jo.optJSONObject(name);  
                 if (!isNull(j)) {  
                     Object o = parseObject(j, clazz);  
                     field.set(obj, o);  
                 }  
-            } else if (isList(clazz)) { // ÁÐ±í  
+            } else if (isList(clazz)) { // ï¿½Ð±ï¿½  
                 JSONObject j = jo.optJSONObject(name);  
                 if (!isNull(j)) {  
                     Object o = parseObject(j, clazz);  
@@ -713,8 +659,8 @@ public class JsonHelper {
     }  
   
     /** 
-     * ÅÐ¶Ï¶ÔÏóÊÇ·ñÎª¿Õ 
-     * @param obj   ÊµÀý 
+     * ï¿½Ð¶Ï¶ï¿½ï¿½ï¿½ï¿½Ç·ï¿½Îªï¿½ï¿½ 
+     * @param obj   Êµï¿½ï¿½ 
      * @return 
      */  
     private static boolean isNull(Object obj) {  
@@ -725,7 +671,7 @@ public class JsonHelper {
     }  
   
     /** 
-     * ÅÐ¶ÏÊÇ·ñÊÇÖµÀàÐÍ  
+     * ï¿½Ð¶ï¿½ï¿½Ç·ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½  
      * @param clazz  
      * @return 
      */  
@@ -734,7 +680,7 @@ public class JsonHelper {
     }  
   
     /** 
-     * ÊÇ·ñ²¼¶ûÖµ 
+     * ï¿½Ç·ñ²¼¶ï¿½Öµ 
      * @param clazz  
      * @return 
      */  
@@ -745,7 +691,7 @@ public class JsonHelper {
     }  
   
     /** 
-     * ÊÇ·ñÊýÖµ  
+     * ï¿½Ç·ï¿½ï¿½ï¿½Öµ  
      * @param clazz  
      * @return 
      */  
@@ -760,7 +706,7 @@ public class JsonHelper {
     }  
   
     /** 
-     * ÅÐ¶ÏÊÇ·ñÊÇ×Ö·û´®  
+     * ï¿½Ð¶ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½Ö·ï¿½  
      * @param clazz  
      * @return 
      */  
@@ -772,7 +718,7 @@ public class JsonHelper {
     }  
   
     /** 
-     * ÅÐ¶ÏÊÇ·ñÊÇ¶ÔÏó 
+     * ï¿½Ð¶ï¿½ï¿½Ç·ï¿½ï¿½Ç¶ï¿½ï¿½ï¿½ 
      * @param clazz  
      * @return 
      */  
@@ -781,7 +727,7 @@ public class JsonHelper {
     }  
   
     /** 
-     * ÅÐ¶ÏÊÇ·ñÊÇÊý×é  
+     * ï¿½Ð¶ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  
      * @param clazz 
      * @return 
      */  
@@ -790,7 +736,7 @@ public class JsonHelper {
     }  
   
     /** 
-     * ÅÐ¶ÏÊÇ·ñÊÇ¼¯ºÏ 
+     * ï¿½Ð¶ï¿½ï¿½Ç·ï¿½ï¿½Ç¼ï¿½ï¿½ï¿½ 
      * @param clazz 
      * @return 
      */  
@@ -799,7 +745,7 @@ public class JsonHelper {
     }  
           
     /** 
-     * ÅÐ¶ÏÊÇ·ñÊÇMap 
+     * ï¿½Ð¶ï¿½ï¿½Ç·ï¿½ï¿½ï¿½Map 
      * @param clazz 
      * @return 
      */  
@@ -808,7 +754,7 @@ public class JsonHelper {
     }  
       
     /** 
-     * ÅÐ¶ÏÊÇ·ñÊÇÁÐ±í  
+     * ï¿½Ð¶ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½Ð±ï¿½  
      * @param clazz 
      * @return 
      */  

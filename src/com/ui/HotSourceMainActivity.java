@@ -117,15 +117,15 @@ public class HotSourceMainActivity extends Activity {
 	  private void setHeatSourceItemContent( View viewHeatSource, HotSrcMainItem item)
 	  {
 		 TextView tvPressureOut =  (TextView) viewHeatSource.findViewById(R.id.hotSrcItemLeftText);
-		 tvPressureOut.setText(item.getStrPressureOut());
+		 tvPressureOut.setText(item.getPressureOut());
 		 TextView tvPressureIn =  (TextView) viewHeatSource.findViewById(R.id.hotSrcItemRightText);
-		 tvPressureIn.setText(item.getStrPressureIn());
+		 tvPressureIn.setText(item.getPressureIn());
 		 TextView tvTemperatureOut =  (TextView) viewHeatSource.findViewById(R.id.hotSrcItemLeftTxtPa);
-		 tvTemperatureOut.setText(item.getStrPressureOut());
+		 tvTemperatureOut.setText(item.getPressureOut());
 		 TextView tvTemperatureIn =  (TextView) viewHeatSource.findViewById(R.id.hotSrcItemRightTxtPa);
-		 tvTemperatureIn.setText(item.getStrPressureIn());
+		 tvTemperatureIn.setText(item.getPressureIn());
 		 TextView tvHeatSourceName = (TextView) viewHeatSource.findViewById(R.id.hotSrcItemTitle);
-		 tvHeatSourceName.setText(item.getStrHeatSourceName());
+		 tvHeatSourceName.setText(item.getHeatSourceName());
 	  }
 
 	  private void setHeatSourceSummaryContent( View viewHeatSource, HotSrcTitleInfo title)

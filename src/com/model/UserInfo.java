@@ -1,5 +1,11 @@
 package com.model;
 
+import java.net.Authenticator;
+import java.net.HttpURLConnection;
+import java.net.PasswordAuthentication;
+
+import com.util.ConstDefine;
+
 public class UserInfo {
 	
 	private String strUserId;
@@ -43,4 +49,5 @@ public class UserInfo {
 		this.strMenu = strMenu;
 	}
 	
+
 }

@@ -27,6 +27,9 @@ public class ConstDefine
 	public static final String S_GET_SUMMARY = "/MobileService/Summary";
 	public static final String S_GET_MESSAGES = "/MobileService/{UserName}/Messages";
 	public static final String S_DAILY_REPORT_ROOT = "/DailyReports/";
+	public static final String S_AUTHENTICATION = "/MobileService/AuthenticateUser";
+	public static final String S_PUT_MESSAGE = "/MobileService/{UserName}/Messages";
+	
 	//show msg info
 	public static final String I_MSG_0001 = "fail";
 	public static final String I_MSG_0002 = "wait";

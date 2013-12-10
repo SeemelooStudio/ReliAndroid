@@ -14,6 +14,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.params.HttpClientParams;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -105,7 +106,7 @@ public class ServerHttpRequest {
 				strResp = EntityUtils.toString(resp.getEntity());
 			}
 			else{
-				// 如果返回的StatusCode不是OK则抛异常
+				// 锟斤拷锟截碉拷StatusCode锟斤拷锟斤拷OK锟斤拷锟斤拷锟届常
 				throw new Exception("Error Response:"+ resp.getStatusLine().toString());
 			}
 			
@@ -135,7 +136,6 @@ public class ServerHttpRequest {
 				data.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
 			}
 		}
-		
 		HttpPost post = new HttpPost(url);
 		try {
 			
@@ -154,7 +154,6 @@ public class ServerHttpRequest {
 				Log.v(TAG, "strResp: " + strResp);
 			}
 			else{
-				// 如果返回的StatusCode不是OK则抛异常
 				throw new Exception("Error Response:"
 						+ resp.getStatusLine().toString());
 			}
@@ -194,7 +193,6 @@ public class ServerHttpRequest {
 			if (resp.getStatusLine().getStatusCode() == HttpURLConnection.HTTP_OK){
 				strResp = EntityUtils.toString(resp.getEntity());
 			}else{
-				// 如果返回的StatusCode不是OK则抛异常
 				throw new Exception("Error Response:" + resp.getStatusLine().toString());
 			}
 			
@@ -241,5 +239,34 @@ public class ServerHttpRequest {
 		
 		//retuun
 		return strResp;
+	}
+	
+	
+	public String doPut(String url, String data, String contentType)
+	{	
+		HttpPut put = new HttpPut(url);
+		
+		try {
+			//create entity
+			StringEntity se = new StringEntity(data, HTTP.UTF_8);
+			se.setContentType(contentType);
+			put.setEntity(se);
+			
+			String strResp = "";
+			HttpResponse resp = httpClient.execute(put);
+			if (resp.getStatusLine().getStatusCode() == HttpURLConnection.HTTP_OK){
+				strResp = EntityUtils.toString(resp.getEntity());
+			}else{
+				throw new Exception("Error Response:" + resp.getStatusLine().toString());
+			}
+			return strResp;
+			
+		}catch (Exception e)
+		{
+			e.printStackTrace();
+		}finally {
+			put.abort();
+		}
+		return "";
 	}
 }
