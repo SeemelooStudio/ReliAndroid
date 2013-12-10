@@ -1,13 +1,9 @@
 package com.ui;
 
-import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
-import java.util.HashMap;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Point;
@@ -16,8 +12,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.util.DisplayMetrics;
-import android.util.Log;
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,14 +19,10 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridLayout;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.model.HotSrcMainItem;
@@ -60,6 +50,8 @@ public class HotSourceMainActivity extends Activity {
 		
 		private static int ROW_COUNT = 4;
 		private static int COLUMN_COUNT = 3;
+		private static int PAGE_SIZE =10;
+		
 	    @Override                                                                                            
 	    public void onCreate(Bundle savedInstanceState) {                                                    
 			super.onCreate(savedInstanceState);
@@ -189,14 +181,29 @@ public class HotSourceMainActivity extends Activity {
 	      param.bottomMargin=5;
       	  viewHeatSource.setBackgroundResource(R.color.dodger_blue);
       	  viewHeatSource.setLayoutParams (param);
+      	  viewHeatSource.setOnClickListener(new OnClickListener(){                                                                                    
+			  public void onClick(View v) 
+			  {   
+				  Intent intent = new Intent(HotSourceMainActivity.this, HotSourceDetailActivity.class); 
+				  startActivity(intent);
+			  }
+		  });
+      	
       	  return viewHeatSource;
 	  }
+	  
 	  private void setHotSourceGridView()
 	  {
 		  viewpage = (ViewPager) findViewById(R.id.hotMainPager);
 		  //create page
-		  int pageNum =2;
-		  int pageSize = 11;
+		  int pageNum = 1;
+		  int pageSize = PAGE_SIZE;
+		  if(dbHeatSources.size()% 10 == 0){
+			  pageNum = dbHeatSources.size() / PAGE_SIZE;
+		  }
+		  else{
+			  pageNum = (dbHeatSources.size() / PAGE_SIZE) + 1;
+		  }
 		  Point size = new Point();
 		  getWindowManager().getDefaultDisplay().getSize(size);
 		  int screenWidth = size.x;
@@ -205,7 +212,7 @@ public class HotSourceMainActivity extends Activity {
 		  DisplayMetrics metrics = resources.getDisplayMetrics();
 		  float px = 10 * (metrics.densityDpi / 160f);
 		  int cellWidth = (int)( (screenWidth - px*2 - 10 ) /3);
-		  int cellHeight = (int) ( (screenHeight - px*2 - 10) /4 );
+		  int cellHeight = (int) ( (screenHeight - px*2 - 10 - 50) /4 );
 		  int bigCellWidth = cellWidth * 2;
         //create page
         views = new ArrayList<View>();
@@ -218,23 +225,23 @@ public class HotSourceMainActivity extends Activity {
 			gridLayout.setRowCount(ROW_COUNT);
 			gridLayout.setOrientation(gridLayout.HORIZONTAL);
 	        for(int cell = 0, rowIndex = 0, columnIndex=0 ,itemIndex = pageIndex * pageSize + cell ; 
-	        		cell < pageSize && itemIndex < dbHeatSources.size()-1 ; 
+	        		cell < pageSize && itemIndex < dbHeatSources.size(); 
 	        		cell ++, columnIndex++, itemIndex++)
 			{
 				if(columnIndex == COLUMN_COUNT) {
 					columnIndex = 0;
 					rowIndex++;
 				}	
-		        if(rowIndex == 2 && columnIndex == 0){
+		        if(rowIndex == 1 && columnIndex == 0){
 		        	gridLayout.addView(getHeatSourceSummaryCell(titleInfo, 2, 0, bigCellWidth, cellHeight));
 		        	columnIndex+=1;
 		        	cell--;
+		        	itemIndex--;
 		        }
 		        else {
 		        	gridLayout.addView(getHeatSourceCell(dbHeatSources.get(itemIndex), rowIndex, columnIndex, cellWidth, cellHeight));
 		        }
 			}
-	        
 		    gridLayout.setId(pageIndex);
 		    pageLayout.addView(gridLayout);
 			views.add(pageLayout);
