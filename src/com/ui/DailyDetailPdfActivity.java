@@ -40,7 +40,7 @@ public class DailyDetailPdfActivity extends Activity {
 		    }
 		    
 		    webPdfView = (WebView) findViewById(R.id.webDialyPdfView); 
-		    String pdfUrl = "http://58.31.100.2:11223" + ConstDefine.S_DAILY_REPORT_ROOT + strDailyReportName;
+		    String pdfUrl = ConstDefine.WEB_SERVICE_URL + ConstDefine.S_DAILY_REPORT_ROOT + strDailyReportName;
 		    try {
 		    	new DownloadPDFTask(this).execute(pdfUrl);
 		    	//BaseHelper.loadNetPdfFile(webPdfView,pdfUrl); 

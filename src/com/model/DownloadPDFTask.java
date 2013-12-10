@@ -103,7 +103,12 @@ public class DownloadPDFTask extends AsyncTask<String, Void, Integer>
             try
             {
                 Intent intentUrl = new Intent(Intent.ACTION_VIEW);
+                if(mFileName.indexOf(".pdf") >= 0) {
                 intentUrl.setDataAndType(uri, "application/pdf");
+                }
+                else {
+                	intentUrl.setDataAndType(uri, "application/vnd.ms-excel");
+                }
                 intentUrl.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 myActivity.startActivity(intentUrl);
             }

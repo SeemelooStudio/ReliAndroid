@@ -1,6 +1,7 @@
 package com.ui;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -146,8 +147,13 @@ public class MsgUpMainActivity extends Activity {
 			}
 			
 			private void sendMessage(String sendStr) {
-				messages.add(new ChatMessage(ChatMessage.MESSAGE_TO, sendStr));
+				ChatMessage newMessage = new ChatMessage(ChatMessage.MESSAGE_TO, sendStr);
+				messages.add(newMessage);
+				newMessage.setCreatedAt(new Date());
+				newMessage.setSendFromUserId(3);
+				newMessage.setSendToUserId(1);
 				chatHistoryAdapter.notifyDataSetChanged();
+				BusinessRequest.SendMessage(newMessage);
 			}
 	  };
 

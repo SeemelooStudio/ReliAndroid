@@ -21,6 +21,7 @@ import com.model.HotSrcTitleInfo;
 import com.model.KnowledgeBaseItem;
 import com.model.ListItem;
 import com.model.MainPageSummary;
+import com.model.SendChatMessageTask;
 import com.model.UserInfo;
 import com.model.WarnListItem;
 import com.model.WeatherDetailItem;
@@ -412,5 +413,10 @@ public class BusinessRequest {
 		catch(Exception ex) {
 			
 		}
+	}
+	
+	public static void SendMessage(ChatMessage chatMessage){
+		String url = (ConstDefine.WEB_SERVICE_URL + ConstDefine.S_PUT_MESSAGE).replace("{UserName}", "zhaoyaqi");
+		new SendChatMessageTask(chatMessage).execute(url);
 	}
 }
