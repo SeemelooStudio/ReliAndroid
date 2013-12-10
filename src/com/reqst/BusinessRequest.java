@@ -11,6 +11,7 @@ import org.json.JSONStringer;
 import android.util.Log;
 
 import com.model.ChatMessage;
+import com.model.HotPosListItem;
 import com.model.HotPosMainItem;
 import com.model.HotSrcMainItem;
 import com.model.HotSrcTitleInfo;
@@ -55,7 +56,6 @@ public class BusinessRequest {
 			return "1234567";
 			
 		}
-		
 		
 		
 	}
@@ -304,11 +304,43 @@ public class BusinessRequest {
 		}
 	}
 	
+	public static ArrayList<HotPosListItem> getHotPositonQueryList(HotPosListItem objSearchCon) throws Exception 
+	{
+		/*
+		JSONStringer jsonStrCon = JsonHelper.toJSONString(objSearchCon);
+		Log.v("jsonStrCondition", jsonStrCon.toString());
+		ServerHttpRequest httpReq = new ServerHttpRequest();
+		String strRequestAddress = ConstDefine.WEB_SERVICE_URL + ConstDefine.S_GET_WEATHERSTATIONS;
+		try {
+			String strResp = httpReq.doGet(strRequestAddress);
+			ArrayList<HotPosListItem>  lstHotPosition = (ArrayList<HotPosListItem>) JsonHelper.parseCollection(strResp, List.class, HotPosListItem.class);	
+			return  lstHotPosition;
+		}
+		catch (Exception ex) {
+			throw ex;
+		}*/
+		
+		ArrayList<HotPosListItem>  lstHotPosition = new ArrayList<HotPosListItem>();
+		for(int i=0; i<15; i++)
+        {
+			HotPosListItem  item = new HotPosListItem();
+			item.setStrStationId("" +i);
+			item.setStrStationName("热力站"+i);
+			item.setStrWarnColor("#8888CF" +i);
+			item.setStrAddress("世缘" +i);
+			item.setStrDirect("东部" +i);
+			lstHotPosition.add(item);
+        }
+		
+		return lstHotPosition;
+	}
+	
 	/**
 	 * get hot source main List
 	 * @return
 	 */
 	public static ArrayList<HotSrcMainItem> getHotSourceMainList() throws Exception{
+	
 		ServerHttpRequest httpReq = new ServerHttpRequest();
 		String strRequestAddress = (ConstDefine.WEB_SERVICE_URL + ConstDefine.S_GET_HEATSOURCES);
 		try {
@@ -318,7 +350,7 @@ public class BusinessRequest {
 		}
 		catch (Exception ex){
 			throw ex;
-		}
+		}	
 	}
 	/**
 	 * 
@@ -337,6 +369,7 @@ public class BusinessRequest {
 		} catch (Exception ex) {
 			throw ex;
 		}
+		
 		
 		//return
 		return hotStaticInfo;
@@ -363,7 +396,7 @@ public class BusinessRequest {
         {
 			KnowledgeBaseItem  item = new KnowledgeBaseItem();
         	item.setStrDocId("" +i);
-        	item.setStrDocName("�ĵ�" +i);
+        	item.setStrDocName("文档资料" +i);
         	item.setStrDocUpTime("2013-01-2" +i);
         	lstDaily.add(item);
         }
@@ -382,6 +415,7 @@ public class BusinessRequest {
 		} catch (Exception ex) {
 			throw ex;
 		}
+		
 		return mainPageSummary;
 	}
 	
