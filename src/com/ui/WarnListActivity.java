@@ -189,10 +189,10 @@ public class WarnListActivity extends Activity implements android.view.View.OnCl
         for (WarnListItem oneRec: warnings) 
         {   
         	HashMap<String, Object> item = new HashMap<String, Object>();  
-	        item.put("warn_id", oneRec.getStrWarnId()); 
-	        item.put("warn_title", oneRec.getStrWarnTitle()); 
-	        item.put("warn_content", oneRec.getStrWarnContent()); 
-	        item.put("warn_date", oneRec.getStrWarnDate()); 
+	        item.put("warn_id", oneRec.getWarningId()); 
+	        item.put("warn_title", oneRec.getWarningTitle()); 
+	        item.put("warn_content", oneRec.getWarningContent()); 
+	        item.put("warn_date", oneRec.getReportedAt()); 
 	        item.put("list_other", oneRec.getStrWarnOther()); 
 	        warnList.add(item);  
         }
@@ -207,13 +207,13 @@ public class WarnListActivity extends Activity implements android.view.View.OnCl
         
         for (WarnListItem warning : warnings) 
         { 	
-            int index = warning.getStrWarnContent().indexOf(query);
+            int index = warning.getWarningContent().indexOf(query);
             if (index != -1) {
             	HashMap<String, Object> item = new HashMap<String, Object>();  
-            	item.put("warn_id", warning.getStrWarnId()); 
-    	        item.put("warn_title", warning.getStrWarnTitle()); 
-    	        item.put("warn_content", warning.getStrWarnContent()); 
-    	        item.put("warn_date", warning.getStrWarnDate()); 
+            	item.put("warn_id", warning.getWarningId()); 
+    	        item.put("warn_title", warning.getWarningTitle()); 
+    	        item.put("warn_content", warning.getWarningContent()); 
+    	        item.put("warn_date", warning.getReportedAt()); 
     	        item.put("list_other", warning.getStrWarnOther()); 
      	        results.add(item);  
             }  

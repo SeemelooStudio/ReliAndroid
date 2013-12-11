@@ -55,9 +55,9 @@ public class LoginActivity extends Activity implements android.view.View.OnClick
    	            	    try {
    	            	    	
    	            	    	UserInfo userInfo = new UserInfo();
-   	            	    	userInfo.setStrUserId(txtUserId.getText().toString());
-   	            	    	userInfo.setStrUserName(txtUserId.getText().toString());
-   	            	    	userInfo.setStrUserPwd(txtPwd.getText().toString());
+   	            	    	userInfo.setUserId(txtUserId.getText().toString());
+   	            	    	userInfo.setUserName(txtUserId.getText().toString());
+   	            	    	userInfo.setUserPwd(txtPwd.getText().toString());
    	            	    	BusinessRequest.Authentication(userInfo);
    	            	    	
    	            	    	

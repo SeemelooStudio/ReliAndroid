@@ -1,36 +1,38 @@
 package com.model;
 
+import java.util.Date;
+
 public class WarnListItem {
 
-	private String strWarnId;
-	private String strWarnTitle;
-	private String strWarnContent;
-	private String strWarnDate;
+	private int warningId;
+	private String warningTitle;
+	private String warningContent;
+	private Date reportedAt;
 	private String strWarnOther;
 	
-	public String getStrWarnId() {
-		return strWarnId;
+	public int getWarningId() {
+		return warningId;
 	}
-	public void setStrWarnId(String warn_id) {
-		this.strWarnId = warn_id;
+	public void setWarningId(int warningId) {
+		this.warningId = warningId;
 	}
-	public String getStrWarnTitle() {
-		return strWarnTitle;
+	public String getWarningTitle() {
+		return warningTitle;
 	}
-	public void setStrWarnTitle(String warn_title) {
-		this.strWarnTitle = warn_title;
+	public void setWarningTitle(String warningTitle) {
+		this.warningTitle = warningTitle;
 	}
-	public String getStrWarnContent() {
-		return strWarnContent;
+	public String getWarningContent() {
+		return warningContent;
 	}
-	public void setStrWarnContent(String warn_content) {
-		this.strWarnContent = warn_content;
+	public void setWarningContent(String warningContent) {
+		this.warningContent = warningContent;
 	}
-	public String getStrWarnDate() {
-		return strWarnDate;
+	public Date getReportedAt() {
+		return reportedAt;
 	}
-	public void setStrWarnDate(String warn_date) {
-		this.strWarnDate = warn_date;
+	public void setReportedAt(Date reportedAt) {
+		this.reportedAt = reportedAt;
 	}
 	public String getStrWarnOther() {
 		return strWarnOther;

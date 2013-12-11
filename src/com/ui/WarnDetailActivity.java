@@ -38,7 +38,7 @@ public class WarnDetailActivity extends Activity implements android.view.View.On
 	        requestWindowFeature(Window.FEATURE_NO_TITLE); 
 	        setContentView(R.layout.warn_detail);
 	        
-	        //»ñÈ¡²ÎÊý
+	        //ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½
 	        Intent inten = this.getIntent();
 	        Bundle mBundle = inten.getExtras();
 		    if (mBundle == null )  return;
@@ -46,7 +46,7 @@ public class WarnDetailActivity extends Activity implements android.view.View.On
 		    strWarnId = mBundle.getString("warn_id");
 		    if(strWarnId== null || strWarnId.length() <= 0) return;
 		  
-	        //°´Å¥ÊµÀý»¯
+	        //ï¿½ï¿½Å¥Êµï¿½ï¿½
 		    btnWarnCopy = (Button) findViewById(R.id.btnWarnCopy);
 	        btnWarnDel = (Button) findViewById(R.id.btnWarnDel);
 	        btnWarnEdit = (Button) findViewById(R.id.btnWarnEdit);
@@ -77,29 +77,29 @@ public class WarnDetailActivity extends Activity implements android.view.View.On
 		            	}
 		        }.start();
 	    	
-	    	//ÉèÖÃ³õÊ¼Öµ
+	    	//ï¿½ï¿½ï¿½Ã³ï¿½Ê¼Öµ
 	    	txtWarnTitle.setText(mBundle.getString("warn_title"));
 	    	txtWarnDate.setText(mBundle.getString("warn_date"));
 	    	
 	 }
 	 
 	 /*
-	 * °´Å¥´¦ÀíÊÂ¼þ
+	 * ï¿½ï¿½Å¥ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½
 	 * @see android.view.View.OnClickListener#onClick(android.view.View)
 	 */
 	public void onClick(View v)
 	{
 		if(R.id.btnWarnCopy == v.getId())
 		{
-			BaseHelper.showDialog(this, "ÏûÏ¢", "¿½±´");
+			BaseHelper.showDialog(this, "ï¿½ï¿½Ï¢", "ï¿½ï¿½ï¿½ï¿½");
 		}
 		else if(R.id.btnWarnDel == v.getId())
 		{
-			BaseHelper.showDialog(this, "ÏûÏ¢", "É¾³ý");
+			BaseHelper.showDialog(this, "ï¿½ï¿½Ï¢", "É¾ï¿½ï¿½");
 		}
 		else if(R.id.btnWarnEdit == v.getId())
 		{
-			BaseHelper.showDialog(this, "ÏûÏ¢", "±à¼­");
+			BaseHelper.showDialog(this, "ï¿½ï¿½Ï¢", "ï¿½à¼­");
 		}
 	}
 	
@@ -112,7 +112,7 @@ public class WarnDetailActivity extends Activity implements android.view.View.On
                 case ConstDefine.MSG_I_HANDLE_OK:                                        
         		 	diaLogProgress.dismiss();
         		 	//set details
-        		 	txtWarnContent.setText(warnInfo.getStrWarnContent());
+        		 	txtWarnContent.setText(warnInfo.getWarningContent());
                     break;
                 case ConstDefine.MSG_I_HANDLE_Fail:                                        
                 	//close process

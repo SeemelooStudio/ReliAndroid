@@ -33,6 +33,7 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
+import android.widget.Toast;
 
 import com.model.ChatMessage;
 import com.reqst.BusinessRequest;
@@ -42,11 +43,15 @@ import com.util.ConstDefine;
 
 public class MsgUpMainActivity extends Activity {
 	protected static final String TAG = "MainActivity";
+	private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
+	private static final int SELECT_PHOTO_ACTIVITY_REQUEST_CODE = 200;
+	
 	private ChattingAdapter chatHistoryAdapter;
 	private List<ChatMessage> messages = new ArrayList<ChatMessage>();
 	private ListView chatHistoryLv;
 	private Button sendBtn;
 	private EditText textEditor;
+	
 	//private ImageView sendImageIv;
 	//private ImageView captureImageIv;
 	//private PopupWindow menuWindow = null;
@@ -79,16 +84,30 @@ public class MsgUpMainActivity extends Activity {
 				Intent i = new Intent();
 				i.setType("image/*");
 				i.setAction(Intent.ACTION_GET_CONTENT);
-				startActivityForResult(i, Activity.DEFAULT_KEYS_SHORTCUT);
+				startActivityForResult(i, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
 			    return true;
 			case R.id.action_photos:
 				Intent it = new Intent("android.media.action.IMAGE_CAPTURE");
-				startActivityForResult(it, Activity.DEFAULT_KEYS_DIALER);
+				startActivityForResult(it, SELECT_PHOTO_ACTIVITY_REQUEST_CODE);
 				return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
 	
+	protected void onActivityResult(int requestCode, int resultCode, Intent data)
+	{
+		if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
+	        if (resultCode == RESULT_OK) {
+	            // Image captured and saved to fileUri specified in the Intent
+	            Toast.makeText(this, "Image saved to:\n" +
+	                     data.getData(), Toast.LENGTH_LONG).show();
+	        } else if (resultCode == RESULT_CANCELED) {
+	            // User cancelled the image capture
+	        } else {
+	            // Image capture failed, advise user
+	        }
+	    }
+	}
 	// set adapter
 	private void setAdapterForThis() {
 		initMessages();

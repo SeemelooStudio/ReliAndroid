@@ -50,12 +50,12 @@ public class BusinessRequest {
 		try {
 			Log.v("jsonStrUser", jsonStrUser.toString());
 			ServerHttpRequest httpReq = new ServerHttpRequest();
-			String strRequestAddress = ConstDefine.WEB_SERVICE_URL + ConstDefine.S_GET_USERINFO.replace("{UserName}", user.getStrUserName());
+			String strRequestAddress = ConstDefine.WEB_SERVICE_URL + ConstDefine.S_GET_USERINFO.replace("{UserName}", user.getUserName());
 			String strResp = httpReq.doGet(strRequestAddress);
 			Log.v("strResp", strResp);
 			
 			respUser = JsonHelper.parseObject(strResp, UserInfo.class);  
-			return respUser.getStrMenu();
+			return respUser.getMenu();
 			
 		} catch (Exception ex) {
 			return "1234567";
@@ -438,8 +438,8 @@ public class BusinessRequest {
 		ServerHttpRequest httpReq = new ServerHttpRequest();
 		String url = ConstDefine.WEB_SERVICE_URL + ConstDefine.S_AUTHENTICATION;
 		Map<String, String> requestData = new HashMap<String, String>();
-		requestData.put("strUserName", userInfo.getStrUserName());
-		requestData.put("strEncodedPassword", Base64.encodeToString(userInfo.getStrUserPwd().getBytes(), Base64.NO_WRAP));
+		requestData.put("strUserName", userInfo.getUserName());
+		requestData.put("strEncodedPassword", Base64.encodeToString(userInfo.getUserPwd().getBytes(), Base64.NO_WRAP));
 		try {
 			String response = httpReq.doPost(url, requestData);
 			Log.v("autentication", response);

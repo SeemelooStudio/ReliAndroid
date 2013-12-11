@@ -22,7 +22,6 @@ public class ChattingAdapter extends BaseAdapter {
 		super();
 		this.context = context;
 		this.chatMessages = messages;
-
 	}
 
 	@Override
@@ -64,9 +63,6 @@ public class ChattingAdapter extends BaseAdapter {
 		return convertView;
 	}
     
-	
-	
-	//�Ż�listview��Adapter
 	static class ViewHolder {
 		TextView text;
 		int flag;

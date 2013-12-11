@@ -8,45 +8,45 @@ import com.util.ConstDefine;
 
 public class UserInfo {
 	
-	private String strUserId;
+	private String userId;
 	
-	private String strUserName;
+	private String userName;
 	
-	private String strUserPwd;
+	private String userPwd;
 	
-	private String strMenu;
+	private String menu;
 
 	
-	public String getStrUserId() {
-		return strUserId;
+	public String getUserId() {
+		return userId;
 	}
 
-	public void setStrUserId(String strUserId) {
-		this.strUserId = strUserId;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
-	public String getStrUserName() {
-		return strUserName;
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setStrUserName(String strUserName) {
-		this.strUserName = strUserName;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
-	public String getStrUserPwd() {
-		return strUserPwd;
+	public String getUserPwd() {
+		return userPwd;
 	}
 
-	public void setStrUserPwd(String strUserPwd) {
-		this.strUserPwd = strUserPwd;
+	public void setUserPwd(String userPwd) {
+		this.userPwd = userPwd;
 	}
 
-	public String getStrMenu() {
-		return strMenu;
+	public String getMenu() {
+		return menu;
 	}
 
-	public void setStrMenu(String strMenu) {
-		this.strMenu = strMenu;
+	public void setMenu(String menu) {
+		this.menu = menu;
 	}
 	
 
