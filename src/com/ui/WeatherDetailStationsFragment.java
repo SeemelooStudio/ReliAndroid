@@ -50,8 +50,8 @@ public class WeatherDetailStationsFragment extends Fragment implements
 		_lvWeatherStations.setAdapter(new SimpleAdapter(getActivity()
 				.getApplicationContext(), _parsedWeatherStations,
 				R.layout.weather_station_list_item, new String[] { "list_id", "list_name",
-						"list_other" }, new int[] { R.id.list_id,
-						R.id.list_name, R.id.list_other }));
+						"list_other" }, new int[] { R.id.list_station_id,
+						R.id.list_station_name, R.id.list_station_other }));
 
 		SearchView searchView = (SearchView) view
 				.findViewById(R.id.weather_search_view);
@@ -90,9 +90,8 @@ public class WeatherDetailStationsFragment extends Fragment implements
 
 		_lvWeatherStations.setAdapter(new SimpleAdapter(getActivity(),
 				resultList, R.layout.weather_station_list_item, new String[] { "list_id",
-						"list_name", "list_other" }, new int[] { R.id.list_id,
-						R.id.list_name, R.id.list_other }));
-
+						"list_name", "list_other" }, new int[] { R.id.list_station_id,
+						R.id.list_station_name, R.id.list_station_other }));
 	}
 
 	private List<HashMap<String, Object>> searchItem(String name) {

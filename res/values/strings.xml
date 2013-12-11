@@ -39,9 +39,9 @@
    <string name="weather">天气</string>
    <string name="today">今天</string>
    <string name="yesterday">昨天</string>
-   <string name="week">温度曲线</string>
+   <string name="week">趋势</string>
    <string name="weather_stations">气象监测站</string>
-   <string name="history">气温历史</string>
+   <string name="history">历史查询</string>
    <string name="forcast">预报</string>
    <string name="actrual">实际</string>
    <string name="highest_tempreture">最高温度</string>
@@ -59,6 +59,8 @@
    <string name="zero">0</string>
    <string name="to">至</string>
    <string name="keyword_search_hint">请输入关键字</string>
+   <string name="weather_axis_tempreture">温度(°)</string>
+   <string name="weather_axis_time">时间</string>
    
    <!--  HeatSource -->
    <string name="totalHeatLoad">总热负荷:</string>

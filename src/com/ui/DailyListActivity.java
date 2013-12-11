@@ -6,19 +6,15 @@ import java.util.List;
 
 import org.json.JSONException;
 
-import android.app.ActionBar;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.NavUtils;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
@@ -27,7 +23,6 @@ import android.widget.SimpleAdapter;
 
 import com.model.DownloadPDFTask;
 import com.model.WeatherStationListItem;
-import com.model.WarnListItem;
 import com.reqst.BusinessRequest;
 import com.util.BaseHelper;
 import com.util.ConstDefine;
@@ -59,7 +54,8 @@ public class DailyListActivity extends Activity implements  SearchView.OnQueryTe
     	    listView.setOnItemClickListener(new OnItemClickListener(){                                                                                    
   	        	public void onItemClick(AdapterView<?> parent, View arg1, int position, long id) 
   	        	{   
-  	        		HashMap<String, Object> ListItem = (HashMap<String, Object>) listView.getItemAtPosition(position);
+  	        		@SuppressWarnings("unchecked")
+					HashMap<String, Object> ListItem = (HashMap<String, Object>) listView.getItemAtPosition(position);
   	        		String pdfUrl = ConstDefine.WEB_SERVICE_URL + ConstDefine.S_DAILY_REPORT_ROOT + ListItem.get("list_name").toString();
   	        		new DownloadPDFTask(mActivity).execute(pdfUrl);
   	        	}
@@ -117,12 +113,13 @@ public class DailyListActivity extends Activity implements  SearchView.OnQueryTe
 	    /**
 	     * http handler result
 	     */
-	    private Handler handler = new Handler() {               
+	    @SuppressLint("HandlerLeak")
+		private Handler handler = new Handler() {               
 	        public void handleMessage(Message message) {
 	                switch (message.what) {
 	                case ConstDefine.MSG_I_HANDLE_OK:                                        
 	        		 	diaLogProgress.dismiss();
-	        		 	listView.setAdapter(new SimpleAdapter(getApplicationContext(),listData, R.layout.weather_station_list_item,  
+	        		 	listView.setAdapter(new SimpleAdapter(getApplicationContext(),listData, R.layout.list_item,  
 	   	           				  new String[] { "list_id", "list_name", "list_other" }, 
 	   	           				  new int[] {R.id.list_id, R.id.list_name, R.id.list_other}));
 	                    break;
@@ -162,7 +159,7 @@ public class DailyListActivity extends Activity implements  SearchView.OnQueryTe
          * @param resultList
          */
 	    private void updateLayout(List<HashMap<String, Object>> resultList) {  
-	    	  listView.setAdapter(new SimpleAdapter(getApplicationContext(),resultList, R.layout.weather_station_list_item,  
+	    	  listView.setAdapter(new SimpleAdapter(getApplicationContext(),resultList, R.layout.list_item,  
 					  new String[] { "list_id", "list_name", "list_other" }, 
 					  new int[] {R.id.list_id, R.id.list_name, R.id.list_other})); 
 	    }  

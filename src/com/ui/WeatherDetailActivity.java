@@ -157,6 +157,7 @@ public class WeatherDetailActivity extends FragmentActivity implements TabListen
         		 	_frgStations.setWeatherStationList(_weatherStations);
         		 	//render first two tab
         		 	_frgToday.renderWeatherDetailData();
+        		 	_frgWeek.renderWeatherDetailData();
 
                     break;
                 case ConstDefine.MSG_I_HANDLE_Fail:                                        
@@ -239,7 +240,7 @@ public class WeatherDetailActivity extends FragmentActivity implements TabListen
 			String tabLabel = "";
 			switch (position) {
 			case TAB_POSITION_TODAY:
-				tabLabel = getString(R.string.today);
+				tabLabel = getString(R.string.forcast);
 				break;
 			case TAB_POSITION_WEEK:
 				tabLabel = getString(R.string.week);
