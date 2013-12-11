@@ -20,7 +20,7 @@ import com.model.HotPosMainItem;
 import com.model.HotSrcMainItem;
 import com.model.HotSrcTitleInfo;
 import com.model.KnowledgeBaseItem;
-import com.model.ListItem;
+import com.model.WeatherStationListItem;
 import com.model.MainPageSummary;
 import com.model.SendChatMessageTask;
 import com.model.UserInfo;
@@ -71,7 +71,7 @@ public class BusinessRequest {
 	 * @return
 	 * @throws JSONException 
 	 */
-	public static ArrayList<ListItem> getDailyList(ListItem objSearchCon) throws Exception 
+	public static ArrayList<WeatherStationListItem> getDailyList(WeatherStationListItem objSearchCon) throws Exception 
 	{
 		JSONStringer jsonStrCon = JsonHelper.toJSONString(objSearchCon);
 		
@@ -82,7 +82,7 @@ public class BusinessRequest {
 		String strRequestAddress = ConstDefine.WEB_SERVICE_URL + ConstDefine.S_GET_DAILYREPORTS;
 		try {
 			String strResp = httpReq.doGet(strRequestAddress);
-			ArrayList<ListItem>  lstDaily = (ArrayList<ListItem>) JsonHelper.parseCollection(strResp, List.class, ListItem.class);	
+			ArrayList<WeatherStationListItem>  lstDaily = (ArrayList<WeatherStationListItem>) JsonHelper.parseCollection(strResp, List.class, WeatherStationListItem.class);	
 			return  lstDaily;
 		}
 		catch(Exception ex) {
@@ -124,12 +124,14 @@ public class BusinessRequest {
 	public static WarnListItem getWarnDetailById(String strWarnId) throws Exception{
 		
 		//create parame
+		@SuppressWarnings({ "unchecked", "rawtypes" })
 		Map<String, String> mapParam = new HashMap();
 		mapParam.put("warn_id", strWarnId);
 		WarnListItem respWarnInfo = new WarnListItem();
 		
 		try {
 			
+			@SuppressWarnings("unused")
 			ServerHttpRequest httpReq = new ServerHttpRequest();
 			//String strResp = httpReq.doGet(ConstDefine.S_GET_USERINFO, mapParam);
 			//TODO
@@ -147,22 +149,19 @@ public class BusinessRequest {
 	
 	/**
 	 * 
-	 * @param objSearchCon
+	 * @param null
 	 * @return
 	 * @throws JSONException
 	 */
-	public static ArrayList<ListItem> getWeatherList(ListItem objSearchCon) throws Exception 
+	public static ArrayList<WeatherStationListItem> getWeatherList() throws Exception 
 	{
-		JSONStringer jsonStrCon = JsonHelper.toJSONString(objSearchCon);
-		
-		Log.v("jsonStrCondition", jsonStrCon.toString());
 		
 		ServerHttpRequest httpReq = new ServerHttpRequest();
 		String strRequestAddress = ConstDefine.WEB_SERVICE_URL + ConstDefine.S_GET_WEATHERSTATIONS;
 		
 		try {
 			String strResp = httpReq.doGet(strRequestAddress);
-			ArrayList<ListItem>  lstWeather = (ArrayList<ListItem>) JsonHelper.parseCollection(strResp, List.class, ListItem.class);	
+			ArrayList<WeatherStationListItem>  lstWeather = (ArrayList<WeatherStationListItem>) JsonHelper.parseCollection(strResp, List.class, WeatherStationListItem.class);	
 			return  lstWeather;
 		}
 		catch (Exception ex) {

@@ -23,7 +23,7 @@ import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.SimpleAdapter;
 
-import com.model.ListItem;
+import com.model.WeatherStationListItem;
 import com.reqst.BusinessRequest;
 import com.util.BaseHelper;
 import com.util.ConstDefine;
@@ -33,10 +33,10 @@ public class WeatherListActivity extends Activity implements  SearchView.OnQuery
 	private ListView listView;  
     private SearchView searchView;  
     private List<HashMap<String, Object>> listData; 
-    private ArrayList<ListItem>  dbWeatherlist = new ArrayList<ListItem>();  
+    private ArrayList<WeatherStationListItem>  dbWeatherlist = new ArrayList<WeatherStationListItem>();  
 	  
     private ProgressDialog diaLogProgress= null;
-    private ListItem searchCon = null;
+    private WeatherStationListItem searchCon = null;
     
 	 @Override
      public void onCreate(Bundle savedInstanceState) {
@@ -49,10 +49,10 @@ public class WeatherListActivity extends Activity implements  SearchView.OnQuery
         searchView.setOnQueryTextListener(this);  
         searchView.setSubmitButtonEnabled(false);
         
-        listView = (ListView) findViewById(R.id.list);  
+        listView = (ListView) findViewById(R.id.station_list);  
         listView.setTextFilterEnabled(true); 
         
-        searchCon = new ListItem();
+        searchCon = new WeatherStationListItem();
 	    this.getWeatherListbyCondition();
 	    
         listView.setOnItemClickListener(new OnItemClickListener(){                                                                                    
@@ -116,7 +116,7 @@ public class WeatherListActivity extends Activity implements  SearchView.OnQuery
                 switch (message.what) {
                 case ConstDefine.MSG_I_HANDLE_OK:                                        
         		 	diaLogProgress.dismiss();
-        		    listView.setAdapter(new SimpleAdapter(getApplicationContext(),listData, R.layout.list_item,  
+        		    listView.setAdapter(new SimpleAdapter(getApplicationContext(),listData, R.layout.weather_station_list_item,  
         					  new String[] { "list_id", "list_name", "list_other" }, 
         					  new int[] {R.id.list_id, R.id.list_name, R.id.list_other}));
         		 	break;
@@ -137,14 +137,14 @@ public class WeatherListActivity extends Activity implements  SearchView.OnQuery
 	* @return
 	* @throws JSONException
 	*/
-	   private List<HashMap<String, Object>> getWeatherListData(ListItem pSearchCon) throws Exception {  
+	   private List<HashMap<String, Object>> getWeatherListData(WeatherStationListItem pSearchCon) throws Exception {  
 	       
 	        //get weatherList
-	   dbWeatherlist =  BusinessRequest.getWeatherList(pSearchCon);
+	   dbWeatherlist =  BusinessRequest.getWeatherList();
 	    
 	    //adapt weatherList
 	    List<HashMap<String, Object>> weatherList = new ArrayList<HashMap<String, Object>>(); 
-	    for (ListItem oneRec: dbWeatherlist) 
+	    for (WeatherStationListItem oneRec: dbWeatherlist) 
 	    {   
 	    	HashMap<String, Object> item = new HashMap<String, Object>();  
 	        item.put("list_id", oneRec.getStrListId()); 
@@ -168,7 +168,7 @@ public class WeatherListActivity extends Activity implements  SearchView.OnQuery
         
         for (int i = 0; i < dbWeatherlist.size(); i++) 
         { 	
-            int index =((ListItem) dbWeatherlist.get(i)).getStrListName().indexOf(name);  
+            int index =((WeatherStationListItem) dbWeatherlist.get(i)).getStrListName().indexOf(name);  
             
 
             if (index != -1) {
@@ -189,7 +189,7 @@ public class WeatherListActivity extends Activity implements  SearchView.OnQuery
      * @param resultList
      */
     private void updateLayout(List<HashMap<String, Object>> resultList) {  
-    	  listView.setAdapter(new SimpleAdapter(getApplicationContext(),resultList, R.layout.list_item,  
+    	  listView.setAdapter(new SimpleAdapter(getApplicationContext(),resultList, R.layout.weather_station_list_item,  
 				  new String[] { "list_id", "list_name", "list_other" }, 
 				  new int[] {R.id.list_id, R.id.list_name, R.id.list_other})); 
     }  

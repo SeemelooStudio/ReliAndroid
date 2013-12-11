@@ -2,9 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/black"
-    android:padding="@dimen/medium_margin"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:background="@drawable/weather_background" >
 
     <SearchView
         android:id="@+id/wether_his_search"
@@ -12,21 +11,17 @@
         android:layout_height="wrap_content"
         android:iconifiedByDefault="false"
         android:inputType="textFilter"
-        android:queryHint="@string/search_hint" >
+        android:queryHint="@string/search_hint"
+        android:padding="@dimen/small_margin"
+        android:background="@color/transparent_black" >
     </SearchView>
 
-    <TextView
-        android:id="@+id/txtfourTab1"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="30" >
-    </TextView>
-
     <ListView
-        android:id="@+id/fourTabList"
+        android:id="@+id/weather_history_list"
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
-        android:scrollbarStyle="outsideOverlay" >
+        android:scrollbarStyle="outsideOverlay"
+        android:background="@drawable/black_to_black_transparent" >
     </ListView>
 
 </LinearLayout>

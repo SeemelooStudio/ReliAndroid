@@ -13,7 +13,6 @@ import android.app.ActionBar.TabListener;
 import android.support.v4.app.Fragment;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -22,6 +21,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
+import com.model.WeatherStationListItem;
 import com.model.WeatherDetailItem;
 import com.model.WeatherDetailTempInfo;
 import com.model.WeatherPreChartItem;
@@ -34,35 +34,27 @@ import com.util.DateHelper;
 
 public class WeatherDetailActivity extends FragmentActivity implements TabListener {
 
-	private String strListId = "";
+	private String strListId = "1";
 	private ProgressDialog _diaLogProgress = null;
 	private WeatherDetailTempInfo _weatherSummaryToday = null;
-	private WeatherDetailTempInfo _weatherSummaryYesterday = null;
 	private List<HashMap<String, Object>> _weatherDetailsToday;
-	private List<HashMap<String, Object>> _weatherDetailsYesterday;
     
 	private List<WeatherPreChartItem> _weatherChartItems = null;
 	private ArrayList<WeatherDetailItem>  _weatherDetailsHistory = new ArrayList<WeatherDetailItem>(); 
 	
+    private ArrayList<WeatherStationListItem>  _weatherStations = new ArrayList<WeatherStationListItem>(); 
+	
 	private ViewPager _viewPager;  
     private WeatherFragmentPagerAdapter _viewPagerAdapter; 
     private WeatherDetailTodayFragment _frgToday;
-    private WeatherDetailYesterdayFragment _frgYesterday;
     private WeatherDetailWeekFragment _frgWeek;
     private WeatherDetailHistoryFragment _frgHistory;
+    private WeatherDetailStationsFragment _frgStations;
     
 	 @Override
 	 public void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
 	        setContentView(R.layout.weather_detail);
-	        
-	        Intent inten = this.getIntent();
-	        Bundle mBundle = inten.getExtras();
-	        if (mBundle == null )  return;
-	        
-	        strListId = mBundle.getString("list_id");
-		    if(strListId== null || strListId.length() <= 0) return;
-			setTitle(mBundle.getString("list_name"));
 			
 			initFragments();
 			initViewPager();
@@ -76,9 +68,9 @@ public class WeatherDetailActivity extends FragmentActivity implements TabListen
 	}
 	private void initFragments() {
 	    _frgToday = new WeatherDetailTodayFragment();
-		_frgYesterday = new WeatherDetailYesterdayFragment();
 		_frgWeek = new WeatherDetailWeekFragment();
-		_frgHistory = new WeatherDetailHistoryFragment();		
+		_frgHistory = new WeatherDetailHistoryFragment();
+		_frgStations = new WeatherDetailStationsFragment();
 	}
 	private void initViewPager() {
 		this._viewPagerAdapter = new WeatherFragmentPagerAdapter(getSupportFragmentManager());  
@@ -137,12 +129,10 @@ public class WeatherDetailActivity extends FragmentActivity implements TabListen
 
         	    	_weatherSummaryToday = BusinessRequest.getWenduTabDetailById(strListId,WeatherType.Today.getStrValue());
         		 	_weatherDetailsToday = getWeatherDetailListData(strListId,"1");
-
-        		 	_weatherSummaryYesterday = BusinessRequest.getWenduTabDetailById(strListId,WeatherType.Yesterday.getStrValue());
-        		 	_weatherDetailsYesterday = getWeatherDetailListData(strListId,WeatherType.Yesterday.getStrValue());
-        		 	
+        		 	        		 	
         		 	_weatherChartItems =  BusinessRequest.getWeatherChartList();
         		 	_weatherDetailsHistory =  BusinessRequest.getWeatherHisListData();
+        		 	_weatherStations =  BusinessRequest.getWeatherList();
         		 	
         	    	msgSend.what = ConstDefine.MSG_I_HANDLE_OK;
 					} catch (Exception e) {
@@ -162,14 +152,12 @@ public class WeatherDetailActivity extends FragmentActivity implements TabListen
         		 	_diaLogProgress.dismiss();
         		 	_frgToday.setWeatherDetailInfo(_weatherSummaryToday);
         		    _frgToday.setWeatherDetailList(_weatherDetailsToday);
-        		    _frgYesterday.setWeatherDetailInfo(_weatherSummaryYesterday);
-        		    _frgYesterday.setWeatherDetailList(_weatherDetailsYesterday);
         		 	_frgWeek.setWeatherDetailList(_weatherChartItems);
         		 	_frgHistory.setOriginDataList(_weatherDetailsHistory);
-        		 	
-
+        		 	_frgStations.setWeatherStationList(_weatherStations);
+        		 	//render first two tab
         		 	_frgToday.renderWeatherDetailData();
-        		 	_frgYesterday.renderWeatherDetailData();
+        		 	_frgWeek.renderWeatherDetailData();
 
                     break;
                 case ConstDefine.MSG_I_HANDLE_Fail:                                        
@@ -217,9 +205,9 @@ public class WeatherDetailActivity extends FragmentActivity implements TabListen
 
 	public class WeatherFragmentPagerAdapter extends FragmentPagerAdapter {
 	    private final int TAB_POSITION_TODAY = 0;
-	    private final int TAB_POSITION_YESTERDAY = 1;
-	    private final int TAB_POSITION_WEEK = 2;
-	    private final int TAB_POSITION_HISTORY = 3;
+	    private final int TAB_POSITION_WEEK = 1;
+	    private final int TAB_POSITION_HISTORY = 2;
+	    private final int TAB_POSITION_STATIONS = 3;
 	    private final int TAB_COUNT = 4;
 	    
 		public WeatherFragmentPagerAdapter(FragmentManager fm) {
@@ -231,12 +219,12 @@ public class WeatherDetailActivity extends FragmentActivity implements TabListen
 			switch (position) {
 			case TAB_POSITION_TODAY:
 				return _frgToday;
-			case TAB_POSITION_YESTERDAY:
-				return _frgYesterday;
 			case TAB_POSITION_WEEK:
 				return _frgWeek;
 			case TAB_POSITION_HISTORY:
 				return _frgHistory;
+			case TAB_POSITION_STATIONS:
+				return _frgStations;
 
 			}
 			throw new IllegalStateException("No fragment at position " + position);
@@ -252,10 +240,7 @@ public class WeatherDetailActivity extends FragmentActivity implements TabListen
 			String tabLabel = "";
 			switch (position) {
 			case TAB_POSITION_TODAY:
-				tabLabel = getString(R.string.today);
-				break;
-			case TAB_POSITION_YESTERDAY:
-				tabLabel = getString(R.string.yesterday);
+				tabLabel = getString(R.string.forcast);
 				break;
 			case TAB_POSITION_WEEK:
 				tabLabel = getString(R.string.week);
@@ -263,6 +248,8 @@ public class WeatherDetailActivity extends FragmentActivity implements TabListen
 			case TAB_POSITION_HISTORY:
 				tabLabel = getString(R.string.history);
 				break;
+			case TAB_POSITION_STATIONS:
+				tabLabel = getString(R.string.weather_stations);
 			}
 			return tabLabel;
 		}

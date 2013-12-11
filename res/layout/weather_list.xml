@@ -3,19 +3,27 @@
     xmlns:tools="http://schemas.android.com/tools"  
     android:layout_width="match_parent"  
     android:layout_height="match_parent" 
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:background="@drawable/weather_background" >
     <SearchView 
         android:id="@+id/weather_search_view" 
         android:layout_width="fill_parent"  
         android:layout_height="wrap_content"  
         android:iconifiedByDefault="false"  
-        android:inputType="textFilter"  
-        android:queryHint="请输入查询条件" >  
-    </SearchView> 
+        android:inputType="textFilter" 
+        android:background="@color/transparent_black"
+        android:queryHint="@string/keyword_search_hint"
+	    android:padding="@dimen/small_margin" >  
+    </SearchView>
+    <View
+	    android:layout_width="fill_parent"
+	    android:layout_height="1dp"
+	    android:background="@drawable/black_to_white_transparent" />
 	<ListView  
-		        android:id="@+id/list" 
+		        android:id="@+id/station_list" 
 		        android:layout_width="fill_parent"  
 		        android:layout_height="match_parent"
+		        android:background="@drawable/black_to_black_transparent"
 		        android:scrollbarStyle="outsideOverlay"/>
 
 </LinearLayout>
