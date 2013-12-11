@@ -16,6 +16,7 @@
         <activity
             android:name="LogonActivity"
             android:theme="@style/CustomThemeNoActionBar"
+            android:configChanges="orientation|screenSize"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,42 +24,46 @@
             </intent-filter>
         </activity>
         　　<!--申明activity--> 
-     <activity android:name="org.achartengine.GraphicalActivity" />
+     <activity android:name="org.achartengine.GraphicalActivity"  android:configChanges="orientation|screenSize"/>
      <activity android:name="LoginActivity"
           android:label="@string/login" >
      </activity>
-　　	<activity android:name="MainPageActivity"></activity>
+　　	<activity android:name="MainPageActivity" android:configChanges="orientation|screenSize"></activity>
 	<activity android:name="DailyListActivity"
-	    android:label="@string/heat_daily">
+	    android:label="@string/heat_daily"
+	    android:configChanges="orientation|screenSize">
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
             android:value="com.ui.MainPageActivity" />
 	</activity>
-	<activity android:name="DailyDetailActivity"></activity>
-	<activity android:name="DailyDetailPdfActivity">
+	<activity android:name="DailyDetailActivity" android:configChanges="orientation|screenSize"></activity>
+	<activity android:name="DailyDetailPdfActivity" android:configChanges="orientation|screenSize">
 	     <meta-data
             android:name="android.support.PARENT_ACTIVITY"
             android:value="com.ui.DailyListActivity" />
 	</activity>
-	<activity android:name="WarnListActivity" android:label="@string/warning">
+	<activity android:name="WarnListActivity" android:label="@string/warning" android:configChanges="orientation|screenSize">
 	     <meta-data
             android:name="android.support.PARENT_ACTIVITY"
             android:value="com.ui.MainPageActivity" />
 	</activity>
-	<activity android:name="WarnDetailActivity"></activity>
-	<activity android:name="WeatherListActivity"></activity>
-	<activity android:name="WeatherDetailActivity"></activity>
-	<activity android:name="HotSourceMainActivity"></activity>
-	<activity android:name="HotSourceDetailActivity"></activity>
-	<activity android:name="HotSourceQueryActivity"></activity>
-	<activity android:name="HotPositionMainActivity"></activity>
-	<activity android:name="HotPositionDetailActivity"></activity>
-	<activity android:name="HotPositionQueryActivity"></activity>
+	<activity android:name="WarnDetailActivity" android:configChanges="orientation|screenSize"></activity>
+	<activity android:name="WeatherListActivity" android:configChanges="orientation|screenSize"></activity>
+	<activity android:name="WeatherDetailActivity" 
+	    android:configChanges="orientation|screenSize"
+	    android:theme="@style/CustomThemeDark"></activity>"
+	<activity android:name="HotSourceMainActivity" android:configChanges="orientation|screenSize"></activity>
+	<activity android:name="HotSourceDetailActivity" android:configChanges="orientation|screenSize"></activity>
+	<activity android:name="HotSourceQueryActivity" android:configChanges="orientation|screenSize"></activity>
+	<activity android:name="HotPositionMainActivity" android:configChanges="orientation|screenSize"></activity>
+	<activity android:name="HotPositionDetailActivity" android:configChanges="orientation|screenSize"></activity>
+	<activity android:name="HotPositionQueryActivity" android:configChanges="orientation|screenSize"></activity>
 	<activity android:name="MsgUpMainActivity"
-	    android:windowSoftInputMode="stateVisible|adjustResize">
+	    android:windowSoftInputMode="stateVisible|adjustResize"
+	    android:configChanges="orientation|screenSize" >
 	</activity>
-	<activity android:name="KnowledgeBaseDetailActivity"></activity>
-	<activity android:name="KnowledgeBaseListActivity"></activity>
+	<activity android:name="KnowledgeBaseDetailActivity" android:configChanges="orientation|screenSize"></activity>
+	<activity android:name="KnowledgeBaseListActivity" android:configChanges="orientation|screenSize"></activity>
     </application>
    
 </manifest>

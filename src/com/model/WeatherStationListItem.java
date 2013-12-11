@@ -1,6 +1,6 @@
 package com.model;
 
-public class ListItem {
+public class WeatherStationListItem {
 	
 	private String strListId;
 	private String strListName;

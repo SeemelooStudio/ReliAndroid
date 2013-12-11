@@ -26,7 +26,7 @@ import android.widget.SearchView;
 import android.widget.SimpleAdapter;
 
 import com.model.DownloadPDFTask;
-import com.model.ListItem;
+import com.model.WeatherStationListItem;
 import com.model.WarnListItem;
 import com.reqst.BusinessRequest;
 import com.util.BaseHelper;
@@ -42,9 +42,9 @@ public class DailyListActivity extends Activity implements  SearchView.OnQueryTe
 	    private ListView listView;  
 	    private SearchView searchView;  
 	    private List<HashMap<String, Object>> listData; 
-	    private ArrayList<ListItem>  dbDatalist = new ArrayList<ListItem>();  
+	    private ArrayList<WeatherStationListItem>  dbDatalist = new ArrayList<WeatherStationListItem>();  
 	    private ProgressDialog diaLogProgress= null;
-	    private ListItem searchCon = null;
+	    private WeatherStationListItem searchCon = null;
 		private Activity mActivity;
 	    @Override  
 	    protected void onCreate(Bundle savedInstanceState) {  
@@ -52,7 +52,7 @@ public class DailyListActivity extends Activity implements  SearchView.OnQueryTe
     	    setContentView(R.layout.daily_list); 
     	    listView = (ListView) findViewById(R.id.list); 
     	   
-    	    searchCon = new ListItem();
+    	    searchCon = new WeatherStationListItem();
     	    this.getDailyListbyCondition();
    	        mActivity = this;
 	        listView.setTextFilterEnabled(true); 
@@ -122,7 +122,7 @@ public class DailyListActivity extends Activity implements  SearchView.OnQueryTe
 	                switch (message.what) {
 	                case ConstDefine.MSG_I_HANDLE_OK:                                        
 	        		 	diaLogProgress.dismiss();
-	        		 	listView.setAdapter(new SimpleAdapter(getApplicationContext(),listData, R.layout.list_item,  
+	        		 	listView.setAdapter(new SimpleAdapter(getApplicationContext(),listData, R.layout.weather_station_list_item,  
 	   	           				  new String[] { "list_id", "list_name", "list_other" }, 
 	   	           				  new int[] {R.id.list_id, R.id.list_name, R.id.list_other}));
 	                    break;
@@ -141,7 +141,7 @@ public class DailyListActivity extends Activity implements  SearchView.OnQueryTe
 	        
 	        for (int i = 0; i < dbDatalist.size(); i++) 
 	        { 	
-	            int index =((ListItem) dbDatalist.get(i)).getStrListName().indexOf(name);  
+	            int index =((WeatherStationListItem) dbDatalist.get(i)).getStrListName().indexOf(name);  
 	            
 	            if (index != -1) {
 	            	HashMap<String, Object> item = new HashMap<String, Object>();  
@@ -162,7 +162,7 @@ public class DailyListActivity extends Activity implements  SearchView.OnQueryTe
          * @param resultList
          */
 	    private void updateLayout(List<HashMap<String, Object>> resultList) {  
-	    	  listView.setAdapter(new SimpleAdapter(getApplicationContext(),resultList, R.layout.list_item,  
+	    	  listView.setAdapter(new SimpleAdapter(getApplicationContext(),resultList, R.layout.weather_station_list_item,  
 					  new String[] { "list_id", "list_name", "list_other" }, 
 					  new int[] {R.id.list_id, R.id.list_name, R.id.list_other})); 
 	    }  
@@ -172,14 +172,14 @@ public class DailyListActivity extends Activity implements  SearchView.OnQueryTe
 	     * @return
 	     * @throws JSONException 
 	     */
-	    private List<HashMap<String, Object>> getDailyListData(ListItem pSearchCon) throws Exception {  
+	    private List<HashMap<String, Object>> getDailyListData(WeatherStationListItem pSearchCon) throws Exception {  
 	       
 	        //get dailyList
 	        dbDatalist =  BusinessRequest.getDailyList(pSearchCon);
 	        
 	        //adapt dailyList
 	        List<HashMap<String, Object>> dailyList = new ArrayList<HashMap<String, Object>>(); 
-	        for (ListItem oneRec: dbDatalist) 
+	        for (WeatherStationListItem oneRec: dbDatalist) 
 	        {   
 	        	HashMap<String, Object> item = new HashMap<String, Object>();  
 		        item.put("list_id", oneRec.getStrListId()); 

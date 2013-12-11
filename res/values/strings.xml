@@ -41,11 +41,11 @@
    <string name="yesterday">昨天</string>
    <string name="week">温度曲线</string>
    <string name="weather_stations">气象监测站</string>
-   <string name="history">历史</string>
+   <string name="history">气温历史</string>
    <string name="forcast">预报</string>
    <string name="actrual">实际</string>
-   <string name="highest_tempreture">最高</string>
-   <string name="lowest_tempreture">最低</string>
+   <string name="highest_tempreture">最高温度</string>
+   <string name="lowest_tempreture">最低温度</string>
    <string name="average_tempreture">平均</string>
    <string name="wind">风力</string>
    <string name="update_time">更新时间</string>
@@ -58,7 +58,8 @@
    <string name="from_day_to_night">今天白天到夜间</string>
    <string name="zero">0</string>
    <string name="to">至</string>
-
+   <string name="keyword_search_hint">请输入关键字</string>
+   
    <!--  HeatSource -->
    <string name="totalHeatLoad">总热负荷:</string>
    <string name="eastArea">东部面积:</string>

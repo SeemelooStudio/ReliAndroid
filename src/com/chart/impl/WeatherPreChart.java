@@ -40,7 +40,7 @@ public class WeatherPreChart extends AbstractChart {
 	
 	   private List<WeatherPreChartItem> lstWeather;
 	   
-	   private String[] titles = new String[] { "×î¸ßÎÂ¶È", "×îµÍÎÂ¶È"};
+	   private String[] titles = new String[] { "abc", "def"};
 	   
 	   private int[] colors = new int[] { Color.BLUE, Color.GREEN };
 	   
@@ -58,7 +58,7 @@ public class WeatherPreChart extends AbstractChart {
 	   * @return the chart name
 	   */
 	  public String getName() {
-	    return "7ÈÕÄÚÌìÆøÔ¤±¨";
+	    return "7ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¤ï¿½ï¿½";
 	  }
 	  
 	  /**
@@ -138,7 +138,7 @@ public class WeatherPreChart extends AbstractChart {
 		  
 		  PointStyle[] styles = new PointStyle[] { PointStyle.POINT, PointStyle.POINT};
 		  XYMultipleSeriesRenderer renderer = buildRenderer(colors, styles);
-		  setChartSettings(renderer, "7ÈÕÄÚÎÂ¶È", "ÈÕÆÚ", "ÎÂ¶È", dates.get(0)[0]
+		  setChartSettings(renderer, "7ï¿½ï¿½ï¿½ï¿½ï¿½Â¶ï¿½", "ï¿½ï¿½ï¿½ï¿½", "ï¿½Â¶ï¿½", dates.get(0)[0]
 			  .getTime(), dates.get(0)[6].getTime(), 0, 200, Color.GRAY, Color.LTGRAY);
 		  renderer.setXLabels(7);
 		  renderer.setYLabels(10);

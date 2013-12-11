@@ -30,7 +30,7 @@ import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
 import android.widget.SimpleAdapter;
 
-import com.model.ListItem;
+import com.model.WeatherStationListItem;
 import com.model.WarnListItem;
 import com.reqst.BusinessRequest;
 import com.util.BaseHelper;

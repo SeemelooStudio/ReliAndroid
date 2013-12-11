@@ -29,7 +29,7 @@ public class WeatherDetailHistoryFragment extends Fragment implements SearchView
 	@Override
 	public void onStart() {
 		super.onStart();
-		_lvWeatherHistory = (ListView)getView().findViewById(R.id.fourTabList);
+		_lvWeatherHistory = (ListView)getView().findViewById(R.id.weather_history_list);
 	}
 	@Override
 	public void onResume() {

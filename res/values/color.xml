@@ -4,6 +4,7 @@
     <color name="translucent_bg">#00000000</color>
     <color name="transparent">#00000000</color>
     <color name="transparent_black">#99000000</color>
+    <color name="transparent_black_2">#55000000</color>
     <color name="transparent_white">#99FFFFFF</color>
     <color name="lightwhite">#ddd</color>
     <color name="light_steel_blue">#FFB0C4DE</color>

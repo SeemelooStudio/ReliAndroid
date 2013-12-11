@@ -2,76 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
-
-
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content" >
-
-            <RelativeLayout
-                android:id="@+id/threeTabLeftInfo"
-                android:layout_width="220dp"
-                android:layout_height="100dp"
-                android:padding="5dip" >
-
-                <TextView
-                    android:id="@+id/txtThreeTab2"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:text="XXXX气象站"
-                    android:textSize="15sp" >
-                </TextView>
-
-                <RadioGroup
-                    android:id="@+id/widget43"
-                    android:layout_width="fill_parent"
-                    android:layout_height="60dp"
-                    android:layout_marginTop="20dip"
-                    android:orientation="horizontal" >
-
-                    <RadioButton
-                        android:id="@+id/threeTabRd1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:text="最高温度"
-                        android:textColor="#000"
-                        android:textSize="12sp" >
-                    </RadioButton>
-
-                    <RadioButton
-                        android:id="@+id/threeTabRd2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="最低温度"
-                        android:textColor="#000"
-                        android:textSize="12sp" >
-                    </RadioButton>
-                </RadioGroup>
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/twoTabRightInfo"
-                android:layout_width="80dp"
-                android:layout_height="100dp"
-                android:layout_marginRight="5dip" >
-
-                <TextView
-                    android:id="@+id/txtThreeTab1"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="5dip"
-                    android:text="30"
-                    android:textSize="40sp" >
-                </TextView>
-            </RelativeLayout>
-        </LinearLayout>
+    android:orientation="vertical"
+    android:background="@drawable/weather_background" >
     <LinearLayout
         android:id="@+id/weather_chart"
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:background="@drawable/black_to_black_transparent" >
     </LinearLayout>
 </LinearLayout>

@@ -25,7 +25,7 @@ import android.widget.SearchView;
 import android.widget.SimpleAdapter;
 
 import com.model.KnowledgeBaseItem;
-import com.model.ListItem;
+import com.model.WeatherStationListItem;
 import com.reqst.BusinessRequest;
 import com.util.BaseHelper;
 import com.util.ConstDefine;
@@ -58,7 +58,7 @@ public class KnowledgeBaseListActivity extends Activity implements  SearchView.O
     	    listView.setOnItemClickListener(new OnItemClickListener(){                                                                                    
   	        	public void onItemClick(AdapterView<?> parent, View arg1, int position, long id) 
   	        	{   
-  	        		//Ìø×ªµ½ÏêÏ¸»­Ãæ
+  	        		//ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ï¿½ï¿½ï¿½
   	        		HashMap<String, Object> ListItem = (HashMap<String, Object>) listView.getItemAtPosition(position);
   	        		Intent intent = new Intent(KnowledgeBaseListActivity.this, KnowledgeBaseDetailActivity.class); 
   	        		Bundle mBundle = new Bundle();
@@ -134,7 +134,7 @@ public class KnowledgeBaseListActivity extends Activity implements  SearchView.O
 		  };
 		  
 	    /**
-	     * ¸ù¾ÝÃû³Æ²éÑ¯
+	     * ï¿½ï¿½ï¿½ï¿½ï¿½Æ²ï¿½Ñ¯
 	     * @param name
 	     * @return
 	     */
@@ -146,7 +146,7 @@ public class KnowledgeBaseListActivity extends Activity implements  SearchView.O
 	        { 	
 	            int index =((KnowledgeBaseItem) dbDatalist.get(i)).getStrDocName().indexOf(name);  
 	            
-	            // ´æÔÚÆ¥ÅäµÄÊý¾Ý  ÖØÐÂ×é×°List
+	            // ï¿½ï¿½ï¿½ï¿½Æ¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×°List
 	            if (index != -1) {
 	            	HashMap<String, Object> item = new HashMap<String, Object>();  
 	     	        item.put("strDocId", dbDatalist.get(i).getStrDocId()); 
@@ -156,7 +156,7 @@ public class KnowledgeBaseListActivity extends Activity implements  SearchView.O
 	            }  
 	        }  
             
-	        //·µ»Ø½á¹û
+	        //ï¿½ï¿½ï¿½Ø½ï¿½ï¿½
 	        return mSearchList;  
 	    }  
 	  

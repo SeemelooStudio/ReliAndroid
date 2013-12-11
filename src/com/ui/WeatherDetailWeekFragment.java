@@ -1,12 +1,10 @@
 package com.ui;
 
-import java.util.HashMap;
 import java.util.List;
 
 import org.achartengine.GraphicalView;
 
 import com.chart.impl.WeatherPreChart;
-import com.model.WeatherDetailTempInfo;
 import com.model.WeatherPreChartItem;
 
 import android.support.v4.app.Fragment;
@@ -16,9 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
-import android.widget.TextView;
 
 public class WeatherDetailWeekFragment extends Fragment {
 	private List<WeatherPreChartItem> weatherDetialList = null;
