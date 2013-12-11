@@ -2,27 +2,22 @@ package com.ui;
 
 import java.util.ArrayList;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
-import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.view.Window;
 import android.widget.GridLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.model.HotSrcMainItem;
@@ -35,7 +30,6 @@ import com.util.ViewPageChangeListener;
 
 public class HotSourceMainActivity extends Activity {
 
-		private RelativeLayout titleView;
 		private ViewPager viewpage;
 		
 		
@@ -55,7 +49,6 @@ public class HotSourceMainActivity extends Activity {
 	    @Override                                                                                            
 	    public void onCreate(Bundle savedInstanceState) {                                                    
 			super.onCreate(savedInstanceState);
-			requestWindowFeature(Window.FEATURE_NO_TITLE); 
 			setContentView(R.layout.hot_source_main);
 			
 			//init view
@@ -96,12 +89,13 @@ public class HotSourceMainActivity extends Activity {
 	 /**
      * http handler result
      */
-    private Handler handler = new Handler() {               
+    @SuppressLint("HandlerLeak")
+	private Handler handler = new Handler() {               
         public void handleMessage(Message message) {
                 switch (message.what) {
                 case ConstDefine.MSG_I_HANDLE_OK:                                        
         		 	diaLogProgress.dismiss();
-        		 	//show grideview
+        		 	//show Gridview
         		 	setHotSourceGridView();
         		 	
         		    break;
@@ -150,9 +144,7 @@ public class HotSourceMainActivity extends Activity {
 	      param.columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 2);
 	      param.width = cellWidth;
 	      param.height = cellHeight;
-	      param.bottomMargin=5;
-	      param.rightMargin=5;
-	      viewSummary.setBackgroundResource(R.color.dodger_blue);
+	      viewSummary.setBackgroundResource(R.color.midnight_blue);
 	      viewSummary.setLayoutParams (param);
     	  param.setGravity(Gravity.FILL);                                                          
     	  viewSummary.setOnClickListener(new OnClickListener(){                                                                                    
@@ -175,10 +167,8 @@ public class HotSourceMainActivity extends Activity {
 	      param.columnSpec = GridLayout.spec(GridLayout.UNDEFINED);
 	      param.width = cellWidth;
 	      param.height = cellHeight;
-	      if(columnIndex != COLUMN_COUNT - 1){
-		      param.rightMargin=5;
-	      }
-	      param.bottomMargin=5;
+	      
+	      //TODO: set background color base on heat source state
       	  viewHeatSource.setBackgroundResource(R.color.dodger_blue);
       	  viewHeatSource.setLayoutParams (param);
       	  viewHeatSource.setOnClickListener(new OnClickListener(){                                                                                    
@@ -195,45 +185,40 @@ public class HotSourceMainActivity extends Activity {
 	  private void setHotSourceGridView()
 	  {
 		  viewpage = (ViewPager) findViewById(R.id.hotMainPager);
-		  //create page
-		  int pageNum = 1;
-		  int pageSize = PAGE_SIZE;
-		  if(dbHeatSources.size()% 10 == 0){
-			  pageNum = dbHeatSources.size() / PAGE_SIZE;
-		  }
-		  else{
-			  pageNum = (dbHeatSources.size() / PAGE_SIZE) + 1;
-		  }
-		  Point size = new Point();
-		  getWindowManager().getDefaultDisplay().getSize(size);
-		  int screenWidth = size.x;
-		  int screenHeight = size.y;
-		  Resources resources = getResources();
-		  DisplayMetrics metrics = resources.getDisplayMetrics();
-		  float px = 10 * (metrics.densityDpi / 160f);
-		  int cellWidth = (int)( (screenWidth - px*2 - 10 ) /3);
-		  int cellHeight = (int) ( (screenHeight - px*2 - 10 - 50) /4 );
-		  int bigCellWidth = cellWidth * 2;
+
+		  int pageNum = (int)Math.ceil( (float)dbHeatSources.size() / PAGE_SIZE );
+
+		  int screenWidth = viewpage.getWidth();
+		  int screenHeight = viewpage.getHeight();
+		  
+		  int ceilMargin = (int)getResources().getDimension(R.dimen.small_margin);
+
+		  int cellWidth = (int)( screenWidth  / COLUMN_COUNT - ceilMargin); 
+		  int cellHeight = (int) ( screenHeight / ROW_COUNT - ceilMargin);
+		  
+		  int bigCellWidth = cellWidth * 2 + ceilMargin;
+		  
         //create page
-        views = new ArrayList<View>();
+		  views = new ArrayList<View>();
 		for(int pageIndex = 0; pageIndex < pageNum; pageIndex++ )
 		{ 
-			LinearLayout pageLayout = new LinearLayout(this);
-			pageLayout.removeAllViews();
+
 			GridLayout gridLayout = new GridLayout(this);
 			gridLayout.setColumnCount(COLUMN_COUNT);
 			gridLayout.setRowCount(ROW_COUNT);
-			gridLayout.setOrientation(gridLayout.HORIZONTAL);
-	        for(int cell = 0, rowIndex = 0, columnIndex=0 ,itemIndex = pageIndex * pageSize + cell ; 
-	        		cell < pageSize && itemIndex < dbHeatSources.size(); 
+			gridLayout.setOrientation(GridLayout.HORIZONTAL);
+			gridLayout.setUseDefaultMargins(true);
+	        for(int cell = 0, rowIndex = 0, columnIndex=0 ,itemIndex = pageIndex * PAGE_SIZE + cell ; 
+	        		cell < PAGE_SIZE && itemIndex < dbHeatSources.size(); 
 	        		cell ++, columnIndex++, itemIndex++)
 			{
 				if(columnIndex == COLUMN_COUNT) {
 					columnIndex = 0;
 					rowIndex++;
-				}	
+				}
+				//show title cell
 		        if(rowIndex == 1 && columnIndex == 0){
-		        	gridLayout.addView(getHeatSourceSummaryCell(titleInfo, 2, 0, bigCellWidth, cellHeight));
+		        	gridLayout.addView( getHeatSourceSummaryCell(titleInfo, 2, 0, bigCellWidth, cellHeight) );
 		        	columnIndex+=1;
 		        	cell--;
 		        	itemIndex--;
@@ -243,8 +228,7 @@ public class HotSourceMainActivity extends Activity {
 		        }
 			}
 		    gridLayout.setId(pageIndex);
-		    pageLayout.addView(gridLayout);
-			views.add(pageLayout);
+			views.add(gridLayout);
 		}
         
 		imageViews = new ImageView[views.size()];  
