@@ -1,80 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/hot_source_item_div"
-	android:orientation="vertical">
-	<LinearLayout 
-	    android:layout_width="match_parent"  
-	    android:layout_height="40dip"
-	    android:orientation="horizontal">
-	        <ImageView android:id="@+id/hotSrcItemLeftImage"
-			    android:layout_width="15dp"
-			    android:layout_height="15dp"
-			    android:layout_marginLeft="15dip"
-			    android:layout_marginTop="10dip"
-			    android:background="@drawable/hot_item_left"/>
-		   <TextView
-			    android:layout_width="wrap_content"
-			    android:layout_height="wrap_content"
-			    android:id="@+id/hotSrcItemLeftText"
-			    android:layout_marginLeft="5dip"
-			    android:layout_marginTop="5dip"
-			    android:textSize="@dimen/medium_font_size"
-			    android:textColor="@color/white"/>
-		   <TextView
-			    android:layout_width="wrap_content"
-			    android:layout_height="wrap_content"
-			    android:id="@+id/hotSrcItemLeftTxtPa"
-			    android:layout_marginLeft="-40dip"
-			    android:layout_marginTop="22dip"
-			    android:textSize="@dimen/small_font_size"
-			    android:textColor="@color/white"/>
-	   </LinearLayout>
-	   <LinearLayout  
-		    android:layout_width="match_parent"  
-		    android:layout_height="40dip"
-		    android:layout_marginTop="40dip"
-		    android:orientation="horizontal">
-		    <ImageView  android:id="@+id/hotSrcItemRightImage"
-			    android:layout_width="15dp"
-			    android:layout_height="15dp"
-			    android:layout_marginLeft="15dip"
-			    android:layout_marginTop="10dip"
-			    android:background="@drawable/hot_item_right"/>
-			<TextView 
-			    android:layout_width="wrap_content"
-			    android:layout_height="wrap_content"
-			    android:id="@+id/hotSrcItemRightText"
-			    android:layout_marginLeft="5dip"
-			    android:layout_marginTop="8dip"
-			    android:text="89.544"
-			    android:textSize="15sp"
-			    android:textColor="@color/white"/>
-			<TextView
-			    android:layout_width="wrap_content"
-			    android:layout_height="wrap_content"
-			    android:id="@+id/hotSrcItemRightTxtPa"
-			    android:layout_marginLeft="-40dip"
-			    android:layout_marginTop="22dip"
-			    android:text="1.35MPa"
-			    android:textSize="12sp"
-			    android:textColor="@color/white"/>
- 		</LinearLayout>
-	   	<LinearLayout 
-		    android:layout_width="match_parent"  
-		    android:layout_height="wrap_content"
-		    android:layout_marginTop="90dip"
-		    android:orientation="horizontal"
-		    android:gravity="center"
-		    >
-		   <TextView  android:id="@+id/hotSrcItemTitle"
-			    android:layout_width="wrap_content"
-			    android:layout_height="wrap_content"
-			    android:layout_marginBottom="5dip"
-			    android:textSize="@dimen/medium_font_size"
-			    android:textColor="@color/white"/>
-		   <TextView  android:id="@+id/hotSrcItemId" 
-		         		android:layout_width="0dp"
-			    		android:layout_height="0dp"
-		              	android:visibility="gone"/>
-		</LinearLayout>
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/blue" >
+
+    <LinearLayout
+        android:id="@+id/hot_source_item_in"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="@dimen/small_margin"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:id="@+id/hot_source_ic_in"
+            style="@style/HotSourceSmallIcon"
+            android:contentDescription="@string/heat_source"
+            android:src="@drawable/ic_in" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/hot_source_temperature_in"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="@dimen/medium_font_size" />
+
+            <TextView
+                android:id="@+id/hot_source_pressure_in"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="@dimen/small_font_size" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/hot_source_item_out"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/hot_source_item_in"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:id="@+id/hot_source_ic_out"
+            style="@style/HotSourceSmallIcon"
+            android:contentDescription="@string/heat_source"
+            android:src="@drawable/ic_out" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/hot_source_temperature_out"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="@dimen/medium_font_size" />
+
+            <TextView
+                android:id="@+id/hot_source_pressure_out"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="@dimen/small_font_size" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/hot_source_name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/small_margin"
+        android:layout_marginLeft="@dimen/small_margin"
+        android:ellipsize="end"
+        android:lines="1"
+        android:textColor="@color/white"
+        android:layout_below="@+id/hot_source_item_out"
+        android:textSize="14dp" />
+
+    <TextView
+        android:id="@+id/hotSrcItemId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+
 </RelativeLayout>

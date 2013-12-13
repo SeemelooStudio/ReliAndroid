@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- black and whte -->
     <color name="white">#FFFFFFFF</color>
     <color name="translucent_bg">#00000000</color>
     <color name="transparent">#00000000</color>
@@ -7,16 +8,27 @@
     <color name="transparent_black_2">#55000000</color>
     <color name="transparent_white">#99FFFFFF</color>
     <color name="lightwhite">#ddd</color>
+    <color name="black">#ff000000</color>
+    <color name="grey">#ff808080</color>
+    <color name="dim_gray">#FF333333</color>
+    
+    <!-- blue -->
     <color name="light_steel_blue">#FFB0C4DE</color>
     <color name="dodger_blue">#ff33b5e5</color>
     <color name="main_blue">#ff0175c1</color>
-    <color name="dim_gray">#FF333333</color>
-    <color name="midnight_blue">#ff191970</color>
-    <color name="crimson">#ff191970</color>
-    
-    <color name="black">#ff000000</color>
+    <color name="deep_sky_blue">#FF00BFFF</color>
+    <color name="midnight_blue">#ff244c9a</color>
+    <color name="steel_blue">#FF4682B4</color>
+    <color name="indigo">#FF4B0082</color>
     <color name="blue">#ffccddff</color>
-    <color name="grey">#ff808080</color>
+    
+    <!-- red -->
+    <color name="crimson">#ffDC143C</color>
+    <color name="firebrick">#ffB22222</color>
+    <color name="dark_red">#ff8B0000</color>
+    
+
+	<!-- others -->
     <color name="pls_talk_normal">#ff707277</color>
     <color name="search_hint">#ffcccccc</color>
 </resources>

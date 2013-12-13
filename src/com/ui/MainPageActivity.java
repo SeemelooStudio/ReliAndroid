@@ -267,7 +267,7 @@ public class MainPageActivity extends Activity {
 		  tvHighest.setText(mainPageSummary.getStrForecastHighest() + "/" + mainPageSummary.getStrForecastLowest());	
 		  ImageView imgWeatherIcon = (ImageView) findViewById(R.id.main_item_three_image);
 		  
-		  //TODO: read weather icon id and get resource id
+		  //TODO: get weather icon id
 		  Random rand = new Random();
 		  Integer intWeatherId = rand.nextInt(34);
 		  Integer intImageResource = WeatherIconHelper.getWeatherIconResourceId(intWeatherId);

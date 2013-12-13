@@ -12,7 +12,7 @@ public class ConstDefine
 	public static final int HTTP_BUFF_SIZE = 8192;
 	public static final String HTTP_ENCODE = "UTF-8";
 	
-	public static final String WEB_SERVICE_URL = "http://192.168.1.108:11223";
+	public static final String WEB_SERVICE_URL = "http://192.168.1.100:11223";
 	//http url
 	public static final String S_GET_USERINFO = "/MobileService/Users/{UserName}";
 	public static final String S_GET_DAILYREPORTS = "/MobileService/DailyReports";
@@ -38,5 +38,6 @@ public class ConstDefine
 
 	//show msg err
 	public static final String E_MSG_0001 = "获取失败";
+	
 	
 }

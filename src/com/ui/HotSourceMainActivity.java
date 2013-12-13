@@ -1,11 +1,13 @@
 package com.ui;
 
 import java.util.ArrayList;
-
+import java.util.Random;
+ 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -17,13 +19,13 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.GridLayout;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.model.HotSrcMainItem;
 import com.model.HotSrcTitleInfo;
 import com.reqst.BusinessRequest;
 import com.util.BaseHelper;
+import com.util.CellBackgroundHelper;
 import com.util.ConstDefine;
 import com.util.ViewPageAdapter;
 import com.util.ViewPageChangeListener;
@@ -31,11 +33,8 @@ import com.util.ViewPageChangeListener;
 public class HotSourceMainActivity extends Activity {
 
 		private ViewPager viewpage;
-		
-		
-		private ViewGroup viewGroup;
-		private ImageView imageView;  
-		private ImageView[] imageViews; 
+		private ViewGroup viewGroup; 
+		private View[] indicators; 
 		private ProgressDialog diaLogProgress= null;
 		private HotSrcTitleInfo  titleInfo = null;
 		
@@ -110,15 +109,16 @@ public class HotSourceMainActivity extends Activity {
 	    
 	  private void setHeatSourceItemContent( View viewHeatSource, HotSrcMainItem item)
 	  {
-		 TextView tvPressureOut =  (TextView) viewHeatSource.findViewById(R.id.hotSrcItemLeftText);
-		 tvPressureOut.setText(item.getPressureOut());
-		 TextView tvPressureIn =  (TextView) viewHeatSource.findViewById(R.id.hotSrcItemRightText);
-		 tvPressureIn.setText(item.getPressureIn());
-		 TextView tvTemperatureOut =  (TextView) viewHeatSource.findViewById(R.id.hotSrcItemLeftTxtPa);
-		 tvTemperatureOut.setText(item.getPressureOut());
-		 TextView tvTemperatureIn =  (TextView) viewHeatSource.findViewById(R.id.hotSrcItemRightTxtPa);
-		 tvTemperatureIn.setText(item.getPressureIn());
-		 TextView tvHeatSourceName = (TextView) viewHeatSource.findViewById(R.id.hotSrcItemTitle);
+		 TextView tvPressureOut =  (TextView) viewHeatSource.findViewById(R.id.hot_source_pressure_out);
+		 tvPressureOut.setText(item.getPressureOut() + getString(R.string.pressure_unit) );
+		 TextView tvPressureIn =  (TextView) viewHeatSource.findViewById(R.id.hot_source_pressure_in);
+		 tvPressureIn.setText(item.getPressureIn() + getString(R.string.pressure_unit) );
+		 TextView tvTemperatureOut =  (TextView) viewHeatSource.findViewById(R.id.hot_source_temperature_out);
+		 tvTemperatureOut.setText(item.getPressureOut() + getString(R.string.degree_unit) );
+		 TextView tvTemperatureIn =  (TextView) viewHeatSource.findViewById(R.id.hot_source_temperature_in);
+		 tvTemperatureIn.setText(item.getPressureIn() + getString(R.string.degree_unit) );
+		 
+		 TextView tvHeatSourceName = (TextView) viewHeatSource.findViewById(R.id.hot_source_name);
 		 tvHeatSourceName.setText(item.getHeatSourceName());
 	  }
 
@@ -128,10 +128,10 @@ public class HotSourceMainActivity extends Activity {
 		  TextView txtAllDay= (TextView) viewHeatSource.findViewById(R.id.hotSrcTitleAllDay);
 		  TextView txtWest = (TextView) viewHeatSource.findViewById(R.id.hotSrcTitleAllWest);
 		  TextView txtAllNet = (TextView) viewHeatSource.findViewById(R.id.hotSrcTitleAllNet);
-		  txtAllnum.setText("共" + dbHeatSources.size() + "个"); 
-		  txtAllDay.setText("东部面积:" + titleInfo.getStrEastArea() + "平方米");
-		  txtWest.setText("西部面积:" +  titleInfo.getStrWestArea() + "平方米"); 
-		  txtAllNet.setText("总热负荷:" + titleInfo.getStrHeatLoad() + "GJ"); 
+		  txtAllnum.setText( getString(R.string.heat_source_count) + dbHeatSources.size() ); 
+		  txtAllDay.setText( getString(R.string.east_area) + titleInfo.getStrEastArea() + getString(R.string.area_unit) );
+		  txtWest.setText( getString(R.string.west_area) +  titleInfo.getStrWestArea() + getString(R.string.area_unit) ); 
+		  txtAllNet.setText( getString(R.string.total_heat_load) + titleInfo.getStrHeatLoad() + getString(R.string.heat_unit) ); 
 	  }
 	  
 	  private View getHeatSourceSummaryCell(HotSrcTitleInfo title, int rowIndex, int columnIndex, int cellWidth, int cellHeight)
@@ -169,7 +169,11 @@ public class HotSourceMainActivity extends Activity {
 	      param.height = cellHeight;
 	      
 	      //TODO: set background color base on heat source state
-      	  viewHeatSource.setBackgroundResource(R.color.dodger_blue);
+		  Random rand = new Random();
+		  Integer intState = rand.nextInt(3);
+		  Integer intBackgroundResource = CellBackgroundHelper.getBackgroundResourceByCellState(intState);
+		  
+      	  viewHeatSource.setBackgroundResource(intBackgroundResource);
       	  viewHeatSource.setLayoutParams (param);
       	  viewHeatSource.setOnClickListener(new OnClickListener(){                                                                                    
 			  public void onClick(View v) 
@@ -231,24 +235,36 @@ public class HotSourceMainActivity extends Activity {
 			views.add(gridLayout);
 		}
         
-		imageViews = new ImageView[views.size()];  
-		viewGroup = (ViewGroup)findViewById(R.id.hotSorceViewGroup);  
-	    for (int i = 0; i < views.size(); i++) {  
-            imageView = new ImageView(HotSourceMainActivity.this);  
-            imageView.setLayoutParams(new LayoutParams(20,20));  
-            imageView.setPadding(30, 0, 10, 0);  
-            imageViews[i] = imageView;            
-            if (i == 0) {  
-                imageViews[i].setBackgroundResource(R.drawable.page_indicator_focused);  
-            } else {  
-                imageViews[i].setBackgroundResource(R.drawable.page_indicator);  
-            }             
-            viewGroup.addView(imageViews[i]);  
-        } 
+		setIndicatorView();
 	    
 		//add pages
 		viewpage.setAdapter(new ViewPageAdapter(views));
-		viewpage.setOnPageChangeListener(new ViewPageChangeListener(imageViews)); 
+		viewpage.setOnPageChangeListener(new ViewPageChangeListener(indicators)); 
+	  }
+	  
+	  private void setIndicatorView() {
+			indicators = new View[views.size()];  
+			viewGroup = (ViewGroup)findViewById(R.id.hotSorceIndicators);
+			int focusedSize = 40;
+			int normalSize = 20;
+			
+		    for (int i = 0; i < views.size(); i++) {  
+	            
+		    	TextView indicator = new TextView(HotSourceMainActivity.this);
+		    	indicators[i] = indicator;
+		    	indicator.setGravity(Gravity.CENTER);
+		    	indicator.setTextColor(Color.BLACK);
+		    	
+	            if (i == 0) {  
+	            	indicator.setLayoutParams(new LayoutParams(focusedSize,focusedSize));
+	            	indicator.setText("1");
+	                indicators[i].setBackgroundResource(R.drawable.page_indicator_focused);
+	            } else {
+	            	indicator.setLayoutParams(new LayoutParams(normalSize,normalSize));
+	                indicators[i].setBackgroundResource(R.drawable.page_indicator);  
+	            }             
+	            viewGroup.addView(indicators[i]);  
+	        } 	  
 	  }
      
 }  

@@ -106,6 +106,25 @@
 	    <item name="android:textSize">@dimen/small_font_size</item>
 	</style>
     
+     <!-- Hot Source Tile Style -->
+    <style name="HotSourceSmallIcon">
+        <item name="android:layout_width">@dimen/medium_icon_size</item>
+        <item name="android:layout_height">@dimen/medium_icon_size</item>
+        <item name="android:layout_marginTop">@dimen/medium_margin</item>
+        <item name="android:layout_marginLeft">@dimen/small_margin</item>
+        <item name="android:layout_marginRight">@dimen/small_margin</item>
+    </style>
     
-    
+    <style name="IndicatorFocused">
+        <item name="android:layout_margin">@dimen/medium_margin</item>
+        <item name="android:layout_width">30dp</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="android:background">@drawable/page_indicator_focused</item>
+    </style>
+    <style name="Indicator">
+        <item name="android:layout_margin">@dimen/medium_margin</item>
+        <item name="android:layout_width">20dp</item>
+        <item name="android:layout_height">20dp</item>
+        <item name="android:background">@drawable/page_indicator</item>
+    </style>
 </resources>

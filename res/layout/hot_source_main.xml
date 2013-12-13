@@ -12,10 +12,11 @@
           android:layout_weight="1"
           />
        <LinearLayout
-           android:id = "@+id/hotSorceViewGroup"
+           android:id = "@+id/hotSorceIndicators"
            android:layout_width="fill_parent"
            android:layout_height="match_parent"
            android:layout_weight="10"
+           android:paddingTop="@dimen/small_margin"
            android:gravity="center_horizontal"
 		   android:orientation="horizontal"
 		   >
