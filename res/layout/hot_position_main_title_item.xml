@@ -1,50 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/hot_source_item_div"
-	android:layout_margin="@dimen/small_margin"
-	android:orientation="vertical">
-	<LinearLayout 
-	    android:layout_width="match_parent"  
-	    android:layout_height="70dip"
-	    android:orientation="horizontal">
-	        	<ImageView android:id="@+id/hotPosItemLeftImage"
-			    android:layout_width="30dp"
-			    android:layout_height="30dp"
-			    android:layout_marginLeft="10dip"
-			    android:layout_marginTop="15dip"
-			    android:background="@drawable/hot_item_left"/>
-		    	<LinearLayout
+	android:orientation="vertical"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:background="@drawable/button_dark">
+	<ImageView android:id="@+id/hot_station_main_title_icon"
+			    android:layout_width="@dimen/large_icon_size"
+			    android:layout_height="@dimen/large_icon_size"
+			    android:layout_marginLeft="@dimen/small_margin"
+			    android:layout_marginTop="@dimen/medium_margin"
+			    android:background="@drawable/main_item_six_image"
+			    android:contentDescription="@string/main_item_five_name"/>
+		    	<LinearLayout 
 			    android:layout_width="match_parent"  
-			     android:layout_height="60dp"
-			     android:layout_marginLeft="10dip"
-			     android:layout_marginTop="5dip"
+			     android:layout_height="match_parent"
+			     android:layout_toRightOf="@+id/hot_station_main_title_icon"
+			     android:layout_marginLeft="@dimen/small_margin"
+			     android:layout_marginTop="@dimen/medium_margin"
 			     android:orientation="vertical">
-			   <TextView
+			   	<TextView
 				    android:layout_width="wrap_content"
 				    android:layout_height="wrap_content"
 				    android:id="@+id/hotPosTitleAllnum"
-				    android:text="共26个关键热力站"
-				    android:textSize="12sp"/>
+				    android:textSize="@dimen/small_font_size"
+				    android:textColor="@color/white"/>
+
 			   <TextView
 				    android:layout_width="wrap_content"
 				    android:layout_height="wrap_content"
 				    android:id="@+id/hotPosTitle"
-				    android:text="热力站信息"
-				    android:textSize="25sp"/>
-		   </LinearLayout>
-	   </LinearLayout>
-	   <LinearLayout 
-		    android:layout_width="match_parent"  
-		    android:layout_height="wrap_content"
-		    android:layout_marginTop="80dip"
-		    android:orientation="vertical">
-			<TextView 
+				    android:text="@string/heat_source_info"
+				    android:textSize="@dimen/large_font_size"
+				    android:textColor="@color/white"/>
+ 		</LinearLayout>
+ 		<TextView 
 			    android:layout_width="wrap_content"
 			    android:layout_height="wrap_content"
-			    android:layout_marginRight="20dip"
-			    android:layout_gravity="right"
-			    android:height="28dp"
-			    android:text="点击查询"
-			    android:textSize="14sp"/>
- 		</LinearLayout>
+			    android:layout_alignParentRight="true"
+			    android:layout_alignParentBottom="true"
+			    android:layout_margin="@dimen/medium_margin"
+			    android:textColor="@color/white"
+			    android:textSize="@dimen/medium_font_size"
+			    android:text="@string/tap_to_search" />
 </RelativeLayout>

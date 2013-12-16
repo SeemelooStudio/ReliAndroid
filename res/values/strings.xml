@@ -63,11 +63,17 @@
    <string name="weather_axis_time">时间</string>
    
    <!--  HeatSource -->
-   <string name="totalHeatLoad">总热负荷:</string>
-   <string name="eastArea">东部面积:</string>
-   <string name="westArea">西部面积:</string>
-   <string name="heatSourceInfo">热源信息</string>
-   
+   <string name="total_heat_load">总热负荷：</string>
+   <string name="east_area">东部面积：</string>
+   <string name="west_area">西部面积：</string>
+   <string name="heat_source_info">热源信息</string>
+   <string name="heat_source_count">热源个数：</string>
+   <string name="area_unit">万㎡</string>
+   <string name="heat_unit">GJ</string>
+   <string name="pressure_unit">MPa</string>
+ 
+   <!--  Heat Station -->
+   <string name="tap_to_search">点击查询</string>
    <!-- Date -->
    <string name="year">年</string>
    <string name="month">月</string>

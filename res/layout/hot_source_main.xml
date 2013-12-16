@@ -3,19 +3,22 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:layout_margin="@dimen/small_margin" 
-    android:background="@drawable/login_div_bg">
+    android:background="@color/black">
       <android.support.v4.view.ViewPager
           android:id = "@+id/hotMainPager"  
 		  android:layout_margin="@dimen/small_margin"
           android:layout_width="fill_parent"
-          android:layout_height="480dip"/>
+          android:layout_height="match_parent"
+          android:layout_weight="1"
+          />
        <LinearLayout
-           android:id = "@+id/hotSorceViewGroup"
-           android:layout_height="20dp"
+           android:id = "@+id/hotSorceIndicators"
            android:layout_width="fill_parent"
+           android:layout_height="match_parent"
+           android:layout_weight="10"
+           android:paddingTop="@dimen/small_margin"
            android:gravity="center_horizontal"
-           android:layout_marginBottom="0dip"
-		   android:orientation="horizontal">
+		   android:orientation="horizontal"
+		   >
        </LinearLayout>
 </LinearLayout>

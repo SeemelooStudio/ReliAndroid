@@ -1,8 +1,9 @@
 package com.util;
 
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.widget.ImageView;
-
+import android.view.View;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.TextView;
 import com.ui.R;
 
 
@@ -10,12 +11,12 @@ import com.ui.R;
 public class ViewPageChangeListener implements OnPageChangeListener {  
  	  
 	
-	 private ImageView[] imageViews;
+	 private View[] views;
 	
 
-	public ViewPageChangeListener(ImageView[] images)
+	public ViewPageChangeListener(View[] indicatorViews)
 	{
-		this.imageViews = images;
+		this.views = indicatorViews;
 	}
 	
      @Override  
@@ -31,13 +32,22 @@ public class ViewPageChangeListener implements OnPageChangeListener {
      }  
 
      @Override  
-     public void onPageSelected(int arg0) {  
-         for (int i = 0; i < imageViews.length; i++) {  
-             imageViews[arg0].setBackgroundResource(R.drawable.page_indicator_focused);
+     public void onPageSelected(int arg0) {
+		int focusedSize = 30;
+		int normalSize = 20;
+		
+         for (int i = 0; i < views.length; i++) {  
+        	 TextView view = (TextView)views[i];
              
-             if (arg0 != i) {  
-                 imageViews[i].setBackgroundResource(R.drawable.page_indicator);  
-             }  
+             if (arg0 != i) { 
+            	 view.setLayoutParams(new LayoutParams(normalSize,normalSize));
+            	 view.setBackgroundResource(R.drawable.page_indicator);
+            	 view.setText("");
+             }  else {
+            	 view.setLayoutParams(new LayoutParams(focusedSize,focusedSize));
+            	 view.setBackgroundResource(R.drawable.page_indicator_focused);
+            	 view.setText("" + (i + 1) );
+             }
          }
      }  
  }  

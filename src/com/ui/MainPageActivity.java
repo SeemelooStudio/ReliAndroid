@@ -1,11 +1,13 @@
 package com.ui;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -85,10 +87,14 @@ public class MainPageActivity extends Activity {
 	    
 	    //init main page
 		this.initView(mBundle.getString("lstMemu"));
-		
+		 Log.i("main", "onStart");  
 		
 	}
-
+	@Override  
+    protected void onResume() {  
+        Log.i("main", "onResume");  
+        super.onResume();  
+    }
 	/**
 	 * tool click
 	 */
@@ -133,7 +139,6 @@ public class MainPageActivity extends Activity {
 		RelativeLayout item7 = (RelativeLayout) layflater.inflate(R.layout.main_page_item_7, null).findViewById(R.id.main_page_item7);
 		
 		
-		//TODO
 		
 		List<RelativeLayout> itemList = new ArrayList<RelativeLayout>();
 		for(int i = 0; i < strMenu.length(); i++ )
@@ -236,6 +241,7 @@ public class MainPageActivity extends Activity {
         }.start();	 
 	 }
 	
+	@SuppressLint("HandlerLeak")
 	private Handler mainPageSummaryHandler = new Handler() {               
         public void handleMessage(Message message) {
                 switch (message.what) {
@@ -261,7 +267,7 @@ public class MainPageActivity extends Activity {
 		  tvHighest.setText(mainPageSummary.getStrForecastHighest() + "/" + mainPageSummary.getStrForecastLowest());	
 		  ImageView imgWeatherIcon = (ImageView) findViewById(R.id.main_item_three_image);
 		  
-		  //TODO: read weather icon id and get resource id
+		  //TODO: get weather icon id
 		  Random rand = new Random();
 		  Integer intWeatherId = rand.nextInt(34);
 		  Integer intImageResource = WeatherIconHelper.getWeatherIconResourceId(intWeatherId);
@@ -269,8 +275,8 @@ public class MainPageActivity extends Activity {
 		  if(intImageResource != 0){
 			  imgWeatherIcon.setImageDrawable(getResources().getDrawable(intImageResource));
 		  }
-		  Date today = new Date();
-		  tvToday.setText("北京" + today.getDate() + "日");
+		  String today = DateFormat.getDateInstance().format(new Date());
+		  tvToday.setText("北京" + today + "日");
 		  tvWeather.setText(mainPageSummary.getStrWind() + " " + mainPageSummary.getStrWeather());
 		  
 	  }
@@ -324,7 +330,7 @@ public class MainPageActivity extends Activity {
 				MainPageActivity.this.getWindowManager().getDefaultDisplay().getMetrics(metrics);
 				int width = metrics.widthPixels;
 				Log.i(TAG, "width=" + width);
-				scrollLayout.scrollToRigth(width);
+				scrollLayout.scrollToRight(width);
 				break;
 			default:
 				break;

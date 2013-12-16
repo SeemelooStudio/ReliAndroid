@@ -37,7 +37,7 @@ public class MainScrollLayout extends ViewGroup {
 
 	public MainScrollLayout(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-		// TODO Auto-generated constructor stub
+
 		mScroller = new Scroller(context);
 		mCurScreen = mDefaultScreen;
 		mTouchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
@@ -45,7 +45,7 @@ public class MainScrollLayout extends ViewGroup {
 
 	@Override
 	protected void onLayout(boolean changed, int l, int t, int r, int b) {
-		// TODO Auto-generated method stub
+
 		if (changed) {
 			int childLeft = 0;
 			final int childCount = getChildCount();
@@ -103,8 +103,8 @@ public class MainScrollLayout extends ViewGroup {
 		return super.onInterceptTouchEvent(ev);
 	}
 	
-	public void scrollToRigth(int width){
-		//通过传递的屏幕宽度来决定滑动的距离
+	public void scrollToRight(int width){
+
 		int distance=width*130/480;
 		if(!isOpen){
 			scrollBy(distance, 0);
