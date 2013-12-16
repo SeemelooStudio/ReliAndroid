@@ -7,14 +7,11 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
-import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +20,7 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.widget.GridLayout;
-import android.widget.LinearLayout;
+import android.widget.GridLayout.Spec;
 import android.widget.TextView;
 
 import com.model.HotPosMainItem;
@@ -113,21 +110,21 @@ public class HotPositionMainActivity extends Activity {
 	   */
 	  private void setStationItemContent(View viewStation, HotPosMainItem item)
 	  {
-		  TextView tvStationName = (TextView)viewStation.findViewById(R.id.hotPosItemTitle);
-		  TextView tvStationId = (TextView)viewStation.findViewById(R.id.hotPosItemId);
-		  TextView tvTodayActualGJ = (TextView)viewStation.findViewById(R.id.hotPosItemLeftText);
-		  TextView tvTodayPlannedGJ = (TextView)viewStation.findViewById(R.id.hotPosItemLeftTxtPa);
-		  TextView tvYesterdayActualGJ =  (TextView)viewStation.findViewById(R.id.hotPosItemRightText);
-		  TextView tvYesterdayPlannedGJ = (TextView)viewStation.findViewById(R.id.hotPosItemRightTxtPa);
-		  TextView tvYesterdayCalculatedGJ =  (TextView)viewStation.findViewById(R.id.hotPosItemRightTxtPa2);
 		  
+		  TextView tvPressureOut =  (TextView) viewStation.findViewById(R.id.hot_station_pressure_out);
+		  tvPressureOut.setText(item.getStrActualGJToday() + getString(R.string.pressure_unit) );
+		  TextView tvPressureIn =  (TextView) viewStation.findViewById(R.id.hot_station_pressure_in);
+		  tvPressureIn.setText(item.getStrPlannedGJToday() + getString(R.string.pressure_unit) );
+		  TextView tvTemperatureOut =  (TextView) viewStation.findViewById(R.id.hot_station_temperature_out);
+		  tvTemperatureOut.setText(item.getStrActualGJYesterday() + getString(R.string.degree_unit) );
+		  TextView tvTemperatureIn =  (TextView) viewStation.findViewById(R.id.hot_station_temperature_in);
+		  tvTemperatureIn.setText(item.getStrPlannedGJYesterday() + getString(R.string.degree_unit) );
+		  
+		  TextView tvHeatStationName = (TextView) viewStation.findViewById(R.id.hot_station_name);
+		  tvHeatStationName.setText(item.getStrStationName());
+		  
+		  TextView tvStationId = (TextView)viewStation.findViewById(R.id.hotPosItemId);
 		  tvStationId.setText(item.getStrStationId()); 
-		  tvStationName.setText(item.getStrStationName()); 
-		  tvTodayActualGJ.setText(item.getStrActualGJToday()); 
-		  tvTodayPlannedGJ.setText(item.getStrPlannedGJToday()); 
-		  tvYesterdayActualGJ.setText(item.getStrActualGJYesterday());
-		  tvYesterdayPlannedGJ.setText(item.getStrPlannedGJYesterday()); 
-		  tvYesterdayCalculatedGJ.setText(item.getStrCalculatedGJYesterday()); 
 	  }
 	  
 
@@ -142,19 +139,22 @@ public class HotPositionMainActivity extends Activity {
 	   */
 	  private View getHeatStationTitleCell(int allCount, int rowIndex, int columnIndex, int cellWidth, int cellHeight)
 	  {
+		  int ceilMargin = (int)getResources().getDimension(R.dimen.small_margin);
+		  
 		  LayoutInflater inflater = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
 		  View viewHeatStationTitle = inflater.inflate(R.layout.hot_position_main_title_item, null);
 		  TextView txtAllnum = (TextView) viewHeatStationTitle.findViewById(R.id.hotPosTitleAllnum);
 		  txtAllnum.setText("共" + allCount + "个关键热力站");
-		  GridLayout.LayoutParams param =new GridLayout.LayoutParams();
-	      param.rowSpec = GridLayout.spec(rowIndex);
-	      param.columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 2);
-	      param.width = cellWidth;
-	      param.height = cellHeight;
-
-	      viewHeatStationTitle.setBackgroundResource(R.color.midnight_blue);
-	      viewHeatStationTitle.setLayoutParams (param);
-    	  param.setGravity(Gravity.FILL);                                                          
+      		
+		  Spec row = GridLayout.spec(rowIndex, 1);
+		  Spec colspan = GridLayout.spec(columnIndex, 2);
+		  GridLayout.LayoutParams param =new GridLayout.LayoutParams(row, colspan);
+		  param.setGravity(Gravity.FILL);
+		  param.width = cellWidth;
+		  param.height = cellHeight;
+		  param.setMargins(ceilMargin, ceilMargin, ceilMargin, ceilMargin);
+		  viewHeatStationTitle.setLayoutParams(param);
+    	                                                         
     	  viewHeatStationTitle.setOnClickListener(new OnClickListener(){                                                                                    
 			  public void onClick(View v) 
 			  {   
@@ -178,22 +178,36 @@ public class HotPositionMainActivity extends Activity {
 	   */
 	  private View getHeatStationCell(HotPosMainItem heatSource, int rowIndex, int columnIndex, int cellWidth, int cellHeight)
 	  {
+		  int ceilMargin = (int)getResources().getDimension(R.dimen.small_margin);
+		  
 		  LayoutInflater inflater = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
 		  View viewHeatStation= inflater.inflate(R.layout.hot_position_main_item, null);
 		  setStationItemContent(viewHeatStation, heatSource);
-		  GridLayout.LayoutParams param =new GridLayout.LayoutParams();
-	      param.rowSpec = GridLayout.spec(GridLayout.UNDEFINED);
-	      param.columnSpec = GridLayout.spec(GridLayout.UNDEFINED);
-	      param.width = cellWidth;
-	      param.height = cellHeight;
-
+		  
+		  Spec row = GridLayout.spec(rowIndex, 1);
+		  Spec colspan = GridLayout.spec(columnIndex, 1);
+		  GridLayout.LayoutParams param =new GridLayout.LayoutParams(row, colspan);
+		  param.setGravity(Gravity.FILL);
+		  param.width = cellWidth;
+		  param.height = cellHeight;
+		  param.setMargins(ceilMargin, ceilMargin, ceilMargin, ceilMargin);
+		  viewHeatStation.setLayoutParams(param);
+	      
 	      //TODO: set background color base on heat source state
 		  Random rand = new Random();
 		  Integer intState = rand.nextInt(3);
 		  Integer intBackgroundResource = CellBackgroundHelper.getBackgroundResourceByCellState(intState);
 		  
 		  viewHeatStation.setBackgroundResource(intBackgroundResource);
-      	  viewHeatStation.setLayoutParams (param);
+		  
+		  viewHeatStation.setOnClickListener(new OnClickListener(){                                                                                    
+			  public void onClick(View v) 
+			  {   
+				  Intent intent = new Intent(HotPositionMainActivity.this, HotPositionDetailActivity.class); 
+				  startActivity(intent);
+			  }
+		  });
+      	  
       	  return viewHeatStation;
 	  }
 	  
@@ -209,7 +223,7 @@ public class HotPositionMainActivity extends Activity {
 		  int screenWidth = viewpage.getWidth();
 		  int screenHeight = viewpage.getHeight();
 		  
-		  int ceilMargin = (int)getResources().getDimension(R.dimen.small_margin);
+		  int ceilMargin = (int)getResources().getDimension(R.dimen.small_margin) * 2;
 
 		  int cellWidth = (int)( screenWidth  / COLUMN_COUNT - ceilMargin); 
 		  int cellHeight = (int) ( screenHeight / ROW_COUNT - ceilMargin);
@@ -225,7 +239,7 @@ public class HotPositionMainActivity extends Activity {
 			gridLayout.setColumnCount(COLUMN_COUNT);
 			gridLayout.setRowCount(ROW_COUNT);
 			gridLayout.setOrientation(GridLayout.HORIZONTAL);
-			gridLayout.setUseDefaultMargins(true);
+			//gridLayout.setUseDefaultMargins(true);
 	        for(int cell = 0, rowIndex = 0, columnIndex=0 ,itemIndex = pageIndex * PAGE_SIZE + cell ; 
 	        		cell < PAGE_SIZE && itemIndex < dbhostPosLst.size(); 
 	        		cell ++, columnIndex++, itemIndex++)
@@ -236,7 +250,7 @@ public class HotPositionMainActivity extends Activity {
 				}
 				//show title cell
 		        if(rowIndex == 1 && columnIndex == 0){
-		        	gridLayout.addView(getHeatStationTitleCell(dbhostPosLst.size(), 2, 0, bigCellWidth, cellHeight));
+		        	gridLayout.addView(getHeatStationTitleCell(dbhostPosLst.size(), rowIndex, columnIndex, bigCellWidth, cellHeight));
 		        	columnIndex+=1;
 		        	cell--;
 		        	itemIndex--;

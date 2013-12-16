@@ -84,7 +84,7 @@
         android:lines="1"
         android:textColor="@color/white"
         android:layout_below="@+id/hot_source_item_out"
-        android:textSize="14dp" />
+        android:textSize="@dimen/cell_title_font_size" />
 
     <TextView
         android:id="@+id/hotSrcItemId"

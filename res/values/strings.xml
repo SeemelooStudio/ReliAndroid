@@ -71,7 +71,9 @@
    <string name="area_unit">万㎡</string>
    <string name="heat_unit">GJ</string>
    <string name="pressure_unit">MPa</string>
-   
+ 
+   <!--  Heat Station -->
+   <string name="tap_to_search">点击查询</string>
    <!-- Date -->
    <string name="year">年</string>
    <string name="month">月</string>

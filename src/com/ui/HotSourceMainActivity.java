@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.GridLayout;
 import android.widget.TextView;
+import android.widget.GridLayout.Spec;
 
 import com.model.HotSrcMainItem;
 import com.model.HotSrcTitleInfo;
@@ -136,16 +137,21 @@ public class HotSourceMainActivity extends Activity {
 	  
 	  private View getHeatSourceSummaryCell(HotSrcTitleInfo title, int rowIndex, int columnIndex, int cellWidth, int cellHeight)
 	  {
+		  int ceilMargin = (int)getResources().getDimension(R.dimen.small_margin);
 		  LayoutInflater inflater = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
 		  View viewSummary = inflater.inflate(R.layout.hot_source_main_title_item, null);
 		  setHeatSourceSummaryContent(viewSummary, title);
-		  GridLayout.LayoutParams param =new GridLayout.LayoutParams();
-	      param.rowSpec = GridLayout.spec(rowIndex);
-	      param.columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 2);
-	      param.width = cellWidth;
-	      param.height = cellHeight;
+		  
+		  Spec row = GridLayout.spec(rowIndex, 1);
+		  Spec colspan = GridLayout.spec(columnIndex, 2);
+		  GridLayout.LayoutParams param =new GridLayout.LayoutParams(row, colspan);
+		  param.setGravity(Gravity.FILL);
+		  param.width = cellWidth;
+		  param.height = cellHeight;
+		  param.setMargins(ceilMargin, ceilMargin, ceilMargin, ceilMargin);
+		  viewSummary.setLayoutParams (param);
 	      viewSummary.setBackgroundResource(R.color.midnight_blue);
-	      viewSummary.setLayoutParams (param);
+	     
     	  param.setGravity(Gravity.FILL);                                                          
     	  viewSummary.setOnClickListener(new OnClickListener(){                                                                                    
 			  public void onClick(View v) 
@@ -159,14 +165,18 @@ public class HotSourceMainActivity extends Activity {
 	  
 	  private View getHeatSourceCell(HotSrcMainItem heatSource, int rowIndex, int columnIndex, int cellWidth, int cellHeight)
 	  {
+		  int ceilMargin = (int)getResources().getDimension(R.dimen.small_margin);
 		  LayoutInflater inflater = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
 		  View viewHeatSource = inflater.inflate(R.layout.hot_source_main_item, null);
 		  setHeatSourceItemContent(viewHeatSource, heatSource);
-		  GridLayout.LayoutParams param =new GridLayout.LayoutParams();
-	      param.rowSpec = GridLayout.spec(GridLayout.UNDEFINED);
-	      param.columnSpec = GridLayout.spec(GridLayout.UNDEFINED);
-	      param.width = cellWidth;
-	      param.height = cellHeight;
+		  
+		  Spec row = GridLayout.spec(rowIndex, 1);
+		  Spec colspan = GridLayout.spec(columnIndex, 1);
+		  GridLayout.LayoutParams param =new GridLayout.LayoutParams(row, colspan);
+		  param.setGravity(Gravity.FILL);
+		  param.width = cellWidth;
+		  param.height = cellHeight;
+		  param.setMargins(ceilMargin, ceilMargin, ceilMargin, ceilMargin);
 	      
 	      //TODO: set background color base on heat source state
 		  Random rand = new Random();
@@ -195,7 +205,7 @@ public class HotSourceMainActivity extends Activity {
 		  int screenWidth = viewpage.getWidth();
 		  int screenHeight = viewpage.getHeight();
 		  
-		  int ceilMargin = (int)getResources().getDimension(R.dimen.small_margin);
+		  int ceilMargin = (int)getResources().getDimension(R.dimen.small_margin) * 2;
 
 		  int cellWidth = (int)( screenWidth  / COLUMN_COUNT - ceilMargin); 
 		  int cellHeight = (int) ( screenHeight / ROW_COUNT - ceilMargin);
@@ -203,10 +213,9 @@ public class HotSourceMainActivity extends Activity {
 		  int bigCellWidth = cellWidth * 2 + ceilMargin;
 		  
         //create page
-		  views = new ArrayList<View>();
+		views = new ArrayList<View>();
 		for(int pageIndex = 0; pageIndex < pageNum; pageIndex++ )
-		{ 
-
+		{
 			GridLayout gridLayout = new GridLayout(this);
 			gridLayout.setColumnCount(COLUMN_COUNT);
 			gridLayout.setRowCount(ROW_COUNT);
@@ -222,7 +231,7 @@ public class HotSourceMainActivity extends Activity {
 				}
 				//show title cell
 		        if(rowIndex == 1 && columnIndex == 0){
-		        	gridLayout.addView( getHeatSourceSummaryCell(titleInfo, 2, 0, bigCellWidth, cellHeight) );
+		        	gridLayout.addView( getHeatSourceSummaryCell(titleInfo, rowIndex, columnIndex, bigCellWidth, cellHeight) );
 		        	columnIndex+=1;
 		        	cell--;
 		        	itemIndex--;

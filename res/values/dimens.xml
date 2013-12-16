@@ -24,5 +24,6 @@
     <dimen name="xxlarge_font_size">54sp</dimen>
     <dimen name="number_label_width">20dp</dimen>
     <dimen name="list_title_font_size">16sp</dimen>
+    <dimen name="cell_title_font_size">14sp</dimen>
     <dimen name="round_rect_radius">5dp</dimen>
 </resources>
