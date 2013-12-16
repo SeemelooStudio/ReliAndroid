@@ -41,7 +41,9 @@ public class BaseHelper {
 		dialog.setMessage(message);
 		dialog.setIndeterminate(indeterminate);
 		dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+		try {
 		dialog.show();
+		}catch(Exception ex){}
 		return dialog;
 	}
 	
@@ -84,7 +86,6 @@ public class BaseHelper {
 	}
 	
 	/**
-	 * ��ʾ�����Ի���
 	 * @param context
 	 * @param strTitle
 	 * @param strText
@@ -143,7 +144,7 @@ public class BaseHelper {
 	  * 
 	  * @param pdfView
 	  * @param strUrl
-	 * @throws Exception 
+	  * @throws Exception 
 	  */
 	 public static void loadNetPdfFile(WebView pdfView,String strUrl) throws Exception{
 		 try {
@@ -202,7 +203,7 @@ public class BaseHelper {
 	  * 
 	  * @param pdfView
 	  * @param strUrl
-	 * @throws Exception 
+	  * @throws Exception 
 	  */
 	 public static void loadPdfFile(WebView pdfView,String strUrl) throws Exception{
 		 

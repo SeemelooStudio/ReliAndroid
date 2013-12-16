@@ -450,6 +450,15 @@ public class BusinessRequest {
 	
 	public static void SendMessage(ChatMessage chatMessage){
 		String url = (ConstDefine.WEB_SERVICE_URL + ConstDefine.S_PUT_MESSAGE).replace("{UserName}", "zhaoyaqi");
-		new SendChatMessageTask(chatMessage).execute(url);
+		new SendChatMessageTask(chatMessage, "put").execute(url);
+	}
+	
+	public static void SendImage(ChatMessage chatMessage) {
+		ServerHttpRequest httpReq = new ServerHttpRequest();
+		String url = ConstDefine.WEB_SERVICE_URL + ConstDefine.S_POST_IMAGE;
+		url = url.replace("{UserName}", "zhaoyaqi");
+		new SendChatMessageTask(chatMessage, "post").execute(url);
+		
+		
 	}
 }

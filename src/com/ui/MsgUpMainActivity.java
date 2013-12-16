@@ -11,9 +11,12 @@ import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.MediaStore;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -81,15 +84,16 @@ public class MsgUpMainActivity extends Activity {
 		switch (item.getItemId()) {
 		    // Respond to the action bar's Up/Home button
 			case R.id.action_camera:
+				Intent it = new Intent( MediaStore.ACTION_IMAGE_CAPTURE);
+				startActivityForResult(it, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+				return true;
+				
+			case R.id.action_photos:
 				Intent i = new Intent();
 				i.setType("image/*");
 				i.setAction(Intent.ACTION_GET_CONTENT);
-				startActivityForResult(i, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+				startActivityForResult(i, SELECT_PHOTO_ACTIVITY_REQUEST_CODE );
 			    return true;
-			case R.id.action_photos:
-				Intent it = new Intent("android.media.action.IMAGE_CAPTURE");
-				startActivityForResult(it, SELECT_PHOTO_ACTIVITY_REQUEST_CODE);
-				return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -99,8 +103,8 @@ public class MsgUpMainActivity extends Activity {
 		if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
 	        if (resultCode == RESULT_OK) {
 	            // Image captured and saved to fileUri specified in the Intent
-	            Toast.makeText(this, "Image saved to:\n" +
-	                     data.getData(), Toast.LENGTH_LONG).show();
+	        	String imagePath = getRealPathFromURI(this.getBaseContext(), data.getData());
+	        	sendImage(imagePath);
 	        } else if (resultCode == RESULT_CANCELED) {
 	            // User cancelled the image capture
 	        } else {
@@ -154,26 +158,50 @@ public class MsgUpMainActivity extends Activity {
 			public void onClick(View v) {
 				if (v.getId() == sendBtn.getId()) {
 					String str = textEditor.getText().toString();
-					String sendStr;
-					if (str != null
-							&& (sendStr = str.trim().replaceAll("\r", "").replaceAll("\t", "").replaceAll("\n", "")
-									.replaceAll("\f", "")) != "") {
+					String sendStr = str.trim().replaceAll("\r", "").replaceAll("\t", "").replaceAll("\n", "")
+							.replaceAll("\f", "");
+					if (sendStr != "") {
 						sendMessage(sendStr);
-			
 					}
 					textEditor.setText("");
 				} 
 			}
-			
-			private void sendMessage(String sendStr) {
-				ChatMessage newMessage = new ChatMessage(ChatMessage.MESSAGE_TO, sendStr);
-				messages.add(newMessage);
-				newMessage.setCreatedAt(new Date());
-				newMessage.setSendFromUserId(3);
-				newMessage.setSendToUserId(1);
-				chatHistoryAdapter.notifyDataSetChanged();
-				BusinessRequest.SendMessage(newMessage);
-			}
 	  };
-
+	  
+	  private void sendMessage(String sendStr) {
+			ChatMessage newMessage = new ChatMessage(ChatMessage.MESSAGE_TO, sendStr);
+			messages.add(newMessage);
+			newMessage.setCreatedAt(new Date());
+			newMessage.setSendFromUserId(3);
+			newMessage.setSendToUserId(1);
+			chatHistoryAdapter.notifyDataSetChanged();
+			BusinessRequest.SendMessage(newMessage);
+		}
+	  
+	  private void sendImage(String imagePath)
+	  {
+		  	ChatMessage newMessage = new ChatMessage(ChatMessage.MESSAGE_TO, "");
+		  	newMessage.setImageUri(imagePath);
+			messages.add(newMessage);
+			newMessage.setCreatedAt(new Date());
+			newMessage.setSendFromUserId(3);
+			newMessage.setSendToUserId(1);
+			chatHistoryAdapter.notifyDataSetChanged();
+			BusinessRequest.SendImage(newMessage);
+	  }
+	  
+	  public String getRealPathFromURI(Context context, Uri contentUri) {
+		  Cursor cursor = null;
+		  try { 
+		    String[] proj = { MediaStore.Images.Media.DATA };
+		    cursor = context.getContentResolver().query(contentUri,  proj, null, null, null);
+		    int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+		    cursor.moveToFirst();
+		    return cursor.getString(column_index);
+		  } finally {
+		    if (cursor != null) {
+		      cursor.close();
+		    }
+		  }
+		}
 }
