@@ -65,6 +65,13 @@
     <style name="grayText" parent="@android:style/TextAppearance">
         <item name="android:textColor">@color/transparent_white</item>
     </style>
+    <style name="tableLabel" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/transparent_white</item>
+        <item name="android:gravity">right</item>
+        <item name="android:paddingLeft">@dimen/small_margin</item>
+        <item name="android:paddingTop">@dimen/small_margin</item>
+        <item name="android:paddingBottom">@dimen/small_margin</item>
+    </style>
     <!--  add by zhaors msg_up_page-->
     <style name="ChattingUISplit">
         <item name="android:textSize">13.0dip</item>

@@ -313,11 +313,11 @@ public class MainPageActivity extends Activity {
 				startActivity(intent_4);
 				break;				
 			case R.id.main_page_item5:
-				Intent intent_5 = new Intent(MainPageActivity.this, HotSourceMainActivity.class); 
+				Intent intent_5 = new Intent(MainPageActivity.this, HeatSourceMainActivity.class); 
 				startActivity(intent_5);
 				break;				
 			case R.id.main_page_item6:
-				Intent intent_6 = new Intent(MainPageActivity.this, HotPositionMainActivity.class); 
+				Intent intent_6 = new Intent(MainPageActivity.this, StationMainActivity.class); 
 				startActivity(intent_6);
 				break;
 			case R.id.main_page_item7:

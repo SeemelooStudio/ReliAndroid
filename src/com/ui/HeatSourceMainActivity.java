@@ -2,7 +2,7 @@ package com.ui;
 
 import java.util.ArrayList;
 import java.util.Random;
-
+ 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -18,12 +18,12 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.view.Window;
 import android.widget.GridLayout;
-import android.widget.GridLayout.Spec;
 import android.widget.TextView;
+import android.widget.GridLayout.Spec;
 
-import com.model.HotPosMainItem;
+import com.model.HotSrcMainItem;
+import com.model.HotSrcTitleInfo;
 import com.reqst.BusinessRequest;
 import com.util.BaseHelper;
 import com.util.CellBackgroundHelper;
@@ -31,16 +31,17 @@ import com.util.ConstDefine;
 import com.util.ViewPageAdapter;
 import com.util.ViewPageChangeListener;
 
-public class HotPositionMainActivity extends Activity {
+public class HeatSourceMainActivity extends Activity {
 
-
-	    private ViewPager viewpage;
-	    private ViewGroup viewGroup;
+		private ViewPager viewpage;
+		private ViewGroup viewGroup; 
 		private View[] indicators; 
 		private ProgressDialog diaLogProgress= null;
+		private HotSrcTitleInfo  titleInfo = null;
 		
 		private ArrayList<View> views;
-		private ArrayList<HotPosMainItem>  dbhostPosLst = null;
+		private ArrayList<HotSrcMainItem>  dbHeatSources = null;
+		
 		private static int ROW_COUNT = 4;
 		private static int COLUMN_COUNT = 3;
 		private static int PAGE_SIZE =10;
@@ -48,29 +49,33 @@ public class HotPositionMainActivity extends Activity {
 	    @Override                                                                                            
 	    public void onCreate(Bundle savedInstanceState) {                                                    
 			super.onCreate(savedInstanceState);
-			requestWindowFeature(Window.FEATURE_NO_TITLE); 
-			setContentView(R.layout.hot_position_main);
+			setContentView(R.layout.heat_source_main);
 			
 			//init view
-			this.initHotPositionView();
+			this.initHotSourceView();
 	  }
 	  
-      /**
-       * 
-       */
-	  private void initHotPositionView()
-	  {
-
-		viewpage = (ViewPager) findViewById(R.id.hotPosMainPager);
-		dbhostPosLst = new ArrayList<HotPosMainItem>();
-		diaLogProgress = BaseHelper.showProgress(HotPositionMainActivity.this,ConstDefine.I_MSG_0003,false);
+    /**
+     * get hostSoruce list
+     */
+	private void initHotSourceView()
+	{
+		
+		titleInfo = new HotSrcTitleInfo();
+		dbHeatSources = new ArrayList<HotSrcMainItem>();
+		diaLogProgress = BaseHelper.showProgress(HeatSourceMainActivity.this,ConstDefine.I_MSG_0003,false);
+		
 	    new Thread() {
 	        public void run() { 
 	                Message msgSend = new Message();
 	        	    try {
-	        	    	  // get itemList
-	        		 	 dbhostPosLst = BusinessRequest.getHotPositionMainList();
-	        		 	 
+	        	    	// get itemList
+	        	    	dbHeatSources = BusinessRequest.getHotSourceMainList();
+	        	    	
+	        	    	//get static Info
+	        	    	titleInfo = BusinessRequest.getHotSourceAllStatic();
+
+	        	        //get mapList
 	        	    	msgSend.what = ConstDefine.MSG_I_HANDLE_OK;
 					} catch (Exception e) {
 						msgSend.what = ConstDefine.MSG_I_HANDLE_Fail;
@@ -78,10 +83,10 @@ public class HotPositionMainActivity extends Activity {
 	                handler.sendMessage(msgSend);
 	        	}
 	    }.start();
-			  
-	  }
- 
-    /**
+		
+	}  
+	
+	 /**
      * http handler result
      */
     @SuppressLint("HandlerLeak")
@@ -90,62 +95,53 @@ public class HotPositionMainActivity extends Activity {
                 switch (message.what) {
                 case ConstDefine.MSG_I_HANDLE_OK:                                        
         		 	diaLogProgress.dismiss();
-                    //set grid view
-        		 	setHotPositionGridView();
+        		 	//show Gridview
+        		 	setHotSourceGridView();
+        		 	
         		    break;
                 case ConstDefine.MSG_I_HANDLE_Fail:                                        
                 	//close process
                 	diaLogProgress.dismiss();
-                	BaseHelper.showToastMsg(HotPositionMainActivity.this,ConstDefine.E_MSG_0001);
+                	BaseHelper.showToastMsg(HeatSourceMainActivity.this,ConstDefine.E_MSG_0001);
                     break;
 	            }
 	        }
 	  };
-     
-	  
-	  /**
-	   * 
-	   * @param viewStation
-	   * @param item
-	   */
-	  private void setStationItemContent(View viewStation, HotPosMainItem item)
+	    
+	  private void setHeatSourceItemContent( View viewHeatSource, HotSrcMainItem item)
 	  {
-		  
-		  TextView tvPressureOut =  (TextView) viewStation.findViewById(R.id.hot_station_pressure_out);
-		  tvPressureOut.setText(item.getStrActualGJToday() + getString(R.string.pressure_unit) );
-		  TextView tvPressureIn =  (TextView) viewStation.findViewById(R.id.hot_station_pressure_in);
-		  tvPressureIn.setText(item.getStrPlannedGJToday() + getString(R.string.pressure_unit) );
-		  TextView tvTemperatureOut =  (TextView) viewStation.findViewById(R.id.hot_station_temperature_out);
-		  tvTemperatureOut.setText(item.getStrActualGJYesterday() + getString(R.string.degree_unit) );
-		  TextView tvTemperatureIn =  (TextView) viewStation.findViewById(R.id.hot_station_temperature_in);
-		  tvTemperatureIn.setText(item.getStrPlannedGJYesterday() + getString(R.string.degree_unit) );
-		  
-		  TextView tvHeatStationName = (TextView) viewStation.findViewById(R.id.hot_station_name);
-		  tvHeatStationName.setText(item.getStrStationName());
-		  
-		  TextView tvStationId = (TextView)viewStation.findViewById(R.id.hotPosItemId);
-		  tvStationId.setText(item.getStrStationId()); 
+		 TextView tvPressureOut =  (TextView) viewHeatSource.findViewById(R.id.hot_source_pressure_out);
+		 tvPressureOut.setText(item.getPressureOut() + getString(R.string.pressure_unit) );
+		 TextView tvPressureIn =  (TextView) viewHeatSource.findViewById(R.id.hot_source_pressure_in);
+		 tvPressureIn.setText(item.getPressureIn() + getString(R.string.pressure_unit) );
+		 TextView tvTemperatureOut =  (TextView) viewHeatSource.findViewById(R.id.hot_source_temperature_out);
+		 tvTemperatureOut.setText(item.getPressureOut() + getString(R.string.degree_unit) );
+		 TextView tvTemperatureIn =  (TextView) viewHeatSource.findViewById(R.id.hot_source_temperature_in);
+		 tvTemperatureIn.setText(item.getPressureIn() + getString(R.string.degree_unit) );
+		 
+		 TextView tvHeatSourceName = (TextView) viewHeatSource.findViewById(R.id.hot_source_name);
+		 tvHeatSourceName.setText(item.getHeatSourceName());
+	  }
+
+	  private void setHeatSourceSummaryContent( View viewHeatSource, HotSrcTitleInfo title)
+	  {			
+		  TextView txtAllnum = (TextView) viewHeatSource.findViewById(R.id.hotSrcTitleAllnum);
+		  TextView txtAllDay= (TextView) viewHeatSource.findViewById(R.id.hotSrcTitleAllDay);
+		  TextView txtWest = (TextView) viewHeatSource.findViewById(R.id.hotSrcTitleAllWest);
+		  TextView txtAllNet = (TextView) viewHeatSource.findViewById(R.id.hotSrcTitleAllNet);
+		  txtAllnum.setText( getString(R.string.heat_source_count) + dbHeatSources.size() ); 
+		  txtAllDay.setText( getString(R.string.east_area) + titleInfo.getStrEastArea() + getString(R.string.area_unit) );
+		  txtWest.setText( getString(R.string.west_area) +  titleInfo.getStrWestArea() + getString(R.string.area_unit) ); 
+		  txtAllNet.setText( getString(R.string.total_heat_load) + titleInfo.getStrHeatLoad() + getString(R.string.heat_unit) ); 
 	  }
 	  
-
-	  /***
-	   * 
-	   * @param title
-	   * @param rowIndex
-	   * @param columnIndex
-	   * @param cellWidth
-	   * @param cellHeight
-	   * @return
-	   */
-	  private View getHeatStationTitleCell(int allCount, int rowIndex, int columnIndex, int cellWidth, int cellHeight)
+	  private View getHeatSourceSummaryCell(HotSrcTitleInfo title, int rowIndex, int columnIndex, int cellWidth, int cellHeight)
 	  {
 		  int ceilMargin = (int)getResources().getDimension(R.dimen.small_margin);
-		  
 		  LayoutInflater inflater = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-		  View viewHeatStationTitle = inflater.inflate(R.layout.hot_position_main_title_item, null);
-		  TextView txtAllnum = (TextView) viewHeatStationTitle.findViewById(R.id.hotPosTitleAllnum);
-		  txtAllnum.setText("共" + allCount + "个关键热力站");
-      		
+		  View viewSummary = inflater.inflate(R.layout.heat_source_main_title_item, null);
+		  setHeatSourceSummaryContent(viewSummary, title);
+		  
 		  Spec row = GridLayout.spec(rowIndex, 1);
 		  Spec colspan = GridLayout.spec(columnIndex, 2);
 		  GridLayout.LayoutParams param =new GridLayout.LayoutParams(row, colspan);
@@ -153,36 +149,26 @@ public class HotPositionMainActivity extends Activity {
 		  param.width = cellWidth;
 		  param.height = cellHeight;
 		  param.setMargins(ceilMargin, ceilMargin, ceilMargin, ceilMargin);
-		  viewHeatStationTitle.setLayoutParams(param);
-    	                                                         
-    	  viewHeatStationTitle.setOnClickListener(new OnClickListener(){                                                                                    
+		  viewSummary.setLayoutParams (param);
+	      viewSummary.setBackgroundResource(R.color.midnight_blue);
+	     
+    	  param.setGravity(Gravity.FILL);                                                          
+    	  viewSummary.setOnClickListener(new OnClickListener(){                                                                                    
 			  public void onClick(View v) 
 			  {   
-				  Intent intent = new Intent(HotPositionMainActivity.this, HotPositionQueryActivity.class); 
+				  Intent intent = new Intent(HeatSourceMainActivity.this, HeatSourceQueryActivity.class); 
 				  startActivity(intent);
 			  }
 		  });
-    	  return viewHeatStationTitle;
+    	  return viewSummary;
 	  }
 	  
-	  
-	 
-	  /***
-	   * 
-	   * @param heatSource
-	   * @param rowIndex
-	   * @param columnIndex
-	   * @param cellWidth
-	   * @param cellHeight
-	   * @return
-	   */
-	  private View getHeatStationCell(HotPosMainItem heatSource, int rowIndex, int columnIndex, int cellWidth, int cellHeight)
+	  private View getHeatSourceCell(HotSrcMainItem heatSource, int rowIndex, int columnIndex, int cellWidth, int cellHeight)
 	  {
 		  int ceilMargin = (int)getResources().getDimension(R.dimen.small_margin);
-		  
 		  LayoutInflater inflater = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-		  View viewHeatStation= inflater.inflate(R.layout.hot_position_main_item, null);
-		  setStationItemContent(viewHeatStation, heatSource);
+		  View viewHeatSource = inflater.inflate(R.layout.heat_source_main_item, null);
+		  setHeatSourceItemContent(viewHeatSource, heatSource);
 		  
 		  Spec row = GridLayout.spec(rowIndex, 1);
 		  Spec colspan = GridLayout.spec(columnIndex, 1);
@@ -191,34 +177,30 @@ public class HotPositionMainActivity extends Activity {
 		  param.width = cellWidth;
 		  param.height = cellHeight;
 		  param.setMargins(ceilMargin, ceilMargin, ceilMargin, ceilMargin);
-		  viewHeatStation.setLayoutParams(param);
 	      
 	      //TODO: set background color base on heat source state
 		  Random rand = new Random();
 		  Integer intState = rand.nextInt(3);
 		  Integer intBackgroundResource = CellBackgroundHelper.getBackgroundResourceByCellState(intState);
 		  
-		  viewHeatStation.setBackgroundResource(intBackgroundResource);
-		  
-		  viewHeatStation.setOnClickListener(new OnClickListener(){                                                                                    
+      	  viewHeatSource.setBackgroundResource(intBackgroundResource);
+      	  viewHeatSource.setLayoutParams (param);
+      	  viewHeatSource.setOnClickListener(new OnClickListener(){                                                                                    
 			  public void onClick(View v) 
 			  {   
-				  Intent intent = new Intent(HotPositionMainActivity.this, HotPositionDetailActivity.class); 
+				  Intent intent = new Intent(HeatSourceMainActivity.this, HeatSourceDetailActivity.class); 
 				  startActivity(intent);
 			  }
 		  });
-      	  
-      	  return viewHeatStation;
+      	
+      	  return viewHeatSource;
 	  }
 	  
-	  /***
-	   * 
-	   */
-	  private void setHotPositionGridView()
+	  private void setHotSourceGridView()
 	  {
-		  viewpage = (ViewPager) findViewById(R.id.hotPosMainPager);
+		  viewpage = (ViewPager) findViewById(R.id.hotMainPager);
 
-		  int pageNum = (int)Math.ceil( (float)dbhostPosLst.size() / PAGE_SIZE );
+		  int pageNum = (int)Math.ceil( (float)dbHeatSources.size() / PAGE_SIZE );
 
 		  int screenWidth = viewpage.getWidth();
 		  int screenHeight = viewpage.getHeight();
@@ -231,17 +213,16 @@ public class HotPositionMainActivity extends Activity {
 		  int bigCellWidth = cellWidth * 2 + ceilMargin;
 		  
         //create page
-		  views = new ArrayList<View>();
+		views = new ArrayList<View>();
 		for(int pageIndex = 0; pageIndex < pageNum; pageIndex++ )
-		{ 
-
+		{
 			GridLayout gridLayout = new GridLayout(this);
 			gridLayout.setColumnCount(COLUMN_COUNT);
 			gridLayout.setRowCount(ROW_COUNT);
 			gridLayout.setOrientation(GridLayout.HORIZONTAL);
-			//gridLayout.setUseDefaultMargins(true);
+			gridLayout.setUseDefaultMargins(true);
 	        for(int cell = 0, rowIndex = 0, columnIndex=0 ,itemIndex = pageIndex * PAGE_SIZE + cell ; 
-	        		cell < PAGE_SIZE && itemIndex < dbhostPosLst.size(); 
+	        		cell < PAGE_SIZE && itemIndex < dbHeatSources.size(); 
 	        		cell ++, columnIndex++, itemIndex++)
 			{
 				if(columnIndex == COLUMN_COUNT) {
@@ -250,25 +231,21 @@ public class HotPositionMainActivity extends Activity {
 				}
 				//show title cell
 		        if(rowIndex == 1 && columnIndex == 0){
-		        	gridLayout.addView(getHeatStationTitleCell(dbhostPosLst.size(), rowIndex, columnIndex, bigCellWidth, cellHeight));
+		        	gridLayout.addView( getHeatSourceSummaryCell(titleInfo, rowIndex, columnIndex, bigCellWidth, cellHeight) );
 		        	columnIndex+=1;
 		        	cell--;
 		        	itemIndex--;
 		        }
 		        else {
-		        	gridLayout.addView(getHeatStationCell(dbhostPosLst.get(itemIndex), rowIndex, columnIndex, cellWidth, cellHeight ));
+		        	gridLayout.addView(getHeatSourceCell(dbHeatSources.get(itemIndex), rowIndex, columnIndex, cellWidth, cellHeight));
 		        }
 			}
 		    gridLayout.setId(pageIndex);
 			views.add(gridLayout);
 		}
         
-        
-		indicators = new View[views.size()];  
-		viewGroup = (ViewGroup)findViewById(R.id.hotPositionViewGroup);  
-
 		setIndicatorView();
-		
+	    
 		//add pages
 		viewpage.setAdapter(new ViewPageAdapter(views));
 		viewpage.setOnPageChangeListener(new ViewPageChangeListener(indicators)); 
@@ -276,13 +253,13 @@ public class HotPositionMainActivity extends Activity {
 	  
 	  private void setIndicatorView() {
 			indicators = new View[views.size()];  
-			viewGroup = (ViewGroup)findViewById(R.id.hotPositionViewGroup);
+			viewGroup = (ViewGroup)findViewById(R.id.hotSorceIndicators);
 			int focusedSize = 40;
 			int normalSize = 20;
 			
 		    for (int i = 0; i < views.size(); i++) {  
 	            
-		    	TextView indicator = new TextView(HotPositionMainActivity.this);
+		    	TextView indicator = new TextView(HeatSourceMainActivity.this);
 		    	indicators[i] = indicator;
 		    	indicator.setGravity(Gravity.CENTER);
 		    	indicator.setTextColor(Color.BLACK);
@@ -298,4 +275,5 @@ public class HotPositionMainActivity extends Activity {
 	            viewGroup.addView(indicators[i]);  
 	        } 	  
 	  }
+     
 }  
