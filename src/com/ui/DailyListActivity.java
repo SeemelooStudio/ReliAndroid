@@ -12,7 +12,6 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -85,7 +84,7 @@ public class DailyListActivity extends Activity implements  SearchView.OnQueryTe
 			 switch (item.getItemId()) {
 			    // Respond to the action bar's Up/Home button
 			    case android.R.id.home:
-			        NavUtils.navigateUpFromSameTask(this);
+			    	this.finish();
 			        return true;
 			    }
 			    return super.onOptionsItemSelected(item);

@@ -72,8 +72,18 @@
    <string name="heat_unit">GJ</string>
    <string name="pressure_unit">MPa</string>
  
-   <!--  Heat Station -->
+   <!--  Station -->
    <string name="tap_to_search">点击查询</string>
+   <string name="station_realtime_heat">实时热量</string>
+   <string name="station_realtime_flow">实时流量</string>
+   <string name="station_total_heat">累计热量</string>
+   <string name="station_total_flow">累计流量</string>
+   <string name="station_water_remediation">补水量</string>
+   <string name="temperature">温度</string>
+   <string name="pressure">压力</string>
+   <string name="backwater">回水</string>
+   <string name="supplywater">供水</string>
+   <string name="search_history">历史数据查询</string>
    <!-- Date -->
    <string name="year">年</string>
    <string name="month">月</string>

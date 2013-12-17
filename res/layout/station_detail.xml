@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <TableLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/small_margin"
+        android:background="@color/midnight_blue"
+        android:padding="@dimen/small_margin" >
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                style="@style/tableLabel"
+                android:text="@string/station_realtime_heat" />
+
+            <TextView
+                android:paddingRight="@dimen/small_margin"
+                android:text="1433 GJ" />
+
+            <TextView
+                style="@style/tableLabel"
+                android:text="@string/station_realtime_flow" />
+
+            <TextView android:text="45443 t" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                style="@style/tableLabel"
+                android:text="@string/station_total_heat" />
+
+            <TextView
+                android:paddingRight="@dimen/small_margin"
+                android:text="1433 GJ" />
+
+            <TextView
+                style="@style/tableLabel"
+                android:text="@string/station_total_flow" />
+
+            <TextView android:text="45443 t" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                style="@style/tableLabel"
+                android:text="@string/station_water_remediation" />
+
+            <TextView
+                android:paddingRight="@dimen/small_margin"
+                android:text="1433 t" />
+        </TableRow>
+    </TableLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/small_margin"
+            android:layout_weight="2"
+            android:background="@color/main_blue"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/small_margin"
+                android:text="@string/temperature" />
+
+            <TableLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" >
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        style="@style/tableLabel"
+                        android:textSize="@dimen/small_font_size"
+                        android:text="@string/supplywater" />
+                    <TextView
+                        android:paddingRight="@dimen/small_margin"
+                        android:textSize="@dimen/small_font_size"
+                        android:text="1433 GJ" />
+                </TableRow>
+
+                <TableRow>
+                    <TextView
+                        style="@style/tableLabel"
+                        android:textSize="@dimen/small_font_size"
+                        android:text="@string/backwater" />
+                    <TextView
+                        android:paddingRight="@dimen/small_margin"
+                        android:textSize="@dimen/small_font_size"
+                        android:text="1433 GJ" />
+                </TableRow>
+            </TableLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/small_margin"
+            android:layout_weight="2"
+            android:background="@color/midnight_blue"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/small_margin"
+                android:text="@string/pressure"/>
+            
+            <TableLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" >
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        style="@style/tableLabel"
+                        android:textSize="@dimen/small_font_size"
+                        android:text="@string/supplywater" />
+                    <TextView
+                        android:paddingRight="@dimen/small_margin"
+                        android:textSize="@dimen/small_font_size"
+                        android:text="1433 GJ" />
+                </TableRow>
+
+                <TableRow>
+                    <TextView
+                        style="@style/tableLabel"
+                        android:textSize="@dimen/small_font_size"
+                        android:text="@string/backwater" />
+                    <TextView
+                        android:paddingRight="@dimen/small_margin"
+                        android:textSize="@dimen/small_font_size"
+                        android:text="1433 GJ" />
+                </TableRow>
+            </TableLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/small_margin"
+            android:layout_weight="1"
+            android:background="@color/midnight_blue" >
+            <ImageView
+                android:layout_width="@dimen/large_icon_size"
+                android:layout_height="@dimen/large_icon_size"
+                android:src="@drawable/ic_action_search"
+                android:layout_gravity="center"
+                android:contentDescription="@string/search_history"></ImageView>
+            
+        </LinearLayout>
+    </LinearLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/station_detail_pager"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent" >
+    </android.support.v4.view.ViewPager>
+
+</LinearLayout>

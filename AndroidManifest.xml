@@ -65,16 +65,24 @@
             android:name="android.support.PARENT_ACTIVITY"
             android:value="com.ui.MainPageActivity" />
 	</activity>
-	<activity android:name="HotSourceMainActivity" 
-	    android:configChanges="orientation|screenSize"
-	    android:label="@string/heat_source"
-	    android:theme="@style/CustomThemeNoActionBar"  >
+	<activity android:name="HeatSourceMainActivity" 
+	    android:screenOrientation="portrait"
+	    android:theme="@style/CustomThemeNoActionBar" />
+	<activity android:name="HeatSourceDetailActivity" android:configChanges="orientation|screenSize"></activity>
+	<activity android:name="HeatSourceQueryActivity" android:configChanges="orientation|screenSize"></activity>
+	
+	<activity android:name="StationMainActivity" 
+	    android:screenOrientation="portrait"
+	    android:theme="@style/CustomThemeNoActionBar" />
+	<activity android:name="StationDetailActivity" 
+	    android:screenOrientation="portrait"
+	    android:label="@string/station" 
+	    android:theme="@style/CustomThemeDark">
+	    <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="com.ui.MainPageActivity" />
 	</activity>
-	<activity android:name="HotSourceDetailActivity" android:configChanges="orientation|screenSize"></activity>
-	<activity android:name="HotSourceQueryActivity" android:configChanges="orientation|screenSize"></activity>
-	<activity android:name="HotPositionMainActivity" android:configChanges="orientation|screenSize"></activity>
-	<activity android:name="HotPositionDetailActivity" android:configChanges="orientation|screenSize"></activity>
-	<activity android:name="HotPositionQueryActivity" android:configChanges="orientation|screenSize"></activity>
+	<activity android:name="StationQueryActivity" android:configChanges="orientation|screenSize"></activity>
 	<activity android:name="MsgUpMainActivity"
 	    android:windowSoftInputMode="stateVisible|adjustResize"
 	    android:configChanges="orientation|screenSize" >

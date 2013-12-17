@@ -23,7 +23,7 @@ import com.reqst.BusinessRequest;
 import com.util.BaseHelper;
 import com.util.ConstDefine;
 
-public class HotPositionQueryActivity  extends Activity implements  SearchView.OnQueryTextListener,android.view.View.OnClickListener {
+public class StationQueryActivity  extends Activity implements  SearchView.OnQueryTextListener,android.view.View.OnClickListener {
 
 	private ListView listView;  
     private SearchView searchView;
@@ -39,7 +39,7 @@ public class HotPositionQueryActivity  extends Activity implements  SearchView.O
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.hot_position_list);
+        setContentView(R.layout.station_list);
         
         searchView = (SearchView)findViewById(R.id.hotPositonsearch); 
         searchView.setOnQueryTextListener(this);  
@@ -54,7 +54,7 @@ public class HotPositionQueryActivity  extends Activity implements  SearchView.O
         	public void onItemClick(AdapterView<?> parent, View arg1, int position, long id) 
         	{   
         		HashMap<String, Object> ListItem = (HashMap<String, Object>) listView.getItemAtPosition(position);
-        		Intent intent = new Intent(HotPositionQueryActivity.this, HotPositionDetailActivity.class); 
+        		Intent intent = new Intent(StationQueryActivity.this, StationDetailActivity.class); 
         		Bundle mBundle = new Bundle();
         		mBundle.putString("strStationId", ListItem.get("strStationId").toString());
         		mBundle.putString("strStationName", ListItem.get("strStationName").toString());
@@ -98,7 +98,7 @@ public class HotPositionQueryActivity  extends Activity implements  SearchView.O
      */
     private void getHotPosListbyCondition()
 	{
-		diaLogProgress = BaseHelper.showProgress(HotPositionQueryActivity.this,ConstDefine.I_MSG_0003,false);
+		diaLogProgress = BaseHelper.showProgress(StationQueryActivity.this,ConstDefine.I_MSG_0003,false);
         new Thread() {
             public void run() { 
                     Message msgSend = new Message();
@@ -123,14 +123,14 @@ public class HotPositionQueryActivity  extends Activity implements  SearchView.O
                 switch (message.what) {
                 case ConstDefine.MSG_I_HANDLE_OK:                                        
         		 	diaLogProgress.dismiss();
-        		    listView.setAdapter(new SimpleAdapter(getApplicationContext(),listData, R.layout.hot_position_list_item,  
+        		    listView.setAdapter(new SimpleAdapter(getApplicationContext(),listData, R.layout.station_list_item,  
         		    		new String[] { "strStationId", "strStationName", "strOtherInfo" }, 
         					new int[] {R.id.hot_station_id, R.id.hot_station_name, R.id.hot_other_info})); 
         		 	break;
                 case ConstDefine.MSG_I_HANDLE_Fail:                                        
                 	//close process
                 	diaLogProgress.dismiss();
-                	BaseHelper.showToastMsg(HotPositionQueryActivity.this,ConstDefine.E_MSG_0001);
+                	BaseHelper.showToastMsg(StationQueryActivity.this,ConstDefine.E_MSG_0001);
                     break;
 	            }
 	        }
@@ -170,7 +170,7 @@ public class HotPositionQueryActivity  extends Activity implements  SearchView.O
      * @param resultList
      */
     private void updateLayout(List<HashMap<String, Object>> resultList) {  
-    	  listView.setAdapter(new SimpleAdapter(getApplicationContext(),resultList, R.layout.hot_position_list_item,  
+    	  listView.setAdapter(new SimpleAdapter(getApplicationContext(),resultList, R.layout.station_list_item,  
 				  new String[] { "strStationId", "strStationName", "strOtherInfo" }, 
 				  new int[] {R.id.hot_station_id, R.id.hot_station_name, R.id.hot_other_info})); 
     }
