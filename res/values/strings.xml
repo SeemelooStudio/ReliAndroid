@@ -88,6 +88,7 @@
    <string name="year">年</string>
    <string name="month">月</string>
    <string name="day">日</string>
+   <string name="week_name">周</string>
    <string name="monday">星期一</string>
    <string name="tuesday">星期二</string>
    <string name="wednesday">星期三</string>
@@ -95,4 +96,5 @@
    <string name="friday">星期五</string>
    <string name="saturday">星期六</string>
    <string name="sunday">星期日</string>
+   <string name="select_time">选择时间</string>
 </resources>

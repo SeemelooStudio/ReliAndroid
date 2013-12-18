@@ -1,12 +1,13 @@
 package com.reqst;
 
-import java.net.Authenticator;
-import java.net.HttpURLConnection;
-import java.net.PasswordAuthentication;
+
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import org.json.JSONException;
 import org.json.JSONStringer;
@@ -20,6 +21,7 @@ import com.model.HotPosMainItem;
 import com.model.HotSrcMainItem;
 import com.model.HotSrcTitleInfo;
 import com.model.KnowledgeBaseItem;
+import com.model.SupplyAndBackwardItem;
 import com.model.WeatherStationListItem;
 import com.model.MainPageSummary;
 import com.model.SendChatMessageTask;
@@ -285,8 +287,106 @@ public class BusinessRequest {
 		
     	return chartList;
     }
-	
+    public static  List<SupplyAndBackwardItem> getStationSupplyAndBackwardTemperatureList(String stationID, Date startDate, Date endDate) 
+    {
+    	
+    	List<SupplyAndBackwardItem> dataList = new ArrayList<SupplyAndBackwardItem>();
+    	
+    	//TODO: get data from sever
+    	long DAY = 1000 * 60 * 60 * 24;
+    	long startTime = startDate.getTime();
+    	long endTime = endDate.getTime();
+    	for (;startTime < endTime ; startTime+=DAY) {
+    		SupplyAndBackwardItem item = new SupplyAndBackwardItem();
+    		item.setDate(new Date(startTime));
+    		
+    		DecimalFormat df = new DecimalFormat("#.00");
+    		double supply = Double.parseDouble(df.format((new Random()).nextDouble() * 10 + 10));
+    		double back = Double.parseDouble(df.format((new Random()).nextDouble() * 5 + 5));
 
+    		item.setSupply(supply);
+    		item.setBackward(back);
+ 
+    		dataList.add(item);
+    	}
+		
+    	return dataList;
+    }
+    public static  List<SupplyAndBackwardItem> getHeatSourceSupplyAndBackwardPressureList(String heatSourceId, Date startDate, Date endDate) 
+    {
+    	
+    	List<SupplyAndBackwardItem> dataList = new ArrayList<SupplyAndBackwardItem>();
+    	
+    	//TODO: get data from sever
+    	long DAY = 1000 * 60 * 60 * 24;
+    	long startTime = startDate.getTime();
+    	long endTime = endDate.getTime();
+    	for (;startTime < endTime ; startTime+=DAY) {
+    		SupplyAndBackwardItem item = new SupplyAndBackwardItem();
+    		item.setDate(new Date(startTime));
+    		
+    		DecimalFormat df = new DecimalFormat("#.00");
+    		double supply = Double.parseDouble(df.format((new Random()).nextDouble() * 10 + 50));
+    		double back = Double.parseDouble(df.format((new Random()).nextDouble() * 10 + 4));
+
+    		item.setSupply(supply);
+    		item.setBackward(back);
+ 
+    		dataList.add(item);
+    	}
+		
+    	return dataList;
+    }
+    public static  List<SupplyAndBackwardItem> getHeatSourceSupplyAndBackwardTemperatureList(String heatSourceId, Date startDate, Date endDate) 
+    {
+    	
+    	List<SupplyAndBackwardItem> dataList = new ArrayList<SupplyAndBackwardItem>();
+    	
+    	//TODO: get data from sever
+    	long DAY = 1000 * 60 * 60 * 24;
+    	long startTime = startDate.getTime();
+    	long endTime = endDate.getTime();
+    	for (;startTime < endTime ; startTime+=DAY) {
+    		SupplyAndBackwardItem item = new SupplyAndBackwardItem();
+    		item.setDate(new Date(startTime));
+    		
+    		DecimalFormat df = new DecimalFormat("#.00");
+    		double supply = Double.parseDouble(df.format((new Random()).nextDouble() * 10 + 10));
+    		double back = Double.parseDouble(df.format((new Random()).nextDouble() * 5 + 5));
+
+    		item.setSupply(supply);
+    		item.setBackward(back);
+ 
+    		dataList.add(item);
+    	}
+		
+    	return dataList;
+    }
+    public static  List<SupplyAndBackwardItem> getStationSupplyAndBackwardPressureList(String stationID, Date startDate, Date endDate) 
+    {
+    	
+    	List<SupplyAndBackwardItem> dataList = new ArrayList<SupplyAndBackwardItem>();
+    	
+    	//TODO: get data from sever
+    	long DAY = 1000 * 60 * 60 * 24;
+    	long startTime = startDate.getTime();
+    	long endTime = endDate.getTime();
+    	for (;startTime < endTime ; startTime+=DAY) {
+    		SupplyAndBackwardItem item = new SupplyAndBackwardItem();
+    		item.setDate(new Date(startTime));
+    		
+    		DecimalFormat df = new DecimalFormat("#.00");
+    		double supply = Double.parseDouble(df.format((new Random()).nextDouble() * 10 + 50));
+    		double back = Double.parseDouble(df.format((new Random()).nextDouble() * 10 + 4));
+
+    		item.setSupply(supply);
+    		item.setBackward(back);
+ 
+    		dataList.add(item);
+    	}
+		
+    	return dataList;
+    }
     /**
      * 
      * @return

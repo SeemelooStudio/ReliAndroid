@@ -7,8 +7,10 @@
     <TableLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/small_margin"
         android:background="@color/midnight_blue"
+        android:layout_marginTop="@dimen/medium_margin"
+        android:layout_marginLeft="@dimen/small_margin"
+        android:layout_marginRight="@dimen/small_margin"
         android:padding="@dimen/small_margin" >
 
         <TableRow
@@ -18,16 +20,16 @@
             <TextView
                 style="@style/tableLabel"
                 android:text="@string/station_realtime_heat" />
-
             <TextView
-                android:paddingRight="@dimen/small_margin"
-                android:text="1433 GJ" />
+                android:layout_gravity="right"
+                android:text="13 GJ" />
 
             <TextView
                 style="@style/tableLabel"
                 android:text="@string/station_realtime_flow" />
-
-            <TextView android:text="45443 t" />
+            <TextView 
+                android:layout_gravity="right"
+                android:text="43 t" />
         </TableRow>
 
         <TableRow>
@@ -35,40 +37,49 @@
             <TextView
                 style="@style/tableLabel"
                 android:text="@string/station_total_heat" />
-
             <TextView
-                android:paddingRight="@dimen/small_margin"
+                android:layout_gravity="right"
                 android:text="1433 GJ" />
 
             <TextView
                 style="@style/tableLabel"
                 android:text="@string/station_total_flow" />
-
-            <TextView android:text="45443 t" />
+            <TextView 
+                android:layout_gravity="right"
+                android:text="45443 t" />
         </TableRow>
 
         <TableRow>
+			<TextView
+                style="@style/tableLabel" />
 
+            <TextView
+                android:paddingRight="@dimen/small_margin" />
             <TextView
                 style="@style/tableLabel"
                 android:text="@string/station_water_remediation" />
 
             <TextView
-                android:paddingRight="@dimen/small_margin"
+                 android:layout_gravity="right"
                 android:text="1433 t" />
         </TableRow>
     </TableLayout>
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/medium_margin"
+        android:baselineAligned="false" >
 
         <LinearLayout
+            android:id="@+id/station_temperature_tab"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/small_margin"
+            android:layout_marginRight="@dimen/small_margin"
+            android:layout_marginLeft="@dimen/small_margin"
+            android:paddingBottom="@dimen/small_margin"
             android:layout_weight="2"
-            android:background="@color/main_blue"
+            android:background="@drawable/button_default"
             android:orientation="vertical" >
 
             <TextView
@@ -109,11 +120,14 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/station_pressure_tab"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/small_margin"
+            android:layout_marginRight="@dimen/small_margin"
+            android:layout_marginLeft="@dimen/small_margin"
+            android:paddingBottom="@dimen/small_margin"
             android:layout_weight="2"
-            android:background="@color/midnight_blue"
+            android:background="@drawable/button_dark"
             android:orientation="vertical" >
 
             <TextView
@@ -154,21 +168,56 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/station_history_tab"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="@dimen/small_margin"
+            android:layout_marginRight="@dimen/small_margin"
+            android:layout_marginLeft="@dimen/small_margin"
             android:layout_weight="1"
-            android:background="@color/midnight_blue" >
+            android:background="@drawable/button_dark" >
             <ImageView
-                android:layout_width="@dimen/large_icon_size"
-                android:layout_height="@dimen/large_icon_size"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:scaleType="center"
                 android:src="@drawable/ic_action_search"
-                android:layout_gravity="center"
+                android:gravity="center"
                 android:contentDescription="@string/search_history"></ImageView>
             
         </LinearLayout>
     </LinearLayout>
-
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+        <ImageView 
+            android:id="@+id/station_temperature_indicator"
+            android:scaleType="center"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="wrap_content"
+            android:src="@drawable/button_arrow_down"
+            android:contentDescription="@string/temperature"
+            />
+        <ImageView 
+            android:id="@+id/station_pressure_indicator"
+            android:scaleType="center"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="wrap_content"
+            android:src="@drawable/button_arrow_down"
+            android:visibility="invisible"
+            android:contentDescription="@string/pressure"
+            />
+        <ImageView 
+            android:id="@+id/station_history_indicator"
+            android:scaleType="center"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:src="@drawable/button_arrow_down"
+            android:visibility="invisible"
+            android:contentDescription="@string/search_history"
+            />
+    </LinearLayout>
     <android.support.v4.view.ViewPager
         android:id="@+id/station_detail_pager"
         android:layout_width="fill_parent"
