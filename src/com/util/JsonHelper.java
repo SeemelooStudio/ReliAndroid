@@ -172,7 +172,6 @@ public class JsonHelper {
       
     public static void setFieldValue(Object obj, Map<String, String> valMap) {     
         Class<?> cls = obj.getClass();     
-        // ȡ��bean������з���     
         Method[] methods = cls.getDeclaredMethods();     
         Field[] fields = cls.getDeclaredFields();     
     
@@ -219,8 +218,7 @@ public class JsonHelper {
     
     public static Map<String, String> beanToMap(Object obj) {     
         Class<?> cls = obj.getClass();     
-        Map<String, String> valueMap = new HashMap<String, String>();     
-        // ȡ��bean������з���     
+        Map<String, String> valueMap = new HashMap<String, String>();    
         Method[] methods = cls.getDeclaredMethods();     
         Field[] fields = cls.getDeclaredFields();       
         for (Field field : fields) {     
@@ -251,13 +249,6 @@ public class JsonHelper {
     
     }     
   
-    /** 
-     * �������ֶθ�ֵ 
-     * @param obj   ��ʵ�� 
-     * @param fieldSetMethod    �ֶη��� 
-     * @param fieldType �ֶ����� 
-     * @param value 
-     */  
     public static void setFiedlValue(Object obj,Method fieldSetMethod,String fieldType,Object value){  
              
         try {      
@@ -294,13 +285,6 @@ public class JsonHelper {
       
     }  
       
-    /** 
-     * �����л��򵥶��� 
-     * @param jo    json���� 
-     * @param clazz ʵ�������� 
-     * @return  �����л����ʵ�� 
-     * @throws JSONException  
-     */  
     public static <T> T parseObject(JSONObject jo, Class<T> clazz) throws JSONException {  
         if (clazz == null || isNull(jo)) {  
             return null;  
@@ -332,13 +316,6 @@ public class JsonHelper {
         return obj;  
     }  
       
-    /** 
-     * �����л��򵥶��� 
-     * @param jsonStr   json�ַ� 
-     * @param clazz ʵ�������� 
-     * @return  �����л����ʵ�� 
-     * @throws JSONException  
-     */  
     public static <T> T parseObject(String jsonStr, Class<T> clazz) throws JSONException {  
         if (clazz == null || jsonStr == null || jsonStr.length() == 0) {  
             return null;  
@@ -353,12 +330,6 @@ public class JsonHelper {
         return parseObject(jo, clazz);  
     }  
   
-    /** 
-     * �����л�������� 
-     * @param ja    json���� 
-     * @param clazz ʵ�������� 
-     * @return  �����л�������� 
-     */  
     public static <T> T[] parseArray(JSONArray ja, Class<T> clazz) {  
         if (clazz == null || isNull(ja)) {  
             return null;  
@@ -382,13 +353,6 @@ public class JsonHelper {
         return array;  
     }  
   
-      
-    /** 
-     * �����л�������� 
-     * @param jsonStr   json�ַ� 
-     * @param clazz ʵ�������� 
-     * @return  ���л�������� 
-     */  
     public static <T> T[] parseArray(String jsonStr, Class<T> clazz) {  
         if (clazz == null || jsonStr == null || jsonStr.length() == 0) {  
             return null;  
@@ -407,14 +371,6 @@ public class JsonHelper {
         return parseArray(jo, clazz);  
     }  
   
-    /** 
-     * �����л����ͼ��� 
-     * @param ja    json���� 
-     * @param collectionClazz   �������� 
-     * @param genericType   ʵ�������� 
-     * @return 
-     * @throws JSONException  
-     */  
     @SuppressWarnings("unchecked")  
     public static <T> Collection<T> parseCollection(JSONArray ja, Class<?> collectionClazz,  
             Class<T> genericType) throws JSONException {  
@@ -438,14 +394,6 @@ public class JsonHelper {
         return collection;  
     }  
   
-    /** 
-     * �����л����ͼ��� 
-     * @param jsonStr   json�ַ� 
-     * @param collectionClazz   �������� 
-     * @param genericType   ʵ�������� 
-     * @return  �����л�������� 
-     * @throws JSONException  
-     */  
     public static <T> Collection<T> parseCollection(String jsonStr, Class<?> collectionClazz,  
             Class<T> genericType) throws JSONException {  
         if (collectionClazz == null || genericType == null || jsonStr == null  

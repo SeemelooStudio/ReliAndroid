@@ -177,14 +177,14 @@ public class BusinessRequest {
 	 * @return
 	 * @throws Exception 
 	 */
-	public static WeatherDetailTempInfo getWenduTabDetailById(String strListId,String strDayFlag) throws Exception{
+	public static WeatherDetailTempInfo[] getWenduTabDetailById(String weatherTypeId,String strDayFlag) throws Exception{
 		
 		
-		String requestAddress = (ConstDefine.WEB_SERVICE_URL + ConstDefine.S_GET_OFFICIALWEATHER).replace("{weatherTypeId}", WeatherType.Today.getStrValue());
+		String requestAddress = (ConstDefine.WEB_SERVICE_URL + ConstDefine.S_GET_OFFICIALWEATHER).replace("{weatherTypeId}", weatherTypeId);
 		try {
 			ServerHttpRequest httpReq = new ServerHttpRequest();
 			String strResp = httpReq.doGet(requestAddress);
-			WeatherDetailTempInfo respInfo = JsonHelper.parseObject(strResp, WeatherDetailTempInfo.class);  
+			WeatherDetailTempInfo[] respInfo = JsonHelper.parseArray(strResp, WeatherDetailTempInfo.class);  
 			return respInfo;
 		} catch (Exception ex) {
 			throw ex;

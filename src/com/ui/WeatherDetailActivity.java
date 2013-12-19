@@ -126,8 +126,9 @@ public class WeatherDetailActivity extends FragmentActivity implements TabListen
             public void run() { 
                 Message msgSend = new Message();
         	    try {
-
-        	    	_weatherSummaryToday = BusinessRequest.getWenduTabDetailById(strListId,WeatherType.Today.getStrValue());
+        	    	WeatherDetailTempInfo[] weatherSummaryTodayAndYesterday = 
+        	    			BusinessRequest.getWenduTabDetailById(strListId,WeatherType.TodayAndYesterday.getStrValue());
+        	    	_weatherSummaryToday = weatherSummaryTodayAndYesterday[0];
         		 	_weatherDetailsToday = getWeatherDetailListData(strListId,"1");
         		 	        		 	
         		 	_weatherChartItems =  BusinessRequest.getWeatherChartList();
@@ -188,13 +189,13 @@ public class WeatherDetailActivity extends FragmentActivity implements TabListen
 		for (WeatherDetailItem oneRec: wenduDbDatalist) 
 		{   
 			HashMap<String, Object> item = new HashMap<String, Object>();
-			String time = oneRec.getW_time();
+			String time = oneRec.getDay();
 			String strDate = DateHelper.getShortDate(time, "mm/dd/yyyy", getApplicationContext());
 			String strDayOfWeek = DateHelper.getDayOfWeek(time, "mm/dd/yyyy", getApplicationContext());
 		    item.put("date", strDate);
 		    item.put("day_of_week", strDayOfWeek); 
-		    item.put("tempreture", oneRec.getW_wendu() + getString(R.string.degree_unit)); 
-		    item.put("weather", oneRec.getW_iconId()); 
+		    item.put("tempreture", oneRec.getWindDirection() + getString(R.string.degree_unit)); 
+		    item.put("weather", oneRec.getWeatherType()); 
 		    wenDuList.add(item);
 		}
 		

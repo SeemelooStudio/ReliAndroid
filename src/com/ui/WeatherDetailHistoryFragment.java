@@ -86,13 +86,13 @@ public class WeatherDetailHistoryFragment extends Fragment implements SearchView
 	    
 	    for (int i = 0; i < _originWeatherDetails.size(); i++) 
 	    { 	
-	        int index =((WeatherDetailItem) _originWeatherDetails.get(i)).getW_time().indexOf(name);  
+	        int index =((WeatherDetailItem) _originWeatherDetails.get(i)).getDay().indexOf(name);  
 
 		    if (index != -1) {
 		    	HashMap<String, Object> item = new HashMap<String, Object>(); 
-		    	item.put("time", _originWeatherDetails.get(i).getW_time()); 
-		        item.put("tempreture", _originWeatherDetails.get(i).getW_wendu()); 
-		        item.put("weather", _originWeatherDetails.get(i).getW_tianqi()); 
+		    	item.put("time", _originWeatherDetails.get(i).getDay()); 
+		        item.put("tempreture", _originWeatherDetails.get(i).getWindDirection()); 
+		        item.put("weather", _originWeatherDetails.get(i).getWeatherDescription()); 
 		        mSearchHisList.add(item);  
 		    } 
 	    }
@@ -106,9 +106,9 @@ public class WeatherDetailHistoryFragment extends Fragment implements SearchView
 		for (WeatherDetailItem oneRec: originWeatherDetails) 
 		{   
 			HashMap<String, Object> item = new HashMap<String, Object>();  
-		    item.put("time", oneRec.getW_time()); 
-			item.put("tempreture", oneRec.getW_wendu()); 
-			item.put("weather", oneRec.getW_tianqi()); 
+		    item.put("time", oneRec.getDay()); 
+			item.put("tempreture", oneRec.getWindDirection()); 
+			item.put("weather", oneRec.getWeatherDescription()); 
 			parsedWeatherDetails.add(item);  
 		}
 		return parsedWeatherDetails;

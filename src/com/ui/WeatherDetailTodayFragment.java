@@ -65,12 +65,12 @@ public class WeatherDetailTodayFragment extends Fragment {
 				+ " "
 				+ DateHelper.getDayOfWeek(_weatherSummary.getStrUpTime(), "mm/dd/yyyy", getActivity().getApplicationContext());
 		_tvUpdateTime.setText( strDate );
-		_tvCurrentTempreture.setText(_weatherSummary.getStrForecastAverage() + strDegreeUnit);
-		_tvWeather.setText(_weatherSummary.getStrWeatherShortDescription());
-		_tvYesterdayTempreture.setText(_weatherSummary.getStrForecastAverage() + strDegreeUnit);
+		_tvCurrentTempreture.setText(_weatherSummary.getForecastAverage() + strDegreeUnit);
+		_tvWeather.setText(_weatherSummary.getWeatherDescription());
+		_tvYesterdayTempreture.setText(_weatherSummary.getForecastAverage() + strDegreeUnit);
 		_tvWind.setText(_weatherSummary.getStrFengsu());
-		_tvHighestTempreture.setText(_weatherSummary.getStrForecastHighest() + strDegreeUnit);
-		_tvLowestTempreture.setText(_weatherSummary.getStrForecastLowest() + strDegreeUnit);
+		_tvHighestTempreture.setText(_weatherSummary.getForecastHighest() + strDegreeUnit);
+		_tvLowestTempreture.setText(_weatherSummary.getForecastLowest() + strDegreeUnit);
 		
 		_ivWeatherIcon.setImageResource( WeatherIconHelper.getWeatherIconResourceId(2) );
 		

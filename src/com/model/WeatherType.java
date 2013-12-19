@@ -1,7 +1,7 @@
 package com.model;
 
 public enum WeatherType {
-	Today(1), Yesterday(2), SevenDays(3), History(4);
+	TodayAndYesterday(1), SevenDays(2), History(3);
 	
 	private final int value;
 	
