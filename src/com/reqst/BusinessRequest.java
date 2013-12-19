@@ -17,6 +17,7 @@ import android.util.Log;
 
 import com.model.ChatMessage;
 import com.model.StationDetail;
+import com.model.StationHistoryListItem;
 import com.model.StationListItem;
 import com.model.StationMainItem;
 import com.model.HeatSourceDetail;
@@ -342,9 +343,10 @@ public class BusinessRequest {
     public static  List<SupplyAndBackwardItem> getHeatSourceSupplyAndBackwardTemperatureList(String heatSourceId, Date startDate, Date endDate) 
     {
     	
-    	List<SupplyAndBackwardItem> dataList = new ArrayList<SupplyAndBackwardItem>();
+    	List<SupplyAndBackwardItem> dataList;
     	
     	//TODO: get data from sever
+    	dataList = new ArrayList<SupplyAndBackwardItem>();
     	long DAY = 1000 * 60 * 60 * 24;
     	long startTime = startDate.getTime();
     	long endTime = endDate.getTime();
@@ -391,9 +393,10 @@ public class BusinessRequest {
     }
     
     public static StationDetail getStationDetail(String stationID) {
-    	StationDetail info = new StationDetail();
+    	StationDetail info;
     	
     	//TODO: get data from server
+    	info = new StationDetail();
     	info.setStrStationId(stationID);
     	info.setStrStationName("日坛中学");
     	info.setSupplyTemperature(100.4);
@@ -407,6 +410,30 @@ public class BusinessRequest {
     	info.setSupplyWaterQuantity(0.8);
     	
     	return info;
+    }
+    
+    public static ArrayList<StationHistoryListItem> getStationHistoryList(String heatSourceId, Date startDate, Date endDate) {
+    	ArrayList<StationHistoryListItem> historyList;
+    	
+    	//TODO: get data from server
+    	historyList = new ArrayList<StationHistoryListItem>();
+    	long DAY = 1000 * 60 * 60 * 24;
+    	long startTime = startDate.getTime();
+    	long endTime = endDate.getTime();
+    	for (;startTime < endTime ; startTime+=DAY) {
+    		StationHistoryListItem item = new StationHistoryListItem();
+    		item.setDate(new Date(startTime));
+    		item.setActualGJ(80.0);
+    		item.setCalculateGJ(70.0);
+    		item.setPlanGJ(75.0);
+    		item.setActualOverCalculateGJ(14.5);
+    		item.setActualTemperature(5.0);
+    		item.setForcastTemperature(3.0);
+ 
+    		historyList.add(item);
+    	}
+    	
+    	return historyList;
     }
     /**
      * 

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>   
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/button_height"
+    android:orientation="horizontal">
+	<TextView android:id="@+id/station_history_date"
+	    android:layout_width="0dp"
+	    android:layout_weight="1"
+	    android:layout_height="wrap_content"
+	    android:textColor="@color/transparent_white"
+	    android:gravity="left"  />
+	 <LinearLayout 
+	     android:layout_weight="1"
+	     android:layout_width="0dp"
+		 android:layout_height="wrap_content"
+	     android:orientation="vertical">
+	     <TextView android:id="@+id/station_history_plan_gj"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:textColor="@color/white"
+		    android:layout_gravity="right" />
+	     <TextView android:id="@+id/station_history_forcast_temperature"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:textColor="@color/transparent_white"
+		    android:textSize="@dimen/small_font_size"
+		    android:layout_gravity="right" />
+	 </LinearLayout>
+	 <LinearLayout 
+	     android:layout_weight="1"
+	     android:layout_width="0dp"
+		 android:layout_height="wrap_content"
+	     android:orientation="vertical">
+	     <TextView android:id="@+id/station_history_calculate_gj"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:textColor="@color/white"
+		    android:layout_gravity="right" />
+	     <TextView android:id="@+id/station_history_actual_temperature"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:textColor="@color/transparent_white"
+		    android:textSize="@dimen/small_font_size"
+		    android:layout_gravity="right" />
+	 </LinearLayout>	 
+
+	 <TextView android:id="@+id/station_history_actual_gj"
+	    android:layout_width="0dp"
+	    android:layout_weight="1"
+	    android:layout_height="wrap_content"
+	    android:textColor="@color/white"
+	    android:gravity="right" />
+	 <TextView android:id="@+id/station_history_actual_over_plan"
+	    android:layout_width="0dp"
+	    android:layout_weight="1"
+	    android:layout_height="wrap_content"
+	    android:textColor="@color/white"
+	    android:gravity="right" />
+</LinearLayout>

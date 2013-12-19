@@ -1,20 +1,21 @@
 package com.ui;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
 
-import org.achartengine.GraphicalView;
-
-import com.chart.impl.SupplyAndBackwardDetailChart;
-import com.model.SupplyAndBackwardItem;
+import com.model.StationHistoryListItem;
 
 import com.reqst.BusinessRequest;
 import com.util.BaseHelper;
 import com.util.ConstDefine;
+import com.util.DateHelper;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -23,9 +24,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
 
 public class DetailHistoryFragment extends Fragment {
-	private List<SupplyAndBackwardItem> chartDataList = null;
+	private List<StationHistoryListItem> historyDataList = null;
 	private int dataType = 0;
 	private String sourceId = "";
 	private int sourceType = 0;
@@ -61,8 +64,7 @@ public class DetailHistoryFragment extends Fragment {
 				
 				Message msgSend = new Message();
 				try {
-
-					
+					historyDataList = BusinessRequest.getStationHistoryList(sourceId, startDate, endDate);
 					msgSend.what = ConstDefine.MSG_I_HANDLE_OK;
 				} catch (Exception e) {
 					msgSend.what = ConstDefine.MSG_I_HANDLE_Fail;
@@ -88,11 +90,43 @@ public class DetailHistoryFragment extends Fragment {
 	
 	public void renderData() {
 
-		if ( null == chartDataList ) {
+		if ( null == historyDataList ) {
 			return;
 		}
+		
+		List<HashMap<String, Object>> data = new ArrayList<HashMap<String, Object>>(); 
+		HashMap<String, Object> title = new HashMap<String, Object>();
+		title.put("date", "日期");
+		title.put("actual_gj", "实际GJ");
+		title.put("calculate_gj", "核算GJ");
+		title.put("plan_gj",  "计划GJ");
+		title.put("actual_over_calculate", "多耗%" );
+		title.put("actual_temperature", "实际温度");
+		title.put("forecast_temperature", "预报温度");
+	    data.add(title);
+	    
+		for (StationHistoryListItem oneRec: historyDataList) 
+		{   
+			HashMap<String, Object> item = new HashMap<String, Object>();
+			Context context = getActivity().getApplicationContext();
+			
+			String formatedDate = DateHelper.getShortDate(oneRec.getDate(), context);
+		    item.put("date", formatedDate);
+		    item.put("actual_gj", oneRec.getActualGJ() + context.getString(R.string.heat_unit));
+		    item.put("calculate_gj", oneRec.getCalculateGJ() + context.getString(R.string.heat_unit));
+		    item.put("plan_gj",  oneRec.getPlanGJ() + context.getString(R.string.heat_unit));
+		    item.put("actual_over_calculate", oneRec.getActualOverCalculateGJ() + "%" );
+		    item.put("actual_temperature", oneRec.getActualTemperature() + context.getString(R.string.degree_unit));
+		    item.put("forecast_temperature", oneRec.getForcastTemperature() + context.getString(R.string.degree_unit));
+		    data.add(item);
+		}
+		
 		View view = getView();
+		ListView historyList = (ListView)view.findViewById(R.id.detail_history_list);
 
+		historyList.setAdapter(new SimpleAdapter(getActivity().getApplicationContext(), data, R.layout.station_detail_history_list_item,  
+	 			 new String[] { "date","plan_gj","calculate_gj","actual_gj","actual_over_calculate","actual_temperature","forecast_temperature"}, 
+				  new int[] {R.id.station_history_date, R.id.station_history_plan_gj, R.id.station_history_calculate_gj, R.id.station_history_actual_gj, R.id.station_history_actual_over_plan, R.id.station_history_actual_temperature, R.id.station_history_forcast_temperature}));
 
 	}
 	public String getSourceId() {

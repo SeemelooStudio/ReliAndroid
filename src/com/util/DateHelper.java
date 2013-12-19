@@ -39,9 +39,16 @@ public class DateHelper {
 	}
 	public static String getShortDate(String strDate, String strFormat, Context cntApplication) {
 		String formatedDate = "";
-		Calendar calendar = Calendar.getInstance();
 		Date parsedDate = parseStringToDate(strDate, strFormat);
-		calendar.setTime(parsedDate);
+		formatedDate = getShortDate(parsedDate, cntApplication);
+		
+		return formatedDate;
+	}
+	public static String getShortDate(Date date, Context cntApplication) {
+		String formatedDate = "";
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		
 		int month = calendar.get(Calendar.MONTH);
 		int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 		Resources resources =  cntApplication.getResources();
