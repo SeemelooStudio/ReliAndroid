@@ -18,7 +18,7 @@ import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.SimpleAdapter;
 
-import com.model.HotPosListItem;
+import com.model.StationListItem;
 import com.reqst.BusinessRequest;
 import com.util.BaseHelper;
 import com.util.ConstDefine;
@@ -30,9 +30,9 @@ public class StationQueryActivity  extends Activity implements  SearchView.OnQue
     private Button btnSearch;
     private ProgressDialog diaLogProgress= null;
     
-    private HotPosListItem searchCon = null;
+    private StationListItem searchCon = null;
     private List<HashMap<String, Object>> listData; 
-    private ArrayList<HotPosListItem>  dbHotPoslist = new ArrayList<HotPosListItem>();  
+    private ArrayList<StationListItem>  dbHotPoslist = new ArrayList<StationListItem>();  
   
     
 	 /** Called when the activity is first created. */
@@ -45,7 +45,7 @@ public class StationQueryActivity  extends Activity implements  SearchView.OnQue
         searchView.setOnQueryTextListener(this);  
         searchView.setSubmitButtonEnabled(false);
         
-        searchCon = new HotPosListItem();
+        searchCon = new StationListItem();
 	    this.getHotPosListbyCondition();
 	    
         listView = (ListView) findViewById(R.id.hotPosList);  
@@ -142,14 +142,14 @@ public class StationQueryActivity  extends Activity implements  SearchView.OnQue
 	   * @return
 	   * @throws Exception
 	   */
-	  private List<HashMap<String, Object>> getHotPositionListData(HotPosListItem pSearchCon) throws Exception {  
+	  private List<HashMap<String, Object>> getHotPositionListData(StationListItem pSearchCon) throws Exception {  
 	       
 	    //get hot station list
-		dbHotPoslist =  BusinessRequest.getHotPositonQueryList(pSearchCon);
+		dbHotPoslist =  BusinessRequest.getStationQueryList(pSearchCon);
 		
 		//adapt hot station list
 		List<HashMap<String, Object>> weatherList = new ArrayList<HashMap<String, Object>>(); 
-		for (HotPosListItem oneRec: dbHotPoslist) 
+		for (StationListItem oneRec: dbHotPoslist) 
 		{   
 			HashMap<String, Object> item = new HashMap<String, Object>();  
 			item.put("strStationId", oneRec.getStrStationId()); 
@@ -186,7 +186,7 @@ public class StationQueryActivity  extends Activity implements  SearchView.OnQue
         
         for (int i = 0; i < dbHotPoslist.size(); i++) 
         { 	
-            int index =((HotPosListItem) dbHotPoslist.get(i)).getStrStationName().indexOf(name);  
+            int index =((StationListItem) dbHotPoslist.get(i)).getStrStationName().indexOf(name);  
             
             if (index != -1) {
             	HashMap<String, Object> item = new HashMap<String, Object>();  

@@ -22,8 +22,8 @@ import android.widget.GridLayout;
 import android.widget.TextView;
 import android.widget.GridLayout.Spec;
 
-import com.model.HotSrcMainItem;
-import com.model.HotSrcTitleInfo;
+import com.model.HeatSourceDetail;
+import com.model.HeatSourceTitle;
 import com.reqst.BusinessRequest;
 import com.util.BaseHelper;
 import com.util.CellBackgroundHelper;
@@ -37,10 +37,10 @@ public class HeatSourceMainActivity extends Activity {
 		private ViewGroup viewGroup; 
 		private View[] indicators; 
 		private ProgressDialog diaLogProgress= null;
-		private HotSrcTitleInfo  titleInfo = null;
+		private HeatSourceTitle  titleInfo = null;
 		
 		private ArrayList<View> views;
-		private ArrayList<HotSrcMainItem>  dbHeatSources = null;
+		private ArrayList<HeatSourceDetail>  dbHeatSources = null;
 		
 		private static int ROW_COUNT = 4;
 		private static int COLUMN_COUNT = 3;
@@ -61,8 +61,8 @@ public class HeatSourceMainActivity extends Activity {
 	private void initHotSourceView()
 	{
 		
-		titleInfo = new HotSrcTitleInfo();
-		dbHeatSources = new ArrayList<HotSrcMainItem>();
+		titleInfo = new HeatSourceTitle();
+		dbHeatSources = new ArrayList<HeatSourceDetail>();
 		diaLogProgress = BaseHelper.showProgress(HeatSourceMainActivity.this,ConstDefine.I_MSG_0003,false);
 		
 	    new Thread() {
@@ -70,10 +70,10 @@ public class HeatSourceMainActivity extends Activity {
 	                Message msgSend = new Message();
 	        	    try {
 	        	    	// get itemList
-	        	    	dbHeatSources = BusinessRequest.getHotSourceMainList();
+	        	    	dbHeatSources = BusinessRequest.getHeatSourceMainList();
 	        	    	
 	        	    	//get static Info
-	        	    	titleInfo = BusinessRequest.getHotSourceAllStatic();
+	        	    	titleInfo = BusinessRequest.getHeatSourceAllStatic();
 
 	        	        //get mapList
 	        	    	msgSend.what = ConstDefine.MSG_I_HANDLE_OK;
@@ -108,7 +108,7 @@ public class HeatSourceMainActivity extends Activity {
 	        }
 	  };
 	    
-	  private void setHeatSourceItemContent( View viewHeatSource, HotSrcMainItem item)
+	  private void setHeatSourceItemContent( View viewHeatSource, HeatSourceDetail item)
 	  {
 		 TextView tvPressureOut =  (TextView) viewHeatSource.findViewById(R.id.hot_source_pressure_out);
 		 tvPressureOut.setText(item.getPressureOut() + getString(R.string.pressure_unit) );
@@ -123,7 +123,7 @@ public class HeatSourceMainActivity extends Activity {
 		 tvHeatSourceName.setText(item.getHeatSourceName());
 	  }
 
-	  private void setHeatSourceSummaryContent( View viewHeatSource, HotSrcTitleInfo title)
+	  private void setHeatSourceSummaryContent( View viewHeatSource, HeatSourceTitle title)
 	  {			
 		  TextView txtAllnum = (TextView) viewHeatSource.findViewById(R.id.hotSrcTitleAllnum);
 		  TextView txtAllDay= (TextView) viewHeatSource.findViewById(R.id.hotSrcTitleAllDay);
@@ -135,7 +135,7 @@ public class HeatSourceMainActivity extends Activity {
 		  txtAllNet.setText( getString(R.string.total_heat_load) + titleInfo.getStrHeatLoad() + getString(R.string.heat_unit) ); 
 	  }
 	  
-	  private View getHeatSourceSummaryCell(HotSrcTitleInfo title, int rowIndex, int columnIndex, int cellWidth, int cellHeight)
+	  private View getHeatSourceSummaryCell(HeatSourceTitle title, int rowIndex, int columnIndex, int cellWidth, int cellHeight)
 	  {
 		  int ceilMargin = (int)getResources().getDimension(R.dimen.small_margin);
 		  LayoutInflater inflater = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -163,7 +163,7 @@ public class HeatSourceMainActivity extends Activity {
     	  return viewSummary;
 	  }
 	  
-	  private View getHeatSourceCell(HotSrcMainItem heatSource, int rowIndex, int columnIndex, int cellWidth, int cellHeight)
+	  private View getHeatSourceCell(HeatSourceDetail heatSource, int rowIndex, int columnIndex, int cellWidth, int cellHeight)
 	  {
 		  int ceilMargin = (int)getResources().getDimension(R.dimen.small_margin);
 		  LayoutInflater inflater = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
