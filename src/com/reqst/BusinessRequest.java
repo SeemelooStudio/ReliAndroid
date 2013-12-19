@@ -426,7 +426,11 @@ public class BusinessRequest {
     		item.setActualGJ(80.0);
     		item.setCalculateGJ(70.0);
     		item.setPlanGJ(75.0);
-    		item.setActualOverCalculateGJ(14.5);
+    		
+    		DecimalFormat df = new DecimalFormat("#.0");
+    		double percent = Double.parseDouble(df.format((new Random()).nextDouble() * 20 - 10));
+    		item.setActualOverCalculateGJ(percent);
+    		
     		item.setActualTemperature(5.0);
     		item.setForcastTemperature(3.0);
  

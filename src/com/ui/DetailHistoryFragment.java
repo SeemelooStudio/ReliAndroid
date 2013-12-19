@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.model.StationHistoryListItem;
 
@@ -23,7 +24,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
@@ -115,7 +115,14 @@ public class DetailHistoryFragment extends Fragment {
 		    item.put("actual_gj", oneRec.getActualGJ() + context.getString(R.string.heat_unit));
 		    item.put("calculate_gj", oneRec.getCalculateGJ() + context.getString(R.string.heat_unit));
 		    item.put("plan_gj",  oneRec.getPlanGJ() + context.getString(R.string.heat_unit));
-		    item.put("actual_over_calculate", oneRec.getActualOverCalculateGJ() + "%" );
+		    
+		    double actualOverCalculateGJ = oneRec.getActualOverCalculateGJ();
+		    if ( actualOverCalculateGJ > 0 ) {
+		    	item.put("actual_over_calculate", "+" + actualOverCalculateGJ + "%");
+		    } else if ( actualOverCalculateGJ < 0 ) {
+		    	item.put("actual_over_calculate", "" + actualOverCalculateGJ + "%" );
+		    }
+		    
 		    item.put("actual_temperature", oneRec.getActualTemperature() + context.getString(R.string.degree_unit));
 		    item.put("forecast_temperature", oneRec.getForcastTemperature() + context.getString(R.string.degree_unit));
 		    data.add(item);
@@ -124,7 +131,8 @@ public class DetailHistoryFragment extends Fragment {
 		View view = getView();
 		ListView historyList = (ListView)view.findViewById(R.id.detail_history_list);
 
-		historyList.setAdapter(new SimpleAdapter(getActivity().getApplicationContext(), data, R.layout.station_detail_history_list_item,  
+		historyList.setAdapter( new HistoryListAdapter(historyDataList,
+				getActivity().getApplicationContext(), data, R.layout.station_detail_history_list_item,  
 	 			 new String[] { "date","plan_gj","calculate_gj","actual_gj","actual_over_calculate","actual_temperature","forecast_temperature"}, 
 				  new int[] {R.id.station_history_date, R.id.station_history_plan_gj, R.id.station_history_calculate_gj, R.id.station_history_actual_gj, R.id.station_history_actual_over_plan, R.id.station_history_actual_temperature, R.id.station_history_forcast_temperature}));
 
@@ -140,5 +148,31 @@ public class DetailHistoryFragment extends Fragment {
 	}
 	public void setSourceType(int sourceType) {
 		this.sourceType = sourceType;
+	}
+	
+	private class HistoryListAdapter extends SimpleAdapter {
+		private List<StationHistoryListItem> _originData;
+		
+		public HistoryListAdapter(List<StationHistoryListItem> originData, Context context,
+				List<? extends Map<String, ?>> data, int resource,
+				String[] from, int[] to) {
+			super(context, data, resource, from, to);
+			_originData = originData;
+		}
+		
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			View view = super.getView(position, convertView, parent);
+			if ( position > 0 ) {
+				StationHistoryListItem item = _originData.get(position - 1);
+				if ( item.getActualOverCalculateGJ() > 0) {
+					view.findViewById(R.id.station_history_actual_over_plan ).setBackgroundResource(R.drawable.round_rect_red);
+				} else if ( item.getActualOverCalculateGJ() < 0) {
+					view.findViewById(R.id.station_history_actual_over_plan ).setBackgroundResource(R.drawable.round_rect_darkblue);
+				}
+			}
+			
+			return view;
+		}
 	}
 }
