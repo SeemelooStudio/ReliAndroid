@@ -1,6 +1,6 @@
 package com.model;
 
-public class HotPosMainItem {
+public class StationMainItem {
 
 	private String strStationId;
 	

@@ -24,7 +24,7 @@ import android.widget.GridLayout;
 import android.widget.GridLayout.Spec;
 import android.widget.TextView;
 
-import com.model.HotPosMainItem;
+import com.model.StationMainItem;
 import com.reqst.BusinessRequest;
 import com.util.BaseHelper;
 import com.util.CellBackgroundHelper;
@@ -40,7 +40,7 @@ public class StationMainActivity extends Activity {
 	private ProgressDialog diaLogProgress = null;
 
 	private ArrayList<View> views;
-	private ArrayList<HotPosMainItem> dbhostPosLst = null;
+	private ArrayList<StationMainItem> dbhostPosLst = null;
 	private static int ROW_COUNT = 4;
 	private static int COLUMN_COUNT = 3;
 	private static int PAGE_SIZE = 10;
@@ -59,7 +59,7 @@ public class StationMainActivity extends Activity {
        */
 	private void initStationView() {
 
-		dbhostPosLst = new ArrayList<HotPosMainItem>();
+		dbhostPosLst = new ArrayList<StationMainItem>();
 		diaLogProgress = BaseHelper.showProgress(StationMainActivity.this,
 				ConstDefine.I_MSG_0003, false);
 		new Thread() {
@@ -67,7 +67,7 @@ public class StationMainActivity extends Activity {
 				Message msgSend = new Message();
 				try {
 					// get itemList
-					dbhostPosLst = BusinessRequest.getHotPositionMainList();
+					dbhostPosLst = BusinessRequest.getStationMainList();
 
 					msgSend.what = ConstDefine.MSG_I_HANDLE_OK;
 				} catch (Exception e) {
@@ -106,7 +106,7 @@ public class StationMainActivity extends Activity {
 	 * @param viewStation
 	 * @param item
 	 */
-	private void setStationItemContent(View viewStation, HotPosMainItem item) {
+	private void setStationItemContent(View viewStation, StationMainItem item) {
 
 		TextView tvPressureOut = (TextView) viewStation
 				.findViewById(R.id.hot_station_pressure_out);
@@ -186,7 +186,7 @@ public class StationMainActivity extends Activity {
 	 * @param cellHeight
 	 * @return
 	 */
-	private View getStationCell(HotPosMainItem station, int rowIndex,
+	private View getStationCell(StationMainItem station, int rowIndex,
 			int columnIndex, int cellWidth, int cellHeight) {
 		int ceilMargin = (int) getResources()
 				.getDimension(R.dimen.small_margin);

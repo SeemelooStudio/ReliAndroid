@@ -3,70 +3,13 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
-
-    <TableLayout
+    <ListView
+        android:id="@+id/station_detail_list"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/small_margin"
-        android:layout_marginRight="@dimen/small_margin"
-        android:stretchColumns="3"
-        android:padding="@dimen/small_margin" >
-
-        <TableRow
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
-
-            <TextView
-                style="@style/tableLabel"
-                android:text="@string/station_realtime_heat" />
-            <TextView
-                android:layout_gravity="right"
-                android:text="13 GJ" />
-
-            <TextView
-                style="@style/tableLabel"
-                android:text="@string/station_realtime_flow" />
-            <TextView 
-                android:layout_gravity="right"
-                android:text="43 t" />
-        </TableRow>
-
-        <TableRow>
-
-            <TextView
-                style="@style/tableLabel"
-                android:text="@string/station_total_heat" />
-            <TextView
-                android:layout_gravity="right"
-                android:text="1433 GJ" />
-
-            <TextView
-                style="@style/tableLabel"
-                android:text="@string/station_total_flow" />
-            <TextView 
-                android:layout_gravity="right"
-                android:text="45443 t" />
-        </TableRow>
-
-        <TableRow>
-			<TextView
-                style="@style/tableLabel" />
-
-            <TextView
-                android:paddingRight="@dimen/small_margin" />
-            <TextView
-                style="@style/tableLabel"
-                android:text="@string/station_water_remediation" />
-
-            <TextView
-                 android:layout_gravity="right"
-                android:text="1433 t" />
-        </TableRow>
-    </TableLayout><View
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:background="@drawable/black_to_white_transparent" />
-
+        android:layout_height="180dp"
+        android:scrollbarStyle="outsideOverlay"
+        android:padding="@dimen/medium_margin" >
+    </ListView>
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -103,9 +46,9 @@
                         android:textSize="@dimen/small_font_size"
                         android:text="@string/supplywater" />
                     <TextView
+                        android:id="@+id/station_supply_temperature"
                         android:paddingRight="@dimen/small_margin"
-                        android:textSize="@dimen/small_font_size"
-                        android:text="1433 GJ" />
+                        android:textSize="@dimen/small_font_size" />
                 </TableRow>
 
                 <TableRow>
@@ -114,9 +57,9 @@
                         android:textSize="@dimen/small_font_size"
                         android:text="@string/backwater" />
                     <TextView
+                        android:id="@+id/station_back_temperature"
                         android:paddingRight="@dimen/small_margin"
-                        android:textSize="@dimen/small_font_size"
-                        android:text="1433 GJ" />
+                        android:textSize="@dimen/small_font_size" />
                 </TableRow>
             </TableLayout>
         </LinearLayout>
@@ -151,9 +94,9 @@
                         android:textSize="@dimen/small_font_size"
                         android:text="@string/supplywater" />
                     <TextView
+                        android:id="@+id/station_supply_pressure"
                         android:paddingRight="@dimen/small_margin"
-                        android:textSize="@dimen/small_font_size"
-                        android:text="1433 GJ" />
+                        android:textSize="@dimen/small_font_size" />
                 </TableRow>
 
                 <TableRow>
@@ -162,9 +105,10 @@
                         android:textSize="@dimen/small_font_size"
                         android:text="@string/backwater" />
                     <TextView
+                        android:id="@+id/station_back_pressure"
                         android:paddingRight="@dimen/small_margin"
                         android:textSize="@dimen/small_font_size"
-                        android:text="1433 GJ" />
+                    />
                 </TableRow>
             </TableLayout>
         </LinearLayout>

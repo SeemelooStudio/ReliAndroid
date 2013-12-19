@@ -1,6 +1,6 @@
 package com.model;
 
-public class HotSrcMainItem {
+public class HeatSourceDetail {
 
 	private String heatSourceId;
 	

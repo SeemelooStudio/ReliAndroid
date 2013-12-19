@@ -16,10 +16,11 @@ import android.util.Base64;
 import android.util.Log;
 
 import com.model.ChatMessage;
-import com.model.HotPosListItem;
-import com.model.HotPosMainItem;
-import com.model.HotSrcMainItem;
-import com.model.HotSrcTitleInfo;
+import com.model.StationDetail;
+import com.model.StationListItem;
+import com.model.StationMainItem;
+import com.model.HeatSourceDetail;
+import com.model.HeatSourceTitle;
 import com.model.KnowledgeBaseItem;
 import com.model.SupplyAndBackwardItem;
 import com.model.WeatherStationListItem;
@@ -287,7 +288,7 @@ public class BusinessRequest {
 		
     	return chartList;
     }
-    public static  List<SupplyAndBackwardItem> getStationSupplyAndBackwardTemperatureList(String stationID, Date startDate, Date endDate) 
+    public static  List<SupplyAndBackwardItem> getStationSupplyAndReturnTemperatureList(String stationID, Date startDate, Date endDate) 
     {
     	
     	List<SupplyAndBackwardItem> dataList = new ArrayList<SupplyAndBackwardItem>();
@@ -312,7 +313,7 @@ public class BusinessRequest {
 		
     	return dataList;
     }
-    public static  List<SupplyAndBackwardItem> getHeatSourceSupplyAndBackwardPressureList(String heatSourceId, Date startDate, Date endDate) 
+    public static  List<SupplyAndBackwardItem> getHeatSourceSupplyAndReturnPressureList(String heatSourceId, Date startDate, Date endDate) 
     {
     	
     	List<SupplyAndBackwardItem> dataList = new ArrayList<SupplyAndBackwardItem>();
@@ -321,6 +322,7 @@ public class BusinessRequest {
     	long DAY = 1000 * 60 * 60 * 24;
     	long startTime = startDate.getTime();
     	long endTime = endDate.getTime();
+    	
     	for (;startTime < endTime ; startTime+=DAY) {
     		SupplyAndBackwardItem item = new SupplyAndBackwardItem();
     		item.setDate(new Date(startTime));
@@ -387,16 +389,35 @@ public class BusinessRequest {
 		
     	return dataList;
     }
+    
+    public static StationDetail getStationDetail(String stationID) {
+    	StationDetail info = new StationDetail();
+    	
+    	//TODO: get data from server
+    	info.setStrStationId(stationID);
+    	info.setStrStationName("日坛中学");
+    	info.setSupplyTemperature(100.4);
+    	info.setBackwardTemperature(41);
+    	info.setSupplyPressure(0.65);
+    	info.setBackwardPressure(0.38);
+    	info.setTotalHeat(10844.3);
+    	info.setTotalFlow(53624);
+    	info.setRealtimeHeat(1.1);
+    	info.setRealtimeFlow(0.07);
+    	info.setSupplyWaterQuantity(0.8);
+    	
+    	return info;
+    }
     /**
      * 
      * @return
      */
-	public static ArrayList<HotPosMainItem> getHotPositionMainList() throws Exception{ 
+	public static ArrayList<StationMainItem> getStationMainList() throws Exception{ 
 		ServerHttpRequest httpReq = new ServerHttpRequest();
 		String strRequestAddress = (ConstDefine.WEB_SERVICE_URL + ConstDefine.S_GET_STATIONS).replace("{UserName}", "zhaoyaqi");
 		try {
 			String strResp = httpReq.doGet(strRequestAddress);
-			ArrayList<HotPosMainItem>  lstHotSrc = (ArrayList<HotPosMainItem>) JsonHelper.parseCollection(strResp, List.class, HotPosMainItem.class);	
+			ArrayList<StationMainItem>  lstHotSrc = (ArrayList<StationMainItem>) JsonHelper.parseCollection(strResp, List.class, StationMainItem.class);	
 			return  lstHotSrc;
 		}
 		catch (Exception ex){
@@ -404,7 +425,7 @@ public class BusinessRequest {
 		}
 	}
 	
-	public static ArrayList<HotPosListItem> getHotPositonQueryList(HotPosListItem objSearchCon) throws Exception 
+	public static ArrayList<StationListItem> getStationQueryList(StationListItem objSearchCon) throws Exception 
 	{
 		/*
 		JSONStringer jsonStrCon = JsonHelper.toJSONString(objSearchCon);
@@ -420,10 +441,10 @@ public class BusinessRequest {
 			throw ex;
 		}*/
 		
-		ArrayList<HotPosListItem>  lstHotPosition = new ArrayList<HotPosListItem>();
+		ArrayList<StationListItem>  lstHotPosition = new ArrayList<StationListItem>();
 		for(int i=0; i<15; i++)
         {
-			HotPosListItem  item = new HotPosListItem();
+			StationListItem  item = new StationListItem();
 			item.setStrStationId("" +i);
 			item.setStrStationName("热力站"+i);
 			item.setStrWarnColor("#8888CF" +i);
@@ -439,13 +460,13 @@ public class BusinessRequest {
 	 * get hot source main List
 	 * @return
 	 */
-	public static ArrayList<HotSrcMainItem> getHotSourceMainList() throws Exception{
+	public static ArrayList<HeatSourceDetail> getHeatSourceMainList() throws Exception{
 	
 		ServerHttpRequest httpReq = new ServerHttpRequest();
 		String strRequestAddress = (ConstDefine.WEB_SERVICE_URL + ConstDefine.S_GET_HEATSOURCES);
 		try {
 			String strResp = httpReq.doGet(strRequestAddress);
-			ArrayList<HotSrcMainItem>  lstHotSrc = (ArrayList<HotSrcMainItem>) JsonHelper.parseCollection(strResp, List.class, HotSrcMainItem.class);	
+			ArrayList<HeatSourceDetail>  lstHotSrc = (ArrayList<HeatSourceDetail>) JsonHelper.parseCollection(strResp, List.class, HeatSourceDetail.class);	
 			return  lstHotSrc;
 		}
 		catch (Exception ex){
@@ -457,14 +478,14 @@ public class BusinessRequest {
 	 * @return
 	 * @throws Exception
 	 */
-	public static HotSrcTitleInfo getHotSourceAllStatic() throws Exception{
-		HotSrcTitleInfo hotStaticInfo = new HotSrcTitleInfo();
+	public static HeatSourceTitle getHeatSourceAllStatic() throws Exception{
+		HeatSourceTitle hotStaticInfo = new HeatSourceTitle();
 		try {
 			
 			ServerHttpRequest httpReq = new ServerHttpRequest();
 			String strRequestAddress = ConstDefine.WEB_SERVICE_URL + ConstDefine.S_GET_HEATSOURCESUMMARY;
 			String strResp = httpReq.doGet(strRequestAddress);
-			hotStaticInfo = JsonHelper.parseObject(strResp, HotSrcTitleInfo.class);  
+			hotStaticInfo = JsonHelper.parseObject(strResp, HeatSourceTitle.class);  
 			
 		} catch (Exception ex) {
 			throw ex;

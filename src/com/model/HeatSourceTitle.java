@@ -1,6 +1,6 @@
 package com.model;
 
-public class HotSrcTitleInfo {
+public class HeatSourceTitle {
 
 	private String strCountHeatSources;
 	

@@ -64,7 +64,7 @@ public class DetailGraphFragment extends Fragment {
 					switch( dataType ) {
 					case SupplyAndBackwardDetailChart.TYPE_TEMPERATURE:
 						if ( SOURCE_TYPE_STATION == sourceType ) {
-							chartDataList = BusinessRequest.getStationSupplyAndBackwardTemperatureList(sourceId, startDate, endDate);
+							chartDataList = BusinessRequest.getStationSupplyAndReturnTemperatureList(sourceId, startDate, endDate);
 						} else {
 							chartDataList = BusinessRequest.getHeatSourceSupplyAndBackwardTemperatureList(sourceId, startDate, endDate);
 						}
@@ -74,7 +74,7 @@ public class DetailGraphFragment extends Fragment {
 						if ( SOURCE_TYPE_STATION == sourceType ) {
 							chartDataList = BusinessRequest.getStationSupplyAndBackwardPressureList(sourceId, startDate, endDate);
 						} else {
-							chartDataList = BusinessRequest.getHeatSourceSupplyAndBackwardPressureList(sourceId, startDate, endDate);
+							chartDataList = BusinessRequest.getHeatSourceSupplyAndReturnPressureList(sourceId, startDate, endDate);
 						}
 						break;
 					}
