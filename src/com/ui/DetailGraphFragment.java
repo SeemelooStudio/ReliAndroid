@@ -29,6 +29,7 @@ public class DetailGraphFragment extends Fragment {
 	private int dataType = 0;
 	private String sourceId = "";
 	private int sourceType = 0;
+	private String unitId = "";
 	
 	public static final int SOURCE_TYPE_STATION = 0;
 	public static final int SOURCE_TYPE_HEAT_SOURCE = 1;
@@ -66,7 +67,7 @@ public class DetailGraphFragment extends Fragment {
 						if ( SOURCE_TYPE_STATION == sourceType ) {
 							chartDataList = BusinessRequest.getStationSupplyAndReturnTemperatureList(sourceId, startDate, endDate);
 						} else {
-							chartDataList = BusinessRequest.getHeatSourceSupplyAndBackwardTemperatureList(sourceId, startDate, endDate);
+							chartDataList = BusinessRequest.getHeatSourceSupplyAndBackwardTemperatureList(sourceId, unitId, startDate, endDate);
 						}
 						
 						break;
@@ -74,7 +75,7 @@ public class DetailGraphFragment extends Fragment {
 						if ( SOURCE_TYPE_STATION == sourceType ) {
 							chartDataList = BusinessRequest.getStationSupplyAndBackwardPressureList(sourceId, startDate, endDate);
 						} else {
-							chartDataList = BusinessRequest.getHeatSourceSupplyAndReturnPressureList(sourceId, startDate, endDate);
+							chartDataList = BusinessRequest.getHeatSourceSupplyAndReturnPressureList(sourceId, unitId, startDate, endDate);
 						}
 						break;
 					}
@@ -109,10 +110,10 @@ public class DetailGraphFragment extends Fragment {
 		}
 		View view = getView();
         //set chart
-		SupplyAndBackwardDetailChart  weatherChart = new SupplyAndBackwardDetailChart(chartDataList, dataType);
+		SupplyAndBackwardDetailChart  supplyAndBackwardChart = new SupplyAndBackwardDetailChart(chartDataList, dataType);
 		LinearLayout layout = (LinearLayout) view.findViewById(R.id.detail_graph);
 		
-		GraphicalView mChartView = weatherChart.createChart(getActivity());
+		GraphicalView mChartView = supplyAndBackwardChart.createChart(getActivity());
 		layout.removeAllViews();
 		layout.addView(mChartView);
 
@@ -128,5 +129,11 @@ public class DetailGraphFragment extends Fragment {
 	}
 	public void setSourceType(int sourceType) {
 		this.sourceType = sourceType;
+	}
+	public String getUnitId() {
+		return unitId;
+	}
+	public void setUnitId(String unitId) {
+		this.unitId = unitId;
 	}
 }

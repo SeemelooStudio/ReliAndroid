@@ -22,7 +22,7 @@ import android.widget.GridLayout;
 import android.widget.TextView;
 import android.widget.GridLayout.Spec;
 
-import com.model.HeatSourceDetail;
+import com.model.HeatSourceMainItem;
 import com.model.HeatSourceTitle;
 import com.reqst.BusinessRequest;
 import com.util.BaseHelper;
@@ -40,7 +40,7 @@ public class HeatSourceMainActivity extends Activity {
 		private HeatSourceTitle  titleInfo = null;
 		
 		private ArrayList<View> views;
-		private ArrayList<HeatSourceDetail>  dbHeatSources = null;
+		private ArrayList<HeatSourceMainItem>  dbHeatSources = null;
 		
 		private static int ROW_COUNT = 4;
 		private static int COLUMN_COUNT = 3;
@@ -62,7 +62,7 @@ public class HeatSourceMainActivity extends Activity {
 	{
 		
 		titleInfo = new HeatSourceTitle();
-		dbHeatSources = new ArrayList<HeatSourceDetail>();
+		dbHeatSources = new ArrayList<HeatSourceMainItem>();
 		diaLogProgress = BaseHelper.showProgress(HeatSourceMainActivity.this,ConstDefine.I_MSG_0003,false);
 		
 	    new Thread() {
@@ -108,7 +108,7 @@ public class HeatSourceMainActivity extends Activity {
 	        }
 	  };
 	    
-	  private void setHeatSourceItemContent( View viewHeatSource, HeatSourceDetail item)
+	  private void setHeatSourceItemContent( View viewHeatSource, HeatSourceMainItem item)
 	  {
 		 TextView tvPressureOut =  (TextView) viewHeatSource.findViewById(R.id.hot_source_pressure_out);
 		 tvPressureOut.setText(item.getPressureOut() + getString(R.string.pressure_unit) );
@@ -163,7 +163,7 @@ public class HeatSourceMainActivity extends Activity {
     	  return viewSummary;
 	  }
 	  
-	  private View getHeatSourceCell(HeatSourceDetail heatSource, int rowIndex, int columnIndex, int cellWidth, int cellHeight)
+	  private View getHeatSourceCell(HeatSourceMainItem heatSource, int rowIndex, int columnIndex, int cellWidth, int cellHeight)
 	  {
 		  int ceilMargin = (int)getResources().getDimension(R.dimen.small_margin);
 		  LayoutInflater inflater = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -185,10 +185,14 @@ public class HeatSourceMainActivity extends Activity {
 		  
       	  viewHeatSource.setBackgroundResource(intBackgroundResource);
       	  viewHeatSource.setLayoutParams (param);
-      	  viewHeatSource.setOnClickListener(new OnClickListener(){                                                                                    
+      	  viewHeatSource.setOnClickListener(new heatSourceCellOnClickListener(heatSource.getHeatSourceName(), heatSource.getHeatSourceId()){                                                                                    
 			  public void onClick(View v) 
 			  {   
-				  Intent intent = new Intent(HeatSourceMainActivity.this, HeatSourceDetailActivity.class); 
+				  Intent intent = new Intent(HeatSourceMainActivity.this, HeatSourceDetailActivity.class);
+				  Bundle bundle = new Bundle();
+				  bundle.putString("heat_source_name", heatSourceName);
+				  bundle.putString("heat_source_id", heatSourceId);
+				  intent.putExtras(bundle);
 				  startActivity(intent);
 			  }
 		  });
@@ -275,5 +279,15 @@ public class HeatSourceMainActivity extends Activity {
 	            viewGroup.addView(indicators[i]);  
 	        } 	  
 	  }
-     
+	  private abstract class heatSourceCellOnClickListener implements
+		OnClickListener {
+			String heatSourceName;
+			String heatSourceId;
+		
+			public heatSourceCellOnClickListener(String name, String id) {
+				this.heatSourceName = name;
+				this.heatSourceId = id;
+			}
+		
+		};
 }  

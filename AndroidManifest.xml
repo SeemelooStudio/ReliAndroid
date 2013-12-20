@@ -68,7 +68,16 @@
 	<activity android:name="HeatSourceMainActivity" 
 	    android:screenOrientation="portrait"
 	    android:theme="@style/CustomThemeNoActionBar" />
-	<activity android:name="HeatSourceDetailActivity" android:configChanges="orientation|screenSize"></activity>
+	<activity android:name="HeatSourceDetailActivity" 
+	    android:configChanges="orientation|screenSize"
+	    android:label="@string/heat_source" 
+	    android:theme="@style/CustomThemeDark"
+	    ></activity>
+	<activity android:name="UnitDetailActivity" 
+	    android:configChanges="orientation|screenSize"
+	    android:label="@string/heat_source" 
+	    android:theme="@style/CustomThemeDark"
+	    ></activity>
 	<activity android:name="HeatSourceQueryActivity" android:configChanges="orientation|screenSize"></activity>
 	
 	<activity android:name="StationMainActivity" 

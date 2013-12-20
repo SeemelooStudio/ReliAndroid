@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:paddingTop="@dimen/small_margin"
+    android:paddingBottom="@dimen/small_margin"
+    android:orientation="vertical" >
+	<LinearLayout
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content">
+	    <TextView
+	        android:id="@+id/unit_item_id"
+	        android:textColor="@color/dodger_blue"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content" />
+	    <TextView
+	        android:id="@+id/unit_item_name"
+	     	android:layout_width="match_parent"
+	     	android:layout_height="wrap_content"
+	     	android:textColor="@color/dodger_blue"
+	        />
+	</LinearLayout>
+	<LinearLayout
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content">
+	    <TextView
+	        android:text="@string/supplywater"
+	        android:layout_width="0dp"
+	        android:layout_weight="2"
+	        android:drawableLeft="@drawable/ic_in"
+	        android:textColor="@color/transparent_white"
+	        android:textSize="@dimen/small_font_size"
+	        android:layout_height="wrap_content" />
+	    <TextView
+	        android:id="@+id/unit_item_supply_temperature"
+	        android:gravity="right"
+	        android:layout_weight="3"
+	     	android:layout_width="0dp"
+	     	android:layout_height="wrap_content"
+	        />
+	    <TextView
+	        android:id="@+id/unit_item_supply_pressure"
+	        android:gravity="right"
+	        android:layout_weight="3"
+	     	android:layout_width="0dp"
+	     	android:layout_height="wrap_content"
+	        />
+	</LinearLayout>
+	<LinearLayout
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content">
+	    <TextView
+	        android:text="@string/backwater"
+	        android:layout_width="0dp"
+	        android:layout_weight="2"
+	        android:drawableLeft="@drawable/ic_out"
+	        android:textColor="@color/transparent_white"
+	        android:textSize="@dimen/small_font_size"
+	        android:layout_height="wrap_content" />
+	    <TextView
+	        android:id="@+id/unit_item_backward_temperature"
+	        android:gravity="right"
+	        android:layout_weight="3"
+	     	android:layout_width="0dp"
+	     	android:layout_height="wrap_content"
+	        />
+	    <TextView
+	        android:id="@+id/unit_item_backward_pressure"
+	        android:gravity="right"
+	        android:layout_weight="3"
+	     	android:layout_width="0dp"
+	     	android:layout_height="wrap_content"
+	        />
+	</LinearLayout>
+</LinearLayout>

@@ -6,60 +6,89 @@ public class HeatSourceDetail {
 	
 	private String heatSourceName;
 	
-	private String pressureOut;
+	private String area;
 	
-	private String pressureIn;
+	private String combineMode;
 	
-	private String temperatureOut;
+	private String waterLineName;
 	
-	private String temperatureIn;
+	private String steamLineName;
+	
+	private int gasfiredBoilerCount;
+	
+	private int coalfiredBoilerCount;
+	
+	private boolean isGridConnected;
 
 	public String getHeatSourceId() {
 		return heatSourceId;
 	}
 
-	public void setHeatSourceId(String strHeatSourceId) {
-		this.heatSourceId = strHeatSourceId;
+	public void setHeatSourceId(String heatSourceId) {
+		this.heatSourceId = heatSourceId;
 	}
 
 	public String getHeatSourceName() {
 		return heatSourceName;
 	}
 
-	public void setHeatSourceName(String strHeatSourceName) {
-		this.heatSourceName = strHeatSourceName;
+	public void setHeatSourceName(String heatSourceName) {
+		this.heatSourceName = heatSourceName;
 	}
 
-	public String getPressureOut() {
-		return pressureOut;
+	public String getArea() {
+		return area;
 	}
 
-	public void setPressureOut(String strPressureOut) {
-		this.pressureOut = strPressureOut;
+	public void setArea(String area) {
+		this.area = area;
 	}
 
-	public String getPressureIn() {
-		return pressureIn;
+	public String getCombineMode() {
+		return combineMode;
 	}
 
-	public void setPressureIn(String strPressureIn) {
-		this.pressureIn = strPressureIn;
+	public void setCombineMode(String combineMode) {
+		this.combineMode = combineMode;
 	}
 
-	public String getTemperatureOut() {
-		return temperatureOut;
+	public String getWaterLineName() {
+		return waterLineName;
 	}
 
-	public void setTemperatureOut(String strTemperatureOut) {
-		this.temperatureOut = strTemperatureOut;
+	public void setWaterLineName(String waterLineName) {
+		this.waterLineName = waterLineName;
 	}
 
-	public String getTemperatureIn() {
-		return temperatureIn;
+	public String getSteamLineName() {
+		return steamLineName;
 	}
 
-	public void setTemperatureIn(String strTemperatureIn) {
-		this.temperatureIn = strTemperatureIn;
+	public void setSteamLineName(String steamLineName) {
+		this.steamLineName = steamLineName;
 	}
 
+	public int getGasfiredBoilerCount() {
+		return gasfiredBoilerCount;
+	}
+
+	public void setGasfiredBoilerCount(int gasfiredBoilerCount) {
+		this.gasfiredBoilerCount = gasfiredBoilerCount;
+	}
+
+	public int getCoalfiredBoilerCount() {
+		return coalfiredBoilerCount;
+	}
+
+	public void setCoalfiredBoilerCount(int coalfiredBoilerCount) {
+		this.coalfiredBoilerCount = coalfiredBoilerCount;
+	}
+
+	public boolean isGridConnected() {
+		return isGridConnected;
+	}
+
+	public void setGridConnected(boolean isGridConnected) {
+		this.isGridConnected = isGridConnected;
+	}
 }

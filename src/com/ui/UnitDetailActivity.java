@@ -24,11 +24,11 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
-public class StationDetailActivity extends FragmentActivity  {
+public class UnitDetailActivity extends FragmentActivity  {
 
-	private String _stationName = "";
-	private String _stationId = "";
-	private StationDetail _stationDetail= null;
+	private String _heatSourceName = "";
+	private String _heatSourceId = "";
+	private StationDetail _heatSourceDetail= null;
 	
 	private DetailGraphFragment _frgTemperatureGraph = null;
 	private DetailGraphFragment _frgPressureGraph = null;
@@ -52,14 +52,14 @@ public class StationDetailActivity extends FragmentActivity  {
 		setContentView(R.layout.station_detail);
 
 		getActionBar().setDisplayHomeAsUpEnabled(true);
-		getActionBar().setIcon(R.drawable.main_item_six_image);
+		getActionBar().setIcon(R.drawable.main_item_five_image);
 
 		Intent inten = this.getIntent();
 		Bundle mBundle = inten.getExtras();
 		if (mBundle != null) {
-			_stationName = mBundle.getString("station_name");
-			this.setTitle(_stationName);
-			setStationId(mBundle.getString("station_id"));
+			_heatSourceName = mBundle.getString("heat_source_name");
+			this.setTitle(_heatSourceName);
+			setHeatSourceId(mBundle.getString("heat_source_id"));
 		}
 		
 		_detailList = (ListView)findViewById(R.id.station_detail_list);
@@ -98,14 +98,14 @@ public class StationDetailActivity extends FragmentActivity  {
 	private void initFragments() {
 		_frgTemperatureGraph = new DetailGraphFragment();
 		_frgTemperatureGraph.setDataType(SupplyAndBackwardDetailChart.TYPE_TEMPERATURE);
-		_frgTemperatureGraph.setSourceType(DetailGraphFragment.SOURCE_TYPE_STATION);
+		_frgTemperatureGraph.setSourceType(DetailGraphFragment.SOURCE_TYPE_HEAT_SOURCE);
 		
 		_frgPressureGraph = new DetailGraphFragment();
 		_frgPressureGraph.setDataType(SupplyAndBackwardDetailChart.TYPE_PRESSURE);
-		_frgPressureGraph.setSourceType(DetailGraphFragment.SOURCE_TYPE_STATION);
+		_frgPressureGraph.setSourceType(DetailGraphFragment.SOURCE_TYPE_HEAT_SOURCE);
 		
 		_frgHistory = new DetailHistoryFragment();
-		_frgHistory.setSourceType(DetailGraphFragment.SOURCE_TYPE_STATION);
+		_frgHistory.setSourceType(DetailHistoryFragment.SOURCE_TYPE_HEAT_SOURCE);
 	}
 	private void initFragmentPagerAdapter() {
 		_fragmentPagerAdapter = new DetailGraphFragmentPagerAdapter(getSupportFragmentManager());  
@@ -159,7 +159,7 @@ public class StationDetailActivity extends FragmentActivity  {
 		}
 	};
 	private void getDetail(){
-		_stationDetail = BusinessRequest.getStationDetail( _stationId );
+		_heatSourceDetail = BusinessRequest.getStationDetail( _heatSourceId );
 			
 	}
 	private void renderDetail(){
@@ -168,21 +168,21 @@ public class StationDetailActivity extends FragmentActivity  {
 		
 		HashMap<String, Object> item = new HashMap<String, Object>();
 		item.put("name_1",getString(R.string.station_realtime_heat));
-		item.put("value_1", _stationDetail.getRealtimeHeat());
+		item.put("value_1", _heatSourceDetail.getRealtimeHeat());
 		item.put("name_2",getString(R.string.station_total_heat));
-		item.put("value_2", _stationDetail.getTotalHeat() );
+		item.put("value_2", _heatSourceDetail.getTotalHeat() );
 		details.add(item);
 		
 		item = new HashMap<String, Object>();
 		item.put("name_1",getString(R.string.station_realtime_flow));
-		item.put("value_1", _stationDetail.getRealtimeFlow() );
+		item.put("value_1", _heatSourceDetail.getRealtimeFlow() );
 		item.put("name_2",getString(R.string.station_total_flow));
-		item.put("value_2", _stationDetail.getTotalFlow() );
+		item.put("value_2", _heatSourceDetail.getTotalFlow() );
 		details.add(item);
 
 		item = new HashMap<String, Object>();
 		item.put("name_1", getString(R.string.station_supply_water_quantity));
-		item.put("value_1", _stationDetail.getSupplyWaterQuantity());
+		item.put("value_1", _heatSourceDetail.getSupplyWaterQuantity());
 		details.add(item);
 		
 		
@@ -190,17 +190,17 @@ public class StationDetailActivity extends FragmentActivity  {
 	 			 new String[] { "name_1","value_1", "name_2","value_2"}, 
 				  new int[] {R.id.detail_item_name_1, R.id.detail_item_value_1, R.id.detail_item_name_2, R.id.detail_item_value_2 }));
 		
-		_supplyTemperature.setText( _stationDetail.getSupplyTemperature() + getString(R.string.degree_unit) );
-		_backTemperature.setText( _stationDetail.getBackwardTemperature() + getString(R.string.degree_unit) );
-		_supplyPressure.setText( _stationDetail.getSupplyPressure() + getString(R.string.pressure_unit) );
-		_backPressure.setText( _stationDetail.getBackwardPressure() + getString(R.string.pressure_unit) );
+		_supplyTemperature.setText( _heatSourceDetail.getSupplyTemperature() + getString(R.string.degree_unit) );
+		_backTemperature.setText( _heatSourceDetail.getBackwardTemperature() + getString(R.string.degree_unit) );
+		_supplyPressure.setText( _heatSourceDetail.getSupplyPressure() + getString(R.string.pressure_unit) );
+		_backPressure.setText( _heatSourceDetail.getBackwardPressure() + getString(R.string.pressure_unit) );
 	}
-	public String getStationId() {
-		return _stationId;
+	public String getHeatSourceId() {
+		return _heatSourceId;
 	}
 
-	public void setStationId(String stationId) {
-		this._stationId = stationId;
+	public void setHeatSourceId(String stationId) {
+		this._heatSourceId = stationId;
 	}
 
 	private class DetailGraphFragmentPagerAdapter extends FragmentPagerAdapter {
