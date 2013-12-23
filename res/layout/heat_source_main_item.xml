@@ -3,76 +3,35 @@
     android:id="@+id/hot_source_item_div"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/blue" >
+    android:background="@color/dodger_blue" >
 
-    <LinearLayout
-        android:id="@+id/hot_source_item_in"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="@dimen/small_margin"
-        android:orientation="horizontal" >
-
-        <ImageView
-            android:id="@+id/hot_source_ic_in"
-            style="@style/HotSourceSmallIcon"
-            android:contentDescription="@string/heat_source"
-            android:src="@drawable/ic_in" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
-
-            <TextView
-                android:id="@+id/hot_source_temperature_in"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:textSize="@dimen/medium_font_size" />
-
-            <TextView
-                android:id="@+id/hot_source_pressure_in"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:textSize="@dimen/small_font_size" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/hot_source_item_out"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/hot_source_item_in"
-        android:orientation="horizontal" >
-
-        <ImageView
-            android:id="@+id/hot_source_ic_out"
-            style="@style/HotSourceSmallIcon"
-            android:contentDescription="@string/heat_source"
-            android:src="@drawable/ic_out" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
-
-            <TextView
-                android:id="@+id/hot_source_temperature_out"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:textSize="@dimen/medium_font_size" />
-
-            <TextView
-                android:id="@+id/hot_source_pressure_out"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:textSize="@dimen/small_font_size" />
-        </LinearLayout>
-    </LinearLayout>
+	<TextView 
+	    android:id="@+id/heat_source_area"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_marginLeft="@dimen/small_margin"
+	    android:layout_marginTop="@dimen/medium_margin"
+	    android:textColor="@color/white"
+	    android:layout_alignParentTop="true"
+	    android:textSize="@dimen/cell_title_font_size" />
+	<TextView 
+	    android:id="@+id/heat_source_type"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_marginLeft="@dimen/small_margin"
+	    android:layout_marginTop="@dimen/medium_margin"
+	    android:textSize="@dimen/small_font_size"
+	    android:text="机组类型"
+	    android:textColor="@color/transparent_white"
+	     android:layout_below="@+id/heat_source_area" />
+	<TextView 
+	    android:id="@+id/heat_source_unit_type"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_marginLeft="@dimen/small_margin"
+	    android:textColor="@color/white"
+	    android:layout_below="@+id/heat_source_type"
+	    android:textSize="@dimen/cell_title_font_size" />
 
     <TextView
         android:id="@+id/hot_source_name"
@@ -83,8 +42,8 @@
         android:ellipsize="end"
         android:lines="1"
         android:textColor="@color/white"
-        android:layout_below="@+id/hot_source_item_out"
-        android:textSize="@dimen/cell_title_font_size" />
+        android:layout_below="@+id/heat_source_unit_type"
+         />
 
     <TextView
         android:id="@+id/hotSrcItemId"

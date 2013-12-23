@@ -452,17 +452,31 @@ public class BusinessRequest {
 	 * @return
 	 */
 	public static ArrayList<HeatSourceMainItem> getHeatSourceMainList() throws Exception{
-	
+		
 		ServerHttpRequest httpReq = new ServerHttpRequest();
 		String strRequestAddress = (ConstDefine.WEB_SERVICE_URL + ConstDefine.S_GET_HEATSOURCES);
 		try {
+			
 			String strResp = httpReq.doGet(strRequestAddress);
-			ArrayList<HeatSourceMainItem>  lstHotSrc = (ArrayList<HeatSourceMainItem>) JsonHelper.parseCollection(strResp, List.class, HeatSourceMainItem.class);	
+			//ArrayList<HeatSourceMainItem>  lstHotSrc = (ArrayList<HeatSourceMainItem>) JsonHelper.parseCollection(strResp, List.class, HeatSourceMainItem.class);
+			
+			ArrayList<HeatSourceMainItem>  lstHotSrc = new ArrayList<HeatSourceMainItem>();
+			for(int i=0; i<15; i++)
+	        {
+				HeatSourceMainItem  item = new HeatSourceMainItem();
+	        	item.setArea("东部");
+	        	item.setCombineMode("外部");
+	        	item.setUnitType("燃气");
+	        	item.setHeatSourceName("国华北");
+	        	item.setHeatSourceId("1");
+	        	lstHotSrc.add(item);
+	        }
+
 			return  lstHotSrc;
 		}
 		catch (Exception ex){
 			throw ex;
-		}	
+		}
 	}
 	/**
 	 * 
@@ -590,4 +604,5 @@ public class BusinessRequest {
 		detail.setGridConnected(true);
 		return detail;
 	}
+	
 }

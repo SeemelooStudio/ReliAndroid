@@ -6,60 +6,51 @@ public class HeatSourceMainItem {
 	
 	private String heatSourceName;
 	
-	private String pressureOut;
+	private String area;
 	
-	private String pressureIn;
+	private String combineMode;
 	
-	private String temperatureOut;
-	
-	private String temperatureIn;
+	private String unitType;
 
 	public String getHeatSourceId() {
 		return heatSourceId;
 	}
 
-	public void setHeatSourceId(String strHeatSourceId) {
-		this.heatSourceId = strHeatSourceId;
+	public void setHeatSourceId(String heatSourceId) {
+		this.heatSourceId = heatSourceId;
 	}
 
 	public String getHeatSourceName() {
 		return heatSourceName;
 	}
 
-	public void setHeatSourceName(String strHeatSourceName) {
-		this.heatSourceName = strHeatSourceName;
+	public void setHeatSourceName(String heatSourceName) {
+		this.heatSourceName = heatSourceName;
 	}
 
-	public String getPressureOut() {
-		return pressureOut;
+	public String getArea() {
+		return area;
 	}
 
-	public void setPressureOut(String strPressureOut) {
-		this.pressureOut = strPressureOut;
+	public void setArea(String area) {
+		this.area = area;
 	}
 
-	public String getPressureIn() {
-		return pressureIn;
+	public String getCombineMode() {
+		return combineMode;
 	}
 
-	public void setPressureIn(String strPressureIn) {
-		this.pressureIn = strPressureIn;
+	public void setCombineMode(String combineMode) {
+		this.combineMode = combineMode;
 	}
 
-	public String getTemperatureOut() {
-		return temperatureOut;
+	public String getUnitType() {
+		return unitType;
 	}
 
-	public void setTemperatureOut(String strTemperatureOut) {
-		this.temperatureOut = strTemperatureOut;
+	public void setUnitType(String unitType) {
+		this.unitType = unitType;
 	}
-
-	public String getTemperatureIn() {
-		return temperatureIn;
-	}
-
-	public void setTemperatureIn(String strTemperatureIn) {
-		this.temperatureIn = strTemperatureIn;
-	}
+	
 
 }

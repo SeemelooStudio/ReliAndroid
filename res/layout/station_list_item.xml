@@ -21,7 +21,6 @@
 		    android:layout_gravity="center_vertical"
 		    android:layout_marginLeft="@dimen/medium_margin"
 		    android:textSize="@dimen/list_title_font_size"
-		    android:textColor="@color/black" 
 		    android:maxLines="2"
 		    android:ellipsize="end"/>
     </LinearLayout>

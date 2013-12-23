@@ -78,7 +78,9 @@
 	    android:label="@string/heat_source" 
 	    android:theme="@style/CustomThemeDark"
 	    ></activity>
-	<activity android:name="HeatSourceQueryActivity" android:configChanges="orientation|screenSize"></activity>
+	<activity android:name="HeatSourceQueryActivity" 
+	    android:theme="@style/CustomThemeDark" 
+	    	    android:configChanges="orientation|screenSize"></activity>
 	
 	<activity android:name="StationMainActivity" 
 	    android:screenOrientation="portrait"
@@ -91,7 +93,8 @@
             android:name="android.support.PARENT_ACTIVITY"
             android:value="com.ui.MainPageActivity" />
 	</activity>
-	<activity android:name="StationQueryActivity" android:configChanges="orientation|screenSize"></activity>
+	<activity android:name="StationQueryActivity" 
+	    android:configChanges="orientation|screenSize"></activity>
 	<activity android:name="MsgUpMainActivity"
 	    android:windowSoftInputMode="stateVisible|adjustResize"
 	    android:configChanges="orientation|screenSize" >
