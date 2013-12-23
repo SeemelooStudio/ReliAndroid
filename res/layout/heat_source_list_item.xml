@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"    
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"> 
+    <LinearLayout 
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_marginTop="@dimen/small_margin"
+    android:layout_marginBottom="@dimen/small_margin" >
+
+         <TextView
+             android:id="@+id/heat_source_item_id"
+             style="@style/NumberLabel"
+             android:layout_width="@dimen/number_label_width"
+             android:layout_height="wrap_content"
+             android:layout_gravity="center_vertical"
+             android:layout_marginLeft="@dimen/medium_margin"
+             android:text="1" />
+
+		<TextView
+		    android:id="@+id/heat_source_item_name"
+		    android:layout_width="220dp"
+		    android:layout_height="wrap_content"
+		    android:layout_gravity="center_vertical"
+		    android:layout_marginLeft="@dimen/medium_margin"
+		    android:ellipsize="end"
+		    android:maxLines="2"
+		    android:text="a"
+		    android:textColor="@color/white"
+		    android:textSize="@dimen/list_title_font_size" />
+
+    </LinearLayout>
+   <LinearLayout 
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginBottom="@dimen/small_margin">
+
+      	<TextView
+      	    android:id="@+id/heat_source_item_info"
+      	    android:layout_width="fill_parent"
+      	    android:layout_height="wrap_content"
+      	    android:layout_marginLeft="@dimen/xxlarge_margin"
+      	    android:ellipsize="end"
+      	    android:text="c"
+      	    android:textColor="@color/transparent_white" />
+
+    </LinearLayout>
+</LinearLayout>

@@ -76,7 +76,6 @@
    <string name="heat_source_water_line">水线名称</string>
    <string name="heat_source_steam_line">蒸汽线名称</string>
    <string name="heat_source_is_connect">是否并网</string>
- 
    <!--  Station -->
    <string name="tap_to_search">点击查询</string>
    <string name="station_realtime_heat">瞬时热量(GJ/h)</string>
@@ -107,6 +106,9 @@
    <string name="one_month">1个月</string>
    <string name="three_months">3个月</string>
    <string name="this_year">供暖季</string>
+   <string name="area_total">全网</string>
+   <string name="area_east">东部</string>
+   <string name="area_west">西部</string>
    
    <!-- Unit -->
    <string name="degree_unit">°</string>
@@ -116,4 +118,5 @@
    <string name="water_unit">t</string>
    <string name="heat_per_hour">GJ/h</string>
    <string name="water_per_hour">t/h</string>
+   
 </resources>

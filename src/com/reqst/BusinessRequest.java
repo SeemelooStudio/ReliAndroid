@@ -474,6 +474,7 @@ public class BusinessRequest {
 	        	item.setCombineMode("外部");
 	        	item.setUnitType("燃气");
 	        	item.setHeatSourceName("国华北");
+	        	item.setHeatSourceId("1");
 	        	lstHotSrc.add(item);
 	        }
 
