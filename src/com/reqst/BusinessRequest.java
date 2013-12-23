@@ -597,4 +597,22 @@ public class BusinessRequest {
 		
 		return detail;
 	}
+	
+	public static HeatSourceDetail getHeatSourceDetail(String heatSourceId) {
+		HeatSourceDetail detail;
+		
+		//TODO: get data from sever
+		detail = new HeatSourceDetail();
+		detail.setHeatSourceId("1");
+		detail.setHeatSourceName("abcd");
+		detail.setCombineMode("外部");
+		detail.setArea("东部");
+		detail.setCoalfiredBoilerCount(0);
+		detail.setGasfiredBoilerCount(0);
+		detail.setSteamLineName("蒸汽线");
+		detail.setWaterLineName("两广线/四环线");
+		detail.setGridConnected(true);
+		
+		return detail;
+	}
 }
