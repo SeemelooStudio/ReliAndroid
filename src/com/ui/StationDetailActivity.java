@@ -166,13 +166,13 @@ public class StationDetailActivity extends FragmentActivity  {
 		}
 	};
 	private void getDetail() {
+		_diaLogProgress = BaseHelper.showProgress(StationDetailActivity.this, ConstDefine.I_MSG_0003, false);
 		new Thread() {
             public void run() { 
                 Message msgSend = new Message();
         	    try {
-        	    	_diaLogProgress = BaseHelper.showProgress(StationDetailActivity.this, ConstDefine.I_MSG_0003, false);
         			_stationDetail = BusinessRequest.getStationDetail( _stationId );
-        		 	
+
         	    	msgSend.what = ConstDefine.MSG_I_HANDLE_OK;
 					} catch (Exception e) {
 						msgSend.what = ConstDefine.MSG_I_HANDLE_Fail;
@@ -191,7 +191,7 @@ public class StationDetailActivity extends FragmentActivity  {
                     break;
                 case ConstDefine.MSG_I_HANDLE_Fail:                                        
                 	//close process
-                //	_diaLogProgress.dismiss();
+                	_diaLogProgress.dismiss();
                 	BaseHelper.showToastMsg(StationDetailActivity.this,ConstDefine.E_MSG_0001);
                 	break;
 	            }
