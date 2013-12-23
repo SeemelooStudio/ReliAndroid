@@ -87,8 +87,9 @@ public abstract class AbstractChart implements IChart {
     /*
     renderer.setXAxisMin(xMin);
     renderer.setXAxisMax(xMax);
+    */
     renderer.setYAxisMin(yMin);
-    renderer.setYAxisMax(yMax);*/
+    renderer.setYAxisMax(yMax);
     renderer.setAxesColor(axesColor);
     renderer.setLabelsColor(labelsColor);
   }

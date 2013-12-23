@@ -17,11 +17,12 @@ import android.util.Base64;
 import android.util.Log;
 
 import com.model.ChatMessage;
+import com.model.HeatSourceDetail;
 import com.model.StationDetail;
 import com.model.StationHistoryListItem;
 import com.model.StationListItem;
 import com.model.StationMainItem;
-import com.model.HeatSourceDetail;
+import com.model.HeatSourceMainItem;
 import com.model.HeatSourceTitle;
 import com.model.KnowledgeBaseItem;
 import com.model.SupplyAndBackwardItem;
@@ -268,8 +269,8 @@ public class BusinessRequest {
     		item.setDate(new Date(startTime));
     		
     		DecimalFormat df = new DecimalFormat("#.00");
-    		double supply = Double.parseDouble(df.format((new Random()).nextDouble() * 10 + 10));
-    		double back = Double.parseDouble(df.format((new Random()).nextDouble() * 5 + 5));
+    		double supply = Double.parseDouble(df.format((new Random()).nextDouble() * 30 + 80));
+    		double back = Double.parseDouble(df.format((new Random()).nextDouble() * 15 + 30));
 
     		item.setSupply(supply);
     		item.setBackward(back);
@@ -279,7 +280,7 @@ public class BusinessRequest {
 		
     	return dataList;
     }
-    public static  List<SupplyAndBackwardItem> getHeatSourceSupplyAndReturnPressureList(String heatSourceId, Date startDate, Date endDate) 
+    public static  List<SupplyAndBackwardItem> getHeatSourceSupplyAndReturnPressureList(String heatSourceId,String unitId, Date startDate, Date endDate) 
     {
     	
     	List<SupplyAndBackwardItem> dataList = new ArrayList<SupplyAndBackwardItem>();
@@ -294,8 +295,8 @@ public class BusinessRequest {
     		item.setDate(new Date(startTime));
     		
     		DecimalFormat df = new DecimalFormat("#.00");
-    		double supply = Double.parseDouble(df.format((new Random()).nextDouble() * 10 + 50));
-    		double back = Double.parseDouble(df.format((new Random()).nextDouble() * 10 + 4));
+    		double supply = Double.parseDouble(df.format((new Random()).nextDouble() + 0.5));
+    		double back = Double.parseDouble(df.format((new Random()).nextDouble() * 0.5));
 
     		item.setSupply(supply);
     		item.setBackward(back);
@@ -305,7 +306,7 @@ public class BusinessRequest {
 		
     	return dataList;
     }
-    public static  List<SupplyAndBackwardItem> getHeatSourceSupplyAndBackwardTemperatureList(String heatSourceId, Date startDate, Date endDate) 
+    public static  List<SupplyAndBackwardItem> getHeatSourceSupplyAndBackwardTemperatureList(String heatSourceId,String unitId, Date startDate, Date endDate) 
     {
     	
     	List<SupplyAndBackwardItem> dataList;
@@ -320,8 +321,8 @@ public class BusinessRequest {
     		item.setDate(new Date(startTime));
     		
     		DecimalFormat df = new DecimalFormat("#.00");
-    		double supply = Double.parseDouble(df.format((new Random()).nextDouble() * 10 + 10));
-    		double back = Double.parseDouble(df.format((new Random()).nextDouble() * 5 + 5));
+    		double supply = Double.parseDouble(df.format((new Random()).nextDouble() * 30 + 80));
+    		double back = Double.parseDouble(df.format((new Random()).nextDouble() * 15 + 30));
 
     		item.setSupply(supply);
     		item.setBackward(back);
@@ -345,8 +346,8 @@ public class BusinessRequest {
     		item.setDate(new Date(startTime));
     		
     		DecimalFormat df = new DecimalFormat("#.00");
-    		double supply = Double.parseDouble(df.format((new Random()).nextDouble() * 10 + 50));
-    		double back = Double.parseDouble(df.format((new Random()).nextDouble() * 10 + 4));
+    		double supply = Double.parseDouble(df.format((new Random()).nextDouble() + 0.5));
+    		double back = Double.parseDouble(df.format((new Random()).nextDouble() * 0.5));
 
     		item.setSupply(supply);
     		item.setBackward(back);
@@ -365,14 +366,14 @@ public class BusinessRequest {
     	info.setStrStationId(stationID);
     	info.setStrStationName("日坛中学");
     	info.setSupplyTemperature(100.4);
-    	info.setBackwardTemperature(41);
+    	info.setBackwardTemperature(41.1);
     	info.setSupplyPressure(0.65);
     	info.setBackwardPressure(0.38);
-    	info.setTotalHeat(10844.3);
-    	info.setTotalFlow(53624);
-    	info.setRealtimeHeat(1.1);
+    	info.setTotalHeat(10844.31);
+    	info.setTotalFlow(53624.01);
+    	info.setRealtimeHeat(1.12);
     	info.setRealtimeFlow(0.07);
-    	info.setSupplyWaterQuantity(0.8);
+    	info.setSupplyWaterQuantity(0.81);
     	
     	return info;
     }
@@ -456,13 +457,13 @@ public class BusinessRequest {
 	 * get hot source main List
 	 * @return
 	 */
-	public static ArrayList<HeatSourceDetail> getHeatSourceMainList() throws Exception{
+	public static ArrayList<HeatSourceMainItem> getHeatSourceMainList() throws Exception{
 	
 		ServerHttpRequest httpReq = new ServerHttpRequest();
 		String strRequestAddress = (ConstDefine.WEB_SERVICE_URL + ConstDefine.S_GET_HEATSOURCES);
 		try {
 			String strResp = httpReq.doGet(strRequestAddress);
-			ArrayList<HeatSourceDetail>  lstHotSrc = (ArrayList<HeatSourceDetail>) JsonHelper.parseCollection(strResp, List.class, HeatSourceDetail.class);	
+			ArrayList<HeatSourceMainItem>  lstHotSrc = (ArrayList<HeatSourceMainItem>) JsonHelper.parseCollection(strResp, List.class, HeatSourceMainItem.class);	
 			return  lstHotSrc;
 		}
 		catch (Exception ex){
@@ -577,5 +578,23 @@ public class BusinessRequest {
 		new SendChatMessageTask(chatMessage, "post").execute(url);
 		
 		
+	}
+	
+	public static HeatSourceDetail getHeatSourceDetail(String heatSourceId) {
+		HeatSourceDetail detail;
+		
+		//TODO: get data from sever
+		detail = new HeatSourceDetail();
+		detail.setHeatSourceId("1");
+		detail.setHeatSourceName("abcd");
+		detail.setCombineMode("外部");
+		detail.setArea("东部");
+		detail.setCoalfiredBoilerCount(0);
+		detail.setGasfiredBoilerCount(0);
+		detail.setSteamLineName("蒸汽线");
+		detail.setWaterLineName("两广线/四环线");
+		detail.setGridConnected(true);
+		
+		return detail;
 	}
 }

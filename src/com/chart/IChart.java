@@ -1,10 +1,5 @@
 package com.chart;
 
-import java.util.List;
-
-import org.achartengine.GraphicalView;
-
-import com.model.WeatherPreChartItem;
 
 import android.content.Context;
 import android.content.Intent;

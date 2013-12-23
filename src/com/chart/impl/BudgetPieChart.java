@@ -52,7 +52,7 @@ public class BudgetPieChart extends AbstractChart {
     int[] colors = new int[] {Color.BLUE, Color.GREEN, Color.MAGENTA, Color.YELLOW, Color.CYAN};
     DefaultRenderer renderer = buildCategoryRenderer(colors);
     renderer.setLabelsTextSize(10);
-    return ChartFactory.getPieChartIntent(context, buildCategoryDataset("Project budget", values), renderer);
+    return ChartFactory.getPieChartIntent(context, buildCategoryDataset("Project budget", values), renderer,"");
   }
 
 }

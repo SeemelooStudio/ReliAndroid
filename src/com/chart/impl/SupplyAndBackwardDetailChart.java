@@ -24,6 +24,7 @@ import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
 import org.achartengine.chart.PointStyle;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
+import org.achartengine.renderer.XYSeriesRenderer;
 
 import android.content.Context;
 import android.content.Intent;
@@ -136,11 +137,35 @@ public class SupplyAndBackwardDetailChart extends AbstractChart {
 		PointStyle[] styles = new PointStyle[] { PointStyle.POINT,
 				PointStyle.POINT };
 		XYMultipleSeriesRenderer renderer = buildRenderer(colors, styles);
-		setChartSettings(renderer, chartName, yAxisName, xAxisName,
-				0, 0, 0, 200,
-				Color.parseColor("#33FFFFFF"), Color.WHITE);
+		
+        switch (dataType) {
+		case TYPE_TEMPERATURE:
 
-		renderer.setDisplayChartValues(true);
+			setChartSettings(renderer, chartName, yAxisName, xAxisName,
+					0, 0,0, 120,
+					Color.parseColor("#33FFFFFF"), Color.WHITE);
+			break;
+		case TYPE_PRESSURE:
+			setChartSettings(renderer, chartName, yAxisName, xAxisName,
+					0, 0,0, 1.8,
+					Color.parseColor("#33FFFFFF"), Color.WHITE);
+			break;
+        }
+		
+		
+		int length = renderer.getSeriesRendererCount();
+        for (int i = 0; i < length; i++) {
+            XYSeriesRenderer seriesRenderer = (XYSeriesRenderer) renderer
+                    .getSeriesRendererAt(i);                
+            seriesRenderer.setLineWidth(4f);
+            seriesRenderer.setChartValuesSpacing(10);
+            seriesRenderer.setChartValuesTextSize(16);
+            seriesRenderer.setDisplayChartValues(true);
+
+        }
+        
+
+        renderer.setExternalZoomEnabled(true);
 		renderer.setShowGrid(true);
 		renderer.setChartTitleTextSize(24);
 		return renderer;
