@@ -1,5 +1,6 @@
 package com.model;
 
+import java.util.Date;
 import java.util.Random;
 
 import com.util.WeatherIconHelper;
@@ -12,15 +13,15 @@ public class WeatherDetailItem {
 	private float actualHighest;
 	private float actualLowest;
 	private float actualAverage;
-	private String day;
+	private Date day;
 	private String windDirection;
 	private String weatherDescription;
 	private int weatherType;
 	
-	public String getDay() {
+	public Date getDay() {
 		return day;
 	}
-	public void setDay(String day) {
+	public void setDay(Date day) {
 		this.day = day;
 	}
 	public String getWindDirection() {

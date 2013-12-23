@@ -77,8 +77,8 @@ public class WeatherDetailHistoryFragment extends Fragment implements SearchView
 			return;
 		}
 		_lvWeatherHistory.setAdapter(new SimpleAdapter(getActivity().getApplicationContext(),_parsedWeatherDetails, R.layout.weather_detail_item,  
-				new String[] { "time", "tempreture", "weather" }, 
-				  new int[] {R.id.w_time, R.id.w_tempreture, R.id.w_weather}));
+				new String[] { "day", "forecast", "actual" }, 
+				  new int[] {R.id.day, R.id.forecast, R.id.actual}));
 		_lvWeatherHistory.setTextFilterEnabled(true); 
 
 	}
@@ -90,8 +90,6 @@ public class WeatherDetailHistoryFragment extends Fragment implements SearchView
 	}
 	@Override  
     public boolean onQueryTextChange(String newText) {  
-     	List<HashMap<String, Object>>  resultlst = searchHisItem(newText);  
-        updateLayout(resultlst);  
         return false;  
      } 
 	 
@@ -102,41 +100,20 @@ public class WeatherDetailHistoryFragment extends Fragment implements SearchView
 	public void updateLayout(List<HashMap<String, Object>> resultList) {  
 		
 		_lvWeatherHistory.setAdapter(new SimpleAdapter( getActivity(), resultList, R.layout.weather_detail_item,  
-				  new String[] { "time", "tempreture", "weather" }, 
-				  new int[] {R.id.w_time, R.id.w_tempreture, R.id.w_weather}));
+				  new String[] { "day", "forecastAverage", "actualAverage" }, 
+				  new int[] {R.id.day, R.id.forecast, R.id.actual}));
 				
 	} 
 	
-
-   private List<HashMap<String, Object>> searchHisItem(String name) 
-	{  
-		List<HashMap<String, Object>> mSearchHisList = new ArrayList<HashMap<String, Object>>(); 
-	    
-	    for (int i = 0; i < _originWeatherDetails.size(); i++) 
-	    { 	
-	        int index =((WeatherDetailItem) _originWeatherDetails.get(i)).getDay().indexOf(name);  
-
-		    if (index != -1) {
-		    	HashMap<String, Object> item = new HashMap<String, Object>(); 
-		    	item.put("time", _originWeatherDetails.get(i).getDay()); 
-		        item.put("tempreture", _originWeatherDetails.get(i).getWindDirection()); 
-		        item.put("weather", _originWeatherDetails.get(i).getWeatherDescription()); 
-		        mSearchHisList.add(item);  
-		    } 
-	    }
-	    
-	    return mSearchHisList;
-	}
    
    private List<HashMap<String, Object>> parseWeatherDetails(ArrayList<WeatherDetailItem> originWeatherDetails) {  
-	   
-		List<HashMap<String, Object>> parsedWeatherDetails = new ArrayList<HashMap<String, Object>>(); 
-		for (WeatherDetailItem oneRec: originWeatherDetails) 
-		{   
+	   List<HashMap<String, Object>> parsedWeatherDetails = new ArrayList<HashMap<String, Object>>(); 
+	   for (WeatherDetailItem oneRec: originWeatherDetails) 
+	   {   
 			HashMap<String, Object> item = new HashMap<String, Object>();  
-		    item.put("time", oneRec.getDay()); 
-			item.put("tempreture", oneRec.getWindDirection()); 
-			item.put("weather", oneRec.getWeatherDescription()); 
+		    item.put("day", new SimpleDateFormat("MM月dd日").format( oneRec.getDay() )); 
+			item.put("forecast", oneRec.getForecastAverage() + "°"); 
+			item.put("actual", oneRec.getActualAverage() + "°"); 
 			parsedWeatherDetails.add(item);  
 		}
 		return parsedWeatherDetails;

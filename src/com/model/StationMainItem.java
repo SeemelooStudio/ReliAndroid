@@ -2,73 +2,113 @@ package com.model;
 
 public class StationMainItem {
 
-	private String strStationId;
+	private int stationId;
 	
-	private String strStationName;
+	private String stationName;
 	
-	private String strPlannedGJToday;
+	private float plannedGJToday;
 	
-	private String strPlannedGJYesterday;
+	private float plannedGJYesterday;
 	
-	private String strActualGJToday;
+	private float actualGJToday;
 	
-	private String strActualGJYesterday;
+	private float actualGJYesterday;
 	
-	private String strCalculatedGJYesterday;
+	private float calculatedGJYesterday;
 	
-	public String getStrStationId() {
-		return strStationId;
+	private float pressureOut;
+	
+	private float pressureIn;
+	
+	private float temperatureOut;
+	
+	private float temperatureIn;
+	
+	public int getStationId() {
+		return stationId;
 	}
 
-	public void setStrStationId(String strStationId) {
-		this.strStationId = strStationId;
+	public void setStationId(int stationId) {
+		this.stationId = stationId;
 	}
 
-	public String getStrStationName() {
-		return strStationName;
+	public String getStationName() {
+		return stationName;
 	}
 
-	public void setStrStationName(String strStationName) {
-		this.strStationName = strStationName;
+	public void setStationName(String stationName) {
+		this.stationName = stationName;
 	}
 
-	public String getStrPlannedGJToday() {
-		return strPlannedGJToday;
+	public float getPlannedGJToday() {
+		return plannedGJToday;
 	}
 
-	public void setStrPlannedGJToday(String strPlannedGJToday) {
-		this.strPlannedGJToday = strPlannedGJToday;
+	public void setPlannedGJToday(float plannedGJToday) {
+		this.plannedGJToday = plannedGJToday;
 	}
 
-	public String getStrActualGJToday() {
-		return strActualGJToday;
+	public float getActualGJToday() {
+		return actualGJToday;
 	}
 
-	public void setStrActualGJToday(String strActualGJToday) {
-		this.strActualGJToday = strActualGJToday;
+	public void setActualGJToday(float actualGJToday) {
+		this.actualGJToday = actualGJToday;
 	}
 
-	public String getStrPlannedGJYesterday() {
-		return strPlannedGJYesterday;
+	public float getPlannedGJYesterday() {
+		return plannedGJYesterday;
 	}
 
-	public void setStrPlannedGJYesterday(String strPlannedGJYesterday) {
-		this.strPlannedGJYesterday = strPlannedGJYesterday;
+	public void setPlannedGJYesterday(float plannedGJYesterday) {
+		this.plannedGJYesterday = plannedGJYesterday;
 	}
 
-	public String getStrCalculatedGJYesterday() {
-		return strCalculatedGJYesterday;
+	public float getCalculatedGJYesterday() {
+		return calculatedGJYesterday;
 	}
 
-	public void setStrCalculatedGJYesterday(String strCalculatedGJYesterday) {
-		this.strCalculatedGJYesterday = strCalculatedGJYesterday;
+	public void setCalculatedGJYesterday(float calculatedGJYesterday) {
+		this.calculatedGJYesterday = calculatedGJYesterday;
 	}
 
-	public String getStrActualGJYesterday() {
-		return strActualGJYesterday;
+	public float getActualGJYesterday() {
+		return actualGJYesterday;
 	}
 
-	public void setStrActualGJYesterday(String strActualGJYesterday) {
-		this.strActualGJYesterday = strActualGJYesterday;
+	public void setActualGJYesterday(float actualGJYesterday) {
+		this.actualGJYesterday = actualGJYesterday;
+	}
+
+	public float getPressureOut() {
+		return pressureOut;
+	}
+
+	public void setPressureOut(float pressureOut) {
+		this.pressureOut = pressureOut;
+	}
+
+	public float getPressureIn() {
+		return pressureIn;
+	}
+
+	public void setPressureIn(float pressureIn) {
+		this.pressureIn = pressureIn;
+	}
+
+	public float getTemperatureOut() {
+		return temperatureOut;
+	}
+
+	public void setTemperatureOut(float temperatureOut) {
+		this.temperatureOut = temperatureOut;
+	}
+
+	public float getTemperatureIn() {
+		return temperatureIn;
+	}
+
+	public void setTemperatureIn(float temperatureIn) {
+		this.temperatureIn = temperatureIn;
 	}
 }

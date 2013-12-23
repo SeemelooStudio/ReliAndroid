@@ -2,113 +2,113 @@ package com.model;
 
 public class StationDetail {
 
-	private String strStationId;
+	private String stationId;
 	
-	private String strStationName;
+	private String stationName;
 	
-	private double supplyTemperature;
+	private float temperatureOut;
 	
-	private double supplyPressure;
+	private float pressureOut;
 	
-	private double backwardTemperature;
+	private float temperatureIn;
 	
-	private double backwardPressure;
+	private float pressureIn;
 	
-	private double realtimeHeat;
+	private float instantaneousHeat;
 	
-	private double realtimeFlow;
+	private float instantaneousWater;
 	
-	private double totalHeat;
+	private float accumulatedHeat;
 	
-	private double totalFlow;
+	private float accumulatedWater;
 	
-	private double supplyWaterQuantity;
+	private float supplyWaterQuantity;
 
-	public String getStrStationId() {
-		return strStationId;
+	public String getStationId() {
+		return stationId;
 	}
 
-	public void setStrStationId(String strStationId) {
-		this.strStationId = strStationId;
+	public void setStationId(String stationId) {
+		this.stationId = stationId;
 	}
 
-	public String getStrStationName() {
-		return strStationName;
+	public String getStationName() {
+		return stationName;
 	}
 
-	public void setStrStationName(String strStationName) {
-		this.strStationName = strStationName;
+	public void setStationName(String stationName) {
+		this.stationName = stationName;
 	}
 
-	public double getSupplyTemperature() {
-		return supplyTemperature;
+	public float getTemperatureOut() {
+		return temperatureOut;
 	}
 
-	public void setSupplyTemperature(double supplyTemperature) {
-		this.supplyTemperature = supplyTemperature;
+	public void setTemperatureOut(float temperatureOut) {
+		this.temperatureOut = temperatureOut;
 	}
 
-	public double getSupplyPressure() {
-		return supplyPressure;
+	public float getPressureOut() {
+		return pressureOut;
 	}
 
-	public void setSupplyPressure(double supplyPressure) {
-		this.supplyPressure = supplyPressure;
+	public void pressureOut(float pressureOut) {
+		this.pressureOut = pressureOut;
 	}
 
-	public double getBackwardTemperature() {
-		return backwardTemperature;
+	public float getTemperatureIn() {
+		return temperatureIn;
 	}
 
-	public void setBackwardTemperature(double returnTemperature) {
-		this.backwardTemperature = returnTemperature;
+	public void setTemperatureIn(float temperatureIn) {
+		this.temperatureIn = temperatureIn;
 	}
 
-	public double getBackwardPressure() {
-		return backwardPressure;
+	public float getPressureIn() {
+		return pressureIn;
 	}
 
-	public void setBackwardPressure(double returnPressure) {
-		this.backwardPressure = returnPressure;
+	public void setPressureIn(float pressureIn) {
+		this.pressureIn = pressureIn;
 	}
 
-	public double getRealtimeHeat() {
-		return realtimeHeat;
+	public float getInstantaneousHeat() {
+		return instantaneousHeat;
 	}
 
-	public void setRealtimeHeat(double realtimeHeat) {
-		this.realtimeHeat = realtimeHeat;
+	public void setInstantaneousHeat(float instantaneousHeat) {
+		this.instantaneousHeat = instantaneousHeat;
 	}
 
-	public double getRealtimeFlow() {
-		return realtimeFlow;
+	public float getInstantaneousWater() {
+		return instantaneousWater;
 	}
 
-	public void setRealtimeFlow(double realtimeFlow) {
-		this.realtimeFlow = realtimeFlow;
+	public void setInstantaneousWater(float instantaneousWater) {
+		this.instantaneousWater = instantaneousWater;
 	}
 
-	public double getTotalHeat() {
-		return totalHeat;
+	public float getAccumulatedHeat() {
+		return accumulatedHeat;
 	}
 
-	public void setTotalHeat(double totalHeat) {
-		this.totalHeat = totalHeat;
+	public void setAccumulatedHeat(float accumulatedHeat) {
+		this.accumulatedHeat = accumulatedHeat;
 	}
 
-	public double getTotalFlow() {
-		return totalFlow;
+	public float getAccumulatedWater() {
+		return accumulatedWater;
 	}
 
-	public void setTotalFlow(double totalFlow) {
-		this.totalFlow = totalFlow;
+	public void setAccumulatedWater(float accumulatedWater) {
+		this.accumulatedWater = accumulatedWater;
 	}
 
-	public double getSupplyWaterQuantity() {
+	public float getSupplyWaterQuantity() {
 		return supplyWaterQuantity;
 	}
 
-	public void setSupplyWaterQuantity(double supplyWaterQuantity) {
+	public void setSupplyWaterQuantity(float supplyWaterQuantity) {
 		this.supplyWaterQuantity = supplyWaterQuantity;
 	}
 }

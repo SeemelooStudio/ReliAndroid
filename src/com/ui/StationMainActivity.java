@@ -17,9 +17,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.GridLayout;
 import android.widget.GridLayout.Spec;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.model.StationMainItem;
@@ -108,28 +109,28 @@ public class StationMainActivity extends Activity {
 
 		TextView tvPressureOut = (TextView) viewStation
 				.findViewById(R.id.hot_station_pressure_out);
-		tvPressureOut.setText(item.getStrActualGJToday()
+		tvPressureOut.setText(item.getPressureOut()
 				+ getString(R.string.pressure_unit));
 		TextView tvPressureIn = (TextView) viewStation
 				.findViewById(R.id.hot_station_pressure_in);
-		tvPressureIn.setText(item.getStrPlannedGJToday()
+		tvPressureIn.setText(item.getPressureIn()
 				+ getString(R.string.pressure_unit));
 		TextView tvTemperatureOut = (TextView) viewStation
 				.findViewById(R.id.hot_station_temperature_out);
-		tvTemperatureOut.setText(item.getStrActualGJYesterday()
+		tvTemperatureOut.setText(item.getTemperatureOut()
 				+ getString(R.string.degree_unit));
 		TextView tvTemperatureIn = (TextView) viewStation
 				.findViewById(R.id.hot_station_temperature_in);
-		tvTemperatureIn.setText(item.getStrPlannedGJYesterday()
+		tvTemperatureIn.setText(item.getTemperatureIn()
 				+ getString(R.string.degree_unit));
 
 		TextView tvHeatStationName = (TextView) viewStation
 				.findViewById(R.id.hot_station_name);
-		tvHeatStationName.setText(item.getStrStationName());
+		tvHeatStationName.setText(item.getStationName());
 
 		TextView tvStationId = (TextView) viewStation
 				.findViewById(R.id.hotPosItemId);
-		tvStationId.setText(item.getStrStationId());
+		tvStationId.setText(item.getStationId() + "");
 	}
 
 	/***
@@ -213,13 +214,13 @@ public class StationMainActivity extends Activity {
 		viewStation.setBackgroundResource(intBackgroundResource);
 
 		viewStation.setOnClickListener(new StationCellOnClickListener(station
-				.getStrStationName(), station.getStrStationId()) {
+				.getStationName(), station.getStationId()) {
 			public void onClick(View v) {
 				Intent intent = new Intent(StationMainActivity.this,
 						StationDetailActivity.class);
 				Bundle bundle = new Bundle();
 				bundle.putString("station_name", stationName);
-				bundle.putString("station_id", stationId);
+				bundle.putInt("station_id", stationId);
 				intent.putExtras(bundle);
 				startActivity(intent);
 			}
@@ -257,7 +258,7 @@ public class StationMainActivity extends Activity {
 			gridLayout.setOrientation(GridLayout.HORIZONTAL);
 			// gridLayout.setUseDefaultMargins(true);
 			for (int cell = 0, rowIndex = 0, columnIndex = 0, itemIndex = pageIndex
-					* PAGE_SIZE + cell; cell < PAGE_SIZE
+					* PAGE_SIZE; cell < PAGE_SIZE
 					&& itemIndex < dbhostPosLst.size(); cell++, columnIndex++, itemIndex++) {
 				if (columnIndex == COLUMN_COUNT) {
 					columnIndex = 0;
@@ -320,9 +321,9 @@ public class StationMainActivity extends Activity {
 			OnClickListener {
 
 		String stationName;
-		String stationId;
+		int stationId;
 
-		public StationCellOnClickListener(String stationName, String stationId) {
+		public StationCellOnClickListener(String stationName, int stationId) {
 			this.stationName = stationName;
 			this.stationId = stationId;
 		}

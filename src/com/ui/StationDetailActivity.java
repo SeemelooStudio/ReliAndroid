@@ -1,15 +1,24 @@
 package com.ui;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
 import com.chart.impl.SupplyAndBackwardDetailChart;
 import com.model.StationDetail;
+import com.model.WeatherDetailTempInfo;
+import com.model.WeatherType;
 import com.reqst.BusinessRequest;
+import com.util.BaseHelper;
+import com.util.ConstDefine;
 
+import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -27,9 +36,9 @@ import android.widget.TextView;
 public class StationDetailActivity extends FragmentActivity  {
 
 	private String _stationName = "";
-	private String _stationId = "";
+	private int _stationId;
 	private StationDetail _stationDetail= null;
-	
+	private ProgressDialog _diaLogProgress = null;
 	private DetailGraphFragment _frgTemperatureGraph = null;
 	private DetailGraphFragment _frgPressureGraph = null;
 	private DetailHistoryFragment _frgHistory = null;
@@ -59,7 +68,7 @@ public class StationDetailActivity extends FragmentActivity  {
 		if (mBundle != null) {
 			_stationName = mBundle.getString("station_name");
 			this.setTitle(_stationName);
-			setStationId(mBundle.getString("station_id"));
+			setStationId(mBundle.getInt("station_id"));
 		}
 		
 		_detailList = (ListView)findViewById(R.id.station_detail_list);
@@ -72,8 +81,6 @@ public class StationDetailActivity extends FragmentActivity  {
 		initFragmentPagerAdapter();
 		initTabs();
 		getDetail();
-		renderDetail();
-		
 	}
 	
 	@Override
@@ -158,26 +165,54 @@ public class StationDetailActivity extends FragmentActivity  {
 			
 		}
 	};
-	private void getDetail(){
-		_stationDetail = BusinessRequest.getStationDetail( _stationId );
-			
+	private void getDetail() {
+		new Thread() {
+            public void run() { 
+                Message msgSend = new Message();
+        	    try {
+        	    	_diaLogProgress = BaseHelper.showProgress(StationDetailActivity.this, ConstDefine.I_MSG_0003, false);
+        			_stationDetail = BusinessRequest.getStationDetail( _stationId );
+        		 	
+        	    	msgSend.what = ConstDefine.MSG_I_HANDLE_OK;
+					} catch (Exception e) {
+						msgSend.what = ConstDefine.MSG_I_HANDLE_Fail;
+					}
+            	    oneTabhandler.sendMessage(msgSend);
+            	}
+        }.start();	 
 	}
+	@SuppressLint("HandlerLeak")
+	private Handler oneTabhandler = new Handler() {               
+        public void handleMessage(Message message) {
+                switch (message.what) {
+                case ConstDefine.MSG_I_HANDLE_OK:                                        
+        		 	_diaLogProgress.dismiss();
+        			renderDetail();
+                    break;
+                case ConstDefine.MSG_I_HANDLE_Fail:                                        
+                	//close process
+                //	_diaLogProgress.dismiss();
+                	BaseHelper.showToastMsg(StationDetailActivity.this,ConstDefine.E_MSG_0001);
+                	break;
+	            }
+	        }
+	  };
 	private void renderDetail(){
 
 		List<HashMap<String, Object>> details = new ArrayList<HashMap<String, Object>>();
 		
 		HashMap<String, Object> item = new HashMap<String, Object>();
 		item.put("name_1",getString(R.string.station_realtime_heat));
-		item.put("value_1", _stationDetail.getRealtimeHeat());
+		item.put("value_1", _stationDetail.getInstantaneousHeat());
 		item.put("name_2",getString(R.string.station_total_heat));
-		item.put("value_2", _stationDetail.getTotalHeat() );
+		item.put("value_2", _stationDetail.getAccumulatedHeat() );
 		details.add(item);
 		
 		item = new HashMap<String, Object>();
 		item.put("name_1",getString(R.string.station_realtime_flow));
-		item.put("value_1", _stationDetail.getRealtimeFlow() );
+		item.put("value_1", _stationDetail.getInstantaneousWater() );
 		item.put("name_2",getString(R.string.station_total_flow));
-		item.put("value_2", _stationDetail.getTotalFlow() );
+		item.put("value_2", _stationDetail.getAccumulatedWater() );
 		details.add(item);
 
 		item = new HashMap<String, Object>();
@@ -190,16 +225,16 @@ public class StationDetailActivity extends FragmentActivity  {
 	 			 new String[] { "name_1","value_1", "name_2","value_2"}, 
 				  new int[] {R.id.detail_item_name_1, R.id.detail_item_value_1, R.id.detail_item_name_2, R.id.detail_item_value_2 }));
 		
-		_supplyTemperature.setText( _stationDetail.getSupplyTemperature() + getString(R.string.degree_unit) );
-		_backTemperature.setText( _stationDetail.getBackwardTemperature() + getString(R.string.degree_unit) );
-		_supplyPressure.setText( _stationDetail.getSupplyPressure() + getString(R.string.pressure_unit) );
-		_backPressure.setText( _stationDetail.getBackwardPressure() + getString(R.string.pressure_unit) );
+		_supplyTemperature.setText( _stationDetail.getTemperatureOut() + getString(R.string.degree_unit) );
+		_backTemperature.setText( _stationDetail.getTemperatureIn() + getString(R.string.degree_unit) );
+		_supplyPressure.setText( _stationDetail.getPressureOut() + getString(R.string.pressure_unit) );
+		_backPressure.setText( _stationDetail.getPressureIn() + getString(R.string.pressure_unit) );
 	}
-	public String getStationId() {
+	public int getStationId() {
 		return _stationId;
 	}
 
-	public void setStationId(String stationId) {
+	public void setStationId(int stationId) {
 		this._stationId = stationId;
 	}
 

@@ -7,9 +7,15 @@ import java.util.List;
 import com.chart.impl.SupplyAndBackwardDetailChart;
 import com.model.StationDetail;
 import com.reqst.BusinessRequest;
+import com.util.BaseHelper;
+import com.util.ConstDefine;
 
+import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -27,9 +33,9 @@ import android.widget.TextView;
 public class UnitDetailActivity extends FragmentActivity  {
 
 	private String _heatSourceName = "";
-	private String _heatSourceId = "";
+	private int _heatSourceId;
 	private StationDetail _heatSourceDetail= null;
-	
+	private ProgressDialog _diaLogProgress = null;
 	private DetailGraphFragment _frgTemperatureGraph = null;
 	private DetailGraphFragment _frgPressureGraph = null;
 	private DetailHistoryFragment _frgHistory = null;
@@ -59,7 +65,7 @@ public class UnitDetailActivity extends FragmentActivity  {
 		if (mBundle != null) {
 			_heatSourceName = mBundle.getString("heat_source_name");
 			this.setTitle(_heatSourceName);
-			setHeatSourceId(mBundle.getString("heat_source_id"));
+			setHeatSourceId(mBundle.getInt("heat_source_id"));
 		}
 		
 		_detailList = (ListView)findViewById(R.id.station_detail_list);
@@ -72,8 +78,6 @@ public class UnitDetailActivity extends FragmentActivity  {
 		initFragmentPagerAdapter();
 		initTabs();
 		getDetail();
-		renderDetail();
-		
 	}
 	
 	@Override
@@ -158,26 +162,54 @@ public class UnitDetailActivity extends FragmentActivity  {
 			
 		}
 	};
-	private void getDetail(){
-		_heatSourceDetail = BusinessRequest.getStationDetail( _heatSourceId );
-			
+	private void getDetail() {
+		new Thread() {
+            public void run() { 
+                Message msgSend = new Message();
+        	    try {
+        	    	_diaLogProgress = BaseHelper.showProgress(UnitDetailActivity.this, ConstDefine.I_MSG_0003, false);
+        	    	_heatSourceDetail = BusinessRequest.getStationDetail( _heatSourceId );
+        		 	
+        	    	msgSend.what = ConstDefine.MSG_I_HANDLE_OK;
+					} catch (Exception e) {
+						msgSend.what = ConstDefine.MSG_I_HANDLE_Fail;
+					}
+            	    oneTabhandler.sendMessage(msgSend);
+            	}
+        }.start();	 
 	}
+	@SuppressLint("HandlerLeak")
+	private Handler oneTabhandler = new Handler() {               
+        public void handleMessage(Message message) {
+                switch (message.what) {
+                case ConstDefine.MSG_I_HANDLE_OK:                                        
+        		 	_diaLogProgress.dismiss();
+        			renderDetail();
+                    break;
+                case ConstDefine.MSG_I_HANDLE_Fail:                                        
+                	//close process
+                	_diaLogProgress.dismiss();
+                	BaseHelper.showToastMsg(UnitDetailActivity.this,ConstDefine.E_MSG_0001);
+                	break;
+	            }
+	        }
+	  };
 	private void renderDetail(){
 
 		List<HashMap<String, Object>> details = new ArrayList<HashMap<String, Object>>();
 		
 		HashMap<String, Object> item = new HashMap<String, Object>();
 		item.put("name_1",getString(R.string.station_realtime_heat));
-		item.put("value_1", _heatSourceDetail.getRealtimeHeat());
+		item.put("value_1", _heatSourceDetail.getInstantaneousHeat());
 		item.put("name_2",getString(R.string.station_total_heat));
-		item.put("value_2", _heatSourceDetail.getTotalHeat() );
+		item.put("value_2", _heatSourceDetail.getAccumulatedHeat() );
 		details.add(item);
 		
 		item = new HashMap<String, Object>();
 		item.put("name_1",getString(R.string.station_realtime_flow));
-		item.put("value_1", _heatSourceDetail.getRealtimeFlow() );
+		item.put("value_1", _heatSourceDetail.getInstantaneousWater() );
 		item.put("name_2",getString(R.string.station_total_flow));
-		item.put("value_2", _heatSourceDetail.getTotalFlow() );
+		item.put("value_2", _heatSourceDetail.getAccumulatedWater() );
 		details.add(item);
 
 		item = new HashMap<String, Object>();
@@ -190,17 +222,17 @@ public class UnitDetailActivity extends FragmentActivity  {
 	 			 new String[] { "name_1","value_1", "name_2","value_2"}, 
 				  new int[] {R.id.detail_item_name_1, R.id.detail_item_value_1, R.id.detail_item_name_2, R.id.detail_item_value_2 }));
 		
-		_supplyTemperature.setText( _heatSourceDetail.getSupplyTemperature() + getString(R.string.degree_unit) );
-		_backTemperature.setText( _heatSourceDetail.getBackwardTemperature() + getString(R.string.degree_unit) );
-		_supplyPressure.setText( _heatSourceDetail.getSupplyPressure() + getString(R.string.pressure_unit) );
-		_backPressure.setText( _heatSourceDetail.getBackwardPressure() + getString(R.string.pressure_unit) );
+		_supplyTemperature.setText( _heatSourceDetail.getTemperatureOut() + getString(R.string.degree_unit) );
+		_backTemperature.setText( _heatSourceDetail.getTemperatureIn() + getString(R.string.degree_unit) );
+		_supplyPressure.setText( _heatSourceDetail.getPressureOut() + getString(R.string.pressure_unit) );
+		_backPressure.setText( _heatSourceDetail.getPressureIn() + getString(R.string.pressure_unit) );
 	}
-	public String getHeatSourceId() {
+	public int getHeatSourceId() {
 		return _heatSourceId;
 	}
 
-	public void setHeatSourceId(String stationId) {
-		this._heatSourceId = stationId;
+	public void setHeatSourceId(int heatSourceId) {
+		this._heatSourceId = heatSourceId;
 	}
 
 	private class DetailGraphFragmentPagerAdapter extends FragmentPagerAdapter {

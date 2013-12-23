@@ -24,6 +24,7 @@ public class ConstDefine
 	public static final String S_GET_HEATSOURCES = "/MobileService/HeatSources";
 	public static final String S_GET_HEATSOURCESUMMARY = "/MobileService/HeatSourceSummary";
 	public static final String S_GET_STATIONS = "/MobileService/{UserName}/Stations";
+	public static final String S_GET_STATION = "/MobileService/{UserName}/Stations/{StationId}";
 	public static final String S_GET_SUMMARY = "/MobileService/Summary";
 	public static final String S_GET_MESSAGES = "/MobileService/{UserName}/Messages";
 	public static final String S_DAILY_REPORT_ROOT = "/DailyReports/";

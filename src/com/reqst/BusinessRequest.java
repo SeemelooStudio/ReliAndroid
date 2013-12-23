@@ -358,24 +358,18 @@ public class BusinessRequest {
     	return dataList;
     }
     
-    public static StationDetail getStationDetail(String stationID) {
-    	StationDetail info;
+    public static StationDetail getStationDetail(int stationId) throws Exception{
     	
-    	//TODO: get data from server
-    	info = new StationDetail();
-    	info.setStrStationId(stationID);
-    	info.setStrStationName("日坛中学");
-    	info.setSupplyTemperature(100.4);
-    	info.setBackwardTemperature(41.1);
-    	info.setSupplyPressure(0.65);
-    	info.setBackwardPressure(0.38);
-    	info.setTotalHeat(10844.31);
-    	info.setTotalFlow(53624.01);
-    	info.setRealtimeHeat(1.12);
-    	info.setRealtimeFlow(0.07);
-    	info.setSupplyWaterQuantity(0.81);
+    	String requestAddress = (ConstDefine.WEB_SERVICE_URL + ConstDefine.S_GET_STATION).replace("{UserName}", "zhaoyaqi").replace("StationId", stationId+"");
     	
-    	return info;
+		try {
+			ServerHttpRequest httpReq = new ServerHttpRequest();
+			String strResp = httpReq.doGet(requestAddress);
+			StationDetail info = JsonHelper.parseObject(strResp, StationDetail.class);
+			return info;
+		} catch (Exception ex) {
+			throw ex;
+		}
     }
     
     public static ArrayList<StationHistoryListItem> getStationHistoryList(String heatSourceId, Date startDate, Date endDate) {
@@ -594,25 +588,6 @@ public class BusinessRequest {
 		detail.setSteamLineName("蒸汽线");
 		detail.setWaterLineName("两广线/四环线");
 		detail.setGridConnected(true);
-		
-		return detail;
-	}
-	
-	public static HeatSourceDetail getHeatSourceDetail(String heatSourceId) {
-		HeatSourceDetail detail;
-		
-		//TODO: get data from sever
-		detail = new HeatSourceDetail();
-		detail.setHeatSourceId("1");
-		detail.setHeatSourceName("abcd");
-		detail.setCombineMode("外部");
-		detail.setArea("东部");
-		detail.setCoalfiredBoilerCount(0);
-		detail.setGasfiredBoilerCount(0);
-		detail.setSteamLineName("蒸汽线");
-		detail.setWaterLineName("两广线/四环线");
-		detail.setGridConnected(true);
-		
 		return detail;
 	}
 }
