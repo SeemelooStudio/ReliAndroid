@@ -148,7 +148,6 @@ public class DailyListActivity extends Activity implements  SearchView.OnQueryTe
 	            }  
 	        }  
             
-	        //���ؽ��
 	        return mSearchList;  
 	    }  
 	  

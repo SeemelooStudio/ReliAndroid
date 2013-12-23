@@ -60,6 +60,8 @@
    <string name="keyword_search_hint">请输入关键字</string>
    <string name="weather_axis_tempreture">温度(°)</string>
    <string name="weather_axis_time">时间</string>
+   <string name="pick_from_date">从</string>
+   <string name="pick_to_date">至</string>
    
    <!--  HeatSource -->
    <string name="total_heat_load">总热负荷：</string>

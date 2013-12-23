@@ -5,17 +5,41 @@
     android:orientation="vertical"
     android:background="@drawable/weather_background" >
 
-    <SearchView
-        android:id="@+id/wether_his_search"
-        android:layout_width="fill_parent"
+    <LinearLayout 
+        android:layout_width="fill_parent" 
         android:layout_height="wrap_content"
-        android:iconifiedByDefault="false"
-        android:inputType="textFilter"
-        android:queryHint="@string/search_hint"
-        android:padding="@dimen/small_margin"
-        android:background="@color/transparent_black" >
-    </SearchView>
-
+        android:orientation="horizontal" >
+        
+        <EditText
+	    android:id="@+id/pick_from_date"
+	    android:layout_width="wrap_content"
+	    android:layout_height="match_parent"
+	    android:hint="@string/pick_from_date"
+	    android:inputType="date"
+	    android:onClick="showDateFromDialog" 
+	    android:layout_weight="1" 
+	    android:layout_margin="@dimen/small_margin" 
+	   />
+	    
+        <EditText
+	    android:id="@+id/pick_to_date"
+	    android:layout_width="wrap_content"
+	    android:layout_height="match_parent"
+	    android:hint="@string/pick_to_date"
+	    android:inputType="date"
+	    android:onClick="showDateToDialog" 
+	    android:layout_weight="1"
+	    android:layout_margin="@dimen/small_margin" 
+     />
+	    <Button 
+	    android:id="@+id/search_weather_by_date"    
+	    android:layout_width="wrap_content"
+	    android:layout_height="match_parent"
+	    android:text="搜索"
+	    android:onClick="searchWeatherHistory"
+	        />
+    </LinearLayout>
+    
     <ListView
         android:id="@+id/weather_history_list"
         android:layout_width="fill_parent"

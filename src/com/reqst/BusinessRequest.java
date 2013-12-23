@@ -2,6 +2,7 @@ package com.reqst;
 
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -182,14 +183,14 @@ public class BusinessRequest {
 	 * @return
 	 * @throws Exception 
 	 */
-	public static WeatherDetailTempInfo getWenduTabDetailById(String strListId,String strDayFlag) throws Exception{
+	public static WeatherDetailTempInfo[] getWenduTabDetailById(String weatherTypeId) throws Exception{
 		
 		
-		String requestAddress = (ConstDefine.WEB_SERVICE_URL + ConstDefine.S_GET_OFFICIALWEATHER).replace("{weatherTypeId}", WeatherType.Today.getStrValue());
+		String requestAddress = (ConstDefine.WEB_SERVICE_URL + ConstDefine.S_GET_OFFICIALWEATHER).replace("{weatherTypeId}", weatherTypeId);
 		try {
 			ServerHttpRequest httpReq = new ServerHttpRequest();
 			String strResp = httpReq.doGet(requestAddress);
-			WeatherDetailTempInfo respInfo = JsonHelper.parseObject(strResp, WeatherDetailTempInfo.class);  
+			WeatherDetailTempInfo[] respInfo = JsonHelper.parseArray(strResp, WeatherDetailTempInfo.class);  
 			return respInfo;
 		} catch (Exception ex) {
 			throw ex;
@@ -223,15 +224,12 @@ public class BusinessRequest {
 	   
 	}
 	
-	
-    /**
-     * 
-     * @return
-     */
-    public static ArrayList<WeatherDetailItem> getWeatherHisListData() throws Exception  {  
+    public static ArrayList<WeatherDetailItem> getWeatherHisListData(Date fromDate, Date toDate) throws Exception  {  
        
 		ServerHttpRequest httpReq = new ServerHttpRequest();
-		String strRequestAddress = (ConstDefine.WEB_SERVICE_URL + ConstDefine.S_GET_OFFICIALWEATHERDETAILS).replace("{fromDate}", "2013-11-23").replace("{toDate}", "2013-11-28");
+		String strRequestAddress = (ConstDefine.WEB_SERVICE_URL + ConstDefine.S_GET_OFFICIALWEATHERDETAILS)
+				.replace("{fromDate}", new SimpleDateFormat("yyyy-MM-dd").format(fromDate))
+				.replace("{toDate}", new SimpleDateFormat("yyyy-MM-dd").format(toDate));
 		try {
 			String strResp = httpReq.doGet(strRequestAddress);
 			ArrayList<WeatherDetailItem>  lstWeather = (ArrayList<WeatherDetailItem>) JsonHelper.parseCollection(strResp, List.class, WeatherDetailItem.class);	
@@ -242,51 +240,18 @@ public class BusinessRequest {
 		}
     } 
 	
-	
-	/**
-	 * 
-	 */
-    public static  List<WeatherPreChartItem> getWeatherChartList() 
+    public static  List<WeatherPreChartItem> getWeatherChartList() throws Exception 
     {
-    	
+    	WeatherDetailTempInfo[] sevenDays = getWenduTabDetailById(WeatherType.SevenDays.getStrValue());
     	List<WeatherPreChartItem> chartList = new ArrayList<WeatherPreChartItem>();
     	
-		WeatherPreChartItem  item1 = new WeatherPreChartItem();
-		item1.setStrDate("2013-07-21");
-		item1.setStrHighTmpture("100");
-		item1.setStrShorttemTure("80");
-		WeatherPreChartItem  item2 = new WeatherPreChartItem();
-		item2.setStrDate("2013-07-22");
-		item2.setStrHighTmpture("50");
-		item2.setStrShorttemTure("40");
-		WeatherPreChartItem  item3 = new WeatherPreChartItem();
-		item3.setStrDate("2013-07-23");
-		item3.setStrHighTmpture("60");
-		item3.setStrShorttemTure("30");
-		WeatherPreChartItem  item4 = new WeatherPreChartItem();
-		item4.setStrDate("2013-07-24");
-		item4.setStrHighTmpture("120");
-		item4.setStrShorttemTure("80");
-		WeatherPreChartItem  item5 = new WeatherPreChartItem();
-		item5.setStrDate("2013-07-25");
-		item5.setStrHighTmpture("30");
-		item5.setStrShorttemTure("20");
-		WeatherPreChartItem  item6 = new WeatherPreChartItem();
-		item6.setStrDate("2013-07-26");
-		item6.setStrHighTmpture("90");
-		item6.setStrShorttemTure("50");
-		WeatherPreChartItem  item7 = new WeatherPreChartItem();
-		item7.setStrDate("2013-07-27");
-		item7.setStrHighTmpture("80");
-		item7.setStrShorttemTure("20");
-		
-		chartList.add(item1);
-		chartList.add(item2);
-		chartList.add(item3);
-		chartList.add(item4);
-		chartList.add(item5);
-		chartList.add(item6);
-		chartList.add(item7);
+    	for(WeatherDetailTempInfo day : sevenDays) {
+    		WeatherPreChartItem  item = new WeatherPreChartItem();
+    		item.setStrDate( new SimpleDateFormat("yyyy-MM-dd").format(day.getDay()) );
+    		item.setStrHighTmpture(  day.getForecastHighest() + "");
+    		item.setStrShorttemTure( day.getForecastLowest() + "");
+    		chartList.add(item);
+    	}
 		
     	return chartList;
     }
@@ -603,7 +568,34 @@ public class BusinessRequest {
 	
 	public static void SendMessage(ChatMessage chatMessage){
 		String url = (ConstDefine.WEB_SERVICE_URL + ConstDefine.S_PUT_MESSAGE).replace("{UserName}", "zhaoyaqi");
-		new SendChatMessageTask(chatMessage).execute(url);
+		new SendChatMessageTask(chatMessage, "put").execute(url);
+	}
+	
+	public static void SendImage(ChatMessage chatMessage) {
+		ServerHttpRequest httpReq = new ServerHttpRequest();
+		String url = ConstDefine.WEB_SERVICE_URL + ConstDefine.S_POST_IMAGE;
+		url = url.replace("{UserName}", "zhaoyaqi");
+		new SendChatMessageTask(chatMessage, "post").execute(url);
+		
+		
+	}
+	
+	public static HeatSourceDetail getHeatSourceDetail(String heatSourceId) {
+		HeatSourceDetail detail;
+		
+		//TODO: get data from sever
+		detail = new HeatSourceDetail();
+		detail.setHeatSourceId("1");
+		detail.setHeatSourceName("abcd");
+		detail.setCombineMode("外部");
+		detail.setArea("东部");
+		detail.setCoalfiredBoilerCount(0);
+		detail.setGasfiredBoilerCount(0);
+		detail.setSteamLineName("蒸汽线");
+		detail.setWaterLineName("两广线/四环线");
+		detail.setGridConnected(true);
+		
+		return detail;
 	}
 	
 	public static HeatSourceDetail getHeatSourceDetail(String heatSourceId) {

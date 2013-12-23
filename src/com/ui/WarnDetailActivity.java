@@ -19,7 +19,6 @@ import com.util.ConstDefine;
 
 public class WarnDetailActivity extends Activity implements android.view.View.OnClickListener{
 
-	
 	private Button   btnWarnCopy;
 	private Button   btnWarnDel;
 	private Button   btnWarnEdit;
@@ -27,26 +26,23 @@ public class WarnDetailActivity extends Activity implements android.view.View.On
 	private TextView txtWarnDate;
 	private TextView txtWarnContent;
 	
-	
 	private ProgressDialog diaLogProgress = null;
 	private String strWarnId = "";
 	private WarnListItem warnInfo = null;;
 
 	 @Override
-	 public void onCreate(Bundle savedInstanceState) {
-	        super.onCreate(savedInstanceState);
-	        requestWindowFeature(Window.FEATURE_NO_TITLE); 
-	        setContentView(R.layout.warn_detail);
-	        
-	        //��ȡ����
-	        Intent inten = this.getIntent();
-	        Bundle mBundle = inten.getExtras();
-		    if (mBundle == null )  return;
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE); 
+		setContentView(R.layout.warn_detail);
+		
+		Intent inten = this.getIntent();
+		Bundle mBundle = inten.getExtras();
+		if (mBundle == null )  return;
 		   
-		    strWarnId = mBundle.getString("warn_id");
-		    if(strWarnId== null || strWarnId.length() <= 0) return;
+			strWarnId = mBundle.getString("warn_id");
+			if(strWarnId== null || strWarnId.length() <= 0) return;
 		  
-	        //��ťʵ��
 		    btnWarnCopy = (Button) findViewById(R.id.btnWarnCopy);
 	        btnWarnDel = (Button) findViewById(R.id.btnWarnDel);
 	        btnWarnEdit = (Button) findViewById(R.id.btnWarnEdit);
@@ -58,56 +54,46 @@ public class WarnDetailActivity extends Activity implements android.view.View.On
 	    	txtWarnDate  = (TextView) findViewById(R.id.txtWarnDateTime); 
 	    	txtWarnContent  = (TextView) findViewById(R.id.txtWarnContent); 
 	    	
-	    	 warnInfo = new WarnListItem();
-	    	 diaLogProgress = BaseHelper.showProgress(WarnDetailActivity.this,ConstDefine.I_MSG_0003,false);
-		        new Thread() {
-		            public void run() { 
-		                    Message msgSend = new Message();
-		            	    try {
-		            	    	
-		            	    	this.sleep(ConstDefine.HTTP_TIME_OUT);
-		            	    	
-		            	    	warnInfo = BusinessRequest.getWarnDetailById(strWarnId);
-		            	    	
-		            	    	msgSend.what = ConstDefine.MSG_I_HANDLE_OK;
-							} catch (Exception e) {
-								msgSend.what = ConstDefine.MSG_I_HANDLE_Fail;
-							}
-		                    handler.sendMessage(msgSend);
-		            	}
-		        }.start();
-	    	
-	    	//���ó�ʼֵ
-	    	txtWarnTitle.setText(mBundle.getString("warn_title"));
+	    	warnInfo = new WarnListItem();
+	    	diaLogProgress = BaseHelper.showProgress(WarnDetailActivity.this,ConstDefine.I_MSG_0003,false);
+	    	new Thread() {
+	    		public void run() { 
+	                Message msgSend = new Message();
+	        	    try {
+	        	    	this.sleep(ConstDefine.HTTP_TIME_OUT);
+	        	    	
+	        	    	warnInfo = BusinessRequest.getWarnDetailById(strWarnId);
+	        	    	
+	        	    	msgSend.what = ConstDefine.MSG_I_HANDLE_OK;
+					} catch (Exception e) {
+						msgSend.what = ConstDefine.MSG_I_HANDLE_Fail;
+					}
+	                handler.sendMessage(msgSend);
+	    		}
+	    	}.start();
+		       
+		    txtWarnTitle.setText(mBundle.getString("warn_title"));
 	    	txtWarnDate.setText(mBundle.getString("warn_date"));
-	    	
-	 }
+	    }
 	 
-	 /*
-	 * ��ť�����¼�
-	 * @see android.view.View.OnClickListener#onClick(android.view.View)
-	 */
-	public void onClick(View v)
-	{
-		if(R.id.btnWarnCopy == v.getId())
+		public void onClick(View v)
 		{
-			BaseHelper.showDialog(this, "��Ϣ", "����");
+			if(R.id.btnWarnCopy == v.getId())
+			{
+				BaseHelper.showDialog(this, "��Ϣ", "����");
+			}
+			else if(R.id.btnWarnDel == v.getId())
+			{
+				BaseHelper.showDialog(this, "��Ϣ", "ɾ��");
+			}
+			else if(R.id.btnWarnEdit == v.getId())
+			{
+				BaseHelper.showDialog(this, "��Ϣ", "�༭");
+			}
 		}
-		else if(R.id.btnWarnDel == v.getId())
-		{
-			BaseHelper.showDialog(this, "��Ϣ", "ɾ��");
-		}
-		else if(R.id.btnWarnEdit == v.getId())
-		{
-			BaseHelper.showDialog(this, "��Ϣ", "�༭");
-		}
-	}
-	
-    /**
-     * http handler result
-     */
-    private Handler handler = new Handler() {               
-        public void handleMessage(Message message) {
+
+		private Handler handler = new Handler() {               
+			public void handleMessage(Message message) {
                 switch (message.what) {
                 case ConstDefine.MSG_I_HANDLE_OK:                                        
         		 	diaLogProgress.dismiss();
@@ -121,6 +107,5 @@ public class WarnDetailActivity extends Activity implements android.view.View.On
                     break;
 	            }
 	        }
-	  };
-	
+		};
 }

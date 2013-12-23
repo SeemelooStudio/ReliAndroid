@@ -3,6 +3,7 @@ package com.util;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import com.ui.R;
 
@@ -84,5 +85,11 @@ public class DateHelper {
 			return null;
 		}
 	    return parsedDate;
+	}
+	
+	public static String getDayOfWeekInChinese(Date date) {
+		Calendar c =Calendar.getInstance();  
+		c.setTime(date);
+		return c.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.CHINA);
 	}
 }

@@ -60,19 +60,16 @@ public class WeatherDetailTodayFragment extends Fragment {
 		if ( null == _weatherSummary ) {
 			return;
 		}
-		String strDegreeUnit = getActivity().getString(R.string.degree_unit);
-		String strDate = DateHelper.getFullDate(_weatherSummary.getStrUpTime(), "mm/dd/yyyy", getActivity().getApplicationContext()) 
-				+ " "
-				+ DateHelper.getDayOfWeek(_weatherSummary.getStrUpTime(), "mm/dd/yyyy", getActivity().getApplicationContext());
+		String degreeUnit = getActivity().getString(R.string.degree_unit);
+		String strDate =  String.format("%tF",_weatherSummary.getDay());
 		_tvUpdateTime.setText( strDate );
-		_tvCurrentTempreture.setText(_weatherSummary.getStrForecastAverage() + strDegreeUnit);
-		_tvWeather.setText(_weatherSummary.getStrWeatherShortDescription());
-		_tvYesterdayTempreture.setText(_weatherSummary.getStrForecastAverage() + strDegreeUnit);
-		_tvWind.setText(_weatherSummary.getStrFengsu());
-		_tvHighestTempreture.setText(_weatherSummary.getStrForecastHighest() + strDegreeUnit);
-		_tvLowestTempreture.setText(_weatherSummary.getStrForecastLowest() + strDegreeUnit);
-		
-		_ivWeatherIcon.setImageResource( WeatherIconHelper.getWeatherIconResourceId(2) );
+		_tvCurrentTempreture.setText(_weatherSummary.getForecastAverage() + degreeUnit);
+		_tvWeather.setText(_weatherSummary.getWeatherDescription());
+		_tvYesterdayTempreture.setText(_weatherSummary.getForecastAverage() + degreeUnit);
+		_tvWind.setText(_weatherSummary.getWindSpeedAndDirection());
+		_tvHighestTempreture.setText(_weatherSummary.getForecastHighest() + degreeUnit);
+		_tvLowestTempreture.setText(_weatherSummary.getForecastLowest() + degreeUnit);
+		_ivWeatherIcon.setImageResource( WeatherIconHelper.getWeatherIconResourceId(_weatherSummary.getWeatherIcon()) );
 		
 		if ( null == _weatherDetails ) {
 			return;

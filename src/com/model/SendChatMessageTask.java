@@ -1,5 +1,8 @@
 package com.model;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.reqst.BusinessRequest;
 import com.reqst.ServerHttpRequest;
 import com.util.ConstDefine;
@@ -11,9 +14,11 @@ import android.util.Log;
 public class SendChatMessageTask extends AsyncTask<String, Void, Boolean> {
 
 	private ChatMessage message;
+	private String httpMethodType;
 	
-	public SendChatMessageTask(ChatMessage message){
+	public SendChatMessageTask(ChatMessage message, String httpMethodType){
 		this.message = message;
+		this.httpMethodType = httpMethodType;
 	}
 	
 	@Override
@@ -21,9 +26,16 @@ public class SendChatMessageTask extends AsyncTask<String, Void, Boolean> {
 		try {
 			ServerHttpRequest httpReq = new ServerHttpRequest();
 			String url = urls[0];
-			String requestData = JsonHelper.toJSON(message);
-			String response = httpReq.doPut(url, requestData, "application/json");
-			Log.v("message", response);
+			
+			if(httpMethodType == "put"){
+				String requestData = JsonHelper.toJSON(message);
+				String response = httpReq.doPut(url, requestData, "application/json");
+			}
+			else {
+				Map<String, String> requestData = new HashMap<String, String>();
+				requestData.put("image", message.getImageUri());
+				String response = httpReq.doPost(url, requestData);
+			}
 			return true;
 		}
 		catch(Exception ex) {

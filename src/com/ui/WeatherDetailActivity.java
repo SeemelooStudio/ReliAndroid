@@ -1,6 +1,9 @@
 package com.ui;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -11,8 +14,10 @@ import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.ActionBar.TabListener;
 import android.support.v4.app.Fragment;
+import android.app.DialogFragment;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -20,6 +25,9 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 
 import com.model.WeatherStationListItem;
 import com.model.WeatherDetailItem;
@@ -30,6 +38,7 @@ import com.reqst.BusinessRequest;
 import com.util.BaseHelper;
 import com.util.ConstDefine;
 import com.util.DateHelper;
+import com.util.WeatherIconHelper;
 
 
 public class WeatherDetailActivity extends FragmentActivity implements TabListener {
@@ -50,16 +59,21 @@ public class WeatherDetailActivity extends FragmentActivity implements TabListen
     private WeatherDetailWeekFragment _frgWeek;
     private WeatherDetailHistoryFragment _frgHistory;
     private WeatherDetailStationsFragment _frgStations;
+    private EditText _fromDate;
+    private EditText _toDate;
+    
+    private final int DATE_PICKER_FROM_DIALOG =1;
+    private final int DATE_PICKER_TO_DIALOG = 2;
     
 	 @Override
 	 public void onCreate(Bundle savedInstanceState) {
-	        super.onCreate(savedInstanceState);
-	        setContentView(R.layout.weather_detail);
-			
-			initFragments();
-			initViewPager();
-		    initActionBar();
-			
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.weather_detail);
+		
+		initFragments();
+		initViewPager();
+		initActionBar();
+	    
 	 }
 	@Override
 	public void onStart() {
@@ -92,7 +106,6 @@ public class WeatherDetailActivity extends FragmentActivity implements TabListen
 		
 	}
 	private void initActionBar(){
-	    //add tabs to ActionBar
 	    final ActionBar actionBar = getActionBar();
 	    actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 	    
@@ -103,6 +116,7 @@ public class WeatherDetailActivity extends FragmentActivity implements TabListen
         }   	
     }
 
+	
     
     @Override  
     public void onTabReselected(Tab tab, FragmentTransaction ft) {  
@@ -119,6 +133,38 @@ public class WeatherDetailActivity extends FragmentActivity implements TabListen
           
     } 
 
+	public void showTimePickerDialog(View v) {
+	    DialogFragment newFragment = new TimePickerFragment();
+	    newFragment.show(this.getFragmentManager(), "timePicker");
+	}
+	
+	public void showDateFromDialog(View v) {
+	    DialogFragment datePickerFromDialog = new DatePickerFragment();
+	    datePickerFromDialog.show (this.getFragmentManager(), "from");
+	}
+	
+	public void showDateToDialog(View v) {
+	    DialogFragment datePickerToDialog = new DatePickerFragment();
+	    datePickerToDialog.show(this.getFragmentManager(), "to");
+	}
+	
+	public void searchWeatherHistory(View v) {
+		_diaLogProgress = BaseHelper.showProgress(WeatherDetailActivity.this,ConstDefine.I_MSG_0003,false);
+		new Thread() {
+            public void run() { 
+            	Message msgSend = new Message();
+				try {
+					_frgHistory.search();
+					msgSend.what = ConstDefine.MSG_I_HANDLE_SEARCH_OK;
+					oneTabhandler.sendMessage(msgSend);
+				} catch (Exception e) {
+					msgSend.what = ConstDefine.MSG_I_HANDLE_Fail;
+					e.printStackTrace();
+				}
+            }
+		}.start();
+	}
+	
 	private void fetchWeatherDetialData(){
 		 
     	_diaLogProgress = BaseHelper.showProgress(WeatherDetailActivity.this,ConstDefine.I_MSG_0003,false);
@@ -126,12 +172,17 @@ public class WeatherDetailActivity extends FragmentActivity implements TabListen
             public void run() { 
                 Message msgSend = new Message();
         	    try {
-
-        	    	_weatherSummaryToday = BusinessRequest.getWenduTabDetailById(strListId,WeatherType.Today.getStrValue());
+        	    	WeatherDetailTempInfo[] weatherSummaryTodayAndYesterday = 
+        	    			BusinessRequest.getWenduTabDetailById(WeatherType.TodayAndYesterday.getStrValue());
+        	    	_weatherSummaryToday = weatherSummaryTodayAndYesterday[0];
         		 	_weatherDetailsToday = getWeatherDetailListData(strListId,"1");
-        		 	        		 	
         		 	_weatherChartItems =  BusinessRequest.getWeatherChartList();
-        		 	_weatherDetailsHistory =  BusinessRequest.getWeatherHisListData();
+        		 	
+        		 	Calendar fromDate = Calendar.getInstance(); 
+        		 	fromDate.set(Calendar.DATE,  fromDate.get(Calendar.DATE) - 7);
+        		 	Calendar toDate = Calendar.getInstance();
+        		 	toDate.set(Calendar.DATE, toDate.get(Calendar.DATE) - 1);
+        		 	_weatherDetailsHistory =  BusinessRequest.getWeatherHisListData(fromDate.getTime(), toDate.getTime());
         		 	_weatherStations =  BusinessRequest.getWeatherList();
         		 	
         	    	msgSend.what = ConstDefine.MSG_I_HANDLE_OK;
@@ -164,44 +215,39 @@ public class WeatherDetailActivity extends FragmentActivity implements TabListen
                 	//close process
                 	_diaLogProgress.dismiss();
                 	BaseHelper.showToastMsg(WeatherDetailActivity.this,ConstDefine.E_MSG_0001);
-                    break;
+                	break;
+                case ConstDefine.MSG_I_HANDLE_SEARCH_OK:
+                	_frgHistory.renderWeatherDetailData();
+                	_diaLogProgress.dismiss();
+                	break;
 	            }
 	        }
 	  };
 	 
-	  
 	  /**
 	   * 
-	   * @return
-	 * @throws JSONException 
+	   * TODO : revise
 	   */
 	  private List<HashMap<String, Object>> getWeatherDetailListData(String strListId ,String dayFlag) throws Exception {  
-	   
-	    
-	  	ArrayList<WeatherDetailItem> wenduDbDatalist = new ArrayList<WeatherDetailItem>();
-      
-	  	_weatherSummaryToday.setStrListId(strListId);
-	  	_weatherSummaryToday.setStrDayFlag(dayFlag);
-	  	wenduDbDatalist = BusinessRequest.getWenduTabDetailListById(_weatherSummaryToday);
-	  	
+
+	  	WeatherDetailTempInfo[] sevenDays = BusinessRequest.getWenduTabDetailById(WeatherType.SevenDays.getStrValue());
 		List<HashMap<String, Object>> wenDuList = new ArrayList<HashMap<String, Object>>(); 
-		for (WeatherDetailItem oneRec: wenduDbDatalist) 
+		for (WeatherDetailTempInfo oneDay: sevenDays) 
 		{   
 			HashMap<String, Object> item = new HashMap<String, Object>();
-			String time = oneRec.getW_time();
-			String strDate = DateHelper.getShortDate(time, "mm/dd/yyyy", getApplicationContext());
-			String strDayOfWeek = DateHelper.getDayOfWeek(time, "mm/dd/yyyy", getApplicationContext());
+			Date day = oneDay.getDay();
+			String strDate = new SimpleDateFormat("MM月dd日").format(day);
 		    item.put("date", strDate);
-		    item.put("day_of_week", strDayOfWeek); 
-		    item.put("tempreture", oneRec.getW_wendu() + getString(R.string.degree_unit)); 
-		    item.put("weather", oneRec.getW_iconId()); 
+		    item.put("day_of_week", DateHelper.getDayOfWeekInChinese(day)); 
+		    item.put("tempreture", oneDay.getForecastAverage() + getString(R.string.degree_unit)); 
+		    item.put("weather", WeatherIconHelper.getWeatherIconResourceId(oneDay.getWeatherIcon()));
 		    wenDuList.add(item);
 		}
 		
-		//return
 		return wenDuList;
      } 
-	 
+
+		
 
 	public class WeatherFragmentPagerAdapter extends FragmentPagerAdapter {
 	    private final int TAB_POSITION_TODAY = 0;
@@ -253,6 +299,7 @@ public class WeatherDetailActivity extends FragmentActivity implements TabListen
 			}
 			return tabLabel;
 		}
+		
 	}
 
 }

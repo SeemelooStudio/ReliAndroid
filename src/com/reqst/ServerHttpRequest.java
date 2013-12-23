@@ -1,5 +1,7 @@
 package com.reqst;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.net.HttpURLConnection;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -16,7 +18,12 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.params.HttpClientParams;
+import org.apache.http.entity.InputStreamEntity;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.BasicHttpParams;
@@ -128,25 +135,35 @@ public class ServerHttpRequest {
 	public String doPost(String url, Map<String, String> params) throws Exception {
 		
 		// create post param
-		List<NameValuePair> data = new ArrayList<NameValuePair>();
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+		boolean isImage = false;
+		File file = null;
 		if (params != null) {
 			Iterator<Entry<String, String>> iter = params.entrySet().iterator();
 			while (iter.hasNext()) {
 				Entry<String, String> entry = (Entry<String, String>) iter.next();
-				data.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
+				nameValuePairs.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
+				if(entry.getKey() == "image") {
+					isImage = true;
+					file = new File(entry.getValue());
+				}
 			}
 		}
 		HttpPost post = new HttpPost(url);
 		try {
-			
-			// add param
-			if (params != null){
-				post.setEntity(new UrlEncodedFormEntity(data, HTTP.UTF_8));
+			if(isImage) {
+		    	FileInputStream fileInputStream = new FileInputStream(file);
+		    	InputStreamEntity reqEntity = new InputStreamEntity(fileInputStream, file.length());
+		    	reqEntity.setChunked(true);
+		    	reqEntity.setContentType("binary/octet-stream");
+		    	post.setEntity(reqEntity);
+			}
+			else {
+				if (params != null){
+					post.setEntity(new UrlEncodedFormEntity(nameValuePairs, HTTP.UTF_8));
+				}
 			}
 			
-			Log.v(TAG, "doPost: " + url);
-			Log.v(TAG, "HttpPost: " + post);
-			Log.v(TAG, "data: " + data.toString());
 			HttpResponse resp = httpClient.execute(post);
 			String strResp = "";
 			if (resp.getStatusLine().getStatusCode() == HttpURLConnection.HTTP_OK) {
@@ -154,8 +171,7 @@ public class ServerHttpRequest {
 				Log.v(TAG, "strResp: " + strResp);
 			}
 			else{
-				throw new Exception("Error Response:"
-						+ resp.getStatusLine().toString());
+				throw new Exception("Error Response:" + resp.getStatusLine().toString());
 			}
 			
 			return strResp;
@@ -165,6 +181,7 @@ public class ServerHttpRequest {
 		}
 	}
 
+	
 	/**
 	 * 
 	 * @param url

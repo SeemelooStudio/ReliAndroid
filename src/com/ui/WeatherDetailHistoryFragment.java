@@ -1,23 +1,35 @@
 package com.ui;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import com.model.WeatherDetailItem;
+import com.reqst.BusinessRequest;
+
 import android.support.v4.app.Fragment;
+import android.text.format.DateFormat;
+import android.app.DialogFragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.SimpleAdapter;
 
 public class WeatherDetailHistoryFragment extends Fragment implements SearchView.OnQueryTextListener{
-	private List<HashMap<String, Object>> _parsedWeatherDetials;
+	private List<HashMap<String, Object>> _parsedWeatherDetails;
 	private ArrayList<WeatherDetailItem> _originWeatherDetails;
 	private ListView _lvWeatherHistory;
-
+	private EditText _searchFromDate;
+    private EditText _searchToDate;
+    
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -30,35 +42,51 @@ public class WeatherDetailHistoryFragment extends Fragment implements SearchView
 	public void onStart() {
 		super.onStart();
 		_lvWeatherHistory = (ListView)getView().findViewById(R.id.weather_history_list);
+		initHistorySearchView();
 	}
+	
 	@Override
 	public void onResume() {
 		super.onResume();
+		initHistorySearchView();
 		renderWeatherDetailData();
+	}
+	
+	public void search() throws Exception {
+		Date fromDate = new SimpleDateFormat("yyyy-MM-dd").parse(_searchFromDate.getText().toString());
+		Date toDate =  new SimpleDateFormat("yyyy-MM-dd").parse(_searchToDate.getText().toString());
+		_originWeatherDetails = BusinessRequest.getWeatherHisListData(fromDate, toDate);
+		_parsedWeatherDetails = parseWeatherDetails(_originWeatherDetails);
+	}
+	
+	private void initHistorySearchView() {
+		_searchFromDate = (EditText) getView().findViewById(R.id.pick_from_date) ;
+		_searchToDate = (EditText) getView().findViewById(R.id.pick_to_date);
+	
+		InputMethodManager imm = (InputMethodManager)this.getActivity().getSystemService(
+	    	      Context.INPUT_METHOD_SERVICE);
+		_searchFromDate.setInputType(0);
+		_searchToDate.setInputType(0);
+	    imm.hideSoftInputFromWindow(_searchFromDate.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+	    imm.hideSoftInputFromWindow(_searchToDate.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);	
 	}
 	
 	public void renderWeatherDetailData() {
 
-		if ( null == _parsedWeatherDetials ) {
+		if ( null == _parsedWeatherDetails ) {
 			return;
 		}
-		View view = getView();
-		
-		_lvWeatherHistory.setAdapter(new SimpleAdapter(getActivity().getApplicationContext(),_parsedWeatherDetials, R.layout.weather_detail_item,  
+		_lvWeatherHistory.setAdapter(new SimpleAdapter(getActivity().getApplicationContext(),_parsedWeatherDetails, R.layout.weather_detail_item,  
 				new String[] { "time", "tempreture", "weather" }, 
 				  new int[] {R.id.w_time, R.id.w_tempreture, R.id.w_weather}));
 		_lvWeatherHistory.setTextFilterEnabled(true); 
-		
-		SearchView searchView = (SearchView) view.findViewById(R.id.wether_his_search);    
-		searchView.setOnQueryTextListener( this );
-        searchView.setSubmitButtonEnabled(false); 
 
 	}
 	
 
 	public void setOriginDataList(ArrayList<WeatherDetailItem> originWeatherDetails) {
 		_originWeatherDetails = originWeatherDetails;
-		_parsedWeatherDetials = parseWeatherDetails(_originWeatherDetails);
+		_parsedWeatherDetails = parseWeatherDetails(_originWeatherDetails);
 	}
 	@Override  
     public boolean onQueryTextChange(String newText) {  
@@ -71,7 +99,7 @@ public class WeatherDetailHistoryFragment extends Fragment implements SearchView
     public boolean onQueryTextSubmit(String query) {  
 	   return false;  
     }
-	private void updateLayout(List<HashMap<String, Object>> resultList) {  
+	public void updateLayout(List<HashMap<String, Object>> resultList) {  
 		
 		_lvWeatherHistory.setAdapter(new SimpleAdapter( getActivity(), resultList, R.layout.weather_detail_item,  
 				  new String[] { "time", "tempreture", "weather" }, 
@@ -86,13 +114,13 @@ public class WeatherDetailHistoryFragment extends Fragment implements SearchView
 	    
 	    for (int i = 0; i < _originWeatherDetails.size(); i++) 
 	    { 	
-	        int index =((WeatherDetailItem) _originWeatherDetails.get(i)).getW_time().indexOf(name);  
+	        int index =((WeatherDetailItem) _originWeatherDetails.get(i)).getDay().indexOf(name);  
 
 		    if (index != -1) {
 		    	HashMap<String, Object> item = new HashMap<String, Object>(); 
-		    	item.put("time", _originWeatherDetails.get(i).getW_time()); 
-		        item.put("tempreture", _originWeatherDetails.get(i).getW_wendu()); 
-		        item.put("weather", _originWeatherDetails.get(i).getW_tianqi()); 
+		    	item.put("time", _originWeatherDetails.get(i).getDay()); 
+		        item.put("tempreture", _originWeatherDetails.get(i).getWindDirection()); 
+		        item.put("weather", _originWeatherDetails.get(i).getWeatherDescription()); 
 		        mSearchHisList.add(item);  
 		    } 
 	    }
@@ -106,9 +134,9 @@ public class WeatherDetailHistoryFragment extends Fragment implements SearchView
 		for (WeatherDetailItem oneRec: originWeatherDetails) 
 		{   
 			HashMap<String, Object> item = new HashMap<String, Object>();  
-		    item.put("time", oneRec.getW_time()); 
-			item.put("tempreture", oneRec.getW_wendu()); 
-			item.put("weather", oneRec.getW_tianqi()); 
+		    item.put("time", oneRec.getDay()); 
+			item.put("tempreture", oneRec.getWindDirection()); 
+			item.put("weather", oneRec.getWeatherDescription()); 
 			parsedWeatherDetails.add(item);  
 		}
 		return parsedWeatherDetails;

@@ -13,6 +13,7 @@ public class ChatMessage {
 	private Date createdAt;
 	private int sendFromUserId;
 	private int sendToUserId;
+	private String imageUri;
 	
 	public ChatMessage(int direction, String messageContent) {
 		super();
@@ -25,6 +26,10 @@ public class ChatMessage {
 		
 	}
 
+	public boolean isImage() {
+		return imageUri != null && imageUri != "";
+	}
+	
 	public int getDirection() {
 		return direction;
 	}
@@ -71,6 +76,14 @@ public class ChatMessage {
 
 	public void setSendToUserId(int sendToUserId) {
 		this.sendToUserId = sendToUserId;
+	}
+
+	public String getImageUri() {
+		return imageUri;
+	}
+
+	public void setImageUri(String imageUri) {
+		this.imageUri = imageUri;
 	}
 
 }
