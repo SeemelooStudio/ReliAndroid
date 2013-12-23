@@ -19,6 +19,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.GridLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.GridLayout.Spec;
 
@@ -110,15 +111,11 @@ public class HeatSourceMainActivity extends Activity {
 	    
 	  private void setHeatSourceItemContent( View viewHeatSource, HeatSourceMainItem item)
 	  {
-		 TextView tvPressureOut =  (TextView) viewHeatSource.findViewById(R.id.hot_source_pressure_out);
-		 tvPressureOut.setText(item.getPressureOut() + getString(R.string.pressure_unit) );
-		 TextView tvPressureIn =  (TextView) viewHeatSource.findViewById(R.id.hot_source_pressure_in);
-		 tvPressureIn.setText(item.getPressureIn() + getString(R.string.pressure_unit) );
-		 TextView tvTemperatureOut =  (TextView) viewHeatSource.findViewById(R.id.hot_source_temperature_out);
-		 tvTemperatureOut.setText(item.getPressureOut() + getString(R.string.degree_unit) );
-		 TextView tvTemperatureIn =  (TextView) viewHeatSource.findViewById(R.id.hot_source_temperature_in);
-		 tvTemperatureIn.setText(item.getPressureIn() + getString(R.string.degree_unit) );
-		 
+		 TextView tvSourceArea =  (TextView) viewHeatSource.findViewById(R.id.heat_source_area);
+		 tvSourceArea.setText(item.getArea() + ", " + item.getCombineMode() );
+		 TextView tvSourceType =  (TextView) viewHeatSource.findViewById(R.id.heat_source_unit_type);
+		 tvSourceType.setText(item.getUnitType()  );
+
 		 TextView tvHeatSourceName = (TextView) viewHeatSource.findViewById(R.id.hot_source_name);
 		 tvHeatSourceName.setText(item.getHeatSourceName());
 	  }
@@ -234,7 +231,7 @@ public class HeatSourceMainActivity extends Activity {
 					rowIndex++;
 				}
 				//show title cell
-		        if(rowIndex == 1 && columnIndex == 0){
+		        if(rowIndex == 1 && columnIndex == 0  ){
 		        	gridLayout.addView( getHeatSourceSummaryCell(titleInfo, rowIndex, columnIndex, bigCellWidth, cellHeight) );
 		        	columnIndex+=1;
 		        	cell--;
@@ -268,12 +265,17 @@ public class HeatSourceMainActivity extends Activity {
 		    	indicator.setGravity(Gravity.CENTER);
 		    	indicator.setTextColor(Color.BLACK);
 		    	
-	            if (i == 0) {  
-	            	indicator.setLayoutParams(new LayoutParams(focusedSize,focusedSize));
+		    	
+	            if (i == 0) {
+	            	LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(focusedSize,focusedSize);
+	            	params.setMargins(0, 0, 10, 0);
+	            	indicator.setLayoutParams(params);
 	            	indicator.setText("1");
 	                indicators[i].setBackgroundResource(R.drawable.page_indicator_focused);
 	            } else {
-	            	indicator.setLayoutParams(new LayoutParams(normalSize,normalSize));
+	            	LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(normalSize,normalSize);
+	            	params.setMargins(0, 0, 10, 0);
+	            	indicator.setLayoutParams(params);
 	                indicators[i].setBackgroundResource(R.drawable.page_indicator);  
 	            }             
 	            viewGroup.addView(indicators[i]);  

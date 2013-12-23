@@ -458,17 +458,30 @@ public class BusinessRequest {
 	 * @return
 	 */
 	public static ArrayList<HeatSourceMainItem> getHeatSourceMainList() throws Exception{
-	
+		
 		ServerHttpRequest httpReq = new ServerHttpRequest();
 		String strRequestAddress = (ConstDefine.WEB_SERVICE_URL + ConstDefine.S_GET_HEATSOURCES);
 		try {
+			
 			String strResp = httpReq.doGet(strRequestAddress);
-			ArrayList<HeatSourceMainItem>  lstHotSrc = (ArrayList<HeatSourceMainItem>) JsonHelper.parseCollection(strResp, List.class, HeatSourceMainItem.class);	
+			//ArrayList<HeatSourceMainItem>  lstHotSrc = (ArrayList<HeatSourceMainItem>) JsonHelper.parseCollection(strResp, List.class, HeatSourceMainItem.class);
+			
+			ArrayList<HeatSourceMainItem>  lstHotSrc = new ArrayList<HeatSourceMainItem>();
+			for(int i=0; i<15; i++)
+	        {
+				HeatSourceMainItem  item = new HeatSourceMainItem();
+	        	item.setArea("东部");
+	        	item.setCombineMode("外部");
+	        	item.setUnitType("燃气");
+	        	item.setHeatSourceName("国华北");
+	        	lstHotSrc.add(item);
+	        }
+
 			return  lstHotSrc;
 		}
 		catch (Exception ex){
 			throw ex;
-		}	
+		}
 	}
 	/**
 	 * 
@@ -598,21 +611,5 @@ public class BusinessRequest {
 		return detail;
 	}
 	
-	public static HeatSourceDetail getHeatSourceDetail(String heatSourceId) {
-		HeatSourceDetail detail;
-		
-		//TODO: get data from sever
-		detail = new HeatSourceDetail();
-		detail.setHeatSourceId("1");
-		detail.setHeatSourceName("abcd");
-		detail.setCombineMode("外部");
-		detail.setArea("东部");
-		detail.setCoalfiredBoilerCount(0);
-		detail.setGasfiredBoilerCount(0);
-		detail.setSteamLineName("蒸汽线");
-		detail.setWaterLineName("两广线/四环线");
-		detail.setGridConnected(true);
-		
-		return detail;
-	}
+
 }
