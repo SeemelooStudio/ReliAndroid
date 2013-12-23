@@ -6,7 +6,7 @@ public class ConstDefine
 	//hander msg
 	public static final int MSG_I_HANDLE_OK = 0x0001;
 	public static final int MSG_I_HANDLE_Fail = 0x0002;
-	
+	public static final int MSG_I_HANDLE_SEARCH_OK = 0x0003;
 	//http
 	public static final int HTTP_TIME_OUT = 0*1000;
 	public static final int HTTP_BUFF_SIZE = 8192;

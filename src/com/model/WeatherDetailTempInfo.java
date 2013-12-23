@@ -1,5 +1,7 @@
 package com.model;
 
+import java.util.Date;
+
 public class WeatherDetailTempInfo{
 
 	
@@ -11,18 +13,17 @@ public class WeatherDetailTempInfo{
 	private String strName;
 	private String strTiWen;
 	private String strWendu;
-	private String strFengsu;
-	private String strFengxiang;
-	private String strUpTime;
-	private String strImge;
 	
-	private String forecastHighest;
-	private String forecastLowest;
-	private String forecastAverage;
-	private String actualHighest;
-	private String actualLowest;
-	private String actualAverage;
+	private Date day;
+	private String windSpeedAndDirection;
+	private float forecastHighest;
+	private float forecastLowest;
+	private float forecastAverage;
+	private float actualHighest;
+	private float actualLowest;
+	private float actualAverage;
 	private String weatherDescription;
+	private int weatherIcon;
 	
 	public String getStrListId() {
 		return strListId;
@@ -60,70 +61,64 @@ public class WeatherDetailTempInfo{
 	public void setStrWendu(String strWendu) {
 		this.strWendu = strWendu;
 	}
-	public String getStrFengsu() {
-		return strFengsu;
+	public String getWindSpeedAndDirection() {
+		return windSpeedAndDirection;
 	}
-	public void setStrFengsu(String strFengsu) {
-		this.strFengsu = strFengsu;
+	public void setWindSpeedAndDirection(String windSpeedAndDirection) {
+		this.windSpeedAndDirection = windSpeedAndDirection;
 	}
-	public String getStrFengxiang() {
-		return strFengxiang;
-	}
-	public void setStrFengxiang(String strFengxiang) {
-		this.strFengxiang = strFengxiang;
-	}
-	public String getStrUpTime() {
-		return strUpTime;
-	}
-	public void setStrUpTime(String strUpTime) {
-		this.strUpTime = strUpTime;
-	}
-	public String getStrImge() {
-		return strImge;
-	}
-	public void setStrImge(String strImge) {
-		this.strImge = strImge;
-	}
-	public String getForecastHighest() {
+	public float getForecastHighest() {
 		return this.forecastHighest;
 	}
-	public void setForecastHighest(String forecastHighest) {
+	public void setForecastHighest(float forecastHighest) {
 		this.forecastHighest = forecastHighest;
 	}
-	public String getForecastAverage() {
+	public float getForecastAverage() {
 		return this.forecastAverage;
 	}
-	public void setForecastAverage(String forecastAverage) {
+	public void setForecastAverage(float forecastAverage) {
 		this.forecastAverage = forecastAverage;
 	}
-	public String getForecastLowest() {
+	public float getForecastLowest() {
 		return this.forecastLowest;
 	}
-	public void setForecastLowest(String forecastLowest) {
+	public void setForecastLowest(float forecastLowest) {
 		this.forecastLowest = forecastLowest;
 	}
-	public String getActualHighest() {
+	public float getActualHighest() {
 		return this.actualHighest;
 	}
-	public void setActualHighest(String actualHighest) {
+	public void setActualHighest(float actualHighest) {
 		this.actualHighest = actualHighest;
 	}
-	public String getActualAverage() {
+	public float getActualAverage() {
 		return this.actualAverage;
 	}
-	public void setActualAverage(String actualAverage) {
+	public void setActualAverage(float actualAverage) {
 		this.actualAverage = actualAverage;
 	}
-	public String getActualLowest() {
+	public float getActualLowest() {
 		return this.actualLowest;
 	}
-	public void setActualLowest(String actualLowest) {
+	public void setActualLowest(float actualLowest) {
 		this.actualLowest = actualLowest;
 	}
 	public String getWeatherDescription() {
 		return this.weatherDescription;
 	}
 	public void setWeatherDescription(String weatherDescription) {
-		this.actualLowest = weatherDescription;
+		this.weatherDescription = weatherDescription;
+	}
+	public Date getDay() {
+		return day;
+	}
+	public void setDay(Date day) {
+		this.day = day;
+	}
+	public int getWeatherIcon() {
+		return weatherIcon;
+	}
+	public void setWeatherIcon(int weatherIcon) {
+		this.weatherIcon = weatherIcon;
 	}
 } 
