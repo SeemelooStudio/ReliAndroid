@@ -360,7 +360,7 @@ public class BusinessRequest {
     
     public static StationDetail getStationDetail(int stationId) throws Exception{
     	
-    	String requestAddress = (ConstDefine.WEB_SERVICE_URL + ConstDefine.S_GET_STATION).replace("{UserName}", "zhaoyaqi").replace("StationId", stationId+"");
+    	String requestAddress = (ConstDefine.WEB_SERVICE_URL + ConstDefine.S_GET_STATION).replace("{UserName}", "zhaoyaqi").replace("{StationId}", stationId+"");
     	
 		try {
 			ServerHttpRequest httpReq = new ServerHttpRequest();

@@ -163,11 +163,11 @@ public class UnitDetailActivity extends FragmentActivity  {
 		}
 	};
 	private void getDetail() {
+		_diaLogProgress = BaseHelper.showProgress(UnitDetailActivity.this, ConstDefine.I_MSG_0003, false);
 		new Thread() {
             public void run() { 
                 Message msgSend = new Message();
         	    try {
-        	    	_diaLogProgress = BaseHelper.showProgress(UnitDetailActivity.this, ConstDefine.I_MSG_0003, false);
         	    	_heatSourceDetail = BusinessRequest.getStationDetail( _heatSourceId );
         		 	
         	    	msgSend.what = ConstDefine.MSG_I_HANDLE_OK;
