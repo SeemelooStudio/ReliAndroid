@@ -11,7 +11,7 @@
 			    android:layout_marginLeft="@dimen/small_margin"
 			    android:layout_marginTop="@dimen/medium_margin"
 			    android:background="@drawable/main_item_six_image"
-			    android:contentDescription="@string/main_item_five_name"/>
+			    android:contentDescription="@string/main_item_six_name"/>
 		    	<LinearLayout 
 			    android:layout_width="match_parent"  
 			     android:layout_height="match_parent"

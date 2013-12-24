@@ -5,6 +5,7 @@ public class WeatherStationListItem {
 	private String strListId;
 	private String strListName;
 	private String strListOther;
+	private Double value = 0.0;
 	
 	public String getStrListId() {
 		return strListId;
@@ -23,6 +24,12 @@ public class WeatherStationListItem {
 	}
 	public void setStrListOther(String list_other) {
 		this.strListOther = list_other;
+	}
+	public Double getValue() {
+		return value;
+	}
+	public void setValue(Double value) {
+		this.value = value;
 	}
 	
 }

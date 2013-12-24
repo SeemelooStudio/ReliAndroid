@@ -119,4 +119,6 @@
    <string name="heat_per_hour">GJ/h</string>
    <string name="water_per_hour">t/h</string>
    
+   <string name="test_content">左家庄热力站11月18日连续超标10。11月19日超标12。11月20日超标11</string>
+   
 </resources>

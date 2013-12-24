@@ -3,7 +3,6 @@ package com.ui;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -21,27 +20,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.SimpleAdapter;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import com.chart.impl.AverageTemperatureChart;
 import com.ctral.MainScrollLayout;
 import com.model.MainPageSummary;
-import com.model.WeatherType;
 import com.reqst.BusinessRequest;
 import com.util.BaseHelper;
 import com.util.ConstDefine;
 import com.util.ViewPageAdapter;
-import com.util.ViewPageChangeListener;
 import com.util.WeatherIconHelper;
 
 public class MainPageActivity extends Activity {
@@ -276,8 +269,8 @@ public class MainPageActivity extends Activity {
 			  imgWeatherIcon.setImageDrawable(getResources().getDrawable(intImageResource));
 		  }
 		  String today = DateFormat.getDateInstance().format(new Date());
-		  tvToday.setText("北京" + today + "日");
-		  tvWeather.setText(mainPageSummary.getStrWind() + " " + mainPageSummary.getStrWeather());
+		  tvToday.setText(mainPageSummary.getStrWind());
+		  tvWeather.setText(mainPageSummary.getStrWeather());
 		  
 	  }
 	  private void setMessagerData( )
