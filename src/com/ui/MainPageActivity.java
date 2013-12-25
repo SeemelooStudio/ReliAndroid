@@ -247,24 +247,23 @@ public class MainPageActivity extends Activity {
                 switch (message.what) {
                 case ConstDefine.MSG_I_HANDLE_OK:                                        
         		 	diaLogProgress.dismiss();
-        		 	
         		 	setTemperatureData();
         		 	setMessagerData();
                     break;
-                case ConstDefine.MSG_I_HANDLE_Fail:                                        
-                	//close process
+                case ConstDefine.MSG_I_HANDLE_Fail:    
                 	diaLogProgress.dismiss();
                 	BaseHelper.showToastMsg(MainPageActivity.this,ConstDefine.E_MSG_0001);
                     break;
 	            }
 	        }
 	  };
+	  
 	  private void setTemperatureData( )
 	  {
 		  TextView tvHighest = (TextView) findViewById(R.id.main_item_three_txt1);
 		  TextView tvToday = (TextView) findViewById(R.id.main_item_three_txt2);
 		  TextView tvWeather = (TextView) findViewById(R.id.main_item_three_txt3);
-		  tvHighest.setText(mainPageSummary.getStrForecastHighest() + "/" + mainPageSummary.getStrForecastLowest());	
+		  tvHighest.setText(mainPageSummary.getForecastHighest() + "/" + mainPageSummary.getForecastLowest());	
 		  ImageView imgWeatherIcon = (ImageView) findViewById(R.id.main_item_three_image);
 		  
 		  //TODO: get weather icon id
@@ -277,15 +276,15 @@ public class MainPageActivity extends Activity {
 		  }
 		  String today = DateFormat.getDateInstance().format(new Date());
 		  tvToday.setText("北京" + today + "日");
-		  tvWeather.setText(mainPageSummary.getStrWind() + " " + mainPageSummary.getStrWeather());
+		  tvWeather.setText(mainPageSummary.getWindSpeedAndDirection() + " " + mainPageSummary.getWeatherDiscription());
 		  
 	  }
 	  private void setMessagerData( )
 	  {
 		  TextView tvPhotoCount = (TextView) findViewById(R.id.main_item_four_txt1);
 		  TextView tvMessageCount = (TextView) findViewById(R.id.main_item_four_txt2);
-		  tvPhotoCount.setText(mainPageSummary.getStrCountPhotos());
-		  tvMessageCount.setText(mainPageSummary.getStrCountMessages());
+		  tvPhotoCount.setText(mainPageSummary.getCountPhotos()+"");
+		  tvMessageCount.setText(mainPageSummary.getCountMessages()+"");
 	  }
     /**
      * click listren

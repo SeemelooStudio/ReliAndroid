@@ -1,98 +1,98 @@
 package com.model;
 
 public class MainPageSummary {
-	private String strForecastHighest;
-	private String strForecastLowest;
-	private String strForecastAverage;
-	private String strWind;
-	private String strWeather;
-	private String strWeatherIcon;
-	private String strCountWarnings;
-	private String strCountPhotos;
-	private String strCountMessages;
+	private float forecastHighest;
+	private float forecastLowest;
+	private float forecastAverage;
+	private String windSpeedAndDirection;
+	private String weatherDescription;
+	private int weatherIcon;
+	private int countWarnings;
+	private int countPhotos;
+	private int countMessages;
 	
-	public String getStrForecastHighest ()
+	public float getForecastHighest ()
 	{
-		return this.strForecastHighest;
+		return this.forecastHighest;
 	}
 	
-	public void setStrForecastHighest(String strForecastHighest) {
-		this.strForecastHighest = strForecastHighest;
+	public void setForecastHighest(float forecastHighest) {
+		this.forecastHighest = forecastHighest;
 	}
 	
-	public String getStrForecastLowest()
+	public float getForecastLowest()
 	{ 
-		return this.strForecastLowest;
+		return this.forecastLowest;
 	}
 	
-	public void setStrForecastLowest(String strForecastLowest)
+	public void setForecastLowest(float forecastLowest)
 	{
-		this.strForecastLowest = strForecastLowest;
+		this.forecastLowest = forecastLowest;
 	}
 	
-	public String getStrForecastAverage()
+	public float getForecastAverage()
 	{
-		return this.strForecastAverage;
+		return this.forecastAverage;
 	}
 	
-	public void setStrForecastAverage(String strForecastAverage) {
-		this.strForecastAverage = strForecastAverage;
+	public void setForecastAverage(float forecastAverage) {
+		this.forecastAverage = forecastAverage;
 	}
 	
-	public String getStrWind()
+	public String getWindSpeedAndDirection()
 	{
-		return this.strWind;
+		return this.windSpeedAndDirection;
 	}
 	
-	public void setStrWind( String strWind)
+	public void setWindSpeedAndDirection( String windSpeedAndDirection)
 	{
-		this.strWind = strWind;
+		this.windSpeedAndDirection = windSpeedAndDirection;
 	}
 	
-	public String getStrWeather()
+	public String getWeatherDiscription()
 	{
-		return this.strWeather;
+		return this.weatherDescription;
 	}
 	
-	public void setStrWeather( String strWeather )
+	public void setWeatherDescription( String weatherDescription )
 	{
-		this.strWeather = strWeather;
+		this.weatherDescription = weatherDescription;
 	}
 	
-	public String getStrWeatherIcon()
+	public int getWeatherIcon()
 	{
-		return this.strWeatherIcon;
+		return this.weatherIcon;
 	}
 	
-	public void setStrWeatherIcon(String strWeatherIcon)
+	public void setWeatherIcon(int weatherIcon)
 	{
-		this.strWeatherIcon = strWeatherIcon;
+		this.weatherIcon = weatherIcon;
 	}
 	
-	public String getStrCountWarnings()
+	public int getCountWarnings()
 	{
-		return strCountWarnings;
+		return countWarnings;
 	}
-	public void setStrCountWarnings( String strCountWarnings )
+	public void setCountWarnings( int countWarnings )
 	{
-		this.strCountWarnings = strCountWarnings;
+		this.countWarnings = countWarnings;
 	}
 	
-	public String getStrCountPhotos()
+	public int getCountPhotos()
 	{
-		return this.strCountPhotos; 
+		return this.countPhotos; 
 	}
 	
-	public void setStrCountPhotos(String strCountPhotos)
+	public void setCountPhotos(int countPhotos)
 	{
-		this.strCountPhotos = strCountPhotos;
+		this.countPhotos = countPhotos;
 	}
 	
-	public String getStrCountMessages(){
-		return this.strCountMessages;
+	public int getCountMessages(){
+		return this.countMessages;
 	}
 	
-	public void setStrCountMessages(String strCountMessages){
-		this.strCountMessages = strCountMessages;
+	public void setCountMessages(int countMessages){
+		this.countMessages = countMessages;
 	}
 }
