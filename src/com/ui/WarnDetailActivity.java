@@ -1,5 +1,6 @@
 package com.ui;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -33,7 +34,6 @@ public class WarnDetailActivity extends Activity implements android.view.View.On
 	 @Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE); 
 		setContentView(R.layout.warn_detail);
 		
 		Intent inten = this.getIntent();
@@ -50,7 +50,6 @@ public class WarnDetailActivity extends Activity implements android.view.View.On
 	        btnWarnDel.setOnClickListener((android.view.View.OnClickListener) this);
 	        btnWarnEdit.setOnClickListener((android.view.View.OnClickListener) this);
 	        
-	    	txtWarnTitle  = (TextView) findViewById(R.id.txtWarnTitle);  
 	    	txtWarnDate  = (TextView) findViewById(R.id.txtWarnDateTime); 
 	    	txtWarnContent  = (TextView) findViewById(R.id.txtWarnContent); 
 	    	
@@ -60,7 +59,6 @@ public class WarnDetailActivity extends Activity implements android.view.View.On
 	    		public void run() { 
 	                Message msgSend = new Message();
 	        	    try {
-	        	    	this.sleep(ConstDefine.HTTP_TIME_OUT);
 	        	    	
 	        	    	warnInfo = BusinessRequest.getWarnDetailById(strWarnId);
 	        	    	
@@ -72,8 +70,10 @@ public class WarnDetailActivity extends Activity implements android.view.View.On
 	    		}
 	    	}.start();
 		       
-		    txtWarnTitle.setText(mBundle.getString("warn_title"));
 	    	txtWarnDate.setText(mBundle.getString("warn_date"));
+	    	
+	    	this.setTitle(mBundle.getString("warn_title"));
+	    	getActionBar().setDisplayHomeAsUpEnabled(true);
 	    }
 	 
 		public void onClick(View v)
@@ -92,13 +92,22 @@ public class WarnDetailActivity extends Activity implements android.view.View.On
 			}
 		}
 
+		public TextView getTxtWarnTitle() {
+			return txtWarnTitle;
+		}
+
+		public void setTxtWarnTitle(TextView txtWarnTitle) {
+			this.txtWarnTitle = txtWarnTitle;
+		}
+
+		@SuppressLint("HandlerLeak")
 		private Handler handler = new Handler() {               
 			public void handleMessage(Message message) {
                 switch (message.what) {
                 case ConstDefine.MSG_I_HANDLE_OK:                                        
         		 	diaLogProgress.dismiss();
         		 	//set details
-        		 	txtWarnContent.setText(warnInfo.getWarningContent());
+        		 	//txtWarnContent.setText(warnInfo.getWarningContent());
                     break;
                 case ConstDefine.MSG_I_HANDLE_Fail:                                        
                 	//close process

@@ -1,10 +1,9 @@
 package com.ui;
 
-import com.util.BaseHelper;
 import com.util.ConstDefine;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,7 +13,6 @@ import android.view.Window;
 public class LogonActivity extends Activity {
 	
 
-	private ProgressDialog diaLogProgress= null;
 	
     /** Called when the activity is first created. */
     @Override
@@ -23,9 +21,9 @@ public class LogonActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE); 
         setContentView(R.layout.logon_page);
         
-    	//diaLogProgress = BaseHelper.showProgress(LogonActivity.this,ConstDefine.I_MSG_0001,false);
    	        new Thread() {
-            public void run() {  
+            @SuppressWarnings("static-access")
+			public void run() {  
             	    try {
 						this.sleep(ConstDefine.HTTP_TIME_OUT);
 					} catch (InterruptedException e) {
@@ -45,7 +43,8 @@ public class LogonActivity extends Activity {
     /**
      * 
      */
-    private Handler handler = new Handler() {               
+    @SuppressLint("HandlerLeak")
+	private Handler handler = new Handler() {               
         public void handleMessage(Message message) {
                 switch (message.what) {
                 case ConstDefine.MSG_I_HANDLE_OK:                                        

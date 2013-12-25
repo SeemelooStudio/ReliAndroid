@@ -21,7 +21,7 @@
 	    android:layout_marginLeft="@dimen/small_margin"
 	    android:layout_marginTop="@dimen/medium_margin"
 	    android:textSize="@dimen/small_font_size"
-	    android:text="机组类型"
+	    android:text="@string/heat_source_unit_type"
 	    android:textColor="@color/transparent_white"
 	     android:layout_below="@+id/heat_source_area" />
 	<TextView 

@@ -11,13 +11,13 @@
 	    android:layout_marginLeft="@dimen/medium_margin"
 	    style="@style/NumberLabel" />
 	<TextView android:id="@+id/list_station_name"
-	    android:layout_width="wrap_content"
+	    android:layout_width="80dp"
 	    android:layout_height="wrap_content"
 	    android:layout_gravity="center_vertical"
 	    android:layout_marginRight="@dimen/small_margin"
 	    android:textColor="@color/white"  />
 	<TextView android:id="@+id/list_station_tempreture"
-	    android:layout_width="wrap_content"
+	    android:layout_width="40dp"
 	    android:layout_height="wrap_content"
 	    android:layout_gravity="center_vertical"
 	    android:layout_marginRight="@dimen/small_margin"
@@ -27,6 +27,6 @@
 	    android:layout_height="wrap_content"
 	    android:layout_gravity="center_vertical"
 	    android:layout_marginLeft="@dimen/small_margin"
-	    android:textColor="@color/white"
+	    android:textColor="@color/transparent_white"
 	    android:textSize="@dimen/small_font_size" />
 </LinearLayout>

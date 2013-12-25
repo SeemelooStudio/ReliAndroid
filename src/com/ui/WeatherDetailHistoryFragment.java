@@ -1,6 +1,5 @@
 package com.ui;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -10,8 +9,7 @@ import com.model.WeatherDetailItem;
 import com.reqst.BusinessRequest;
 
 import android.support.v4.app.Fragment;
-import android.text.format.DateFormat;
-import android.app.DialogFragment;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -52,6 +50,7 @@ public class WeatherDetailHistoryFragment extends Fragment implements SearchView
 		renderWeatherDetailData();
 	}
 	
+	@SuppressLint("SimpleDateFormat")
 	public void search() throws Exception {
 		Date fromDate = new SimpleDateFormat("yyyy-MM-dd").parse(_searchFromDate.getText().toString());
 		Date toDate =  new SimpleDateFormat("yyyy-MM-dd").parse(_searchToDate.getText().toString());
@@ -106,7 +105,8 @@ public class WeatherDetailHistoryFragment extends Fragment implements SearchView
 	} 
 	
    
-   private List<HashMap<String, Object>> parseWeatherDetails(ArrayList<WeatherDetailItem> originWeatherDetails) {  
+   @SuppressLint("SimpleDateFormat")
+private List<HashMap<String, Object>> parseWeatherDetails(ArrayList<WeatherDetailItem> originWeatherDetails) {  
 	   List<HashMap<String, Object>> parsedWeatherDetails = new ArrayList<HashMap<String, Object>>(); 
 	   for (WeatherDetailItem oneRec: originWeatherDetails) 
 	   {   

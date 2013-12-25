@@ -2,7 +2,6 @@ package com.util;
 
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.ui.R;

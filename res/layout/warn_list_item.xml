@@ -8,7 +8,6 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:layout_marginTop="@dimen/small_margin"
-    android:layout_marginBottom="@dimen/small_margin"
     >
          <TextView android:id="@+id/warn_id"
 		    android:layout_width="@dimen/number_label_width"
@@ -18,22 +17,16 @@
 		    style="@style/NumberLabel" 
 		    />
 		<TextView android:id="@+id/warn_title"
-		    android:layout_width="220dp"
+		    android:layout_width="fill_parent"
 		    android:layout_height="wrap_content" 
 		    android:layout_gravity="center_vertical"
 		    android:layout_marginLeft="@dimen/medium_margin"
 		    android:textSize="@dimen/list_title_font_size"
-		    android:textColor="@color/black" 
-		    android:maxLines="2"
+		    android:textColor="@color/main_blue" 
+		    android:maxLines="1"
 		    android:ellipsize="end"
 		    />
-      	<TextView android:id="@+id/warn_date"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content" 
-		    android:layout_gravity="center_vertical"
-		    android:textSize="@dimen/small_font_size" 
-		    android:textColor="@color/dim_gray" 
-		    />
+
     </LinearLayout>
    <LinearLayout 
     android:layout_width="fill_parent"
@@ -51,6 +44,9 @@
 		    />
 		<TextView android:id="@+id/warn_other"
 		    android:layout_width="fill_parent"
+		    android:layout_marginLeft="@dimen/xxlarge_margin"
+		    android:textColor="@color/grey"
+		    android:textSize="@dimen/small_font_size" 
 		    android:layout_height="wrap_content" />
      </LinearLayout> 
 </LinearLayout>

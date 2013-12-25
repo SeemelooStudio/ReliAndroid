@@ -25,10 +25,13 @@ import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
 import org.achartengine.chart.PointStyle;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
+import org.achartengine.renderer.XYSeriesRenderer;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Paint.Align;
 
 import com.model.WeatherPreChartItem;
 
@@ -42,7 +45,8 @@ public class WeatherPreChart extends AbstractChart {
 	   
 	   private String[] titles = new String[] {"最高温度" , "最低温度"};
 	   
-	   private int[] colors = new int[] { Color.WHITE, Color.BLUE };
+	   private int[] colors =  new int[] { Color.parseColor("#ffec8000"),
+				Color.parseColor("#ff33b5e5") };
 	   
 	   private  List<Date[]> dates = new ArrayList<Date[]>();
 	   
@@ -84,7 +88,7 @@ public class WeatherPreChart extends AbstractChart {
 		}
 		  
 	    return ChartFactory.getTimeChartIntent(context, 
-	    		buildDateDataset(titles, dates, values), getRender(), "yyyy-MM-dd");
+	    		buildDateDataset(titles, dates, values), getRender(), "MM-dd");
 	  }
 	
 	  /**
@@ -101,18 +105,20 @@ public class WeatherPreChart extends AbstractChart {
 			}
 		    
 		    return ChartFactory.getTimeChartView(context, 
-		    		buildDateDataset(titles, dates, values),getRender(), "yyyy-MM-dd");
+		    		buildDateDataset(titles, dates, values),getRender(), "MM-dd");
 		  }
 	
 	  /**
 	 * @throws ParseException 
 	   * 
 	   */
-	  private void setDateAndValue() throws ParseException{
+	  @SuppressLint("SimpleDateFormat")
+	private void setDateAndValue() throws ParseException{
 		  
 		    int length = titles.length;
 		    double high[] = new double[lstWeather.size()];
 		    double shrot[] = new double[lstWeather.size()];
+		    
 		    SimpleDateFormat sdf =  new SimpleDateFormat("yyyy-MM-dd");
 		    for (int i = 0; i < length; i++) {
 		      for(int j = 0; j < lstWeather.size(); j++)
@@ -139,11 +145,31 @@ public class WeatherPreChart extends AbstractChart {
 		  PointStyle[] styles = new PointStyle[] { PointStyle.POINT, PointStyle.POINT};
 		  XYMultipleSeriesRenderer renderer = buildRenderer(colors, styles);
 		  setChartSettings(renderer, "温度趋势", "时间", "温度", dates.get(0)[0]
-			  .getTime(), dates.get(0)[6].getTime(), 0, 200, Color.GRAY, Color.LTGRAY);
-		  renderer.setXLabels(7);
-		  renderer.setYLabels(10);
-		  renderer.setDisplayChartValues(true);
-		  return renderer;
+			  .getTime(), dates.get(0)[dates.get(0).length - 1].getTime(), -18, 30, Color.parseColor("#33FFFFFF"), Color.WHITE);
+		  
+		  renderer.setXLabels(dates.get(0).length);
+
+			int length = renderer.getSeriesRendererCount();
+	        for (int i = 0; i < length; i++) {
+	            XYSeriesRenderer seriesRenderer = (XYSeriesRenderer) renderer
+	                    .getSeriesRendererAt(i);                
+	            seriesRenderer.setLineWidth(4f);
+	            seriesRenderer.setChartValuesSpacing(10);
+	            seriesRenderer.setChartValuesTextSize(16);
+	            seriesRenderer.setDisplayChartValues(true);
+	        }
+	        
+
+	        renderer.setExternalZoomEnabled(true);
+			renderer.setShowGrid(true);
+			renderer.setChartTitleTextSize(24);
+			renderer.setAxisTitleTextSize(16);
+			renderer.setLegendTextSize(18);
+			renderer.setXLabelsAlign(Align.CENTER);
+			renderer.setXLabelsPadding(10f);
+
+			return renderer;
+
 	  }
 	     
 }

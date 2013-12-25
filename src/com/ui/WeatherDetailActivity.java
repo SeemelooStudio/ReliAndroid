@@ -25,6 +25,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -108,7 +109,7 @@ public class WeatherDetailActivity extends FragmentActivity implements TabListen
 	private void initActionBar(){
 	    final ActionBar actionBar = getActionBar();
 	    actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-	    
+	    actionBar.setDisplayHomeAsUpEnabled(true); 
 	    for (int i = 0; i < _viewPagerAdapter.getCount(); ++i) {  
             actionBar.addTab(actionBar.newTab()  
                     .setText(_viewPagerAdapter.getPageTitle(i))  
@@ -132,7 +133,16 @@ public class WeatherDetailActivity extends FragmentActivity implements TabListen
     public void onTabUnselected(Tab tab, FragmentTransaction ft) {  
           
     } 
-
+    @Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		 switch (item.getItemId()) {
+		    // Respond to the action bar's Up/Home button
+		    case android.R.id.home:
+		    	this.finish();
+		        return true;
+		    }
+		    return super.onOptionsItemSelected(item);
+	 }
 	public void showTimePickerDialog(View v) {
 	    DialogFragment newFragment = new TimePickerFragment();
 	    newFragment.show(this.getFragmentManager(), "timePicker");
@@ -228,7 +238,8 @@ public class WeatherDetailActivity extends FragmentActivity implements TabListen
 	   * 
 	   * TODO : revise
 	   */
-	  private List<HashMap<String, Object>> getWeatherDetailListData(String strListId ,String dayFlag) throws Exception {  
+	  @SuppressLint("SimpleDateFormat")
+	private List<HashMap<String, Object>> getWeatherDetailListData(String strListId ,String dayFlag) throws Exception {  
 
 	  	WeatherDetailTempInfo[] sevenDays = BusinessRequest.getWenduTabDetailById(WeatherType.SevenDays.getStrValue());
 		List<HashMap<String, Object>> wenDuList = new ArrayList<HashMap<String, Object>>(); 

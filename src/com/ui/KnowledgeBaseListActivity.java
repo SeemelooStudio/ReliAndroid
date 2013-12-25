@@ -6,26 +6,22 @@ import java.util.List;
 
 import org.json.JSONException;
 
-import android.app.ActionBar;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.SimpleAdapter;
 
+import com.model.DownloadPDFTask;
 import com.model.KnowledgeBaseItem;
-import com.model.WeatherStationListItem;
 import com.reqst.BusinessRequest;
 import com.util.BaseHelper;
 import com.util.ConstDefine;
@@ -43,14 +39,14 @@ public class KnowledgeBaseListActivity extends Activity implements  SearchView.O
 	    private ArrayList<KnowledgeBaseItem>  dbDatalist = new ArrayList<KnowledgeBaseItem>();  
 	    private ProgressDialog diaLogProgress= null;
 	    private KnowledgeBaseItem searchCon = null;
+	    private Activity activity = null;
 		
 	    @Override  
 	    protected void onCreate(Bundle savedInstanceState) {  
     	    super.onCreate(savedInstanceState);
-    	    requestWindowFeature(Window.FEATURE_NO_TITLE);
     	    setContentView(R.layout.knowledge_base_list); 
     	    listView = (ListView) findViewById(R.id.knowledgeList); 
-    	   
+    	    activity = this;
     	    searchCon = new KnowledgeBaseItem();
     	    this.getDailyListbyCondition();
    	        	
@@ -58,20 +54,19 @@ public class KnowledgeBaseListActivity extends Activity implements  SearchView.O
     	    listView.setOnItemClickListener(new OnItemClickListener(){                                                                                    
   	        	public void onItemClick(AdapterView<?> parent, View arg1, int position, long id) 
   	        	{   
-  	        		//��ת����ϸ����
-  	        		HashMap<String, Object> ListItem = (HashMap<String, Object>) listView.getItemAtPosition(position);
-  	        		Intent intent = new Intent(KnowledgeBaseListActivity.this, KnowledgeBaseDetailActivity.class); 
-  	        		Bundle mBundle = new Bundle();
-  	        		mBundle.putString("strDocId", ListItem.get("strDocId").toString());
-  	        		mBundle.putString("strDocName", ListItem.get("strDocName").toString());
-  	        		intent.putExtras(mBundle);
-  	        		startActivity(intent);
+  	        		@SuppressWarnings("unchecked")
+					HashMap<String, Object> ListItem = (HashMap<String, Object>) listView.getItemAtPosition(position);
+  	        		String pdfUrl = ConstDefine.WEB_SERVICE_URL + ConstDefine.S_DAILY_REPORT_ROOT + ListItem.get("strDocName").toString();
+  	        		new DownloadPDFTask(activity).execute(pdfUrl);
   	        	}
     	    });
     	    
     	    searchView = (SearchView) findViewById(R.id.knowledgeSearch);    
 	        searchView.setOnQueryTextListener(this);  
 	        searchView.setSubmitButtonEnabled(false);
+	        
+	        getActionBar().setDisplayHomeAsUpEnabled(true);
+	        setTitle(getString(R.string.knowledge_base));
 	    }  
 	  
 	    @Override  
@@ -86,7 +81,17 @@ public class KnowledgeBaseListActivity extends Activity implements  SearchView.O
 	        // TODO Auto-generated method stub  
 	        return false;  
 	    }  
-	    
+	    @Override
+		public boolean onOptionsItemSelected(MenuItem item) {
+			 switch (item.getItemId()) {
+			    // Respond to the action bar's Up/Home button
+			    case android.R.id.home:
+			    	this.finish();
+			        return true;
+			    }
+			    return super.onOptionsItemSelected(item);
+		 }
+	        
 	    /***
 	     * 
 	     */
@@ -97,9 +102,7 @@ public class KnowledgeBaseListActivity extends Activity implements  SearchView.O
    	            public void run() { 
    	                    Message msgSend = new Message();
    	            	    try {
-   	            	    	
-   	            	    	this.sleep(ConstDefine.HTTP_TIME_OUT);
-   	            	    	
+
    	            	    	listData = getKnowBaseListData(searchCon);
    	            	    	
    	            	    	msgSend.what = ConstDefine.MSG_I_HANDLE_OK;
@@ -115,7 +118,8 @@ public class KnowledgeBaseListActivity extends Activity implements  SearchView.O
 	    /**
 	     * http handler result
 	     */
-	    private Handler handler = new Handler() {               
+	    @SuppressLint("HandlerLeak")
+		private Handler handler = new Handler() {               
 	        public void handleMessage(Message message) {
 	                switch (message.what) {
 	                case ConstDefine.MSG_I_HANDLE_OK:                                        
@@ -134,7 +138,6 @@ public class KnowledgeBaseListActivity extends Activity implements  SearchView.O
 		  };
 		  
 	    /**
-	     * �����Ʋ�ѯ
 	     * @param name
 	     * @return
 	     */
@@ -146,7 +149,7 @@ public class KnowledgeBaseListActivity extends Activity implements  SearchView.O
 	        { 	
 	            int index =((KnowledgeBaseItem) dbDatalist.get(i)).getStrDocName().indexOf(name);  
 	            
-	            // ����ƥ������  ������װList
+
 	            if (index != -1) {
 	            	HashMap<String, Object> item = new HashMap<String, Object>();  
 	     	        item.put("strDocId", dbDatalist.get(i).getStrDocId()); 

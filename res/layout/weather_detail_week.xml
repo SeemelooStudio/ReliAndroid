@@ -2,13 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@drawable/weather_background" >
+    android:orientation="vertical" >
     <LinearLayout
         android:id="@+id/weather_chart"
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:background="@drawable/black_to_black_transparent" >
+        android:padding="@dimen/small_margin"
+        android:orientation="horizontal">
     </LinearLayout>
 </LinearLayout>

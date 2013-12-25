@@ -1,11 +1,14 @@
 package com.ui;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 import org.json.JSONException;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.app.SearchManager;
@@ -14,27 +17,22 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v4.view.MenuItemCompat.OnActionExpandListener;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
 import android.widget.SimpleAdapter;
 
-import com.model.WeatherStationListItem;
 import com.model.WarnListItem;
 import com.reqst.BusinessRequest;
 import com.util.BaseHelper;
 import com.util.ConstDefine;
+import com.util.DateHelper;
 
 public class WarnListActivity extends Activity implements android.view.View.OnClickListener{
 
@@ -57,7 +55,8 @@ public class WarnListActivity extends Activity implements android.view.View.OnCl
         listView.setTextFilterEnabled(true); 
         listView.setOnItemClickListener(
     		new OnItemClickListener(){                                                                                    
-	        	public void onItemClick(AdapterView<?> parent, View arg1, int position, long id) 
+	        	@SuppressWarnings("unchecked")
+				public void onItemClick(AdapterView<?> parent, View arg1, int position, long id) 
 	        	{   
 	        		HashMap<String, Object> ListItem = (HashMap<String, Object>) listView.getItemAtPosition(position);
 	        		Intent intent = new Intent(WarnListActivity.this, WarnDetailActivity.class); 
@@ -118,11 +117,15 @@ public class WarnListActivity extends Activity implements android.view.View.OnCl
 			 return true;
 		 case R.id.action_search :
 			 return true;
+		 case android.R.id.home:
+		     this.finish();
+		     return true;
 		 default :
 				 return super.onOptionsItemSelected(item);
 		 }
 		 
 	 }
+
 	 /**
 	  * query list
 	  */
@@ -149,14 +152,15 @@ public class WarnListActivity extends Activity implements android.view.View.OnCl
     /**
      * http handler result
      */
-    private Handler handler = new Handler() {               
+    @SuppressLint("HandlerLeak")
+	private Handler handler = new Handler() {               
         public void handleMessage(Message message) {
                 switch (message.what) {
                 case ConstDefine.MSG_I_HANDLE_OK:                                        
         		 	diaLogProgress.dismiss();
         		 	 listView.setAdapter(new SimpleAdapter(getApplicationContext(),listData, R.layout.warn_list_item,  
-        					  new String[] { "warn_id", "warn_title", "warn_content", "warn_date","warn_other"}, 
-        					  new int[] {R.id.warn_id, R.id.warn_title,R.id.warn_content,R.id.warn_date,R.id.warn_other}));
+        					  new String[] { "warn_id", "warn_title", "warn_content", "warn_date"}, 
+        					  new int[] {R.id.warn_id, R.id.warn_title,R.id.warn_content,R.id.warn_other}));
                     break;
                 case ConstDefine.MSG_I_HANDLE_Fail:                                        
                 	//close process
@@ -170,8 +174,8 @@ public class WarnListActivity extends Activity implements android.view.View.OnCl
 	  private void updateLayout( List<HashMap<String, Object>> hmWarnings)
 	  {
 		  listView.setAdapter(new SimpleAdapter(getApplicationContext(), hmWarnings, R.layout.warn_list_item,  
-				  new String[] { "warn_id", "warn_title", "warn_content", "warn_date","warn_other"}, 
-				  new int[] {R.id.warn_id, R.id.warn_title,R.id.warn_content,R.id.warn_date,R.id.warn_other}));
+				  new String[] { "warn_id", "warn_title", "warn_content", "warn_date"}, 
+				  new int[] {R.id.warn_id, R.id.warn_title,R.id.warn_content,R.id.warn_other}));
 	  }
 	  
     /**
@@ -179,20 +183,24 @@ public class WarnListActivity extends Activity implements android.view.View.OnCl
      * @return
      * @throws JSONException 
      */
-    private List<HashMap<String, Object>> getWarnListData(WarnListItem pSearchCon) throws Exception {  
+    @SuppressLint("SimpleDateFormat")
+	private List<HashMap<String, Object>> getWarnListData(WarnListItem pSearchCon) throws Exception {  
        
         //get weatherList
     	warnings =  BusinessRequest.getWarnList(pSearchCon);
         
         //adapt weatherList
         List<HashMap<String, Object>> warnList = new ArrayList<HashMap<String, Object>>(); 
+
         for (WarnListItem oneRec: warnings) 
         {   
+        	Date createAt = oneRec.getReportedAt();
+        	
         	HashMap<String, Object> item = new HashMap<String, Object>();  
 	        item.put("warn_id", oneRec.getWarningId()); 
 	        item.put("warn_title", oneRec.getWarningTitle()); 
 	        item.put("warn_content", oneRec.getWarningContent()); 
-	        item.put("warn_date", oneRec.getReportedAt()); 
+	        item.put("warn_date", new SimpleDateFormat("MM-dd").format(createAt) + " " + DateHelper.getDayOfWeekInChinese(createAt) + " " + new SimpleDateFormat("HH:mm").format(createAt) ); 
 	        item.put("list_other", oneRec.getStrWarnOther()); 
 	        warnList.add(item);  
         }

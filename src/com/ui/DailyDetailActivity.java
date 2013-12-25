@@ -8,7 +8,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Window;
-import android.webkit.WebView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -17,7 +16,6 @@ import com.model.DailyDetailItem;
 
 public class DailyDetailActivity extends Activity {
 
-	 private WebView webPdfView; 
 	 private TextView labSubTitle;
 	 private String ListId;
 	 private ListView listDelView;  

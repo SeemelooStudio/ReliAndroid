@@ -105,8 +105,8 @@
 					   		<TextView android:id="@+id/labShowMsg" 
 						        	android:layout_width="255dp" 
 						        	android:layout_height="match_parent"
-					               android:background="@color/transparent_black"
-						        	android:text="海淀区温度" 
+						        	android:text="2013年12月25日 星期三" 
+						        	android:gravity="center"
 						        	style="@style/mainTitleStyle"/> 
 						        	<TextView
 					                    android:id = "@+id/txtViewGroup"

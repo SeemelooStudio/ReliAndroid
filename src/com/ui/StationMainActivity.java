@@ -17,7 +17,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.GridLayout;
 import android.widget.GridLayout.Spec;
 import android.widget.LinearLayout;
@@ -302,17 +301,18 @@ public class StationMainActivity extends Activity {
 			indicator.setGravity(Gravity.CENTER);
 			indicator.setTextColor(Color.BLACK);
 
-			if (i == 0) {
-				indicator.setLayoutParams(new LayoutParams(focusedSize,
-						focusedSize));
-				indicator.setText("1");
-				indicators[i]
-						.setBackgroundResource(R.drawable.page_indicator_focused);
-			} else {
-				indicator.setLayoutParams(new LayoutParams(normalSize,
-						normalSize));
-				indicators[i].setBackgroundResource(R.drawable.page_indicator);
-			}
+            if (i == 0) {
+            	LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(focusedSize,focusedSize);
+            	params.setMargins(0, 0, 10, 0);
+            	indicator.setLayoutParams(params);
+            	indicator.setText("1");
+                indicators[i].setBackgroundResource(R.drawable.page_indicator_focused);
+            } else {
+            	LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(normalSize,normalSize);
+            	params.setMargins(0, 0, 10, 0);
+            	indicator.setLayoutParams(params);
+                indicators[i].setBackgroundResource(R.drawable.page_indicator);  
+            }  
 			viewGroup.addView(indicators[i]);
 		}
 	}

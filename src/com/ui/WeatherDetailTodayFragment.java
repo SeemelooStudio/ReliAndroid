@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.model.WeatherDetailTempInfo;
-import com.util.DateHelper;
 import com.util.WeatherIconHelper;
 
 import android.support.v4.app.Fragment;
@@ -50,8 +49,8 @@ public class WeatherDetailTodayFragment extends Fragment {
 		_tvCurrentTempreture = (TextView) view.findViewById(R.id.today_average_tempreture);
 		_tvYesterdayTempreture = (TextView) view.findViewById(R.id.yesterday_average_tempreture);
 		_tvWeather = (TextView) view.findViewById(R.id.today_weather);
-		_tvHighestTempreture = (TextView) view.findViewById(R.id.today_highest_tempreture);
-		_tvLowestTempreture = (TextView)view.findViewById(R.id.today_lowest_tempreture);
+		_tvHighestTempreture = (TextView) view.findViewById(R.id.today_detail_highest_tempreture);
+		_tvLowestTempreture = (TextView)view.findViewById(R.id.today_detail_lowest_tempreture);
 		_tvWind = (TextView)view.findViewById(R.id.today_wind);
 		_ivWeatherIcon = (ImageView)view.findViewById(R.id.today_weather_icon);
 	}

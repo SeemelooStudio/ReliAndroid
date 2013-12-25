@@ -1,9 +1,7 @@
 package com.ui;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -16,32 +14,27 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.text.format.DateFormat;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.SimpleAdapter;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import com.chart.impl.AverageTemperatureChart;
 import com.ctral.MainScrollLayout;
 import com.model.MainPageSummary;
-import com.model.WeatherType;
 import com.reqst.BusinessRequest;
 import com.util.BaseHelper;
 import com.util.ConstDefine;
 import com.util.ViewPageAdapter;
-import com.util.ViewPageChangeListener;
 import com.util.WeatherIconHelper;
 
 public class MainPageActivity extends Activity {
@@ -192,7 +185,7 @@ public class MainPageActivity extends Activity {
 		for(int i = 0; i < pageNum; i++ )
 		{ 
 			LinearLayout pageLayout=new LinearLayout(this);
-			LayoutParams ltp=new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
+			LayoutParams ltp=new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 			 
 			TableLayout tbLayout = new TableLayout(this);
 			tbLayout.removeAllViews();
@@ -274,9 +267,10 @@ public class MainPageActivity extends Activity {
 		  if(intImageResource != 0){
 			  imgWeatherIcon.setImageDrawable(getResources().getDrawable(intImageResource));
 		  }
-		  String today = DateFormat.getDateInstance().format(new Date());
-		  tvToday.setText("北京" + today + "日");
-		  tvWeather.setText(mainPageSummary.getWindSpeedAndDirection() + " " + mainPageSummary.getWeatherDiscription());
+
+		  tvToday.setText(mainPageSummary.getWindSpeedAndDirection());
+		  tvWeather.setText(mainPageSummary.getWeatherDiscription());
+
 		  
 	  }
 	  private void setMessagerData( )
@@ -300,7 +294,7 @@ public class MainPageActivity extends Activity {
 				startActivity(intent_1);
 				break;
 			case R.id.main_page_item2:
-				Intent intent_2 = new Intent(MainPageActivity.this,WarnListActivity.class); 
+				Intent intent_2 = new Intent(MainPageActivity.this, WarnListActivity.class); 
 				startActivity(intent_2);
 				break;				
 			case R.id.main_page_item3:

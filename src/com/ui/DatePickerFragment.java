@@ -4,11 +4,11 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
@@ -32,6 +32,8 @@ public  class DatePickerFragment extends DialogFragment implements DatePickerDia
 		return new DatePickerDialog(getActivity(), this, year, month, day);
 	}
 
+	@SuppressLint("SimpleDateFormat")
+	@SuppressWarnings("deprecation")
 	public void onDateSet(DatePicker view, int year, int month, int day) {
 		String tag = this.getTag();
 		if(tag == "from") {

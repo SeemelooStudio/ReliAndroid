@@ -1,5 +1,6 @@
 package com.ui;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -15,7 +16,7 @@ import com.util.ConstDefine;
 
 public class KnowledgeBaseDetailActivity extends Activity {
 
-	 private String txtDocId = "";
+	 //private String txtDocId = "";
 	 private TextView txtDocTitle;
 	 private WebView webPdfView; 
 	 private ProgressDialog diaLogProgress= null;
@@ -34,7 +35,7 @@ public class KnowledgeBaseDetailActivity extends Activity {
 		    {
 		    	txtDocTitle = (TextView) findViewById(R.id.txtDocTitle);  
 		    	txtDocTitle.setText(mBundle.getString("strDocName"));
-		    	txtDocId = mBundle.getString("strDocId");
+		    	//txtDocId = mBundle.getString("strDocId");
 		    }
 
 		    webPdfView = (WebView) findViewById(R.id.knowledgePdfView); 
@@ -44,7 +45,6 @@ public class KnowledgeBaseDetailActivity extends Activity {
    	            public void run() { 
    	                    Message msgSend = new Message();
    	            	    try {
-   	            	    	this.sleep(ConstDefine.HTTP_TIME_OUT);
    	            	    	String pdfUrl = "http://www8.cao.go.jp/okinawa/8/2012/0409-1-1.pdf"; 
    	            	    	BaseHelper.loadNetPdfFile(webPdfView,pdfUrl); 
    	            	    	msgSend.what = ConstDefine.MSG_I_HANDLE_OK;
@@ -59,7 +59,8 @@ public class KnowledgeBaseDetailActivity extends Activity {
     /**
      * 
      */
-    private Handler handler = new Handler() {               
+    @SuppressLint("HandlerLeak")
+	private Handler handler = new Handler() {               
         public void handleMessage(Message message) {
                 switch (message.what) {
                 case ConstDefine.MSG_I_HANDLE_OK:                                        
