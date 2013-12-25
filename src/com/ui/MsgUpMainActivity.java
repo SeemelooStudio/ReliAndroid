@@ -1,5 +1,6 @@
 package com.ui;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -9,13 +10,16 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.app.SearchManager;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.os.StatFs;
 import android.provider.MediaStore;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
@@ -55,10 +59,24 @@ public class MsgUpMainActivity extends Activity {
 	private Button sendBtn;
 	private EditText textEditor;
 	
-	//private ImageView sendImageIv;
-	//private ImageView captureImageIv;
-	//private PopupWindow menuWindow = null;
 	private ProgressDialog diaLogProgress = null;
+	
+	private File createImageFile() {
+		String fileName = "temp.jpg";  
+        ContentValues values = new ContentValues();  
+        values.put(MediaStore.Images.Media.TITLE, fileName);  
+        String state = Environment.getExternalStorageState();
+        Boolean isSDPresent = Environment.MEDIA_MOUNTED.equals(state);
+        File file;
+        if(isSDPresent && Environment.getExternalStorageState().equals("/mnt/sdcard")) {
+        	file = new File(Environment.getExternalStoragePublicDirectory(
+                    Environment.DIRECTORY_PICTURES), fileName);
+        }
+        else {
+        	file = new File(getApplicationContext().getFilesDir(), fileName);
+        }
+        return file;
+	}
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -86,6 +104,8 @@ public class MsgUpMainActivity extends Activity {
 		    // Respond to the action bar's Up/Home button
 			case R.id.action_camera:
 				Intent it = new Intent( MediaStore.ACTION_IMAGE_CAPTURE);
+				File image = createImageFile();
+				it.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(image));  
 				startActivityForResult(it, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
 				return true;
 				
@@ -108,8 +128,10 @@ public class MsgUpMainActivity extends Activity {
 		if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
 	        if (resultCode == RESULT_OK) {
 	            // Image captured and saved to fileUri specified in the Intent
-	        	String imagePath = getRealPathFromURI(this.getBaseContext(), data.getData());
-	        	sendImage(imagePath);
+	        	if (data != null) {
+		        	String imagePath = getRealPathFromURI( this.getApplicationContext(), data.getData());
+		        	sendImage(imagePath);
+	        	}
 	        } else if (resultCode == RESULT_CANCELED) {
 	            // User cancelled the image capture
 	        } else {
