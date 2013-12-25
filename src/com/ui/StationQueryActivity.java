@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -53,7 +55,8 @@ public class StationQueryActivity  extends Activity implements  SearchView.OnQue
         listView.setOnItemClickListener(new OnItemClickListener(){                                                                                    
         	public void onItemClick(AdapterView<?> parent, View arg1, int position, long id) 
         	{   
-        		HashMap<String, Object> ListItem = (HashMap<String, Object>) listView.getItemAtPosition(position);
+        		@SuppressWarnings("unchecked")
+				HashMap<String, Object> ListItem = (HashMap<String, Object>) listView.getItemAtPosition(position);
         		Intent intent = new Intent(StationQueryActivity.this, StationDetailActivity.class); 
         		Bundle mBundle = new Bundle();
         		mBundle.putString("strStationId", ListItem.get("strStationId").toString());
@@ -64,7 +67,9 @@ public class StationQueryActivity  extends Activity implements  SearchView.OnQue
         });
         
         btnSearch = (Button) findViewById(R.id.btnHotPosSearch);
-        btnSearch.setOnClickListener((android.view.View.OnClickListener) this);                                                                                  
+        btnSearch.setOnClickListener((android.view.View.OnClickListener) this); 
+	    getActionBar().setDisplayHomeAsUpEnabled(true); 
+	    setTitle(getString(R.string.station));
     }
     
     /**
@@ -92,7 +97,16 @@ public class StationQueryActivity  extends Activity implements  SearchView.OnQue
     public boolean onQueryTextSubmit(String query) {  
  	   return false;  
     } 
-    
+    @Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		 switch (item.getItemId()) {
+		    // Respond to the action bar's Up/Home button
+		    case android.R.id.home:
+		    	this.finish();
+		        return true;
+		    }
+		    return super.onOptionsItemSelected(item);
+	 }   
     /***
      * 
      */
@@ -118,7 +132,8 @@ public class StationQueryActivity  extends Activity implements  SearchView.OnQue
     /**
      * http handler result
      */
-    private Handler handler = new Handler() {               
+    @SuppressLint("HandlerLeak")
+	private Handler handler = new Handler() {               
         public void handleMessage(Message message) {
                 switch (message.what) {
                 case ConstDefine.MSG_I_HANDLE_OK:                                        

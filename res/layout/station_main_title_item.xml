@@ -30,7 +30,7 @@
 				    android:layout_width="wrap_content"
 				    android:layout_height="wrap_content"
 				    android:id="@+id/hotPosTitle"
-				    android:text="@string/heat_source_info"
+				    android:text="@string/main_item_six_name"
 				    android:textSize="@dimen/large_font_size"
 				    android:textColor="@color/white"/>
  		</LinearLayout>

@@ -151,7 +151,7 @@ public class HeatSourceDetailActivity extends Activity  {
 		}
 		
 		details.add(item);		
-		_detailList.setAdapter(new SimpleAdapter(this, details, R.layout.station_detail_list_item,  
+		_detailList.setAdapter(new SimpleAdapter(this, details, R.layout.heat_source_detail_list_item,  
 	 			 new String[] { "name_1","value_1", "name_2","value_2"}, 
 				  new int[] {R.id.detail_item_name_1, R.id.detail_item_value_1, R.id.detail_item_name_2, R.id.detail_item_value_2 }));
 

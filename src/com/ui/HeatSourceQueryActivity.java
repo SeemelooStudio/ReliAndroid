@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.MenuItem;
 
 public class HeatSourceQueryActivity  extends FragmentActivity implements TabListener  {
 
@@ -28,7 +29,16 @@ public class HeatSourceQueryActivity  extends FragmentActivity implements TabLis
 		initViewPager();
 	    initActionBar();
     }
-
+    @Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		 switch (item.getItemId()) {
+		    // Respond to the action bar's Up/Home button
+		    case android.R.id.home:
+		    	this.finish();
+		        return true;
+		    }
+		    return super.onOptionsItemSelected(item);
+	 }
 	private void initActionBar() {
 	    final ActionBar actionBar = getActionBar();
 	    actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -37,7 +47,9 @@ public class HeatSourceQueryActivity  extends FragmentActivity implements TabLis
             actionBar.addTab(actionBar.newTab()  
                     .setText(_viewPagerAdapter.getPageTitle(i))  
                     .setTabListener(this));  
-        }  
+        }
+	    actionBar.setDisplayHomeAsUpEnabled(true); 
+	    setTitle(getString(R.string.heat_source));
 		
 	}
 

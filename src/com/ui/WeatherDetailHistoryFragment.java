@@ -50,6 +50,7 @@ public class WeatherDetailHistoryFragment extends Fragment implements SearchView
 		renderWeatherDetailData();
 	}
 	
+	@SuppressLint("SimpleDateFormat")
 	public void search() throws Exception {
 		Date fromDate = new SimpleDateFormat("yyyy-MM-dd").parse(_searchFromDate.getText().toString());
 		Date toDate =  new SimpleDateFormat("yyyy-MM-dd").parse(_searchToDate.getText().toString());

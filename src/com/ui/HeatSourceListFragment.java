@@ -2,7 +2,6 @@ package com.ui;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import com.model.HeatSourceMainItem;
 import com.reqst.BusinessRequest;
@@ -10,7 +9,6 @@ import com.util.BaseHelper;
 import com.util.ConstDefine;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -72,10 +70,9 @@ public class HeatSourceListFragment extends Fragment {
 		for (HeatSourceMainItem oneRec: heatSources) 
 		{   
 			HashMap<String, Object> item = new HashMap<String, Object>();
-			Context context = getActivity().getApplicationContext();
 			item.put("name", oneRec.getHeatSourceName());
 			item.put("id", oneRec.getHeatSourceId());
-			item.put("info", oneRec.getArea() + ", " + oneRec.getCombineMode() + " 机组类型" + oneRec.getUnitType() );
+			item.put("info", oneRec.getArea() + ", " + oneRec.getCombineMode() + " 机组类型:" + oneRec.getUnitType() );
 
 			listData.add(item);
 		}

@@ -92,6 +92,14 @@ public class WarnDetailActivity extends Activity implements android.view.View.On
 			}
 		}
 
+		public TextView getTxtWarnTitle() {
+			return txtWarnTitle;
+		}
+
+		public void setTxtWarnTitle(TextView txtWarnTitle) {
+			this.txtWarnTitle = txtWarnTitle;
+		}
+
 		@SuppressLint("HandlerLeak")
 		private Handler handler = new Handler() {               
 			public void handleMessage(Message message) {

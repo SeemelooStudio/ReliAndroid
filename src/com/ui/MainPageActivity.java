@@ -1,8 +1,6 @@
 package com.ui;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -185,7 +183,7 @@ public class MainPageActivity extends Activity {
 		for(int i = 0; i < pageNum; i++ )
 		{ 
 			LinearLayout pageLayout=new LinearLayout(this);
-			LayoutParams ltp=new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
+			LayoutParams ltp=new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 			 
 			TableLayout tbLayout = new TableLayout(this);
 			tbLayout.removeAllViews();
@@ -268,7 +266,7 @@ public class MainPageActivity extends Activity {
 		  if(intImageResource != 0){
 			  imgWeatherIcon.setImageDrawable(getResources().getDrawable(intImageResource));
 		  }
-		  String today = DateFormat.getDateInstance().format(new Date());
+
 		  tvToday.setText(mainPageSummary.getStrWind());
 		  tvWeather.setText(mainPageSummary.getStrWeather());
 		  

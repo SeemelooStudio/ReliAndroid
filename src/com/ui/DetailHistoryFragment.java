@@ -29,7 +29,7 @@ import android.widget.SimpleAdapter;
 
 public class DetailHistoryFragment extends Fragment {
 	private List<StationHistoryListItem> historyDataList = null;
-	private int dataType = 0;
+	//private int dataType = 0;
 	private String sourceId = "";
 	private int sourceType = 0;
 	
@@ -47,7 +47,7 @@ public class DetailHistoryFragment extends Fragment {
 	}
 	
 	public void setDataType(int type) {
-		dataType = type;
+		//dataType = type;
 	}
 
 	private void fetchData() {

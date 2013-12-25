@@ -212,7 +212,6 @@ public class BaseHelper {
 			 pdfView.getSettings().setSupportZoom(true);
 			 pdfView.getSettings().setDomStorageEnabled(true);
 			 pdfView.getSettings().setAllowFileAccess(true);
-			 pdfView.getSettings().setPluginsEnabled(true);
 			 pdfView.getSettings().setUseWideViewPort(true);
 			 pdfView.getSettings().setBuiltInZoomControls(true);
 			 pdfView.requestFocus();

@@ -69,7 +69,8 @@ public class MsgUpMainActivity extends Activity {
 		sendBtn = (Button) findViewById(R.id.send_button);
 		textEditor = (EditText) findViewById(R.id.text_editor);
 		sendBtn.setOnClickListener(l);
-		this.getActionBar().setDisplayShowHomeEnabled(true);  
+		getActionBar().setDisplayHomeAsUpEnabled(true); 
+		setTitle(getString(R.string.main_item_four_name));
 	}
 
 	@Override
@@ -94,6 +95,10 @@ public class MsgUpMainActivity extends Activity {
 				i.setAction(Intent.ACTION_GET_CONTENT);
 				startActivityForResult(i, SELECT_PHOTO_ACTIVITY_REQUEST_CODE );
 			    return true;
+			    
+			case android.R.id.home:
+				this.finish();
+				return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
