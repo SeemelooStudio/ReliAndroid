@@ -205,10 +205,10 @@ public class StationMainActivity extends Activity {
 		viewStation.setLayoutParams(param);
 
 		// TODO: set background color base on heat source state
-		Random rand = new Random();
-		Integer intState = rand.nextInt(3);
+
+		Integer state = new Random().nextInt(3);
 		Integer intBackgroundResource = CellBackgroundHelper
-				.getBackgroundResourceByCellState(intState);
+				.getBackgroundResourceByCellState(state);
 
 		viewStation.setBackgroundResource(intBackgroundResource);
 

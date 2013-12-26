@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 public class WeatherDetailTodayFragment extends Fragment {
 	private WeatherDetailTempInfo _weatherSummary;
+	private WeatherDetailTempInfo _weatherSummaryYesterday;
 	private List<HashMap<String, Object>> _weatherDetails;
 	private TextView _tvUpdateTime;
 	private TextView _tvCurrentTempreture;
@@ -60,11 +61,11 @@ public class WeatherDetailTodayFragment extends Fragment {
 			return;
 		}
 		String degreeUnit = getActivity().getString(R.string.degree_unit);
-		String strDate =  String.format("%tF",_weatherSummary.getDay());
-		_tvUpdateTime.setText( strDate );
+		String date =  String.format("%tF",_weatherSummary.getDay());
+		_tvUpdateTime.setText( date );
 		_tvCurrentTempreture.setText(_weatherSummary.getForecastAverage() + degreeUnit);
 		_tvWeather.setText(_weatherSummary.getWeatherDescription());
-		_tvYesterdayTempreture.setText(_weatherSummary.getForecastAverage() + degreeUnit);
+		_tvYesterdayTempreture.setText(_weatherSummaryYesterday.getActualAverage() + degreeUnit);
 		_tvWind.setText(_weatherSummary.getWindSpeedAndDirection());
 		_tvHighestTempreture.setText(_weatherSummary.getForecastHighest() + degreeUnit);
 		_tvLowestTempreture.setText(_weatherSummary.getForecastLowest() + degreeUnit);
@@ -85,6 +86,11 @@ public class WeatherDetailTodayFragment extends Fragment {
 	public void setWeatherDetailInfo(WeatherDetailTempInfo weatherSummary) {
 		_weatherSummary = weatherSummary;
 	}
+	
+	public void setYesterdayWeatherDetailInfo(WeatherDetailTempInfo weatherSummaryYesterday) {
+		_weatherSummaryYesterday = weatherSummaryYesterday;
+	}
+	
 	public void setWeatherDetailList(List<HashMap<String, Object>> weatherDetails) {
 		_weatherDetails = weatherDetails;
 	}

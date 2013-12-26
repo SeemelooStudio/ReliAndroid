@@ -1,6 +1,8 @@
 package com.ui;
 
 import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -61,21 +63,34 @@ public class MsgUpMainActivity extends Activity {
 	
 	private ProgressDialog diaLogProgress = null;
 	
-	private File createImageFile() {
-		String fileName = "temp.jpg";  
-        ContentValues values = new ContentValues();  
-        values.put(MediaStore.Images.Media.TITLE, fileName);  
+	private String _currentPhotoPath;
+	
+	private File createImageFile() throws IOException{
+		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        
         String state = Environment.getExternalStorageState();
         Boolean isSDPresent = Environment.MEDIA_MOUNTED.equals(state);
-        File file;
-        if(isSDPresent && Environment.getExternalStorageState().equals("/mnt/sdcard")) {
-        	file = new File(Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_PICTURES), fileName);
+        File storageDir;
+        
+        if(isSDPresent) {
+        	storageDir = Environment.getExternalStoragePublicDirectory(
+                    Environment.DIRECTORY_PICTURES);
+        	if(!storageDir.mkdirs()) {
+        		Log.e("..", "Directory not created");
+        	}
         }
         else {
-        	file = new File(getApplicationContext().getFilesDir(), fileName);
+        	storageDir = getApplicationContext().getFilesDir();
         }
-        return file;
+        
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+            );
+        _currentPhotoPath = image.getAbsolutePath();
+        return image;
 	}
 	
 	@Override
@@ -104,7 +119,12 @@ public class MsgUpMainActivity extends Activity {
 		    // Respond to the action bar's Up/Home button
 			case R.id.action_camera:
 				Intent it = new Intent( MediaStore.ACTION_IMAGE_CAPTURE);
-				File image = createImageFile();
+				File image = null;
+				try {
+					image = createImageFile();
+				}catch(Exception ex) {
+					ex.printStackTrace();
+				}
 				it.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(image));  
 				startActivityForResult(it, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
 				return true;
@@ -127,15 +147,18 @@ public class MsgUpMainActivity extends Activity {
 	{
 		if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
 	        if (resultCode == RESULT_OK) {
-	            // Image captured and saved to fileUri specified in the Intent
 	        	if (data != null) {
 		        	String imagePath = getRealPathFromURI( this.getApplicationContext(), data.getData());
 		        	sendImage(imagePath);
 	        	}
+	        	else {
+	        		sendImage(_currentPhotoPath);
+	        	}
 	        } else if (resultCode == RESULT_CANCELED) {
-	            // User cancelled the image capture
+	        	
 	        } else {
-	            // Image capture failed, advise user
+	        	// maybe the file got saved but...
+	        	sendImage(_currentPhotoPath);
 	        }
 	    }
 	}

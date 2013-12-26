@@ -24,6 +24,8 @@ public class StationMainItem {
 	
 	private float temperatureIn;
 	
+	private boolean isChaoBiao;
+	
 	public int getStationId() {
 		return stationId;
 	}
@@ -110,5 +112,13 @@ public class StationMainItem {
 
 	public void setTemperatureIn(float temperatureIn) {
 		this.temperatureIn = temperatureIn;
+	}
+
+	public boolean setIsChaoBiao() {
+		return isChaoBiao;
+	}
+
+	public void setChaoBiao(boolean isChaoBiao) {
+		this.isChaoBiao = isChaoBiao;
 	}
 }

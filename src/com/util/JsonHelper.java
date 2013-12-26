@@ -509,6 +509,9 @@ public class JsonHelper {
             } else if (isDate(clazz)) {
             	Object o = jo.opt(name);
             	setFiedlValue(obj, fieldSetMethod, clazz.getSimpleName(), o);
+            } else if (isBoolean(clazz)) {
+            	Object o = jo.opt(name);
+            	setFiedlValue(obj, fieldSetMethod, clazz.getSimpleName(), o);
             }
             else if (isObject(clazz)) { // ����  
                 JSONObject j = jo.optJSONObject(name);  
@@ -558,18 +561,18 @@ public class JsonHelper {
                     Object o = parseCollection(ja, clazz, c);  
                     field.set(obj, o);  
                 }  
-            } else if (isSingle(clazz)) { // ֵ����  
+            } else if (isSingle(clazz)) {
                 Object o = jo.opt(name);  
                 if (o != null) {  
                     field.set(obj, o);  
                 }  
-            } else if (isObject(clazz)) { // ����  
+            } else if (isObject(clazz)) {
                 JSONObject j = jo.optJSONObject(name);  
                 if (!isNull(j)) {  
                     Object o = parseObject(j, clazz);  
                     field.set(obj, o);  
                 }  
-            } else if (isList(clazz)) { // �б�  
+            } else if (isList(clazz)) { 
                 JSONObject j = jo.optJSONObject(name);  
                 if (!isNull(j)) {  
                     Object o = parseObject(j, clazz);  

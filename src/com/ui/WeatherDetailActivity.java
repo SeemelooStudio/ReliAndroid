@@ -47,6 +47,7 @@ public class WeatherDetailActivity extends FragmentActivity implements TabListen
 	private String strListId = "1";
 	private ProgressDialog _diaLogProgress = null;
 	private WeatherDetailTempInfo _weatherSummaryToday = null;
+	private WeatherDetailTempInfo _weatherSummaryYesterday = null;
 	private List<HashMap<String, Object>> _weatherDetailsToday;
     
 	private List<WeatherPreChartItem> _weatherChartItems = null;
@@ -185,6 +186,7 @@ public class WeatherDetailActivity extends FragmentActivity implements TabListen
         	    	WeatherDetailTempInfo[] weatherSummaryTodayAndYesterday = 
         	    			BusinessRequest.getWenduTabDetailById(WeatherType.TodayAndYesterday.getStrValue());
         	    	_weatherSummaryToday = weatherSummaryTodayAndYesterday[0];
+        	    	_weatherSummaryYesterday = weatherSummaryTodayAndYesterday[1];
         		 	_weatherDetailsToday = getWeatherDetailListData(strListId,"1");
         		 	_weatherChartItems =  BusinessRequest.getWeatherChartList();
         		 	
@@ -212,6 +214,7 @@ public class WeatherDetailActivity extends FragmentActivity implements TabListen
                 case ConstDefine.MSG_I_HANDLE_OK:                                        
         		 	_diaLogProgress.dismiss();
         		 	_frgToday.setWeatherDetailInfo(_weatherSummaryToday);
+        		 	_frgToday.setYesterdayWeatherDetailInfo(_weatherSummaryYesterday);
         		    _frgToday.setWeatherDetailList(_weatherDetailsToday);
         		 	_frgWeek.setWeatherDetailList(_weatherChartItems);
         		 	_frgHistory.setOriginDataList(_weatherDetailsHistory);

@@ -258,11 +258,7 @@ public class MainPageActivity extends Activity {
 		  TextView tvWeather = (TextView) findViewById(R.id.main_item_three_txt3);
 		  tvHighest.setText(mainPageSummary.getForecastHighest() + "/" + mainPageSummary.getForecastLowest());	
 		  ImageView imgWeatherIcon = (ImageView) findViewById(R.id.main_item_three_image);
-		  
-		  //TODO: get weather icon id
-		  Random rand = new Random();
-		  Integer intWeatherId = rand.nextInt(34);
-		  Integer intImageResource = WeatherIconHelper.getWeatherIconResourceId(intWeatherId);
+		  Integer intImageResource = WeatherIconHelper.getWeatherIconResourceId(mainPageSummary.getWeatherIcon());
 		  
 		  if(intImageResource != 0){
 			  imgWeatherIcon.setImageDrawable(getResources().getDrawable(intImageResource));
