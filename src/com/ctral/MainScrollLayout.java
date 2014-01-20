@@ -64,7 +64,7 @@ public class MainScrollLayout extends ViewGroup {
 
     @Override  
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {   
-    	Log.e(TAG, "onMeasure");
+    	//Log.e(TAG, "onMeasure");
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);   
   
         final int width = MeasureSpec.getSize(widthMeasureSpec);   
@@ -75,7 +75,7 @@ public class MainScrollLayout extends ViewGroup {
   
         final int heightMode = MeasureSpec.getMode(heightMeasureSpec);   
         if (heightMode != MeasureSpec.EXACTLY) {   
-            throw new IllegalStateException("ScrollLayout only can run at EXACTLY mode!");
+           // throw new IllegalStateException("ScrollLayout only can run at EXACTLY mode!");
         }   
   
         // The children are given the same width and height as the scrollLayout   
@@ -104,13 +104,14 @@ public class MainScrollLayout extends ViewGroup {
 	}
 	
 	public void scrollToRight(int width){
-
+		
 		int distance=width*130/480;
 		if(!isOpen){
 			scrollBy(distance, 0);
 		}else{
 			scrollBy(-(distance), 0);
 		}
+		
 		isOpen=!isOpen;
 	}
 }

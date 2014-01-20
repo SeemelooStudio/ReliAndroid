@@ -30,7 +30,9 @@
      <activity android:name="LoginActivity"
           android:label="@string/login" >
      </activity>
-　　	<activity android:name="MainPageActivity" android:configChanges="orientation|screenSize"></activity>
+　　	<activity android:name="MainPageActivity" 
+     	    android:screenOrientation="portrait"
+     		android:configChanges="orientation|screenSize"></activity>
 	<activity android:name="DailyListActivity"
 	    android:label="@string/heat_daily"
 	    android:configChanges="orientation|screenSize">

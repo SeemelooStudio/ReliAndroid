@@ -1,30 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_page_item7"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#00000000" >
-    <RelativeLayout
-        android:id="@+id/main_page_item7"
-        android:layout_width="125dp"
-        android:layout_height="120dp"
-        android:background="@color/main_blue" >
+    android:background="@color/main_blue" >
 
-        <ImageView
-            android:id="@+id/main_item_image7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="40dip"
-            android:layout_marginTop="30dip"
-            android:src="@drawable/main_item_serven_image"
-            android:contentDescription="@string/knowledge_base" />
+    <ImageView
+        android:id="@+id/main_item_seven_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/large_margin"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:contentDescription="@string/knowledge_base"
+        android:src="@drawable/main_item_serven_image" />
 
-        <TextView
-            style="@style/mainTitleStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/main_item_image7"
-            android:layout_marginLeft="32dip"
-            android:layout_marginTop="10dip"
-            android:text="@string/knowledge_base" />
-    </RelativeLayout>
+    <TextView
+        style="@style/mainTitleStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/medium_margin"
+        android:text="@string/knowledge_base" />
+
 </RelativeLayout>
