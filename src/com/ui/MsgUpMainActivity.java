@@ -5,14 +5,14 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
+
 import java.util.List;
 
-import android.app.ActionBar;
+
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.app.SearchManager;
-import android.content.ContentValues;
+
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -21,28 +21,17 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.os.StatFs;
 import android.provider.MediaStore;
-import android.support.v4.app.NavUtils;
+
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.PopupWindow;
-import android.widget.SearchView;
-import android.widget.SearchView.OnQueryTextListener;
-import android.widget.Toast;
+
 
 import com.model.ChatMessage;
 import com.reqst.BusinessRequest;
@@ -65,6 +54,7 @@ public class MsgUpMainActivity extends Activity {
 	
 	private String _currentPhotoPath;
 	
+	@SuppressLint("SimpleDateFormat")
 	private File createImageFile() throws IOException{
 		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
@@ -186,6 +176,7 @@ public class MsgUpMainActivity extends Activity {
         }.start();	
 		
 	}
+	@SuppressLint("HandlerLeak")
 	private Handler messagerHandler = new Handler() {               
         public void handleMessage(Message message) {
                 switch (message.what) {

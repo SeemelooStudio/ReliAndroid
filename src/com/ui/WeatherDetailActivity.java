@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import org.json.JSONException;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
@@ -17,7 +16,6 @@ import android.support.v4.app.Fragment;
 import android.app.DialogFragment;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -27,8 +25,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
+//import android.widget.EditText;
 
 import com.model.WeatherStationListItem;
 import com.model.WeatherDetailItem;
@@ -61,11 +58,11 @@ public class WeatherDetailActivity extends FragmentActivity implements TabListen
     private WeatherDetailWeekFragment _frgWeek;
     private WeatherDetailHistoryFragment _frgHistory;
     private WeatherDetailStationsFragment _frgStations;
-    private EditText _fromDate;
-    private EditText _toDate;
-    
-    private final int DATE_PICKER_FROM_DIALOG =1;
-    private final int DATE_PICKER_TO_DIALOG = 2;
+//    private EditText _fromDate;
+//    private EditText _toDate;
+//    
+//    private final int DATE_PICKER_FROM_DIALOG =1;
+//    private final int DATE_PICKER_TO_DIALOG = 2;
     
 	 @Override
 	 public void onCreate(Bundle savedInstanceState) {

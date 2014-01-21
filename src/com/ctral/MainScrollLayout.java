@@ -2,32 +2,17 @@ package com.ctral;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
-import android.view.VelocityTracker;
 import android.view.View;
-import android.view.ViewConfiguration;
 import android.view.ViewGroup;
-import android.widget.Scroller;
 
 
 public class MainScrollLayout extends ViewGroup {
-
-	private static final String TAG = "MainScrollLayout";
-	private static final int TOUCH_STATE_REST = 0;
-	private static final int TOUCH_STATE_SCROLLING = 1;
-	private static final int SNAP_VELOCITY = 600;
 	
 	private int mCurScreen;
 	private int mDefaultScreen = 0;
-	private int mTouchState = TOUCH_STATE_REST;
-	private int mTouchSlop;
-	private float mLastMotionX;
-	private float mLastMotionY;
 	private boolean isOpen=false;
 	
-	private Scroller mScroller;
-	private VelocityTracker mVelocityTracker;
 	
 
 	public MainScrollLayout(Context context, AttributeSet attrs) {
@@ -38,9 +23,7 @@ public class MainScrollLayout extends ViewGroup {
 	public MainScrollLayout(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 
-		mScroller = new Scroller(context);
 		mCurScreen = mDefaultScreen;
-		mTouchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
 	}
 
 	@Override

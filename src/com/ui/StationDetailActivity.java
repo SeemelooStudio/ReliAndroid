@@ -1,14 +1,11 @@
 package com.ui;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
 import com.chart.impl.SupplyAndBackwardDetailChart;
 import com.model.StationDetail;
-import com.model.WeatherDetailTempInfo;
-import com.model.WeatherType;
 import com.reqst.BusinessRequest;
 import com.util.BaseHelper;
 import com.util.ConstDefine;

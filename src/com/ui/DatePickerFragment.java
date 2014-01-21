@@ -14,8 +14,8 @@ import android.widget.EditText;
 
 public  class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
-	private final int DATE_PICKER_FROM_DIALOG =1;
-    private final int DATE_PICKER_TO_DIALOG = 2;
+//	private final int DATE_PICKER_FROM_DIALOG =1;
+//    private final int DATE_PICKER_TO_DIALOG = 2;
     private EditText _fromDate;
     private EditText _toDate;
 	@Override

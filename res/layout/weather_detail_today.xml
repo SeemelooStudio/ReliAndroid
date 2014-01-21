@@ -14,8 +14,8 @@
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_weight="2"
             android:layout_height="wrap_content"
+            android:layout_weight="2"
             android:orientation="vertical" >
 
             <TextView
@@ -90,8 +90,8 @@
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
 
             <ImageView
                 android:id="@+id/today_weather_icon"
@@ -159,12 +159,17 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/small_margin"
             android:text="@string/loading" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/medium_margin" >
 
         <TextView
             style="@style/grayText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/small_margin"
             android:text="@string/wind" />
 
         <TextView
