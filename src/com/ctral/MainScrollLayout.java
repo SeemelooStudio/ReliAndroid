@@ -2,32 +2,17 @@ package com.ctral;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
-import android.view.VelocityTracker;
 import android.view.View;
-import android.view.ViewConfiguration;
 import android.view.ViewGroup;
-import android.widget.Scroller;
 
 
 public class MainScrollLayout extends ViewGroup {
-
-	private static final String TAG = "MainScrollLayout";
-	private static final int TOUCH_STATE_REST = 0;
-	private static final int TOUCH_STATE_SCROLLING = 1;
-	private static final int SNAP_VELOCITY = 600;
 	
 	private int mCurScreen;
 	private int mDefaultScreen = 0;
-	private int mTouchState = TOUCH_STATE_REST;
-	private int mTouchSlop;
-	private float mLastMotionX;
-	private float mLastMotionY;
 	private boolean isOpen=false;
 	
-	private Scroller mScroller;
-	private VelocityTracker mVelocityTracker;
 	
 
 	public MainScrollLayout(Context context, AttributeSet attrs) {
@@ -38,9 +23,7 @@ public class MainScrollLayout extends ViewGroup {
 	public MainScrollLayout(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 
-		mScroller = new Scroller(context);
 		mCurScreen = mDefaultScreen;
-		mTouchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
 	}
 
 	@Override
@@ -64,7 +47,7 @@ public class MainScrollLayout extends ViewGroup {
 
     @Override  
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {   
-    	Log.e(TAG, "onMeasure");
+    	//Log.e(TAG, "onMeasure");
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);   
   
         final int width = MeasureSpec.getSize(widthMeasureSpec);   
@@ -75,7 +58,7 @@ public class MainScrollLayout extends ViewGroup {
   
         final int heightMode = MeasureSpec.getMode(heightMeasureSpec);   
         if (heightMode != MeasureSpec.EXACTLY) {   
-            throw new IllegalStateException("ScrollLayout only can run at EXACTLY mode!");
+           // throw new IllegalStateException("ScrollLayout only can run at EXACTLY mode!");
         }   
   
         // The children are given the same width and height as the scrollLayout   
@@ -104,13 +87,14 @@ public class MainScrollLayout extends ViewGroup {
 	}
 	
 	public void scrollToRight(int width){
-
+		
 		int distance=width*130/480;
 		if(!isOpen){
 			scrollBy(distance, 0);
 		}else{
 			scrollBy(-(distance), 0);
 		}
+		
 		isOpen=!isOpen;
 	}
 }

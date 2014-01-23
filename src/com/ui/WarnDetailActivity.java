@@ -8,9 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.model.WarnListItem;
@@ -51,16 +49,16 @@ public class WarnDetailActivity extends Activity implements android.view.View.On
 	        btnWarnEdit.setOnClickListener((android.view.View.OnClickListener) this);
 	        
 	    	txtWarnDate  = (TextView) findViewById(R.id.txtWarnDateTime); 
-	    	txtWarnContent  = (TextView) findViewById(R.id.txtWarnContent); 
+	    	setTxtWarnContent((TextView) findViewById(R.id.txtWarnContent)); 
 	    	
-	    	warnInfo = new WarnListItem();
+	    	setWarnInfo(new WarnListItem());
 	    	diaLogProgress = BaseHelper.showProgress(WarnDetailActivity.this,ConstDefine.I_MSG_0003,false);
 	    	new Thread() {
 	    		public void run() { 
 	                Message msgSend = new Message();
 	        	    try {
 	        	    	
-	        	    	warnInfo = BusinessRequest.getWarnDetailById(strWarnId);
+	        	    	setWarnInfo(BusinessRequest.getWarnDetailById(strWarnId));
 	        	    	
 	        	    	msgSend.what = ConstDefine.MSG_I_HANDLE_OK;
 					} catch (Exception e) {
@@ -98,6 +96,22 @@ public class WarnDetailActivity extends Activity implements android.view.View.On
 
 		public void setTxtWarnTitle(TextView txtWarnTitle) {
 			this.txtWarnTitle = txtWarnTitle;
+		}
+
+		public TextView getTxtWarnContent() {
+			return txtWarnContent;
+		}
+
+		public void setTxtWarnContent(TextView txtWarnContent) {
+			this.txtWarnContent = txtWarnContent;
+		}
+
+		public WarnListItem getWarnInfo() {
+			return warnInfo;
+		}
+
+		public void setWarnInfo(WarnListItem warnInfo) {
+			this.warnInfo = warnInfo;
 		}
 
 		@SuppressLint("HandlerLeak")

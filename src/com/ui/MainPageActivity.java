@@ -1,9 +1,7 @@
 package com.ui;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -14,20 +12,18 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.text.format.DateFormat;
 import android.util.DisplayMetrics;
-import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup.LayoutParams;
+
 import android.view.Window;
+import android.widget.GridLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TableLayout;
-import android.widget.TableRow;
+
 import android.widget.TextView;
+import android.widget.GridLayout.Spec;
 
 import com.ctral.MainScrollLayout;
 import com.model.MainPageSummary;
@@ -46,6 +42,7 @@ public class MainPageActivity extends Activity {
 	private LayoutInflater layflater;
 	private ArrayList<View> listViews;
 	private ImageView imgMaskbg;
+	private Bundle bundle;
 	
 	//tool
 	private TextView txthelpMenu;
@@ -53,7 +50,6 @@ public class MainPageActivity extends Activity {
 	private TextView txtAboutMenu;
 	
 	private ImageView imgSetMenu;
-	private ImageView imgUserMenu;
 	
 	private TextView txtShowPage;
 	
@@ -64,30 +60,27 @@ public class MainPageActivity extends Activity {
 	private ProgressDialog diaLogProgress = null;
 	private MainPageSummary mainPageSummary = null;
 	
+	private final static int PAGE_SIZE = 6;
+	private final static int COLUMN_COUNT = 2;
+	private final static int ROW_COUNT = 3;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE); 
 		setContentView(R.layout.main_page_layout);
-		
 		//get param
 		Intent inten = this.getIntent();
-        Bundle mBundle = inten.getExtras();
-	    if (mBundle == null )  return;
-	   
-	    //init tool
-	    this.initToolView();
-	    
-	    //init main page
-		this.initView(mBundle.getString("lstMemu"));
-		 Log.i("main", "onStart");  
-		
+        bundle = inten.getExtras();
+        viewpage = (ViewPager) findViewById(R.id.pager);
+        scrollLayout = (MainScrollLayout) findViewById(R.id.mainScrollLayout);
+		if (bundle == null )  return;
+		initToolView();
+		initView(bundle.getString("lstMemu"));         
+
 	}
-	@Override  
-    protected void onResume() {  
-        Log.i("main", "onResume");  
-        super.onResume();  
-    }
+
+
 	/**
 	 * tool click
 	 */
@@ -98,9 +91,7 @@ public class MainPageActivity extends Activity {
 		//right menu
 		imgSetMenu = (ImageView) findViewById(R.id.settingMenu);
 		imgSetMenu.setOnClickListener(toolItemClickListener);
-		imgUserMenu = (ImageView) findViewById(R.id.userMenu);
-		imgUserMenu.setOnClickListener(toolItemClickListener);
-		
+
 		//sub menu
 		txthelpMenu = (TextView) findViewById(R.id.help_menu);
 		txthelpMenu.setOnClickListener(toolItemClickListener);
@@ -110,103 +101,80 @@ public class MainPageActivity extends Activity {
 		txtAboutMenu.setOnClickListener(toolItemClickListener);
 	}
 	
-	
-	/**
-	 * init the pageView
-	 */
+
 	private void initView(String strMenu) {
 		layflater = LayoutInflater.from(this);
 		listViews = new ArrayList<View>();
 		mainItemClickListener= new MainItemOnClickListener();
 		
-		viewpage = (ViewPager) findViewById(R.id.pager);
 		
-		//use mainScrollLayout
-		scrollLayout = (MainScrollLayout) findViewById(R.id.mainScrollLayout);
-		RelativeLayout item1 = (RelativeLayout) layflater.inflate(R.layout.main_page_item_1, null).findViewById(R.id.main_page_item1);
-		RelativeLayout item2 = (RelativeLayout) layflater.inflate(R.layout.main_page_item_2, null).findViewById(R.id.main_page_item2);
-		RelativeLayout item3 = (RelativeLayout) layflater.inflate(R.layout.main_page_item_3, null).findViewById(R.id.main_page_item3);
-		RelativeLayout item4 = (RelativeLayout) layflater.inflate(R.layout.main_page_item_4, null).findViewById(R.id.main_page_item4);
-		RelativeLayout item5 = (RelativeLayout) layflater.inflate(R.layout.main_page_item_5, null).findViewById(R.id.main_page_item5);
-		RelativeLayout item6 = (RelativeLayout) layflater.inflate(R.layout.main_page_item_6, null).findViewById(R.id.main_page_item6);
-		RelativeLayout item7 = (RelativeLayout) layflater.inflate(R.layout.main_page_item_7, null).findViewById(R.id.main_page_item7);
-		
-		
-		
-		List<RelativeLayout> itemList = new ArrayList<RelativeLayout>();
+
+		List<View> itemList = new ArrayList<View>();
 		for(int i = 0; i < strMenu.length(); i++ )
 		{   
-			if (strMenu.charAt(i) == '1') itemList.add(item1);
-			if (strMenu.charAt(i) == '2') itemList.add(item2);
-			if (strMenu.charAt(i) == '3') itemList.add(item3);
-			if (strMenu.charAt(i) == '4') itemList.add(item4);
-			if (strMenu.charAt(i) == '5') itemList.add(item5);
-			if (strMenu.charAt(i) == '6') itemList.add(item6);
-			if (strMenu.charAt(i) == '7') itemList.add(item7);
+			if (strMenu.charAt(i) == '1') itemList.add(layflater.inflate(R.layout.main_page_item_1, null));
+			if (strMenu.charAt(i) == '2') itemList.add(layflater.inflate(R.layout.main_page_item_2, null));
+			if (strMenu.charAt(i) == '3') itemList.add(layflater.inflate(R.layout.main_page_item_3, null));
+			if (strMenu.charAt(i) == '4') itemList.add(layflater.inflate(R.layout.main_page_item_4, null));
+			if (strMenu.charAt(i) == '5') itemList.add(layflater.inflate(R.layout.main_page_item_5, null));
+			if (strMenu.charAt(i) == '6') itemList.add(layflater.inflate(R.layout.main_page_item_6, null));
+			if (strMenu.charAt(i) == '7') itemList.add(layflater.inflate(R.layout.main_page_item_7, null));
 		}
+
+		int pageNum = (int) Math.ceil((float) itemList.size() / PAGE_SIZE);
 		
-		//create row
-		int rowNum = 0;
-		if(itemList.size() >= 2 && (itemList.size() % 2) == 0){			
-			rowNum = (itemList.size())/2;
-		}
-		else	
-		{
-			rowNum = (itemList.size())/2+1;
-		}
-		List<TableRow> rowList = new ArrayList<TableRow>();
-		for(int i = 0; i < rowNum; i++ )
-		{ 
-			TableRow rowlayout = new TableRow(this);
-			rowlayout.removeAllViews();
-			rowlayout.setId(i);
-			
-			RelativeLayout col1 = (RelativeLayout)itemList.get(i*2);
-			col1.setOnClickListener(mainItemClickListener);
-			rowlayout.addView(col1.getRootView(), 0);
-			if((i*2+1) < itemList.size()){
-				RelativeLayout col2 = (RelativeLayout)itemList.get(i*2+1);
-				col2.setOnClickListener(mainItemClickListener);
-				rowlayout.addView(col2.getRootView(), 1);
-			}
-			rowList.add(rowlayout);
-		}
+
+		DisplayMetrics outMetrics = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(outMetrics);
 		
-		//create page
-		int pageNum =0;
-		if(rowList.size()>= 3 && (rowList.size() % 3) == 0){			
-			pageNum = rowList.size()/3;
-		}
-		else	
-		{
-			pageNum = (rowList.size()/3) + 1 ;
-		}
-		int rowIndex = 0;
-		for(int i = 0; i < pageNum; i++ )
-		{ 
-			LinearLayout pageLayout=new LinearLayout(this);
-			LayoutParams ltp=new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-			 
-			TableLayout tbLayout = new TableLayout(this);
-			tbLayout.removeAllViews();
-			
-			if(rowList.size() == 1){
-				TableRow rowlayout = (TableRow)rowList.get(0);
-				tbLayout.addView(rowlayout);
-			}else{
-				for(int r = 0;r < 3 && rowIndex < rowList.size() - 1 ;r++)
-				{
-					rowIndex = i * 3 + r;
-					TableRow rowlayout = (TableRow)rowList.get(rowIndex);
-					tbLayout.addView(rowlayout);
+		int screenWidth = (int)(outMetrics.widthPixels - BaseHelper.convertDpToPixel(60, getApplicationContext()));  
+		int screenHeight = (int)((outMetrics.heightPixels - BaseHelper.convertDpToPixel(75, getApplicationContext())) * 0.8); 
+
+		int ceilMargin = this.getResources().getDimensionPixelSize(R.dimen.small_margin);
+
+		int cellWidth = (int) (screenWidth / COLUMN_COUNT - ceilMargin);
+		int cellHeight = (int) (screenHeight / ROW_COUNT - ceilMargin);
+
+		// create page
+		listViews = new ArrayList<View>();
+		for (int pageIndex = 0; pageIndex < pageNum; pageIndex++) {
+
+			GridLayout gridLayout = new GridLayout(this);
+			gridLayout.setColumnCount(COLUMN_COUNT);
+			gridLayout.setRowCount(ROW_COUNT);
+			gridLayout.setOrientation(GridLayout.HORIZONTAL);
+			gridLayout.setUseDefaultMargins(true);
+			for (int cell = 0, rowIndex = 0, columnIndex = 0, itemIndex = pageIndex
+					* PAGE_SIZE; cell < PAGE_SIZE
+					&& itemIndex < itemList.size(); cell++, columnIndex++, itemIndex++) {
+				if (columnIndex == COLUMN_COUNT) {
+					columnIndex = 0;
+					rowIndex++;
 				}
+				View item = itemList.get(itemIndex);
+				
+				item.setOnClickListener(mainItemClickListener);
+
+				Spec row = GridLayout.spec(rowIndex, 1);
+				Spec colspan = GridLayout.spec(columnIndex, 1);
+				GridLayout.LayoutParams param = new GridLayout.LayoutParams(row,
+						colspan);
+				param.setGravity(Gravity.FILL);
+				param.width = cellWidth;
+				param.height = cellHeight;
+				param.setMargins(ceilMargin, ceilMargin, ceilMargin, ceilMargin);
+				item.setLayoutParams(param);
+				
+				gridLayout.addView(item);
 			}
-			pageLayout.addView(tbLayout, ltp);
-			listViews.add(pageLayout);
+			gridLayout.setId(pageIndex);
+			listViews.add(gridLayout);
 		}
-		
+
+
 		imgMaskbg = (ImageView) findViewById(R.id.main_page_menu);
 		imgMaskbg.setOnClickListener(mainItemClickListener);
+		
 		viewpage.setAdapter(new ViewPageAdapter(listViews));
 		viewpage.setOnPageChangeListener(new ViewPageChangeListener()); 
 		
@@ -215,6 +183,7 @@ public class MainPageActivity extends Activity {
 
     	initSummaryData();
 	}
+
 
 	private void initSummaryData(){
 		 
@@ -267,7 +236,6 @@ public class MainPageActivity extends Activity {
 		  tvToday.setText(mainPageSummary.getWindSpeedAndDirection());
 		  tvWeather.setText(mainPageSummary.getWeatherDiscription());
 
-		  
 	  }
 	  private void setMessagerData( )
 	  {
@@ -314,11 +282,11 @@ public class MainPageActivity extends Activity {
 				startActivity(intent_7);
 				break;
 			case R.id.main_page_menu:
-				Log.i(TAG, "main_menu");
+				
 				DisplayMetrics metrics = new DisplayMetrics();
 				MainPageActivity.this.getWindowManager().getDefaultDisplay().getMetrics(metrics);
 				int width = metrics.widthPixels;
-				Log.i(TAG, "width=" + width);
+
 				scrollLayout.scrollToRight(width);
 				break;
 			default:
@@ -335,6 +303,7 @@ public class MainPageActivity extends Activity {
 	private class ToolItemOnClickListener implements OnClickListener {
 
 		public void onClick(View v) {
+			
 			switch (v.getId()) {
 			case R.id.help_menu:
 				BaseHelper.showToastMsg(MainPageActivity.this, getString(R.string.under_construction_message));
@@ -348,9 +317,7 @@ public class MainPageActivity extends Activity {
 			case R.id.settingMenu:
 				BaseHelper.showToastMsg(MainPageActivity.this, getString(R.string.under_construction_message));
 				break;
-			case R.id.userMenu:
-				BaseHelper.showToastMsg(MainPageActivity.this, getString(R.string.under_construction_message));
-				break;
+
 			default:
 				break;
 			}

@@ -122,4 +122,8 @@
    
    <string name="test_content">左家庄热力站11月18日连续超标10。11月19日超标12。11月20日超标11</string>
    
+   <!--  Menu -->
+   <string name="contact_us">联系我们</string>
+   <string name="help_us">帮助</string>
+    <string name="version_info">版本信息</string>   
 </resources>

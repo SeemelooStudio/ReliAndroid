@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" >
-    <RelativeLayout
         android:id="@+id/main_page_item1"
-        android:layout_width="125dp"
-        android:layout_height="120dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:background="@color/dodger_blue" >
         <ImageView
             android:id="@+id/main_item_one_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/medium_margin"
+        	android:paddingBottom="@dimen/large_margin"
             android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
             android:contentDescription="@string/main_item_one_name"
             android:src="@drawable/main_item_one_image" />
 
@@ -20,9 +18,8 @@
             style="@style/mainTitleStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/main_item_one_image"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/medium_margin"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/medium_margin"
             android:text="@string/main_item_one_name" />
-    </RelativeLayout>
 </RelativeLayout>
