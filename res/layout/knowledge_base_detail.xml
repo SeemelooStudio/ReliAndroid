@@ -5,7 +5,7 @@
     android:layout_margin="10dip"
     android:background="@drawable/main_layout_bg"
     android:orientation="vertical" >
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout 
       android:layout_width="fill_parent" 
 	 android:layout_height="30dp"
 	 android:background="@drawable/title_bg">
@@ -17,7 +17,7 @@
 		        	android:text="知识库" 
 		        	style="@style/labStyle"/>
     </LinearLayout>
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout 
       android:layout_width="fill_parent" 
 	 android:layout_height="30dp"
 	 android:background="@drawable/title_sub_bg">
@@ -28,12 +28,12 @@
 		        	android:text="XXXX文档"
 		          style="@style/labStyle"/>
     </LinearLayout> 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
       android:layout_width="fill_parent" 
 	 android:layout_height="match_parent"
 	 android:layout_marginTop="2dip"
 	 android:background="@drawable/title_sub_bg">
-	    <WebView xmlns:android="http://schemas.android.com/apk/res/android"
+	    <WebView 
 	          android:id="@+id/knowledgePdfView"
 	          android:scrollbarStyle="outsideOverlay"
       		android:layout_width="fill_parent"

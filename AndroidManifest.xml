@@ -58,7 +58,6 @@
             android:name="android.support.PARENT_ACTIVITY"
             android:value="com.ui.WarnListActivity" />
 	</activity>
-	<activity android:name="WeatherListActivity" android:configChanges="orientation|screenSize"></activity>
 	<activity android:name="WeatherDetailActivity" 
 	    android:configChanges="orientation|screenSize"
 	    android:label="@string/weather" 
