@@ -6,11 +6,9 @@ public class StationListItem {
 	
 	private String stationName;
 	
-	private String strWarnColor;
+	private String type;
 	
-	private String strAddress;
-	
-	private String strDirect;
+	private String eastOrWest;
 
 	public int getStationId() {
 		return stationId;
@@ -28,28 +26,20 @@ public class StationListItem {
 		this.stationName = strStationName;
 	}
 
-	public String getStrWarnColor() {
-		return strWarnColor;
+	public String getType() {
+		return type;
 	}
 
-	public void setStrWarnColor(String strWarnColor) {
-		this.strWarnColor = strWarnColor;
+	public void setType(String type) {
+		this.type = type;
 	}
 
-	public String getStrAddress() {
-		return strAddress;
+	public String getEastOrWest() {
+		return eastOrWest;
 	}
 
-	public void setStrAddress(String strAddress) {
-		this.strAddress = strAddress;
-	}
-
-	public String getStrDirect() {
-		return strDirect;
-	}
-
-	public void setStrDirect(String strDirect) {
-		this.strDirect = strDirect;
+	public void setEastOrWest(String eastOrWest) {
+		this.eastOrWest = eastOrWest;
 	}
 
 }

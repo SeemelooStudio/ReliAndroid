@@ -468,7 +468,7 @@ public class BusinessRequest {
 	{
 		
 		ServerHttpRequest httpReq = new ServerHttpRequest();
-		String strRequestAddress = (ConstDefine.WEB_SERVICE_URL + ConstDefine.S_GET_HEATSOURCES);
+		String strRequestAddress = (ConstDefine.WEB_SERVICE_URL + ConstDefine.S_GET_STATIONS);
 		try {
 			String strResp = httpReq.doGet(strRequestAddress);
 			ArrayList<StationListItem>  lstHotSrc = (ArrayList<StationListItem>) JsonHelper.parseCollection(strResp, List.class, StationListItem.class);
