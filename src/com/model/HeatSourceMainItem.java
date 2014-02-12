@@ -116,7 +116,20 @@ public class HeatSourceMainItem {
 	public void setInSystem(boolean isInSystem) {
 		this.isInSystem = isInSystem;
 	}
-
+	public Boolean isOuter() {
+		if ( getInnerOrOuter().equals("外部") ) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	public Boolean isEast() {
+		if ( getEastOrWest().equals("东部") ) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 	
 
 }

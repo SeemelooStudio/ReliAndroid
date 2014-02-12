@@ -174,9 +174,14 @@ public class HeatSourceMainActivity extends Activity {
 		  param.height = cellHeight;
 		  param.setMargins(ceilMargin, ceilMargin, ceilMargin, ceilMargin);
 	      
-	      //TODO: set background color base on heat source state
-		  Random rand = new Random();
-		  Integer intState = rand.nextInt(3);
+		  int intState = CellBackgroundHelper.CELL_STATE_OUTTER;
+	      if ( !heatSource.isOuter() ) {
+	    	  if ( heatSource.isEast() ) {
+	    		  intState = CellBackgroundHelper.CELL_STATE_EAST;
+	    	  } else {
+	    		  intState = CellBackgroundHelper.CELL_STATE_WEST;
+	    	  }
+	      }
 		  Integer intBackgroundResource = CellBackgroundHelper.getBackgroundResourceByCellState(intState);
 		  
       	  viewHeatSource.setBackgroundResource(intBackgroundResource);

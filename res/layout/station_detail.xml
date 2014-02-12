@@ -31,6 +31,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/small_margin"
+                android:textColor="@color/white"
                 android:text="@string/temperature" />
 
             <TableLayout
@@ -48,6 +49,7 @@
                     <TextView
                         android:id="@+id/station_supply_temperature"
                         android:paddingRight="@dimen/small_margin"
+                        android:textColor="@color/white"
                         android:textSize="@dimen/small_font_size" />
                 </TableRow>
 
@@ -59,6 +61,7 @@
                     <TextView
                         android:id="@+id/station_back_temperature"
                         android:paddingRight="@dimen/small_margin"
+                        android:textColor="@color/white"
                         android:textSize="@dimen/small_font_size" />
                 </TableRow>
             </TableLayout>
@@ -79,6 +82,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/small_margin"
+                android:textColor="@color/white"
                 android:text="@string/pressure"/>
             
             <TableLayout
@@ -92,10 +96,12 @@
                     <TextView
                         style="@style/tableLabel"
                         android:textSize="@dimen/small_font_size"
+                        android:textColor="@color/white"
                         android:text="@string/supplywater" />
                     <TextView
                         android:id="@+id/station_supply_pressure"
                         android:paddingRight="@dimen/small_margin"
+                        android:textColor="@color/white"
                         android:textSize="@dimen/small_font_size" />
                 </TableRow>
 
@@ -107,6 +113,7 @@
                     <TextView
                         android:id="@+id/station_back_pressure"
                         android:paddingRight="@dimen/small_margin"
+                        android:textColor="@color/white"
                         android:textSize="@dimen/small_font_size"
                     />
                 </TableRow>
