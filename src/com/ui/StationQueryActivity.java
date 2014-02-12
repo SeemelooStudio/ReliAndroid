@@ -59,8 +59,8 @@ public class StationQueryActivity  extends Activity implements  SearchView.OnQue
 				HashMap<String, Object> ListItem = (HashMap<String, Object>) listView.getItemAtPosition(position);
         		Intent intent = new Intent(StationQueryActivity.this, StationDetailActivity.class); 
         		Bundle mBundle = new Bundle();
-        		mBundle.putString("strStationId", ListItem.get("strStationId").toString());
-        		mBundle.putString("strStationName", ListItem.get("strStationName").toString());
+        		mBundle.putInt("station_id", Integer.parseInt(ListItem.get("strStationId").toString()));
+        		mBundle.putString("station_name", ListItem.get("strStationName").toString());
         		intent.putExtras(mBundle);
         		startActivity(intent);
         	}
@@ -169,9 +169,8 @@ public class StationQueryActivity  extends Activity implements  SearchView.OnQue
 			HashMap<String, Object> item = new HashMap<String, Object>();  
 			item.put("strStationId", oneRec.getStationId()+""); 
 		    item.put("strStationName", oneRec.getStationName());
-		    String strOtherInfo = oneRec.getStrWarnColor() + "," 
-		                        + oneRec.getStrAddress() + ","
-		                        + oneRec.getStrDirect();
+		    String strOtherInfo = oneRec.getEastOrWest() + "," 
+		                        + oneRec.getType();
 		    item.put("strOtherInfo", strOtherInfo); 
 		    weatherList.add(item);  
 		}
@@ -208,9 +207,8 @@ public class StationQueryActivity  extends Activity implements  SearchView.OnQue
      	        item.put("strStationId", dbHotPoslist.get(i).getStationId()); 
      	        item.put("strStationName", dbHotPoslist.get(i).getStationName());
      	        
-     	        String strOtherInfo = dbHotPoslist.get(i).getStrWarnColor() + "," 
-     	                            + dbHotPoslist.get(i).getStrAddress() + ","
-     	                            + dbHotPoslist.get(i).getStrDirect();
+     	        String strOtherInfo = dbHotPoslist.get(i).getEastOrWest() + "," 
+     	                            + dbHotPoslist.get(i).getType();
      	        item.put("strOtherInfo", strOtherInfo); 
      	        mSearchList.add(item);  
             }  
