@@ -110,7 +110,7 @@ public abstract class AbstractChart implements IChart {
       XYSeries series = new XYSeries(titles[i]);
       Date[] xV = xValues.get(i);
       double[] yV = yValues.get(i);
-      int seriesLength = xV.length;
+      int seriesLength = yV.length;
       for (int k = 0; k < seriesLength; k++) {
         series.add(xV[k].getTime(), yV[k]);
       }

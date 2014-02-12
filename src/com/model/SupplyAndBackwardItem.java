@@ -30,9 +30,6 @@ public class SupplyAndBackwardItem {
 
 	public void setBackward(float backward) {
 		this.backward = backward;
-	}
-
-
-	
+	}	
 	
 }

@@ -15,8 +15,11 @@
  */
 package com.chart.impl;
 
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -110,24 +113,31 @@ public class SupplyAndBackwardDetailChart extends AbstractChart {
 				buildDateDataset(titles, dates, values), getRender(),
 				"yyyy-MM-dd HH:mm");
 	}
-
+	
+	private void sortDatalistAscendingByDate() {
+		Comparator<SupplyAndBackwardItem> comparator;
+		comparator = new SupplyAndBackwardItemComparator();
+		Collections.sort(dataList, comparator);
+	}
 	private void setDateAndValue() throws ParseException {
-
-		int length = titles.length;
+		sortDatalistAscendingByDate();
+		//int length = titles.length;
 		int dataSize = dataList.size();
 		double supply[] = new double[dataSize];
 		double backward[] = new double[dataSize];
+		Date date[] = new Date[dataSize];
 
-		for (int i = 0; i < length; i++) {
-			dates.add(new Date[dataList.size()]);
-			for (int j = 0; j < dataSize; j++) {
-				SupplyAndBackwardItem item = dataList.get(j);
-				supply[i] = item.getSupply();
-				backward[i] = item.getBackward();
-			}
+		for (int j = 0; j < dataSize; j++) {
+			SupplyAndBackwardItem item = dataList.get(j);
+			supply[j] = item.getSupply();
+			backward[j] = item.getBackward();
+			date[j] = item.getTime();
 		}
+
 		values.add(supply);
 		values.add(backward);
+		dates.add(date);
+		dates.add(date);
 	}
 
 	private XYMultipleSeriesRenderer getRender() {
@@ -159,6 +169,10 @@ public class SupplyAndBackwardDetailChart extends AbstractChart {
             seriesRenderer.setChartValuesSpacing(10);
             seriesRenderer.setChartValuesTextSize(16);
             seriesRenderer.setDisplayChartValues(true);
+            
+            NumberFormat nFormat=NumberFormat.getNumberInstance();
+            nFormat.setMaximumFractionDigits(2);
+            seriesRenderer.setChartValuesFormat(nFormat);
 
         }
         
@@ -168,5 +182,21 @@ public class SupplyAndBackwardDetailChart extends AbstractChart {
 		renderer.setChartTitleTextSize(24);
 		return renderer;
 	}
+	private class SupplyAndBackwardItemComparator implements Comparator<SupplyAndBackwardItem> {
 
+		@Override
+		public int compare(SupplyAndBackwardItem lhs, SupplyAndBackwardItem rhs) {
+			long ldate = lhs.getTime().getTime();
+			long rdate = rhs.getTime().getTime();
+			
+			if ( ldate > rdate ) {
+				return 1;
+			}
+			if ( ldate < rdate )  {
+				return -1;
+			}
+			return 0;
+		}
+
+	}
 }
