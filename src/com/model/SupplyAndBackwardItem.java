@@ -4,31 +4,31 @@ import java.util.Date;
 
 public class SupplyAndBackwardItem {
 
-	private Date  date;
-	private Double  supply;
-	private Double  backward;
+	private Date  time;
+	private float  supply;
+	private float  backward;
 
-	public Date getDate() {
-		return date;
+	public Date getTime() {
+		return time;
 	}
 
-	public void setDate(Date date) {
-		this.date = date;
+	public void setTime(Date time) {
+		this.time = time;
 	}
 
-	public Double getSupply() {
+	public float getSupply() {
 		return supply;
 	}
 
-	public void setSupply(Double supply) {
+	public void setSupply(float supply) {
 		this.supply = supply;
 	}
 
-	public Double getBackward() {
+	public float getBackward() {
 		return backward;
 	}
 
-	public void setBackward(Double backward) {
+	public void setBackward(float backward) {
 		this.backward = backward;
 	}
 

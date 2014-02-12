@@ -87,7 +87,7 @@ public class StationQueryActivity  extends Activity implements  SearchView.OnQue
     
     @Override  
     public boolean onQueryTextChange(String newText) {
-    	searchCon.setStrStationName(newText);
+    	searchCon.setStationName(newText);
     	List<HashMap<String, Object>>  resultlst = searchItem(newText);  
         updateLayout(resultlst);  
         return false;  
@@ -167,8 +167,8 @@ public class StationQueryActivity  extends Activity implements  SearchView.OnQue
 		for (StationListItem oneRec: dbHotPoslist) 
 		{   
 			HashMap<String, Object> item = new HashMap<String, Object>();  
-			item.put("strStationId", oneRec.getStrStationId()); 
-		    item.put("strStationName", oneRec.getStrStationName());
+			item.put("strStationId", oneRec.getStationId()+""); 
+		    item.put("strStationName", oneRec.getStationName());
 		    String strOtherInfo = oneRec.getStrWarnColor() + "," 
 		                        + oneRec.getStrAddress() + ","
 		                        + oneRec.getStrDirect();
@@ -201,12 +201,12 @@ public class StationQueryActivity  extends Activity implements  SearchView.OnQue
         
         for (int i = 0; i < dbHotPoslist.size(); i++) 
         { 	
-            int index =((StationListItem) dbHotPoslist.get(i)).getStrStationName().indexOf(name);  
+            int index =((StationListItem) dbHotPoslist.get(i)).getStationName().indexOf(name);  
             
             if (index != -1) {
             	HashMap<String, Object> item = new HashMap<String, Object>();  
-     	        item.put("strStationId", dbHotPoslist.get(i).getStrStationId()); 
-     	        item.put("strStationName", dbHotPoslist.get(i).getStrStationName());
+     	        item.put("strStationId", dbHotPoslist.get(i).getStationId()); 
+     	        item.put("strStationName", dbHotPoslist.get(i).getStationName());
      	        
      	        String strOtherInfo = dbHotPoslist.get(i).getStrWarnColor() + "," 
      	                            + dbHotPoslist.get(i).getStrAddress() + ","

@@ -95,7 +95,7 @@ public class SupplyAndBackwardDetailChart extends AbstractChart {
 
 		return ChartFactory.getTimeChartIntent(context,
 				buildDateDataset(titles, dates, values), getRender(),
-				"yyyy-MM-dd");
+				"yyyy-MM-dd HH:mm");
 	}
 
 	public GraphicalView createChart(Context context) {
@@ -108,7 +108,7 @@ public class SupplyAndBackwardDetailChart extends AbstractChart {
 
 		return ChartFactory.getTimeChartView(context,
 				buildDateDataset(titles, dates, values), getRender(),
-				"yyyy-MM-dd");
+				"yyyy-MM-dd HH:mm");
 	}
 
 	private void setDateAndValue() throws ParseException {
@@ -122,10 +122,8 @@ public class SupplyAndBackwardDetailChart extends AbstractChart {
 			dates.add(new Date[dataList.size()]);
 			for (int j = 0; j < dataSize; j++) {
 				SupplyAndBackwardItem item = dataList.get(j);
-
-				dates.get(i)[j] = item.getDate();
-				supply[j] = item.getSupply();
-				backward[j] = item.getBackward();
+				supply[i] = item.getSupply();
+				backward[i] = item.getBackward();
 			}
 		}
 		values.add(supply);

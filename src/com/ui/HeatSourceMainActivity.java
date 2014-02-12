@@ -111,9 +111,9 @@ public class HeatSourceMainActivity extends Activity {
 	  private void setHeatSourceItemContent( View viewHeatSource, HeatSourceMainItem item)
 	  {
 		 TextView tvSourceArea =  (TextView) viewHeatSource.findViewById(R.id.heat_source_area);
-		 tvSourceArea.setText(item.getArea() + ", " + item.getCombineMode() );
+		 tvSourceArea.setText(item.getEastOrWest() + ", " + item.getInnerOrOuter() );
 		 TextView tvSourceType =  (TextView) viewHeatSource.findViewById(R.id.heat_source_unit_type);
-		 tvSourceType.setText(item.getUnitType()  );
+		 tvSourceType.setText(item.getHeatSourceType() );
 
 		 TextView tvHeatSourceName = (TextView) viewHeatSource.findViewById(R.id.hot_source_name);
 		 tvHeatSourceName.setText(item.getHeatSourceName());
@@ -181,13 +181,29 @@ public class HeatSourceMainActivity extends Activity {
 		  
       	  viewHeatSource.setBackgroundResource(intBackgroundResource);
       	  viewHeatSource.setLayoutParams (param);
-      	  viewHeatSource.setOnClickListener(new heatSourceCellOnClickListener(heatSource.getHeatSourceName(), heatSource.getHeatSourceId()){                                                                                    
+      	  viewHeatSource.setOnClickListener(new heatSourceCellOnClickListener(
+      			  heatSource.getHeatSourceName(), 
+      			  heatSource.getHeatSourceId(),
+      			  heatSource.getEastOrWest(),
+      			  heatSource.getInnerOrOuter(),
+      			  heatSource.getPeakCoalCount(),
+      			  heatSource.getPeakGasCount(),
+      			  heatSource.getWaterLine(),
+      			  heatSource.getGasLine(),
+      			  heatSource.isInSystem()){                                                                                    
 			  public void onClick(View v) 
 			  {   
 				  Intent intent = new Intent(HeatSourceMainActivity.this, HeatSourceDetailActivity.class);
 				  Bundle bundle = new Bundle();
 				  bundle.putString("heat_source_name", heatSourceName);
-				  bundle.putString("heat_source_id", heatSourceId);
+				  bundle.putInt("heat_source_id", heatSourceId);
+				  bundle.putString("heat_source_east_or_west", eastOrWest);
+				  bundle.putString("heat_source_inner_or_outer", innerOrOuter);
+				  bundle.putInt("heat_source_peak_coal_count", peakCoalCount);
+				  bundle.putInt("heat_source_peak_gas_count", peakGasCount);
+				  bundle.putString("heat_source_water_line", waterLine);
+				  bundle.putString("heat_source_gas_line", gasLine);
+				  bundle.putBoolean("heat_source_is_in_system", isInSystem);
 				  intent.putExtras(bundle);
 				  startActivity(intent);
 			  }
@@ -283,11 +299,26 @@ public class HeatSourceMainActivity extends Activity {
 	  private abstract class heatSourceCellOnClickListener implements
 		OnClickListener {
 			String heatSourceName;
-			String heatSourceId;
-		
-			public heatSourceCellOnClickListener(String name, String id) {
-				this.heatSourceName = name;
-				this.heatSourceId = id;
+			int heatSourceId;
+			String eastOrWest;
+			String innerOrOuter;
+			int peakCoalCount;
+			int peakGasCount;
+			String waterLine;
+			String gasLine;
+			boolean isInSystem; // shifou bingwanggongre
+			
+			public heatSourceCellOnClickListener(String heatSourceName, int heatSourceId, String eastOrWest, String innerOrOuter,
+												 int peakCoalCount, int peakGasCount, String waterLine, String gasLine, boolean isInSystem) {
+				this.heatSourceName = heatSourceName;
+				this.heatSourceId = heatSourceId;
+				this.eastOrWest = eastOrWest;
+				this.innerOrOuter = innerOrOuter;
+				this.peakCoalCount = peakCoalCount;
+				this.peakGasCount = peakGasCount;
+				this.waterLine = waterLine;
+				this.gasLine = gasLine;
+				this.isInSystem = isInSystem;
 			}
 		
 		};

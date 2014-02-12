@@ -2,29 +2,37 @@ package com.model;
 
 public class HeatSourceDetail {
 
-	private String heatSourceId;
+	private int heatSourceId;
+	
+	private int heatSourceRecentId;
 	
 	private String heatSourceName;
 	
-	private String area;
+	private float pressureIn;
 	
-	private String combineMode;
+	private float pressureOut;
 	
-	private String waterLineName;
+	private float temperatureIn;
 	
-	private String steamLineName;
-	
-	private int gasfiredBoilerCount;
-	
-	private int coalfiredBoilerCount;
-	
-	private boolean isGridConnected;
+	private float temperatureOut;
 
-	public String getHeatSourceId() {
+	private float instHeat;
+	
+	private float instWater;
+	
+	private float accuHeat;
+	
+	private float accuWater;
+	
+	private float waterSupply;
+	
+	private String name;
+	
+	public int getHeatSourceId() {
 		return heatSourceId;
 	}
 
-	public void setHeatSourceId(String heatSourceId) {
+	public void setHeatSourceId(int heatSourceId) {
 		this.heatSourceId = heatSourceId;
 	}
 
@@ -36,59 +44,92 @@ public class HeatSourceDetail {
 		this.heatSourceName = heatSourceName;
 	}
 
-	public String getArea() {
-		return area;
+	public float getPressureIn() {
+		return pressureIn;
 	}
 
-	public void setArea(String area) {
-		this.area = area;
+	public void setPressureIn(float pressureIn) {
+		this.pressureIn = pressureIn;
 	}
 
-	public String getCombineMode() {
-		return combineMode;
+	public float getPressureOut() {
+		return pressureOut;
 	}
 
-	public void setCombineMode(String combineMode) {
-		this.combineMode = combineMode;
+	public void setPressureOut(float pressureOut) {
+		this.pressureOut = pressureOut;
 	}
 
-	public String getWaterLineName() {
-		return waterLineName;
+	public float getTemperatureIn() {
+		return temperatureIn;
 	}
 
-	public void setWaterLineName(String waterLineName) {
-		this.waterLineName = waterLineName;
+	public void setTemperatureIn(float temperatureIn) {
+		this.temperatureIn = temperatureIn;
 	}
 
-	public String getSteamLineName() {
-		return steamLineName;
+	public float getTemperatureOut() {
+		return temperatureOut;
 	}
 
-	public void setSteamLineName(String steamLineName) {
-		this.steamLineName = steamLineName;
+	public void setTemperatureOut(float temperatureOut) {
+		this.temperatureOut = temperatureOut;
 	}
 
-	public int getGasfiredBoilerCount() {
-		return gasfiredBoilerCount;
+	public String getName() {
+		return name;
 	}
 
-	public void setGasfiredBoilerCount(int gasfiredBoilerCount) {
-		this.gasfiredBoilerCount = gasfiredBoilerCount;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public int getCoalfiredBoilerCount() {
-		return coalfiredBoilerCount;
+	public int getHeatSourceRecentId() {
+		return heatSourceRecentId;
 	}
 
-	public void setCoalfiredBoilerCount(int coalfiredBoilerCount) {
-		this.coalfiredBoilerCount = coalfiredBoilerCount;
+	public void setHeatSourceRecentId(int heatSourceRecentId) {
+		this.heatSourceRecentId = heatSourceRecentId;
 	}
 
-	public boolean isGridConnected() {
-		return isGridConnected;
+	public float getInstHeat() {
+		return instHeat;
 	}
 
-	public void setGridConnected(boolean isGridConnected) {
-		this.isGridConnected = isGridConnected;
+	public void setInstHeat(float instHeat) {
+		this.instHeat = instHeat;
 	}
+
+	public float getInstWater() {
+		return instWater;
+	}
+
+	public void setInstWater(float instWater) {
+		this.instWater = instWater;
+	}
+
+	public float getAccuHeat() {
+		return accuHeat;
+	}
+
+	public void setAccuHeat(float accuHeat) {
+		this.accuHeat = accuHeat;
+	}
+
+	public float getAccuWater() {
+		return accuWater;
+	}
+
+	public void setAccuWater(float accuWater) {
+		this.accuWater = accuWater;
+	}
+
+	public float getWaterSupply() {
+		return waterSupply;
+	}
+
+	public void setWaterSupply(float waterSupply) {
+		this.waterSupply = waterSupply;
+	}
+	
 }

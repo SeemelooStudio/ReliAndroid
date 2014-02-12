@@ -255,22 +255,106 @@ public class BusinessRequest {
 		
     	return chartList;
     }
-    public static  List<SupplyAndBackwardItem> getStationSupplyAndReturnTemperatureList(String stationID, Date startDate, Date endDate) 
+    public static  List<SupplyAndBackwardItem> getStationSupplyAndReturnTemperatureList(String stationId, Date startDate, Date endDate) throws Exception
     {
-    	
     	List<SupplyAndBackwardItem> dataList = new ArrayList<SupplyAndBackwardItem>();
     	
-    	//TODO: get data from sever
+    	String fromDate = new SimpleDateFormat("yyyy-MM-dd%20HH:mm:ss").format(startDate);
+    	String toDate = new SimpleDateFormat("yyyy-MM-dd%20HH:mm:ss").format(endDate);
+    	
+    	
+    	ServerHttpRequest httpReq = new ServerHttpRequest();
+		String strRequestAddress = (ConstDefine.WEB_SERVICE_URL + ConstDefine.S_GET_STATION_TEMPERATURE_HISTORY)
+				.replace("{fromDate}", fromDate)
+				.replace("{toDate}", toDate)
+				.replace("{stationId}", stationId);
+		try {
+			String strResp = httpReq.doGet(strRequestAddress);
+			dataList = (ArrayList<SupplyAndBackwardItem>) JsonHelper.parseCollection(strResp, List.class, SupplyAndBackwardItem.class);	
+			return dataList;
+		}
+		catch (Exception ex) {
+			throw ex;
+		}
+		/*
+		//TODO: get data from sever
     	long DAY = 1000 * 60 * 60 * 24;
     	long startTime = startDate.getTime();
     	long endTime = endDate.getTime();
+    	
     	for (;startTime < endTime ; startTime+=DAY) {
     		SupplyAndBackwardItem item = new SupplyAndBackwardItem();
-    		item.setDate(new Date(startTime));
+    		item.setTime(new Date(startTime));
     		
     		DecimalFormat df = new DecimalFormat("#.00");
-    		double supply = Double.parseDouble(df.format((new Random()).nextDouble() * 30 + 80));
-    		double back = Double.parseDouble(df.format((new Random()).nextDouble() * 15 + 30));
+    		float supply = Float.parseFloat(df.format((new Random()).nextDouble() * 30 + 80));
+    		float back = Float.parseFloat(df.format((new Random()).nextDouble() * 15 + 30));
+
+    		item.setSupply(supply);
+    		item.setBackward(back);
+ 
+    		dataList.add(item);
+    	}
+		
+    	return dataList;*/
+    }
+    public static  List<SupplyAndBackwardItem> getHeatSourceSupplyAndReturnPressureList(String heatSourceId,String unitId, Date startDate, Date endDate) throws Exception
+    {
+    	List<SupplyAndBackwardItem> dataList = new ArrayList<SupplyAndBackwardItem>();
+    	String fromDate = new SimpleDateFormat("yyyy-MM-dd%20HH:mm:ss").format(startDate);
+    	String toDate = new SimpleDateFormat("yyyy-MM-dd%20HH:mm:ss").format(endDate);
+    	
+    	
+    	ServerHttpRequest httpReq = new ServerHttpRequest();
+		String strRequestAddress = (ConstDefine.WEB_SERVICE_URL + ConstDefine.S_GET_HEATSOURCE_RECENT_PRESSURE_HISTORY)
+				.replace("{fromDate}", fromDate)
+				.replace("{toDate}", toDate)
+				.replace("{heatSourceId}", heatSourceId)
+				.replace("{heatSourceRecentId}", unitId);
+		try {
+			String strResp = httpReq.doGet(strRequestAddress);
+			dataList = (ArrayList<SupplyAndBackwardItem>) JsonHelper.parseCollection(strResp, List.class, SupplyAndBackwardItem.class);	
+			return dataList;
+		}
+		catch (Exception ex) {
+			throw ex;
+		}
+    }
+    public static  List<SupplyAndBackwardItem> getHeatSourceSupplyAndBackwardTemperatureList(String heatSourceId,String unitId, Date startDate, Date endDate) throws Exception
+    {
+    	
+    	List<SupplyAndBackwardItem> dataList = new ArrayList<SupplyAndBackwardItem>();
+    	String fromDate = new SimpleDateFormat("yyyy-MM-dd%20HH:mm:ss").format(startDate);
+    	String toDate = new SimpleDateFormat("yyyy-MM-dd%20HH:mm:ss").format(endDate);
+    	
+    	
+    	ServerHttpRequest httpReq = new ServerHttpRequest();
+		String strRequestAddress = (ConstDefine.WEB_SERVICE_URL + ConstDefine.S_GET_HEATSOURCE_RECENT_TEMPERATURE_HISTORY)
+				.replace("{fromDate}", fromDate)
+				.replace("{toDate}", toDate)
+				.replace("{heatSourceId}", heatSourceId)
+				.replace("{heatSourceRecentId}", unitId);
+		try {
+			String strResp = httpReq.doGet(strRequestAddress);
+			dataList = (ArrayList<SupplyAndBackwardItem>) JsonHelper.parseCollection(strResp, List.class, SupplyAndBackwardItem.class);	
+			return dataList;
+		}
+		catch (Exception ex) {
+			throw ex;
+		}
+		/*
+		//TODO: get data from sever
+    	long DAY = 1000 * 60 * 60 * 24;
+    	long startTime = startDate.getTime();
+    	long endTime = endDate.getTime();
+    	
+    	for (;startTime < endTime ; startTime+=DAY) {
+    		SupplyAndBackwardItem item = new SupplyAndBackwardItem();
+    		item.setTime(new Date(startTime));
+    		
+    		DecimalFormat df = new DecimalFormat("#.00");
+    		float supply = Float.parseFloat(df.format((new Random()).nextDouble() * 30 + 80));
+    		float back = Float.parseFloat(df.format((new Random()).nextDouble() * 15 + 30));
 
     		item.setSupply(supply);
     		item.setBackward(back);
@@ -279,17 +363,32 @@ public class BusinessRequest {
     	}
 		
     	return dataList;
+    	*/
     }
-    public static  List<SupplyAndBackwardItem> getHeatSourceSupplyAndReturnPressureList(String heatSourceId,String unitId, Date startDate, Date endDate) 
+    public static  List<SupplyAndBackwardItem> getStationSupplyAndBackwardPressureList(String stationId, Date startDate, Date endDate)  throws Exception
     {
-    	
     	List<SupplyAndBackwardItem> dataList = new ArrayList<SupplyAndBackwardItem>();
+    	String fromDate = new SimpleDateFormat("yyyy-MM-dd%20HH:mm:ss").format(startDate);
+    	String toDate = new SimpleDateFormat("yyyy-MM-dd%20HH:mm:ss").format(endDate);
     	
+    	
+    	ServerHttpRequest httpReq = new ServerHttpRequest();
+		String strRequestAddress = (ConstDefine.WEB_SERVICE_URL + ConstDefine.S_GET_STATION_PRESSURE_HISTORY)
+				.replace("{fromDate}", fromDate)
+				.replace("{toDate}", toDate)
+				.replace("{stationId}", stationId);
+		try {
+			String strResp = httpReq.doGet(strRequestAddress);
+			dataList = (ArrayList<SupplyAndBackwardItem>) JsonHelper.parseCollection(strResp, List.class, SupplyAndBackwardItem.class);	
+			return dataList;
+		}
+		catch (Exception ex) {
+			throw ex;
+		}
     	//TODO: get data from sever
-    	long DAY = 1000 * 60 * 60 * 24;
+    	/*long DAY = 1000 * 60 * 60 * 24;
     	long startTime = startDate.getTime();
     	long endTime = endDate.getTime();
-    	
     	for (;startTime < endTime ; startTime+=DAY) {
     		SupplyAndBackwardItem item = new SupplyAndBackwardItem();
     		item.setDate(new Date(startTime));
@@ -304,58 +403,7 @@ public class BusinessRequest {
     		dataList.add(item);
     	}
 		
-    	return dataList;
-    }
-    public static  List<SupplyAndBackwardItem> getHeatSourceSupplyAndBackwardTemperatureList(String heatSourceId,String unitId, Date startDate, Date endDate) 
-    {
-    	
-    	List<SupplyAndBackwardItem> dataList;
-    	
-    	//TODO: get data from sever
-    	dataList = new ArrayList<SupplyAndBackwardItem>();
-    	long DAY = 1000 * 60 * 60 * 24;
-    	long startTime = startDate.getTime();
-    	long endTime = endDate.getTime();
-    	for (;startTime < endTime ; startTime+=DAY) {
-    		SupplyAndBackwardItem item = new SupplyAndBackwardItem();
-    		item.setDate(new Date(startTime));
-    		
-    		DecimalFormat df = new DecimalFormat("#.00");
-    		double supply = Double.parseDouble(df.format((new Random()).nextDouble() * 30 + 80));
-    		double back = Double.parseDouble(df.format((new Random()).nextDouble() * 15 + 30));
-
-    		item.setSupply(supply);
-    		item.setBackward(back);
- 
-    		dataList.add(item);
-    	}
-		
-    	return dataList;
-    }
-    public static  List<SupplyAndBackwardItem> getStationSupplyAndBackwardPressureList(String stationID, Date startDate, Date endDate) 
-    {
-    	
-    	List<SupplyAndBackwardItem> dataList = new ArrayList<SupplyAndBackwardItem>();
-    	
-    	//TODO: get data from sever
-    	long DAY = 1000 * 60 * 60 * 24;
-    	long startTime = startDate.getTime();
-    	long endTime = endDate.getTime();
-    	for (;startTime < endTime ; startTime+=DAY) {
-    		SupplyAndBackwardItem item = new SupplyAndBackwardItem();
-    		item.setDate(new Date(startTime));
-    		
-    		DecimalFormat df = new DecimalFormat("#.00");
-    		double supply = Double.parseDouble(df.format((new Random()).nextDouble() + 0.5));
-    		double back = Double.parseDouble(df.format((new Random()).nextDouble() * 0.5));
-
-    		item.setSupply(supply);
-    		item.setBackward(back);
- 
-    		dataList.add(item);
-    	}
-		
-    	return dataList;
+    	return dataList;*/
     }
     
     public static StationDetail getStationDetail(int stationId) throws Exception{
@@ -418,20 +466,19 @@ public class BusinessRequest {
 	
 	public static ArrayList<StationListItem> getStationQueryList(StationListItem objSearchCon) throws Exception 
 	{
-		/*
-		JSONStringer jsonStrCon = JsonHelper.toJSONString(objSearchCon);
-		Log.v("jsonStrCondition", jsonStrCon.toString());
+		
 		ServerHttpRequest httpReq = new ServerHttpRequest();
-		String strRequestAddress = ConstDefine.WEB_SERVICE_URL + ConstDefine.S_GET_WEATHERSTATIONS;
+		String strRequestAddress = (ConstDefine.WEB_SERVICE_URL + ConstDefine.S_GET_HEATSOURCES);
 		try {
 			String strResp = httpReq.doGet(strRequestAddress);
-			ArrayList<HotPosListItem>  lstHotPosition = (ArrayList<HotPosListItem>) JsonHelper.parseCollection(strResp, List.class, HotPosListItem.class);	
-			return  lstHotPosition;
+			ArrayList<StationListItem>  lstHotSrc = (ArrayList<StationListItem>) JsonHelper.parseCollection(strResp, List.class, StationListItem.class);
+			return  lstHotSrc;
 		}
-		catch (Exception ex) {
+		catch (Exception ex){
 			throw ex;
-		}*/
+		}
 		
+		/*
 		ArrayList<StationListItem>  lstHotPosition = new ArrayList<StationListItem>();
 		for(int i=0; i<15; i++)
         {
@@ -444,7 +491,7 @@ public class BusinessRequest {
 			lstHotPosition.add(item);
         }
 		
-		return lstHotPosition;
+		return lstHotPosition;*/
 	}
 	
 	/**
@@ -456,21 +503,21 @@ public class BusinessRequest {
 		ServerHttpRequest httpReq = new ServerHttpRequest();
 		String strRequestAddress = (ConstDefine.WEB_SERVICE_URL + ConstDefine.S_GET_HEATSOURCES);
 		try {
-			
 			String strResp = httpReq.doGet(strRequestAddress);
-			//ArrayList<HeatSourceMainItem>  lstHotSrc = (ArrayList<HeatSourceMainItem>) JsonHelper.parseCollection(strResp, List.class, HeatSourceMainItem.class);
+			ArrayList<HeatSourceMainItem>  lstHotSrc = (ArrayList<HeatSourceMainItem>) JsonHelper.parseCollection(strResp, List.class, HeatSourceMainItem.class);
 			
-			ArrayList<HeatSourceMainItem>  lstHotSrc = new ArrayList<HeatSourceMainItem>();
-			for(int i=0; i<15; i++)
-	        {
-				HeatSourceMainItem  item = new HeatSourceMainItem();
-	        	item.setArea("东部");
-	        	item.setCombineMode("外部");
-	        	item.setUnitType("燃气");
-	        	item.setHeatSourceName("国华北");
-	        	item.setHeatSourceId("1");
-	        	lstHotSrc.add(item);
-	        }
+			//
+			//ArrayList<HeatSourceMainItem>  lstHotSrc = new ArrayList<HeatSourceMainItem>();
+			//for(int i=0; i<15; i++)
+	        //{
+			//	HeatSourceMainItem  item = new HeatSourceMainItem();
+	        //	item.setArea("东部");
+	        //	item.setCombineMode("外部");
+	        //	item.setUnitType("燃气");
+	        //	item.setHeatSourceName("国华北");
+	        //	item.setHeatSourceId("1");
+	        //	lstHotSrc.add(item);
+	        //}
 
 			return  lstHotSrc;
 		}
@@ -588,21 +635,18 @@ public class BusinessRequest {
 		
 	}
 	
-	public static HeatSourceDetail getHeatSourceDetail(String heatSourceId) {
-		HeatSourceDetail detail;
+	public static ArrayList<HeatSourceDetail> getHeatSourceDetail(String heatSourceId) throws Exception{
 		
-		//TODO: get data from sever
-		detail = new HeatSourceDetail();
-		detail.setHeatSourceId("1");
-		detail.setHeatSourceName("abcd");
-		detail.setCombineMode("外部");
-		detail.setArea("东部");
-		detail.setCoalfiredBoilerCount(0);
-		detail.setGasfiredBoilerCount(0);
-		detail.setSteamLineName("蒸汽线");
-		detail.setWaterLineName("两广线/四环线");
-		detail.setGridConnected(true);
-		return detail;
+		ServerHttpRequest httpReq = new ServerHttpRequest();
+		String url = (ConstDefine.WEB_SERVICE_URL + ConstDefine.S_GET_HEATSOURCE).replace("{heatSourceId}", heatSourceId);
+		ArrayList<HeatSourceDetail>  lstDetails = new ArrayList<HeatSourceDetail>();
+		try {
+			String strResp = httpReq.doGet(url);
+			lstDetails = (ArrayList<HeatSourceDetail>) JsonHelper.parseCollection(strResp, List.class, HeatSourceDetail.class);
+			return  lstDetails;
+		}catch(Exception ex){
+			throw ex;
+		}
 	}
 	
 }

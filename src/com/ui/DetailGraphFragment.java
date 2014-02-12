@@ -1,5 +1,7 @@
 package com.ui;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -15,14 +17,17 @@ import com.util.BaseHelper;
 import com.util.ConstDefine;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 
 public class DetailGraphFragment extends Fragment {
 	private List<SupplyAndBackwardItem> chartDataList = null;
@@ -30,52 +35,106 @@ public class DetailGraphFragment extends Fragment {
 	private String sourceId = "";
 	private int sourceType = 0;
 	private String unitId = "";
+	private Date fromDate ;
+	private Date toDate ;
 	
 	public static final int SOURCE_TYPE_STATION = 0;
 	public static final int SOURCE_TYPE_HEAT_SOURCE = 1;
+	
+	private RadioGroup radioGroup;
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		
 		return inflater.inflate(R.layout.detail_graph, container, false);
 	}
+	
+	@Override 
+	public void onCreate(Bundle savedInstanceState)
+	{
+		super.onCreate(savedInstanceState);
+		Calendar calendar =  Calendar.getInstance();
+		try {
+			toDate = calendar.getTime();
+			calendar.add(Calendar.HOUR, -1);
+			fromDate = calendar.getTime();
+		}catch (Exception ex){
+			
+		}
+		radioGroup = (RadioGroup) this.getActivity().findViewById(R.id.detail_graph_radios);
+		if(radioGroup != null) {
+			radioGroup.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					try {
+						Calendar calendar =  Calendar.getInstance();
+						
+						if(v.getId() == R.id.detail_graph_radio_day) {
+							toDate = calendar.getTime();
+							calendar.add(Calendar.HOUR, -24);
+							fromDate = calendar.getTime();
+						}
+						else if(v.getId() == R.id.detail_graph_radio_week) {
+							toDate = calendar.getTime();
+							calendar.add(Calendar.HOUR, -24*7);
+							fromDate = calendar.getTime();
+						}
+						else if(v.getId() == R.id.detail_graph_radio_month) {
+							toDate = calendar.getTime();
+							calendar.add(Calendar.HOUR, -24*30);
+							fromDate = calendar.getTime();
+						}
+						fetchData();
+					}catch(Exception ex){
+						
+					}
+				}
+				
+			});
+		};
+	}
+	
 	@Override
 	public void onResume() {
 		super.onResume();
 		fetchData();
 	}
 	
+	
 	public void setDataType(int type) {
 		dataType = type;
 	}
+	
+	public void setFromDate (Date date){
+		fromDate = date;
+	}
 
+	public void setToDate (Date date) throws Exception{
+		toDate = date;
+	}
+	
 	private void fetchData() {
 
 		
 		new Thread() {
 			public void run() {
-				//TODO: set start and end time base on user selection
-				Calendar calendar = new GregorianCalendar();
-				calendar.set(2013, 11, 2);
-				Date startDate = calendar.getTime();
-				calendar.set(2013, 11, 9);
-				Date endDate = calendar.getTime();
-				
 				Message msgSend = new Message();
 				try {
 					switch( dataType ) {
 					case SupplyAndBackwardDetailChart.TYPE_TEMPERATURE:
 						if ( SOURCE_TYPE_STATION == sourceType ) {
-							chartDataList = BusinessRequest.getStationSupplyAndReturnTemperatureList(sourceId, startDate, endDate);
+							chartDataList = BusinessRequest.getStationSupplyAndReturnTemperatureList(sourceId, fromDate, toDate);
 						} else {
-							chartDataList = BusinessRequest.getHeatSourceSupplyAndBackwardTemperatureList(sourceId, unitId, startDate, endDate);
+							chartDataList = BusinessRequest.getHeatSourceSupplyAndBackwardTemperatureList(sourceId, unitId, fromDate, toDate);
 						}
 						
 						break;
 					case SupplyAndBackwardDetailChart.TYPE_PRESSURE:
 						if ( SOURCE_TYPE_STATION == sourceType ) {
-							chartDataList = BusinessRequest.getStationSupplyAndBackwardPressureList(sourceId, startDate, endDate);
+							chartDataList = BusinessRequest.getStationSupplyAndBackwardPressureList(sourceId, fromDate, toDate);
 						} else {
-							chartDataList = BusinessRequest.getHeatSourceSupplyAndReturnPressureList(sourceId, unitId, startDate, endDate);
+							chartDataList = BusinessRequest.getHeatSourceSupplyAndReturnPressureList(sourceId, unitId, fromDate, toDate);
 						}
 						break;
 					}

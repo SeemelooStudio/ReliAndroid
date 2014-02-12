@@ -2,9 +2,9 @@ package com.model;
 
 public class StationListItem {
 
-	private String strStationId;
+	private int stationId;
 	
-	private String strStationName;
+	private String stationName;
 	
 	private String strWarnColor;
 	
@@ -12,20 +12,20 @@ public class StationListItem {
 	
 	private String strDirect;
 
-	public String getStrStationId() {
-		return strStationId;
+	public int getStationId() {
+		return stationId;
 	}
 
-	public void setStrStationId(String strStationId) {
-		this.strStationId = strStationId;
+	public void setStationId(int stationId) {
+		this.stationId = stationId;
 	}
 
-	public String getStrStationName() {
-		return strStationName;
+	public String getStationName() {
+		return stationName;
 	}
 
-	public void setStrStationName(String strStationName) {
-		this.strStationName = strStationName;
+	public void setStationName(String strStationName) {
+		this.stationName = strStationName;
 	}
 
 	public String getStrWarnColor() {

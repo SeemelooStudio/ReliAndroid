@@ -1,22 +1,37 @@
 package com.model;
 
+import java.util.Date;
+
 public class HeatSourceMainItem {
 
-	private String heatSourceId;
+	private int heatSourceId;
 	
 	private String heatSourceName;
 	
-	private String area;
+	private Date  lastUpdatedAt;
 	
-	private String combineMode;
 	
-	private String unitType;
-
-	public String getHeatSourceId() {
+	private String heatSourceType;
+	
+	private String eastOrWest;
+	
+	private String innerOrOuter;
+	
+	private String waterLine;
+	
+	private String gasLine;
+	
+	private int peakCoalCount;
+	
+	private int peakGasCount;
+	
+	private boolean isInSystem;
+	
+	public int getHeatSourceId() {
 		return heatSourceId;
 	}
 
-	public void setHeatSourceId(String heatSourceId) {
+	public void setHeatSourceId(int heatSourceId) {
 		this.heatSourceId = heatSourceId;
 	}
 
@@ -28,29 +43,80 @@ public class HeatSourceMainItem {
 		this.heatSourceName = heatSourceName;
 	}
 
-	public String getArea() {
-		return area;
+	public Date getLastUpdatedAt() {
+		return lastUpdatedAt;
 	}
 
-	public void setArea(String area) {
-		this.area = area;
+	public void setLastUpdatedAt(Date lastUpdatedAt) {
+		this.lastUpdatedAt = lastUpdatedAt;
 	}
 
-	public String getCombineMode() {
-		return combineMode;
+	
+
+	public String getHeatSourceType() {
+		return heatSourceType;
 	}
 
-	public void setCombineMode(String combineMode) {
-		this.combineMode = combineMode;
+	public void setHeatSourceType(String heatSourceType) {
+		this.heatSourceType = heatSourceType;
 	}
 
-	public String getUnitType() {
-		return unitType;
+	public String getEastOrWest() {
+		return eastOrWest;
 	}
 
-	public void setUnitType(String unitType) {
-		this.unitType = unitType;
+	public void setEastOrWest(String eastOrWest) {
+		this.eastOrWest = eastOrWest;
 	}
+
+	public String getInnerOrOuter() {
+		return innerOrOuter;
+	}
+
+	public void setInnerOrOuter(String innerOrOuter) {
+		this.innerOrOuter = innerOrOuter;
+	}
+
+	public String getWaterLine() {
+		return waterLine;
+	}
+
+	public void setWaterLine(String waterLine) {
+		this.waterLine = waterLine;
+	}
+
+	public String getGasLine() {
+		return gasLine;
+	}
+
+	public void setGasLine(String gasLine) {
+		this.gasLine = gasLine;
+	}
+
+	public int getPeakCoalCount() {
+		return peakCoalCount;
+	}
+
+	public void setPeakCoalCount(int peakCoalCount) {
+		this.peakCoalCount = peakCoalCount;
+	}
+
+	public int getPeakGasCount() {
+		return peakGasCount;
+	}
+
+	public void setPeakGasCount(int peakGasCount) {
+		this.peakGasCount = peakGasCount;
+	}
+
+	public boolean isInSystem() {
+		return isInSystem;
+	}
+
+	public void setInSystem(boolean isInSystem) {
+		this.isInSystem = isInSystem;
+	}
+
 	
 
 }

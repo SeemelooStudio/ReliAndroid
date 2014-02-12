@@ -34,7 +34,17 @@ public class UnitDetailActivity extends FragmentActivity  {
 
 	private String _heatSourceName = "";
 	private int _heatSourceId;
-	private StationDetail _heatSourceDetail= null;
+	private int _heatSourceRecentId;
+	private float _heatSourceRecent_InstWater;
+	private float _heatSourceRecent_InstHeat;
+	private float _heatSourceRecent_AccuWater;
+	private float _heatSourceRecent_AccuHeat;
+	private float _heatSourceRecent_WaterSupply;
+	private float _temperatureIn;
+	private float _temperatureOut;
+	private float _pressureIn;
+	private float _pressureOut;
+	
 	private ProgressDialog _diaLogProgress = null;
 	private DetailGraphFragment _frgTemperatureGraph = null;
 	private DetailGraphFragment _frgPressureGraph = null;
@@ -63,9 +73,19 @@ public class UnitDetailActivity extends FragmentActivity  {
 		Intent inten = this.getIntent();
 		Bundle mBundle = inten.getExtras();
 		if (mBundle != null) {
-			_heatSourceName = mBundle.getString("heat_source_name");
+			_heatSourceName = mBundle.getString("heat_source_recent_name");
 			this.setTitle(_heatSourceName);
 			setHeatSourceId(mBundle.getInt("heat_source_id"));
+			_heatSourceRecentId = mBundle.getInt("heat_source_recent_id");
+			_heatSourceRecent_InstWater = mBundle.getFloat("heat_source_recent_instWater");
+			_heatSourceRecent_InstHeat = mBundle.getFloat("heat_source_recent_instHeat");
+			_heatSourceRecent_AccuWater = mBundle.getFloat("heat_source_recent_accuWater");
+			_heatSourceRecent_AccuHeat = mBundle.getFloat("heat_source_recent_accuHeat");
+			_heatSourceRecent_WaterSupply = mBundle.getFloat("heat_source_recent_waterSupply");
+			_temperatureIn = mBundle.getFloat("heat_source_recent_temperatureIn");
+			_temperatureOut = mBundle.getFloat("heat_source_recent_temperatureOut");
+			_pressureIn = mBundle.getFloat("heat_source_recent_pressureIn");
+			_pressureOut = mBundle.getFloat("heat_source_recent_pressureOut");
 		}
 		
 		_detailList = (ListView)findViewById(R.id.station_detail_list);
@@ -103,10 +123,14 @@ public class UnitDetailActivity extends FragmentActivity  {
 		_frgTemperatureGraph = new DetailGraphFragment();
 		_frgTemperatureGraph.setDataType(SupplyAndBackwardDetailChart.TYPE_TEMPERATURE);
 		_frgTemperatureGraph.setSourceType(DetailGraphFragment.SOURCE_TYPE_HEAT_SOURCE);
+		_frgTemperatureGraph.setSourceId(_heatSourceId+"");
+		_frgTemperatureGraph.setUnitId(_heatSourceRecentId+"");
 		
 		_frgPressureGraph = new DetailGraphFragment();
 		_frgPressureGraph.setDataType(SupplyAndBackwardDetailChart.TYPE_PRESSURE);
 		_frgPressureGraph.setSourceType(DetailGraphFragment.SOURCE_TYPE_HEAT_SOURCE);
+		_frgPressureGraph.setSourceId(_heatSourceId+"");
+		_frgPressureGraph.setUnitId(_heatSourceRecentId+"");
 		
 		_frgHistory = new DetailHistoryFragment();
 		_frgHistory.setSourceType(DetailHistoryFragment.SOURCE_TYPE_HEAT_SOURCE);
@@ -163,58 +187,29 @@ public class UnitDetailActivity extends FragmentActivity  {
 		}
 	};
 	private void getDetail() {
-		_diaLogProgress = BaseHelper.showProgress(UnitDetailActivity.this, ConstDefine.I_MSG_0003, false);
-		new Thread() {
-            public void run() { 
-                Message msgSend = new Message();
-        	    try {
-        	    	_heatSourceDetail = BusinessRequest.getStationDetail( _heatSourceId );
-        		 	
-        	    	msgSend.what = ConstDefine.MSG_I_HANDLE_OK;
-					} catch (Exception e) {
-						msgSend.what = ConstDefine.MSG_I_HANDLE_Fail;
-					}
-            	    oneTabhandler.sendMessage(msgSend);
-            	}
-        }.start();	 
+		renderDetail(); 
 	}
-	@SuppressLint("HandlerLeak")
-	private Handler oneTabhandler = new Handler() {               
-        public void handleMessage(Message message) {
-                switch (message.what) {
-                case ConstDefine.MSG_I_HANDLE_OK:                                        
-        		 	_diaLogProgress.dismiss();
-        			renderDetail();
-                    break;
-                case ConstDefine.MSG_I_HANDLE_Fail:                                        
-                	//close process
-                	_diaLogProgress.dismiss();
-                	BaseHelper.showToastMsg(UnitDetailActivity.this,ConstDefine.E_MSG_0001);
-                	break;
-	            }
-	        }
-	  };
 	private void renderDetail(){
 
 		List<HashMap<String, Object>> details = new ArrayList<HashMap<String, Object>>();
 		
 		HashMap<String, Object> item = new HashMap<String, Object>();
 		item.put("name_1",getString(R.string.station_realtime_heat));
-		item.put("value_1", _heatSourceDetail.getInstantaneousHeat());
+		item.put("value_1", _heatSourceRecent_InstHeat);
 		item.put("name_2",getString(R.string.station_total_heat));
-		item.put("value_2", _heatSourceDetail.getAccumulatedHeat() );
+		item.put("value_2", _heatSourceRecent_AccuHeat);
 		details.add(item);
 		
 		item = new HashMap<String, Object>();
 		item.put("name_1",getString(R.string.station_realtime_flow));
-		item.put("value_1", _heatSourceDetail.getInstantaneousWater() );
+		item.put("value_1", _heatSourceRecent_InstWater);
 		item.put("name_2",getString(R.string.station_total_flow));
-		item.put("value_2", _heatSourceDetail.getAccumulatedWater() );
+		item.put("value_2", _heatSourceRecent_AccuWater);
 		details.add(item);
 
 		item = new HashMap<String, Object>();
 		item.put("name_1", getString(R.string.station_supply_water_quantity));
-		item.put("value_1", _heatSourceDetail.getSupplyWaterQuantity());
+		item.put("value_1", _heatSourceRecent_WaterSupply);
 		details.add(item);
 		
 		
@@ -222,10 +217,10 @@ public class UnitDetailActivity extends FragmentActivity  {
 	 			 new String[] { "name_1","value_1", "name_2","value_2"}, 
 				  new int[] {R.id.detail_item_name_1, R.id.detail_item_value_1, R.id.detail_item_name_2, R.id.detail_item_value_2 }));
 		
-		_supplyTemperature.setText( _heatSourceDetail.getTemperatureOut() + getString(R.string.degree_unit) );
-		_backTemperature.setText( _heatSourceDetail.getTemperatureIn() + getString(R.string.degree_unit) );
-		_supplyPressure.setText( _heatSourceDetail.getPressureOut() + getString(R.string.pressure_unit) );
-		_backPressure.setText( _heatSourceDetail.getPressureIn() + getString(R.string.pressure_unit) );
+		_supplyTemperature.setText( _temperatureOut + getString(R.string.degree_unit) );
+		_backTemperature.setText( _temperatureIn + getString(R.string.degree_unit) );
+		_supplyPressure.setText( _pressureOut + getString(R.string.pressure_unit) );
+		_backPressure.setText( _pressureIn + getString(R.string.pressure_unit) );
 	}
 	public int getHeatSourceId() {
 		return _heatSourceId;

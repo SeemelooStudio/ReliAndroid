@@ -12,7 +12,7 @@ public class ConstDefine
 	public static final int HTTP_BUFF_SIZE = 8192;
 	public static final String HTTP_ENCODE = "UTF-8";
 	
-	public static final String WEB_SERVICE_URL = "http://58.31.100.2:11223";
+	public static final String WEB_SERVICE_URL = "http://192.168.1.104:11223";
 
 	//http url
 	public static final String S_GET_USERINFO = "/MobileService/Users/{UserName}";
@@ -23,9 +23,17 @@ public class ConstDefine
 	public static final String S_GET_WEATHERSTATIONS = "/MobileService/WeatherStations";
 	public static final String S_GET_OFFICIALWEATHERDETAILS = "/MobileService/Weathers?from={fromDate}&to={toDate}";
 	public static final String S_GET_HEATSOURCES = "/MobileService/HeatSources";
+	public static final String S_GET_HEATSOURCE = "/MobileService/HeatSources/{heatSourceId}";
 	public static final String S_GET_HEATSOURCESUMMARY = "/MobileService/HeatSourceSummary";
-	public static final String S_GET_STATIONS = "/MobileService/{UserName}/Stations";
-	public static final String S_GET_STATION = "/MobileService/{UserName}/Stations/{StationId}";
+	public static final String S_GET_HEATSOURCE_RECENT_TEMPERATURE_HISTORY = "/MobileService/HeatSources/{heatSourceId}/Recents/{heatSourceRecentId}/Temperatures?from={fromDate}&to={toDate}";
+	public static final String S_GET_HEATSOURCE_RECENT_PRESSURE_HISTORY = "/MobileService/HeatSources/{heatSourceId}/Recents/{heatSourceRecentId}/Pressures?from={fromDate}&to={toDate}";
+	
+	public static final String S_GET_STATIONS = "/MobileService/Stations";
+	public static final String S_GET_STATION = "/MobileService/Stations/{StationId}";
+	public static final String S_GET_STATION_TEMPERATURE_HISTORY = "/MobileService/Stations/{stationId}/Temperatures?from={fromDate}&to={toDate}";
+	public static final String S_GET_STATION_PRESSURE_HISTORY = "/MobileService/Stations/{stationId}/Pressures?from={fromDate}&to={toDate}";
+	
+	
 	public static final String S_GET_SUMMARY = "/MobileService/Summary";
 	public static final String S_GET_MESSAGES = "/MobileService/{UserName}/Messages";
 	public static final String S_DAILY_REPORT_ROOT = "/DailyReports/";

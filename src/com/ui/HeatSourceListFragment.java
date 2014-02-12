@@ -72,7 +72,7 @@ public class HeatSourceListFragment extends Fragment {
 			HashMap<String, Object> item = new HashMap<String, Object>();
 			item.put("name", oneRec.getHeatSourceName());
 			item.put("id", oneRec.getHeatSourceId());
-			item.put("info", oneRec.getArea() + ", " + oneRec.getCombineMode() + " 机组类型:" + oneRec.getUnitType() );
+			item.put("info", oneRec.getEastOrWest() + ", " + oneRec.getInnerOrOuter() + " 机组类型:" + oneRec.getHeatSourceType() );
 
 			listData.add(item);
 		}

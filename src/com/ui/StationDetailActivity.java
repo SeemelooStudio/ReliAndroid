@@ -103,10 +103,12 @@ public class StationDetailActivity extends FragmentActivity  {
 		_frgTemperatureGraph = new DetailGraphFragment();
 		_frgTemperatureGraph.setDataType(SupplyAndBackwardDetailChart.TYPE_TEMPERATURE);
 		_frgTemperatureGraph.setSourceType(DetailGraphFragment.SOURCE_TYPE_STATION);
+		_frgTemperatureGraph.setSourceId(_stationId +"");
 		
 		_frgPressureGraph = new DetailGraphFragment();
 		_frgPressureGraph.setDataType(SupplyAndBackwardDetailChart.TYPE_PRESSURE);
 		_frgPressureGraph.setSourceType(DetailGraphFragment.SOURCE_TYPE_STATION);
+		_frgPressureGraph.setSourceId(_stationId +"");
 		
 		_frgHistory = new DetailHistoryFragment();
 		_frgHistory.setSourceType(DetailGraphFragment.SOURCE_TYPE_STATION);
