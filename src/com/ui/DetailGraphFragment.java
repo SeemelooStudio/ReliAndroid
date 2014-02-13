@@ -1,10 +1,8 @@
 package com.ui;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
+
 import java.util.List;
 
 import org.achartengine.GraphicalView;
@@ -17,7 +15,6 @@ import com.util.BaseHelper;
 import com.util.ConstDefine;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;

@@ -21,23 +21,26 @@ public class LogonActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE); 
         setContentView(R.layout.logon_page);
         
-   	        new Thread() {
-            @SuppressWarnings("static-access")
-			public void run() {  
-            	    try {
-						this.sleep(ConstDefine.HTTP_TIME_OUT);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-                    //TODO show logpage
-	            
-                    Message msgSend = new Message();
-                    msgSend.what = ConstDefine.MSG_I_HANDLE_OK;
-                    handler.sendMessage(msgSend);
-            	}
-        	}.start();
+   	       
     
+    }
+    @Override
+    public void onResume() {
+    	super.onResume();
+    	 new Thread() {
+             @SuppressWarnings("static-access")
+ 			public void run() {  
+             	    try {
+ 						this.sleep(ConstDefine.HTTP_TIME_OUT);
+ 					} catch (InterruptedException e) {
+ 						e.printStackTrace();
+ 					}
+ 	            
+                     Message msgSend = new Message();
+                     msgSend.what = ConstDefine.MSG_I_HANDLE_OK;
+                     handler.sendMessage(msgSend);
+             	}
+         	}.start();
     }
     
     /**

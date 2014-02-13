@@ -119,6 +119,7 @@ public class MainPageActivity extends Activity {
 			if (strMenu.charAt(i) == '5') itemList.add(layflater.inflate(R.layout.main_page_item_5, null));
 			if (strMenu.charAt(i) == '6') itemList.add(layflater.inflate(R.layout.main_page_item_6, null));
 			if (strMenu.charAt(i) == '7') itemList.add(layflater.inflate(R.layout.main_page_item_7, null));
+			if (strMenu.charAt(i) == '8') itemList.add(layflater.inflate(R.layout.main_page_item_8, null));
 		}
 
 		int pageNum = (int) Math.ceil((float) itemList.size() / PAGE_SIZE);
@@ -280,6 +281,10 @@ public class MainPageActivity extends Activity {
 			case R.id.main_page_item7:
 				Intent intent_7 = new Intent(MainPageActivity.this, KnowledgeBaseListActivity.class); 
 				startActivity(intent_7);
+				break;
+			case R.id.main_page_item8:
+				Intent intent_8 = new Intent(MainPageActivity.this, CustomerServiceListActivity.class); 
+				startActivity(intent_8);
 				break;
 			case R.id.main_page_menu:
 				

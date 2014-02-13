@@ -5,17 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.chart.impl.SupplyAndBackwardDetailChart;
-import com.model.StationDetail;
-import com.reqst.BusinessRequest;
-import com.util.BaseHelper;
-import com.util.ConstDefine;
 
-import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
+
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
+
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -45,7 +39,6 @@ public class UnitDetailActivity extends FragmentActivity  {
 	private float _pressureIn;
 	private float _pressureOut;
 	
-	private ProgressDialog _diaLogProgress = null;
 	private DetailGraphFragment _frgTemperatureGraph = null;
 	private DetailGraphFragment _frgPressureGraph = null;
 	private DetailHistoryFragment _frgHistory = null;

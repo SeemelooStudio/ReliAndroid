@@ -64,7 +64,7 @@ public class BusinessRequest {
 			return respUser.getMenu();
 			
 		} catch (Exception ex) {
-			return "1234567";
+			return "18235647";
 			
 		}
 		
@@ -437,6 +437,7 @@ public class BusinessRequest {
     		
     		DecimalFormat df = new DecimalFormat("#.0");
     		double percent = Double.parseDouble(df.format((new Random()).nextDouble() * 20 - 10));
+    		
     		item.setActualOverCalculateGJ(percent);
     		
     		item.setActualTemperature(5.0);

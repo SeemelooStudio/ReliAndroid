@@ -1,7 +1,6 @@
 package com.ui;
 
 import java.util.ArrayList;
-import java.util.Random;
  
 import android.annotation.SuppressLint;
 import android.app.Activity;

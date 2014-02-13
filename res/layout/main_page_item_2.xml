@@ -3,7 +3,7 @@
     android:id="@+id/main_page_item2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dodger_blue" >
+    android:background="@color/transparent_black" >
 
     <ImageView
         android:id="@+id/main_item_two_image"

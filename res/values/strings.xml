@@ -19,6 +19,7 @@
    <string name="heat_source">热源信息</string>
    <string name="station">热力站信息</string>
    <string name="knowledge_base">知识库</string>
+   <string name="customer_service_daily">客服日报</string>
    <!-- Login -->
    <string name="username">用户名</string>
    <string name="username_hint">请输入用户名</string>

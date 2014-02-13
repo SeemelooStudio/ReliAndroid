@@ -8,7 +8,7 @@ public class ConstDefine
 	public static final int MSG_I_HANDLE_Fail = 0x0002;
 	public static final int MSG_I_HANDLE_SEARCH_OK = 0x0003;
 	//http
-	public static final int HTTP_TIME_OUT = 0*1000;
+	public static final int HTTP_TIME_OUT = 1*1000;
 	public static final int HTTP_BUFF_SIZE = 8192;
 	public static final String HTTP_ENCODE = "UTF-8";
 	
@@ -37,6 +37,7 @@ public class ConstDefine
 	public static final String S_GET_SUMMARY = "/MobileService/Summary";
 	public static final String S_GET_MESSAGES = "/MobileService/{UserName}/Messages";
 	public static final String S_DAILY_REPORT_ROOT = "/DailyReports/";
+	public static final String S_CUSTOMER_DAILY_REPORT_ROOT = "/DailyReports/";
 	public static final String S_AUTHENTICATION = "/MobileService/AuthenticateUser";
 	public static final String S_PUT_MESSAGE = "/MobileService/{UserName}/Messages";
 	public static final String S_POST_IMAGE = "/MobileService/{UserName}/Messages/UploadPhoto";
