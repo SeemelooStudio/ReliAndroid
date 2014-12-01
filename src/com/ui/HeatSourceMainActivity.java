@@ -45,11 +45,13 @@ public class HeatSourceMainActivity extends Activity {
 		private static int COLUMN_COUNT = 3;
 		private static int PAGE_SIZE =10;
 		
+		private Activity _activity;
+		
 	    @Override                                                                                            
 	    public void onCreate(Bundle savedInstanceState) {                                                    
 			super.onCreate(savedInstanceState);
 			setContentView(R.layout.heat_source_main);
-			
+			_activity =  this;
 			//init view
 			this.initHotSourceView();
 	  }
@@ -69,10 +71,10 @@ public class HeatSourceMainActivity extends Activity {
 	                Message msgSend = new Message();
 	        	    try {
 	        	    	// get itemList
-	        	    	dbHeatSources = BusinessRequest.getHeatSourceMainList();
+	        	    	dbHeatSources = BusinessRequest.getHeatSourceMainList(_activity);
 	        	    	
 	        	    	//get static Info
-	        	    	titleInfo = BusinessRequest.getHeatSourceAllStatic();
+	        	    	titleInfo = BusinessRequest.getHeatSourceAllStatic(_activity);
 
 	        	        //get mapList
 	        	    	msgSend.what = ConstDefine.MSG_I_HANDLE_OK;

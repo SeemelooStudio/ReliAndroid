@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"    
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"> 
+    <LinearLayout 
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_marginTop="@dimen/small_margin"
+    android:layout_marginBottom="@dimen/small_margin" >
+		<CheckBox android:id="@+id/cbk_select_station"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    />
+   </LinearLayout>
+   <LinearLayout 
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginBottom="@dimen/small_margin">
+		<TextView android:id="@+id/station_name"
+		    android:layout_width="220dp"
+		    android:layout_height="wrap_content" 
+		    android:layout_gravity="center_vertical"
+		    android:layout_marginLeft="@dimen/medium_margin"
+		    android:textSize="@dimen/list_title_font_size"
+		    android:maxLines="2"
+		    android:ellipsize="end"/>
+      	<TextView android:id="@+id/station_info"
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_marginLeft="@dimen/medium_margin"
+		    android:textColor="@color/dim_gray" 
+		    android:ellipsize="end"/>
+    </LinearLayout>
+</LinearLayout>

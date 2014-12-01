@@ -7,6 +7,7 @@ import com.model.WeatherDetailTempInfo;
 import com.util.WeatherIconHelper;
 
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -60,27 +61,29 @@ public class WeatherDetailTodayFragment extends Fragment {
 		if ( null == _weatherSummary ) {
 			return;
 		}
-		String degreeUnit = getActivity().getString(R.string.degree_unit);
-		String date =  String.format("%tF",_weatherSummary.getDay());
-		_tvUpdateTime.setText( date );
-		_tvCurrentTempreture.setText(_weatherSummary.getForecastAverage() + degreeUnit);
-		_tvWeather.setText(_weatherSummary.getWeatherDescription());
-		_tvYesterdayTempreture.setText(_weatherSummaryYesterday.getActualAverage() + degreeUnit);
-		_tvWind.setText(_weatherSummary.getWindSpeedAndDirection());
-		_tvHighestTempreture.setText(_weatherSummary.getForecastHighest() + degreeUnit);
-		_tvLowestTempreture.setText(_weatherSummary.getForecastLowest() + degreeUnit);
-		_ivWeatherIcon.setImageResource( WeatherIconHelper.getWeatherIconResourceId(_weatherSummary.getWeatherIcon()) );
-		
-		if ( null == _weatherDetails ) {
-			return;
+		FragmentActivity activity = getActivity();
+		if (activity != null) {
+			String degreeUnit = activity.getString(R.string.degree_unit);
+			String date =  String.format("%tF",_weatherSummary.getDay());
+			_tvUpdateTime.setText( date );
+			_tvCurrentTempreture.setText(_weatherSummary.getForecastAverage() + degreeUnit);
+			_tvWeather.setText(_weatherSummary.getWeatherDescription());
+			_tvYesterdayTempreture.setText(_weatherSummaryYesterday.getActualAverage() + degreeUnit);
+			_tvWind.setText(_weatherSummary.getWindSpeedAndDirection());
+			_tvHighestTempreture.setText(_weatherSummary.getForecastHighest() + degreeUnit);
+			_tvLowestTempreture.setText(_weatherSummary.getForecastLowest() + degreeUnit);
+			_ivWeatherIcon.setImageResource( WeatherIconHelper.getWeatherIconResourceId(_weatherSummary.getWeatherIcon()) );
+			
+			if ( null == _weatherDetails ) {
+				return;
+			}
+	
+			//set temperature list
+			_lvWeatherDetails.setAdapter(new SimpleAdapter(getActivity(), _weatherDetails, R.layout.weather_detail_recent_item,  
+		 			 new String[] { "date","day_of_week", "tempreture", "weather" }, 
+					  new int[] {R.id.w_date,R.id.w_day_of_week, R.id.w_tempreture, R.id.w_weather_icon}));
+			_lvWeatherDetails.setTextFilterEnabled(true); 
 		}
-
-		//set temperature list
-		_lvWeatherDetails.setAdapter(new SimpleAdapter(getActivity(), _weatherDetails, R.layout.weather_detail_recent_item,  
-	 			 new String[] { "date","day_of_week", "tempreture", "weather" }, 
-				  new int[] {R.id.w_date,R.id.w_day_of_week, R.id.w_tempreture, R.id.w_weather_icon}));
-		_lvWeatherDetails.setTextFilterEnabled(true); 
-
 	}
 	
 	public void setWeatherDetailInfo(WeatherDetailTempInfo weatherSummary) {

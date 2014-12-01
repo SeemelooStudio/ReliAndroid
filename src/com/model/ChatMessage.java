@@ -11,9 +11,9 @@ public class ChatMessage {
 	private String messageContent;
 	private int messageId;
 	private Date createdAt;
-	private int sendFromUserId;
-	private int sendToUserId;
 	private String imageUri;
+	private String sendFromUserName;
+	private String sendToUserName;
 	
 	public ChatMessage(int direction, String messageContent) {
 		super();
@@ -23,11 +23,11 @@ public class ChatMessage {
 	
 	public ChatMessage()
 	{
-		
+	
 	}
 
 	public boolean isImage() {
-		return imageUri != null && imageUri != "";
+		return imageUri != null && imageUri != "" && imageUri != "null";
 	}
 	
 	public int getDirection() {
@@ -62,28 +62,36 @@ public class ChatMessage {
 		this.createdAt = createdAt;
 	}
 
-	public int getSendFromUserId() {
-		return sendFromUserId;
-	}
-
-	public void setSendFromUserId(int sendFromUserId) {
-		this.sendFromUserId = sendFromUserId;
-	}
-
-	public int getSendToUserId() {
-		return sendToUserId;
-	}
-
-	public void setSendToUserId(int sendToUserId) {
-		this.sendToUserId = sendToUserId;
-	}
-
 	public String getImageUri() {
 		return imageUri;
 	}
 
 	public void setImageUri(String imageUri) {
 		this.imageUri = imageUri;
+	}
+
+	public String getImageUrl() {
+		return imageUri;
+	}
+
+	public void setImageUrl(String imageUri) {
+		this.imageUri = imageUri;
+	}
+	
+	public String getSendFromUserName() {
+		return sendFromUserName;
+	}
+
+	public void setSendFromUserName(String sendFromUserName) {
+		this.sendFromUserName = sendFromUserName;
+	}
+
+	public String getSendToUserName() {
+		return sendToUserName;
+	}
+
+	public void setSendToUserName(String sendToUserName) {
+		this.sendToUserName = sendToUserName;
 	}
 
 }

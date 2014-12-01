@@ -8,6 +8,8 @@ public class WeatherPreChartItem {
 	
 	private String  strShorttemTure;
 
+	private String strAvgTemperature;
+	
 	public String getStrDate() {
 		return strDate;
 	}
@@ -30,6 +32,14 @@ public class WeatherPreChartItem {
 
 	public void setStrShorttemTure(String strShorttemTure) {
 		this.strShorttemTure = strShorttemTure;
+	}
+
+	public String getStrAvgTemperature() {
+		return strAvgTemperature;
+	}
+
+	public void setStrAvgTemperature(String strAvgTemperature) {
+		this.strAvgTemperature = strAvgTemperature;
 	}
 	
 	

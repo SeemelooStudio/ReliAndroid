@@ -1,10 +1,11 @@
+
 package com.ui;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import com.model.WeatherStationListItem;
+import com.model.GenericListItem;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,7 +18,7 @@ import android.widget.SimpleAdapter;
 
 public class WeatherDetailStationsFragment extends Fragment implements
 		SearchView.OnQueryTextListener {
-	private ArrayList<WeatherStationListItem> _originWeatherStations;
+	private ArrayList<GenericListItem> _originWeatherStations;
 	private List<HashMap<String, Object>> _parsedWeatherStations;
 	private ListView _lvWeatherStations;
 
@@ -61,14 +62,14 @@ public class WeatherDetailStationsFragment extends Fragment implements
 	}
 
 	private List<HashMap<String, Object>> parseWeatherStations(
-			ArrayList<WeatherStationListItem> originWeatherStations) {
+			ArrayList<GenericListItem> originWeatherStations) {
 
 		List<HashMap<String, Object>> parsedWeatherStations = new ArrayList<HashMap<String, Object>>();
-		for (WeatherStationListItem oneRec : originWeatherStations) {
+		for (GenericListItem oneRec : originWeatherStations) {
 			HashMap<String, Object> item = new HashMap<String, Object>();
 			item.put("list_id", oneRec.getStrListId());
 			item.put("list_name", oneRec.getStrListName());
-			item.put("list_value", oneRec.getValue() + "°");
+			item.put("list_value", oneRec.getTemperature() + "°");
 			item.put("list_other", oneRec.getStrListOther());
 			parsedWeatherStations.add(item);
 		}
@@ -99,7 +100,7 @@ public class WeatherDetailStationsFragment extends Fragment implements
 		List<HashMap<String, Object>> resultList = new ArrayList<HashMap<String, Object>>();
 
 		for (int i = 0; i < _originWeatherStations.size(); i++) {
-			int index = ((WeatherStationListItem) _originWeatherStations.get(i)).getStrListName()
+			int index = ((GenericListItem) _originWeatherStations.get(i)).getStrListName()
 					.indexOf(name);
 
 			if (index != -1) {
@@ -114,7 +115,7 @@ public class WeatherDetailStationsFragment extends Fragment implements
 		return resultList;
 	}
 
-	public void setWeatherStationList(ArrayList<WeatherStationListItem> weatherStations) {
+	public void setWeatherStationList(ArrayList<GenericListItem> weatherStations) {
 		_originWeatherStations = weatherStations;
 		_parsedWeatherStations = parseWeatherStations(weatherStations);
 	}

@@ -65,11 +65,9 @@ public class HeatSourceQueryActivity  extends FragmentActivity implements TabLis
                 actionBar.setSelectedNavigationItem(position);  
             }  
             @Override  
-            public void onPageScrollStateChanged(int state) {  
-                
+            public void onPageScrollStateChanged(int state) { 
             }  
         }); 
-		
 	}
 
 	private void initFragments() {

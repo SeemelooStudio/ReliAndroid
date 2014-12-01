@@ -38,7 +38,7 @@ public class HeatSourceDetailActivity extends Activity  {
 	private String _waterLine;
 	private String _gasLine;
 	private boolean _isInSystem; 
-	
+	private Activity _activity;
 	private ArrayList<HeatSourceDetail> _heatSourceDetail= new ArrayList<HeatSourceDetail>();
 	private ListView _detailList = null;
 	private ProgressDialog diaLogProgress= null;
@@ -46,9 +46,8 @@ public class HeatSourceDetailActivity extends Activity  {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		_activity = this;
 		setContentView(R.layout.heat_source_detail);
-
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setIcon(R.drawable.main_item_five_image);
 
@@ -151,7 +150,7 @@ public class HeatSourceDetailActivity extends Activity  {
 	        public void run() { 
 	                Message msgSend = new Message();
 	        	    try {
-	        	    	_heatSourceDetail = BusinessRequest.getHeatSourceDetail( ""+ _heatSourceId );
+	        	    	_heatSourceDetail = BusinessRequest.getHeatSourceDetail( ""+ _heatSourceId, _activity);
 	        	    	msgSend.what = ConstDefine.MSG_I_HANDLE_OK;
 					} catch (Exception e) {
 						msgSend.what = ConstDefine.MSG_I_HANDLE_Fail;

@@ -25,7 +25,11 @@
         android:inputType="textPassword"
         android:singleLine="true"
         android:layout_marginBottom="@dimen/medium_margin" />
-
+	<CheckBox 
+	    android:text="@string/innerOrOuter" 
+	    android:id="@+id/cbkInnerOrOuter"
+	    android:layout_width="wrap_content" 
+	    android:layout_height="wrap_content"></CheckBox>  
     <Button
         android:id="@+id/btnLogin"
         style="@style/PrimaryButton"

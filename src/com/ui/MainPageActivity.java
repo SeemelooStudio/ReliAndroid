@@ -28,6 +28,7 @@ import android.widget.GridLayout.Spec;
 import com.ctral.MainScrollLayout;
 import com.model.MainPageSummary;
 import com.reqst.BusinessRequest;
+import com.util.AccountHelper;
 import com.util.BaseHelper;
 import com.util.ConstDefine;
 import com.util.ViewPageAdapter;
@@ -64,11 +65,14 @@ public class MainPageActivity extends Activity {
 	private final static int COLUMN_COUNT = 2;
 	private final static int ROW_COUNT = 3;
 	
+	private Activity _activity;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE); 
 		setContentView(R.layout.main_page_layout);
+		_activity = this;
 		//get param
 		Intent inten = this.getIntent();
         bundle = inten.getExtras();
@@ -194,7 +198,8 @@ public class MainPageActivity extends Activity {
                 Message msgSend = new Message();
         	    try {
         	    	//get today weatherInfo
-        	    	mainPageSummary = BusinessRequest.getMainPageSummary();
+        	    	String userName = AccountHelper.getUserName(_activity);
+        	    	mainPageSummary = BusinessRequest.getMainPageSummary(userName, _activity);
         	    	msgSend.what = ConstDefine.MSG_I_HANDLE_OK;
 					} catch (Exception e) {
 						msgSend.what = ConstDefine.MSG_I_HANDLE_Fail;
@@ -287,12 +292,12 @@ public class MainPageActivity extends Activity {
 				startActivity(intent_8);
 				break;
 			case R.id.main_page_menu:
-				
-				DisplayMetrics metrics = new DisplayMetrics();
-				MainPageActivity.this.getWindowManager().getDefaultDisplay().getMetrics(metrics);
-				int width = metrics.widthPixels;
-
-				scrollLayout.scrollToRight(width);
+//				DisplayMetrics metrics = new DisplayMetrics();
+//				MainPageActivity.this.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+//				int width = metrics.widthPixels;
+//				scrollLayout.scrollToRight(width);
+				Intent intent_version = new Intent(MainPageActivity.this, VersionActivity.class); 
+				startActivity(intent_version);
 				break;
 			default:
 				break;
@@ -317,7 +322,8 @@ public class MainPageActivity extends Activity {
 				BaseHelper.showToastMsg(MainPageActivity.this, getString(R.string.under_construction_message));
 				break;
 			case R.id.main_about:
-				BaseHelper.showToastMsg(MainPageActivity.this, getString(R.string.under_construction_message));
+				Intent intent_version = new Intent(MainPageActivity.this, VersionActivity.class); 
+				startActivity(intent_version);
 				break;
 			case R.id.settingMenu:
 				BaseHelper.showToastMsg(MainPageActivity.this, getString(R.string.under_construction_message));

@@ -35,6 +35,7 @@ import android.widget.ListView;
 
 import com.model.ChatMessage;
 import com.reqst.BusinessRequest;
+import com.util.AccountHelper;
 import com.util.BaseHelper;
 import com.util.ChattingAdapter;
 import com.util.ConstDefine;
@@ -53,6 +54,7 @@ public class MsgUpMainActivity extends Activity {
 	private ProgressDialog diaLogProgress = null;
 	
 	private String _currentPhotoPath;
+	private Activity _activity;
 	
 	@SuppressLint("SimpleDateFormat")
 	private File createImageFile() throws IOException{
@@ -88,6 +90,7 @@ public class MsgUpMainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.msg_up_main);
 		chatHistoryLv = (ListView) findViewById(R.id.chatting_history_lv);
+		_activity = this;
 		setAdapterForThis();
 		sendBtn = (Button) findViewById(R.id.send_button);
 		textEditor = (EditText) findViewById(R.id.text_editor);
@@ -165,8 +168,8 @@ public class MsgUpMainActivity extends Activity {
             public void run() { 
                 Message msgSend = new Message();
         	    try {
-        	    	//get today weatherInfo
-        	    	messages = BusinessRequest.getMessages("zhaoyaqi");
+        	    	String userName = AccountHelper.getUserName(_activity);
+        	    	messages = BusinessRequest.getMessages(userName, _activity);
         	    	msgSend.what = ConstDefine.MSG_I_HANDLE_OK;
 					} catch (Exception e) {
 						msgSend.what = ConstDefine.MSG_I_HANDLE_Fail;
@@ -193,6 +196,7 @@ public class MsgUpMainActivity extends Activity {
 	            }
 	        }
 	  };
+	  
 	
 	  private View.OnClickListener l = new View.OnClickListener() {
 			@Override
@@ -213,10 +217,9 @@ public class MsgUpMainActivity extends Activity {
 			ChatMessage newMessage = new ChatMessage(ChatMessage.MESSAGE_TO, sendStr);
 			messages.add(newMessage);
 			newMessage.setCreatedAt(new Date());
-			newMessage.setSendFromUserId(3);
-			newMessage.setSendToUserId(1);
+			newMessage.setSendFromUserName(AccountHelper.getUserName(this));
 			chatHistoryAdapter.notifyDataSetChanged();
-			BusinessRequest.SendMessage(newMessage);
+			BusinessRequest.SendMessage(newMessage, _activity);
 		}
 	  
 	  private void sendImage(String imagePath)
@@ -225,10 +228,9 @@ public class MsgUpMainActivity extends Activity {
 		  	newMessage.setImageUri(imagePath);
 			messages.add(newMessage);
 			newMessage.setCreatedAt(new Date());
-			newMessage.setSendFromUserId(3);
-			newMessage.setSendToUserId(1);
+			newMessage.setSendFromUserName(AccountHelper.getUserName(this));
 			chatHistoryAdapter.notifyDataSetChanged();
-			BusinessRequest.SendImage(newMessage);
+			BusinessRequest.SendImage(newMessage, _activity);
 	  }
 	  
 	  public String getRealPathFromURI(Context context, Uri contentUri) {

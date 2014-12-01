@@ -1,9 +1,12 @@
 package com.ui;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 
 import android.annotation.SuppressLint;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -14,14 +17,20 @@ import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.GridLayout;
 import android.widget.GridLayout.Spec;
+import android.widget.SearchView.OnQueryTextListener;
 import android.widget.LinearLayout;
+import android.widget.SearchView;
 import android.widget.TextView;
 
+import com.model.StationListItem;
 import com.model.StationMainItem;
 import com.reqst.BusinessRequest;
 import com.util.BaseHelper;
@@ -38,43 +47,48 @@ public class StationMainActivity extends Activity {
 	private ProgressDialog diaLogProgress = null;
 
 	private ArrayList<View> views;
-	private ArrayList<StationMainItem> dbhostPosLst = null;
+	private ArrayList<StationMainItem> _stations = null;
 	private static int ROW_COUNT = 4;
 	private static int COLUMN_COUNT = 3;
 	private static int PAGE_SIZE = 10;
-
+	private boolean _needRefresh = false;
+	private Activity _activity;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.station_main);
-
-		// init view
-		this.initStationView();
+		_activity = this;
 	}
-
-	/**
-       * 
-       */
+	
+	@Override
+	public void onResume()
+	{
+		super.onResume();
+		initStationView();
+	}
 	private void initStationView() {
 
-		dbhostPosLst = new ArrayList<StationMainItem>();
-		diaLogProgress = BaseHelper.showProgress(StationMainActivity.this,
-				ConstDefine.I_MSG_0003, false);
-		new Thread() {
-			public void run() {
-				Message msgSend = new Message();
-				try {
-					// get itemList
-					dbhostPosLst = BusinessRequest.getStationMainList();
-
-					msgSend.what = ConstDefine.MSG_I_HANDLE_OK;
-				} catch (Exception e) {
-					msgSend.what = ConstDefine.MSG_I_HANDLE_Fail;
+		if(_stations == null || _needRefresh) {
+			_stations = new ArrayList<StationMainItem>();
+			_needRefresh = false;
+			diaLogProgress = BaseHelper.showProgress(StationMainActivity.this,
+					ConstDefine.I_MSG_0003, false);
+			new Thread() {
+				public void run() {
+					Message msgSend = new Message();
+					try {
+						// get itemList
+						_stations = BusinessRequest.getStationMainList(_activity);
+	
+						msgSend.what = ConstDefine.MSG_I_HANDLE_OK;
+					} catch (Exception e) {
+						msgSend.what = ConstDefine.MSG_I_HANDLE_Fail;
+					}
+					handler.sendMessage(msgSend);
 				}
-				handler.sendMessage(msgSend);
-			}
-		}.start();
-
+			}.start();
+		}
 	}
 
 	/**
@@ -99,29 +113,82 @@ public class StationMainActivity extends Activity {
 		}
 	};
 
-	/**
-	 * 
-	 * @param viewStation
-	 * @param item
-	 */
-	private void setStationItemContent(View viewStation, StationMainItem item) {
+	private void setStationGridView() {
+		viewpage = (ViewPager) findViewById(R.id.stationMainPager);
 
-		TextView tvPressureOut = (TextView) viewStation
-				.findViewById(R.id.hot_station_pressure_out);
-		tvPressureOut.setText(item.getPressureOut()
-				+ getString(R.string.pressure_unit));
-		TextView tvPressureIn = (TextView) viewStation
-				.findViewById(R.id.hot_station_pressure_in);
-		tvPressureIn.setText(item.getPressureIn()
-				+ getString(R.string.pressure_unit));
+		int pageNum = Math.max( (int) Math.ceil((float) _stations.size() / PAGE_SIZE), 1);
+		
+		int screenWidth = viewpage.getWidth();
+		int screenHeight = viewpage.getHeight();
+
+		int ceilMargin = (int) getResources()
+				.getDimension(R.dimen.small_margin) * 2;
+
+		int cellWidth = (int) (screenWidth / COLUMN_COUNT - ceilMargin);
+		int cellHeight = (int) (screenHeight / ROW_COUNT - ceilMargin);
+
+		int bigCellWidth = cellWidth * 2 + ceilMargin;
+
+		// create page
+		views = new ArrayList<View>();
+		for (int pageIndex = 0; pageIndex < pageNum; pageIndex++) {
+
+			GridLayout gridLayout = new GridLayout(this);
+			gridLayout.setColumnCount(COLUMN_COUNT);
+			gridLayout.setRowCount(ROW_COUNT);
+			gridLayout.setOrientation(GridLayout.HORIZONTAL);
+			// gridLayout.setUseDefaultMargins(true);
+			for (int cell = 0, rowIndex = 0, columnIndex = 0, itemIndex = pageIndex
+					* PAGE_SIZE; cell < PAGE_SIZE
+					&& itemIndex < _stations.size(); cell++, columnIndex++, itemIndex++) {
+				if (columnIndex == COLUMN_COUNT) {
+					columnIndex = 0;
+					rowIndex++;
+				}
+				// show title cell
+				if (rowIndex == 1 && columnIndex == 0) {
+					columnIndex += 1;
+					cell--;
+					itemIndex--;
+				} else {
+					gridLayout.addView(getStationCell(
+							_stations.get(itemIndex), rowIndex, columnIndex,
+							cellWidth, cellHeight));
+				}
+			}
+			gridLayout.addView(getHeatStationTitleCell(
+					_stations.size(), 1, 0,
+					bigCellWidth, cellHeight));
+			gridLayout.setId(pageIndex);
+			views.add(gridLayout);
+		}
+		
+		setIndicatorsView();
+
+		// add pages
+		viewpage.setAdapter(new ViewPageAdapter(views));
+		viewpage.setOnPageChangeListener(new ViewPageChangeListener(indicators));
+	}
+
+	private void setStationItemContent(View viewStation, StationMainItem item) {
+		
 		TextView tvTemperatureOut = (TextView) viewStation
 				.findViewById(R.id.hot_station_temperature_out);
 		tvTemperatureOut.setText(item.getTemperatureOut()
 				+ getString(R.string.degree_unit));
+		TextView tvPressureOut = (TextView) viewStation
+				.findViewById(R.id.hot_station_pressure_out);
+		tvPressureOut.setText(item.getPressureOut()
+				+ getString(R.string.pressure_unit));
+		
 		TextView tvTemperatureIn = (TextView) viewStation
 				.findViewById(R.id.hot_station_temperature_in);
 		tvTemperatureIn.setText(item.getTemperatureIn()
 				+ getString(R.string.degree_unit));
+		TextView tvPressureIn = (TextView) viewStation
+				.findViewById(R.id.hot_station_pressure_in);
+		tvPressureIn.setText(item.getPressureIn()
+				+ getString(R.string.pressure_unit));
 
 		TextView tvHeatStationName = (TextView) viewStation
 				.findViewById(R.id.hot_station_name);
@@ -132,15 +199,6 @@ public class StationMainActivity extends Activity {
 		tvStationId.setText(item.getStationId() + "");
 	}
 
-	/***
-	 * 
-	 * @param title
-	 * @param rowIndex
-	 * @param columnIndex
-	 * @param cellWidth
-	 * @param cellHeight
-	 * @return
-	 */
 	private View getHeatStationTitleCell(int allCount, int rowIndex,
 			int columnIndex, int cellWidth, int cellHeight) {
 		int ceilMargin = (int) getResources()
@@ -168,22 +226,20 @@ public class StationMainActivity extends Activity {
 			public void onClick(View v) {
 				Intent intent = new Intent(StationMainActivity.this,
 						StationQueryActivity.class);
-
-				startActivity(intent);
+				startActivityForResult(intent, BaseHelper.Saved_Station_Request);
 			}
 		});
 		return viewStationTitle;
 	}
 
-	/***
-	 * 
-	 * @param station
-	 * @param rowIndex
-	 * @param columnIndex
-	 * @param cellWidth
-	 * @param cellHeight
-	 * @return
-	 */
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data){
+		if(data != null) {
+			Boolean isChanged = data.getBooleanExtra("isChanged", false);
+			_needRefresh = isChanged;
+		}
+	}
+	
 	private View getStationCell(StationMainItem station, int rowIndex,
 			int columnIndex, int cellWidth, int cellHeight) {
 		int ceilMargin = (int) getResources()
@@ -228,69 +284,10 @@ public class StationMainActivity extends Activity {
 		return viewStation;
 	}
 
-	/***
-	   * 
-	   */
-	private void setStationGridView() {
-		viewpage = (ViewPager) findViewById(R.id.stationMainPager);
-
-		int pageNum = (int) Math.ceil((float) dbhostPosLst.size() / PAGE_SIZE);
-
-		int screenWidth = viewpage.getWidth();
-		int screenHeight = viewpage.getHeight();
-
-		int ceilMargin = (int) getResources()
-				.getDimension(R.dimen.small_margin) * 2;
-
-		int cellWidth = (int) (screenWidth / COLUMN_COUNT - ceilMargin);
-		int cellHeight = (int) (screenHeight / ROW_COUNT - ceilMargin);
-
-		int bigCellWidth = cellWidth * 2 + ceilMargin;
-
-		// create page
-		views = new ArrayList<View>();
-		for (int pageIndex = 0; pageIndex < pageNum; pageIndex++) {
-
-			GridLayout gridLayout = new GridLayout(this);
-			gridLayout.setColumnCount(COLUMN_COUNT);
-			gridLayout.setRowCount(ROW_COUNT);
-			gridLayout.setOrientation(GridLayout.HORIZONTAL);
-			// gridLayout.setUseDefaultMargins(true);
-			for (int cell = 0, rowIndex = 0, columnIndex = 0, itemIndex = pageIndex
-					* PAGE_SIZE; cell < PAGE_SIZE
-					&& itemIndex < dbhostPosLst.size(); cell++, columnIndex++, itemIndex++) {
-				if (columnIndex == COLUMN_COUNT) {
-					columnIndex = 0;
-					rowIndex++;
-				}
-				// show title cell
-				if (rowIndex == 1 && columnIndex == 0) {
-					gridLayout.addView(getHeatStationTitleCell(
-							dbhostPosLst.size(), rowIndex, columnIndex,
-							bigCellWidth, cellHeight));
-					columnIndex += 1;
-					cell--;
-					itemIndex--;
-				} else {
-					gridLayout.addView(getStationCell(
-							dbhostPosLst.get(itemIndex), rowIndex, columnIndex,
-							cellWidth, cellHeight));
-				}
-			}
-			gridLayout.setId(pageIndex);
-			views.add(gridLayout);
-		}
-
-		setIndicatorsView();
-
-		// add pages
-		viewpage.setAdapter(new ViewPageAdapter(views));
-		viewpage.setOnPageChangeListener(new ViewPageChangeListener(indicators));
-	}
-
 	private void setIndicatorsView() {
 		indicators = new View[views.size()];
 		viewGroup = (ViewGroup) findViewById(R.id.stationMainIndicators);
+		viewGroup.removeAllViews();
 		int focusedSize = 40;
 		int normalSize = 20;
 

@@ -10,7 +10,7 @@
     android:layout_marginTop="@dimen/small_margin"
     android:layout_marginBottom="@dimen/small_margin" >
          <TextView android:id="@+id/hot_station_id"
-		    android:layout_width="@dimen/number_label_width"
+		    android:layout_width="@dimen/number_label_large_width"
 		    android:layout_height="wrap_content"
 		    android:layout_gravity="center_vertical"
     		android:layout_marginLeft="@dimen/medium_margin"
@@ -33,7 +33,7 @@
 		    android:layout_width="fill_parent"
 		    android:layout_height="wrap_content"
 		    android:layout_marginLeft="@dimen/xxlarge_margin"
-		    android:textColor="@color/dim_gray" 
+		    android:textColor="@color/transparent_white"
 		    android:ellipsize="end"/>
     </LinearLayout>
 </LinearLayout>

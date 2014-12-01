@@ -5,15 +5,6 @@
     android:orientation="vertical"
     android:scrollbarStyle="outsideOverlay"
     >
-    <SearchView 
-        android:id="@+id/daily_search_view" 
-        android:layout_width="fill_parent"  
-        android:layout_height="wrap_content"  
-        android:iconifiedByDefault="false"  
-        android:inputType="textFilter"  
-        android:queryHint="@string/search_hint" >  
-    </SearchView> 
-	
 	<ListView  
 		        android:id="@+id/list" 
 		        android:layout_width="fill_parent"  

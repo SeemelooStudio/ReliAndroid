@@ -43,10 +43,10 @@ public class WeatherPreChart extends AbstractChart {
 	
 	   private List<WeatherPreChartItem> lstWeather;
 	   
-	   private String[] titles = new String[] {"最高温度" , "最低温度"};
+	   private String[] titles = new String[] {"最高温度" , "最低温度", "平均温度"};
 	   
 	   private int[] colors =  new int[] { Color.parseColor("#ffec8000"),
-				Color.parseColor("#ff33b5e5") };
+				Color.parseColor("#ff33b5e5"), Color.parseColor("#ff33b5a2") };
 	   
 	   private  List<Date[]> dates = new ArrayList<Date[]>();
 	   
@@ -118,7 +118,7 @@ public class WeatherPreChart extends AbstractChart {
 		    int length = titles.length;
 		    double high[] = new double[lstWeather.size()];
 		    double shrot[] = new double[lstWeather.size()];
-		    
+		    double avg[] = new double[lstWeather.size()];
 		    SimpleDateFormat sdf =  new SimpleDateFormat("yyyy-MM-dd");
 		    for (int i = 0; i < length; i++) {
 		      for(int j = 0; j < lstWeather.size(); j++)
@@ -128,10 +128,12 @@ public class WeatherPreChart extends AbstractChart {
 			      dates.get(i)[j] = sdf.parse(item.getStrDate());
 			      high[j] = Double.parseDouble(item.getStrHighTmpture());
 			      shrot[j] = Double.parseDouble(item.getStrShorttemTure());
+			      avg[j] = Double.parseDouble(item.getStrAvgTemperature());
 		      }
 		    }
 		    values.add(high);
 		    values.add(shrot);
+		    values.add(avg);
 		    length = values.get(0).length;
 	  }
 		  
@@ -142,7 +144,7 @@ public class WeatherPreChart extends AbstractChart {
 	   */
 	  private XYMultipleSeriesRenderer getRender(){
 		  
-		  PointStyle[] styles = new PointStyle[] { PointStyle.POINT, PointStyle.POINT};
+		  PointStyle[] styles = new PointStyle[] { PointStyle.POINT, PointStyle.POINT, PointStyle.POINT};
 		  XYMultipleSeriesRenderer renderer = buildRenderer(colors, styles);
 		  setChartSettings(renderer, "温度趋势", "时间", "温度", dates.get(0)[0]
 			  .getTime(), dates.get(0)[dates.get(0).length - 1].getTime(), -18, 30, Color.parseColor("#33FFFFFF"), Color.WHITE);

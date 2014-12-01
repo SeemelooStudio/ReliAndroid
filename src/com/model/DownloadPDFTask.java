@@ -8,6 +8,8 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 
+import com.util.ConstDefine;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
@@ -32,7 +34,7 @@ public class DownloadPDFTask extends AsyncTask<String, Void, Integer>
     @Override
     protected Integer doInBackground(String... urls)
     {
-    	byte[] dataBuffer = new byte[4096];
+    	byte[] dataBuffer = new byte[30720];
         int nRead = 0;
 
         // set local filename to last part of URL
@@ -75,9 +77,8 @@ public class DownloadPDFTask extends AsyncTask<String, Void, Integer>
     @Override
     protected void onPreExecute()
     {
-     // show "Downloading, Please Wait" dialog
-     mWorkingDialog = ProgressDialog.show(myActivity, "", "Downloading PDF Document, Please Wait...", true);
-     return;
+	     mWorkingDialog = ProgressDialog.show(myActivity, "", ConstDefine.I_MSG_0005, true);
+	     return;
     }
 
     //-------------------------------------------------------------------------
@@ -104,7 +105,10 @@ public class DownloadPDFTask extends AsyncTask<String, Void, Integer>
             {
                 Intent intentUrl = new Intent(Intent.ACTION_VIEW);
                 if(mFileName.indexOf(".pdf") >= 0) {
-                intentUrl.setDataAndType(uri, "application/pdf");
+                	intentUrl.setDataAndType(uri, "application/pdf");
+                }
+                else if(mFileName.indexOf(".apk") >= 0){
+                	intentUrl.setDataAndType(uri, "application/vnd.android.package-archive");
                 }
                 else {
                 	intentUrl.setDataAndType(uri, "application/vnd.ms-excel");

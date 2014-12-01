@@ -7,7 +7,7 @@ public class WarnListItem {
 	private int warningId;
 	private String warningTitle;
 	private String warningContent;
-	private Date reportedAt = new Date();
+	private Date reportedAt;
 	private String strWarnOther;
 	
 	public int getWarningId() {

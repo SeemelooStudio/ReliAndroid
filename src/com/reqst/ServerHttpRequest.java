@@ -54,6 +54,8 @@ public class ServerHttpRequest {
 		HttpConnectionParams.setSoTimeout(httpParams, ConstDefine.HTTP_TIME_OUT);
 		HttpConnectionParams.setSocketBufferSize(httpParams,  ConstDefine.HTTP_BUFF_SIZE);
 		HttpClientParams.setRedirecting(httpParams, true);
+		HttpConnectionParams.setConnectionTimeout(httpParams, 300000);
+		HttpConnectionParams.setSoTimeout(httpParams, 400000);
 		httpClient = new DefaultHttpClient(httpParams);
 	}
 	
@@ -96,7 +98,7 @@ public class ServerHttpRequest {
 				strParam += "&" + entry.getKey() + "=" + URLEncoder.encode(entry.getValue(),  ConstDefine.HTTP_ENCODE);
 			}
 			
-			if (strParam.length() > 0) strParam.replaceFirst("&", "?");
+			if (strParam.length() > 0) { strParam = strParam.replaceFirst("&", "?"); }
 			strUrl += strParam;
 		}
 		
@@ -108,12 +110,12 @@ public class ServerHttpRequest {
 			String strResp = "";
 			
 			// request
+			
 			HttpResponse resp = httpClient.execute(get);
 			if (resp.getStatusLine().getStatusCode() == HttpURLConnection.HTTP_OK){
 				strResp = EntityUtils.toString(resp.getEntity());
 			}
 			else{
-				// ���ص�StatusCode����OK�����쳣
 				throw new Exception("Error Response:"+ resp.getStatusLine().toString());
 			}
 			

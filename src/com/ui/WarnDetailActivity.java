@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -16,40 +17,42 @@ import com.reqst.BusinessRequest;
 import com.util.BaseHelper;
 import com.util.ConstDefine;
 
-public class WarnDetailActivity extends Activity implements android.view.View.OnClickListener{
+public class WarnDetailActivity extends Activity{
 
-	private Button   btnWarnCopy;
-	private Button   btnWarnDel;
-	private Button   btnWarnEdit;
 	private TextView txtWarnTitle;
 	private TextView txtWarnDate;
 	private TextView txtWarnContent;
 	
 	private ProgressDialog diaLogProgress = null;
-	private String strWarnId = "";
+	private String warnId = "";
+	private String warnTitle = "";
+	private String warnDate = "";
+	private String warnContent = "";
+	
 	private WarnListItem warnInfo = null;;
-
+	private Activity _activity ;
 	 @Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.warn_detail);
-		
+		_activity = this;
 		Intent inten = this.getIntent();
 		Bundle mBundle = inten.getExtras();
 		if (mBundle == null )  return;
 		   
-			strWarnId = mBundle.getString("warn_id");
-			if(strWarnId== null || strWarnId.length() <= 0) return;
+			warnId = mBundle.getString("warn_id");
+			warnTitle = mBundle.getString("warn_title");
+			warnDate = mBundle.getString("warn_date");
+			warnContent = mBundle.getString("warn_content");
+    		
+			if(warnId== null || warnId.length() <= 0) return;
 		  
-		    btnWarnCopy = (Button) findViewById(R.id.btnWarnCopy);
-	        btnWarnDel = (Button) findViewById(R.id.btnWarnDel);
-	        btnWarnEdit = (Button) findViewById(R.id.btnWarnEdit);
-	        btnWarnCopy.setOnClickListener((android.view.View.OnClickListener) this);
-	        btnWarnDel.setOnClickListener((android.view.View.OnClickListener) this);
-	        btnWarnEdit.setOnClickListener((android.view.View.OnClickListener) this);
-	        
 	    	txtWarnDate  = (TextView) findViewById(R.id.txtWarnDateTime); 
-	    	setTxtWarnContent((TextView) findViewById(R.id.txtWarnContent)); 
+	    	txtWarnDate.setText(warnDate);
+	    	
+	    	txtWarnContent = (TextView) findViewById(R.id.txtWarnContent);
+	    	txtWarnContent.setText(warnContent);
+	    	setTxtWarnContent(txtWarnContent); 
 	    	
 	    	setWarnInfo(new WarnListItem());
 	    	diaLogProgress = BaseHelper.showProgress(WarnDetailActivity.this,ConstDefine.I_MSG_0003,false);
@@ -58,7 +61,7 @@ public class WarnDetailActivity extends Activity implements android.view.View.On
 	                Message msgSend = new Message();
 	        	    try {
 	        	    	
-	        	    	setWarnInfo(BusinessRequest.getWarnDetailById(strWarnId));
+	        	    	setWarnInfo(BusinessRequest.getWarnDetailById(warnId, _activity));
 	        	    	
 	        	    	msgSend.what = ConstDefine.MSG_I_HANDLE_OK;
 					} catch (Exception e) {
@@ -68,27 +71,9 @@ public class WarnDetailActivity extends Activity implements android.view.View.On
 	    		}
 	    	}.start();
 		       
-	    	txtWarnDate.setText(mBundle.getString("warn_date"));
-	    	
 	    	this.setTitle(mBundle.getString("warn_title"));
 	    	getActionBar().setDisplayHomeAsUpEnabled(true);
 	    }
-	 
-		public void onClick(View v)
-		{
-			if(R.id.btnWarnCopy == v.getId())
-			{
-				BaseHelper.showDialog(this, "��Ϣ", "����");
-			}
-			else if(R.id.btnWarnDel == v.getId())
-			{
-				BaseHelper.showDialog(this, "��Ϣ", "ɾ��");
-			}
-			else if(R.id.btnWarnEdit == v.getId())
-			{
-				BaseHelper.showDialog(this, "��Ϣ", "�༭");
-			}
-		}
 
 		public TextView getTxtWarnTitle() {
 			return txtWarnTitle;
@@ -131,4 +116,16 @@ public class WarnDetailActivity extends Activity implements android.view.View.On
 	            }
 	        }
 		};
+		
+		@Override
+		 public boolean onOptionsItemSelected(MenuItem item) {
+			 switch(item.getItemId()) {
+			 case android.R.id.home:
+			     this.finish();
+			     return true;
+			 default :
+					 return super.onOptionsItemSelected(item);
+			 }
+			 
+		 }
 }

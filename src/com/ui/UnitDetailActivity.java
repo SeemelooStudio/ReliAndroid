@@ -1,14 +1,25 @@
 package com.ui;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 import com.chart.impl.SupplyAndBackwardDetailChart;
+import com.model.SupplyAndBackwardItem;
+import com.reqst.BusinessRequest;
+import com.util.BaseHelper;
+import com.util.ConstDefine;
 
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -21,6 +32,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ListView;
+import android.widget.RadioGroup;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
@@ -39,6 +51,8 @@ public class UnitDetailActivity extends FragmentActivity  {
 	private float _pressureIn;
 	private float _pressureOut;
 	
+
+	private ProgressDialog _dialogGraphProgress = null;
 	private DetailGraphFragment _frgTemperatureGraph = null;
 	private DetailGraphFragment _frgPressureGraph = null;
 	private DetailHistoryFragment _frgHistory = null;
@@ -50,9 +64,11 @@ public class UnitDetailActivity extends FragmentActivity  {
 	private TextView _backTemperature = null;
 	private TextView _backPressure = null;
 	
+	private List<SupplyAndBackwardItem> _supplyAndBackwards = null;
 	private ArrayList<View> _tabs = new ArrayList<View>();
 	private ArrayList<View> _indicators = new ArrayList<View>();
 	
+	private Activity _activity;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -60,6 +76,7 @@ public class UnitDetailActivity extends FragmentActivity  {
 
 		setContentView(R.layout.station_detail);
 
+		_activity = this;
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setIcon(R.drawable.main_item_five_image);
 
@@ -91,6 +108,7 @@ public class UnitDetailActivity extends FragmentActivity  {
 		initFragmentPagerAdapter();
 		initTabs();
 		getDetail();
+		getSupplyAndBackwards();
 	}
 	
 	@Override
@@ -118,16 +136,22 @@ public class UnitDetailActivity extends FragmentActivity  {
 		_frgTemperatureGraph.setSourceType(DetailGraphFragment.SOURCE_TYPE_HEAT_SOURCE);
 		_frgTemperatureGraph.setSourceId(_heatSourceId+"");
 		_frgTemperatureGraph.setUnitId(_heatSourceRecentId+"");
+		_frgTemperatureGraph.setDefaultSpan();
+		
 		
 		_frgPressureGraph = new DetailGraphFragment();
 		_frgPressureGraph.setDataType(SupplyAndBackwardDetailChart.TYPE_PRESSURE);
 		_frgPressureGraph.setSourceType(DetailGraphFragment.SOURCE_TYPE_HEAT_SOURCE);
 		_frgPressureGraph.setSourceId(_heatSourceId+"");
 		_frgPressureGraph.setUnitId(_heatSourceRecentId+"");
+		_frgPressureGraph.setDefaultSpan();
 		
 		_frgHistory = new DetailHistoryFragment();
 		_frgHistory.setSourceType(DetailHistoryFragment.SOURCE_TYPE_HEAT_SOURCE);
+		_frgHistory.setSourceId(_heatSourceId+"");
+		_frgHistory.setUnitId(_heatSourceRecentId+"");
 	}
+	
 	private void initFragmentPagerAdapter() {
 		_fragmentPagerAdapter = new DetailGraphFragmentPagerAdapter(getSupportFragmentManager());  
 	       
@@ -215,6 +239,45 @@ public class UnitDetailActivity extends FragmentActivity  {
 		_supplyPressure.setText( _pressureOut + getString(R.string.pressure_unit) );
 		_backPressure.setText( _pressureIn + getString(R.string.pressure_unit) );
 	}
+	
+	public void getSupplyAndBackwards() {
+		_dialogGraphProgress = BaseHelper.showProgress(UnitDetailActivity.this, ConstDefine.I_MSG_0003, false);
+		new Thread() {
+            public void run() { 
+                Message msgSend = new Message();
+        	    try {
+        	    	Calendar calendar =  Calendar.getInstance();
+        			Date toDate = calendar.getTime();
+        			calendar.add(Calendar.HOUR, -24);
+        			Date fromDate = calendar.getTime();
+        			_supplyAndBackwards = BusinessRequest.getHeatSourceSupplyAndBackwardList(_heatSourceId+"", _heatSourceRecentId+"", fromDate, toDate, _activity);
+        	    	msgSend.what = ConstDefine.MSG_I_HANDLE_OK;
+					} 
+        	    catch (Exception e) {
+					msgSend.what = ConstDefine.MSG_I_HANDLE_Fail;
+				}
+        	    graphHandler.sendMessage(msgSend);
+            }
+        }.start();	
+	}
+	@SuppressLint("HandlerLeak")
+	private Handler graphHandler = new Handler() {               
+	    public void handleMessage(Message message) {
+	            switch (message.what) {
+	            case ConstDefine.MSG_I_HANDLE_OK:                                        
+	            	_dialogGraphProgress.dismiss();
+	    		 	_frgTemperatureGraph.setData(_supplyAndBackwards);
+	    		 	_frgPressureGraph.setData(_supplyAndBackwards);
+	                break;
+	            case ConstDefine.MSG_I_HANDLE_Fail:                                        
+	            	//close process
+	            	_dialogGraphProgress.dismiss();
+	            	BaseHelper.showToastMsg(UnitDetailActivity.this,ConstDefine.E_MSG_0001);
+	            	break;
+	            }
+	        }
+	  };
+  
 	public int getHeatSourceId() {
 		return _heatSourceId;
 	}

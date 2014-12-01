@@ -52,7 +52,7 @@ public class StationDetail {
 		return pressureOut;
 	}
 
-	public void pressureOut(float pressureOut) {
+	public void setPressureOut(float pressureOut) {
 		this.pressureOut = pressureOut;
 	}
 

@@ -9,7 +9,7 @@ public class StationHistoryListItem {
 	private double calculateGJ;
 	private double actualGJ;
 	private double actualOverCalculateGJ;
-	private double forcastTemperature;
+	private double forecastTemperature;
 	private double actualTemperature;
 	public Date getDate() {
 		return date;
@@ -41,11 +41,11 @@ public class StationHistoryListItem {
 	public void setCalculateGJ(double calculateGJ) {
 		this.calculateGJ = calculateGJ;
 	}
-	public double getForcastTemperature() {
-		return forcastTemperature;
+	public double getForecastTemperature() {
+		return forecastTemperature;
 	}
-	public void setForcastTemperature(double forcastTemperature) {
-		this.forcastTemperature = forcastTemperature;
+	public void setForecastTemperature(double forcastTemperature) {
+		this.forecastTemperature = forcastTemperature;
 	}
 	public double getActualTemperature() {
 		return actualTemperature;

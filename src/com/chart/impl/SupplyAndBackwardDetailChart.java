@@ -129,8 +129,14 @@ public class SupplyAndBackwardDetailChart extends AbstractChart {
 
 		for (int j = 0; j < dataSize; j++) {
 			SupplyAndBackwardItem item = dataList.get(j);
-			supply[j] = item.getSupply();
-			backward[j] = item.getBackward();
+			if(dataType == TYPE_TEMPERATURE) {
+				supply[j] = item.getTemperatureSupply();
+				backward[j] = item.getTemperatureBackward();
+			}
+			else {
+				supply[j] = item.getPressureSupply();
+				backward[j] = item.getPressureBackward();
+			}
 			date[j] = item.getTime();
 		}
 

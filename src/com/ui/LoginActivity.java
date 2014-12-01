@@ -8,10 +8,12 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 
 import com.model.UserInfo;
 import com.reqst.BusinessRequest;
+import com.util.AccountHelper;
 import com.util.BaseHelper;
 import com.util.ConstDefine;
 
@@ -21,9 +23,10 @@ public class LoginActivity extends Activity implements android.view.View.OnClick
 	private Button   btnForgetPwd;
 	private EditText txtUserId;
 	private EditText txtPwd;
+	private CheckBox cbkInnerOrOuter;
 	
 	private String strMenu ="";
-	
+	private Activity _activity;
 	
 	private ProgressDialog diaLogProgress= null;
 	
@@ -35,11 +38,16 @@ public class LoginActivity extends Activity implements android.view.View.OnClick
         
         btnLogin = (Button) findViewById(R.id.btnLogin);
         btnForgetPwd = (Button) findViewById(R.id.btnForgetPwd);
+        cbkInnerOrOuter = (CheckBox) findViewById(R.id.cbkInnerOrOuter);
+        cbkInnerOrOuter.setChecked(true);
         btnLogin.setOnClickListener((android.view.View.OnClickListener) this);
         btnForgetPwd.setOnClickListener((android.view.View.OnClickListener) this);
         
         txtUserId = (EditText) findViewById(R.id.txtUserId);
         txtPwd = (EditText) findViewById(R.id.txtPwd);
+        _activity = this;
+        txtUserId.setText(AccountHelper.getUserName(_activity));
+        txtPwd.setText(AccountHelper.getSavedPassword(_activity));
     }
     
     public void onClick(View v)
@@ -52,18 +60,23 @@ public class LoginActivity extends Activity implements android.view.View.OnClick
    	        new Thread() {
    	            public void run() { 
    	                    Message msgSend = new Message();
+   	                    UserInfo userInfo = new UserInfo();
    	            	    try {
-   	            	    	
-   	            	    	UserInfo userInfo = new UserInfo();
    	            	    	userInfo.setUserId(txtUserId.getText().toString());
    	            	    	userInfo.setUserName(txtUserId.getText().toString());
    	            	    	userInfo.setUserPwd(txtPwd.getText().toString());
-   	            	    	BusinessRequest.Authentication(userInfo);
-   	            	    	
-   	            	    	
-   	            	    	strMenu = BusinessRequest.getMainMenuByLoginUser(userInfo);
-   	            	    	msgSend.what = ConstDefine.MSG_I_HANDLE_OK;
-   						} catch (Exception e) {
+   	            	    	AccountHelper.setBaseUrl(cbkInnerOrOuter.isChecked(), _activity);
+   	            	    	Boolean isAuthenticated = BusinessRequest.Authentication(userInfo, _activity);
+   	            	    	if(isAuthenticated) {
+	   	            	    	AccountHelper.setUserName(userInfo.getUserName(), _activity);
+	   	            	    	AccountHelper.setSavedPassword(userInfo.getUserPwd(), _activity);
+	   	            	    	strMenu = BusinessRequest.getMainMenuByLoginUser(userInfo, _activity);
+	   	            	    	msgSend.what = ConstDefine.MSG_I_HANDLE_OK;
+   	            	    	}
+   	            	    	else {
+   	            	    		msgSend.what = ConstDefine.MSG_I_HANDLE_Fail;
+   	            	    	}
+   	            	    } catch (Exception e) {
    							msgSend.what = ConstDefine.MSG_I_HANDLE_Fail;
    						}
    	                    handler.sendMessage(msgSend);
@@ -76,7 +89,6 @@ public class LoginActivity extends Activity implements android.view.View.OnClick
    			Intent intent = new Intent(LoginActivity.this, MainPageActivity.class); 
 			startActivity(intent); 
    		}
-   		
    	}
     
     /**
@@ -87,7 +99,6 @@ public class LoginActivity extends Activity implements android.view.View.OnClick
                 switch (message.what) {
                 case ConstDefine.MSG_I_HANDLE_OK:                                        
                 	//close process
-               
         			Intent intent = new Intent(LoginActivity.this, MainPageActivity.class);
         			Bundle mBundle = new Bundle();
             		mBundle.putString("lstMemu",strMenu);
@@ -108,7 +119,7 @@ public class LoginActivity extends Activity implements android.view.View.OnClick
     	
 		 if(strkUserId.trim().length() <= 0 || strkUserId.trim().length() <= 0)
 		 {
-			return true;  
+			return false;  
 		 }
 		 return true;
     }

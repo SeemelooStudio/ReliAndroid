@@ -12,6 +12,7 @@ import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.ActionBar.TabListener;
+import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.app.DialogFragment;
 import android.app.FragmentTransaction;
@@ -27,7 +28,7 @@ import android.view.MenuItem;
 import android.view.View;
 //import android.widget.EditText;
 
-import com.model.WeatherStationListItem;
+import com.model.GenericListItem;
 import com.model.WeatherDetailItem;
 import com.model.WeatherDetailTempInfo;
 import com.model.WeatherPreChartItem;
@@ -50,7 +51,7 @@ public class WeatherDetailActivity extends FragmentActivity implements TabListen
 	private List<WeatherPreChartItem> _weatherChartItems = null;
 	private ArrayList<WeatherDetailItem>  _weatherDetailsHistory = new ArrayList<WeatherDetailItem>(); 
 	
-    private ArrayList<WeatherStationListItem>  _weatherStations = new ArrayList<WeatherStationListItem>(); 
+    private ArrayList<GenericListItem>  _weatherStations = new ArrayList<GenericListItem>(); 
 	
 	private ViewPager _viewPager;  
     private WeatherFragmentPagerAdapter _viewPagerAdapter; 
@@ -58,17 +59,14 @@ public class WeatherDetailActivity extends FragmentActivity implements TabListen
     private WeatherDetailWeekFragment _frgWeek;
     private WeatherDetailHistoryFragment _frgHistory;
     private WeatherDetailStationsFragment _frgStations;
-//    private EditText _fromDate;
-//    private EditText _toDate;
-//    
-//    private final int DATE_PICKER_FROM_DIALOG =1;
-//    private final int DATE_PICKER_TO_DIALOG = 2;
+
+    private Activity _activity;
     
 	 @Override
 	 public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.weather_detail);
-		
+		_activity = this;
 		initFragments();
 		initViewPager();
 		initActionBar();
@@ -140,7 +138,8 @@ public class WeatherDetailActivity extends FragmentActivity implements TabListen
 		        return true;
 		    }
 		    return super.onOptionsItemSelected(item);
-	 }
+	}
+    
 	public void showTimePickerDialog(View v) {
 	    DialogFragment newFragment = new TimePickerFragment();
 	    newFragment.show(this.getFragmentManager(), "timePicker");
@@ -181,18 +180,18 @@ public class WeatherDetailActivity extends FragmentActivity implements TabListen
                 Message msgSend = new Message();
         	    try {
         	    	WeatherDetailTempInfo[] weatherSummaryTodayAndYesterday = 
-        	    			BusinessRequest.getWenduTabDetailById(WeatherType.TodayAndYesterday.getStrValue());
+        	    			BusinessRequest.getWenduTabDetailById(WeatherType.TodayAndYesterday.getStrValue(), _activity);
         	    	_weatherSummaryToday = weatherSummaryTodayAndYesterday[0];
         	    	_weatherSummaryYesterday = weatherSummaryTodayAndYesterday[1];
         		 	_weatherDetailsToday = getWeatherDetailListData(strListId,"1");
-        		 	_weatherChartItems =  BusinessRequest.getWeatherChartList();
+        		 	_weatherChartItems =  BusinessRequest.getWeatherChartList(_activity);
         		 	
         		 	Calendar fromDate = Calendar.getInstance(); 
         		 	fromDate.set(Calendar.DATE,  fromDate.get(Calendar.DATE) - 7);
         		 	Calendar toDate = Calendar.getInstance();
         		 	toDate.set(Calendar.DATE, toDate.get(Calendar.DATE) - 1);
-        		 	_weatherDetailsHistory =  BusinessRequest.getWeatherHisListData(fromDate.getTime(), toDate.getTime());
-        		 	_weatherStations =  BusinessRequest.getWeatherList();
+        		 	_weatherDetailsHistory =  BusinessRequest.getWeatherHisListData(fromDate.getTime(), toDate.getTime(), _activity);
+        		 	_weatherStations =  BusinessRequest.getWeatherList(_activity);
         		 	
         	    	msgSend.what = ConstDefine.MSG_I_HANDLE_OK;
 					} catch (Exception e) {
@@ -241,7 +240,7 @@ public class WeatherDetailActivity extends FragmentActivity implements TabListen
 	  @SuppressLint("SimpleDateFormat")
 	private List<HashMap<String, Object>> getWeatherDetailListData(String strListId ,String dayFlag) throws Exception {  
 
-	  	WeatherDetailTempInfo[] sevenDays = BusinessRequest.getWenduTabDetailById(WeatherType.SevenDays.getStrValue());
+	  	WeatherDetailTempInfo[] sevenDays = BusinessRequest.getWenduTabDetailById(WeatherType.SevenDays.getStrValue(), _activity);
 		List<HashMap<String, Object>> wenDuList = new ArrayList<HashMap<String, Object>>(); 
 		for (WeatherDetailTempInfo oneDay: sevenDays) 
 		{   

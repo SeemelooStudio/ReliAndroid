@@ -182,7 +182,7 @@ public class KnowledgeBaseListActivity extends Activity implements  SearchView.O
 	    private List<HashMap<String, Object>> getKnowBaseListData(KnowledgeBaseItem pSearchCon) throws JSONException {  
 	       
 	        //get dailyList
-	        dbDatalist =  BusinessRequest.getKnowledgeBaseList(pSearchCon);
+	        dbDatalist =  BusinessRequest.getKnowledgeBaseList(pSearchCon, activity);
 	        
 	        //adapt dailyList
 	        List<HashMap<String, Object>> dailyList = new ArrayList<HashMap<String, Object>>(); 

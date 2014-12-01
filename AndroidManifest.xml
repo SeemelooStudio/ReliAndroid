@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ui"
-    android:versionCode="1"
-    android:versionName="1.0" >
+    android:versionCode="2"
+    android:versionName="V2.1" >
 
     <uses-sdk android:minSdkVersion="15" android:targetSdkVersion="17" />
 	<uses-permission android:name="android.permission.INTERNET"></uses-permission>
@@ -86,11 +86,12 @@
 	    ></activity>
 	<activity android:name="HeatSourceQueryActivity" 
 	    android:theme="@style/CustomThemeDark" 
-	    	    android:configChanges="orientation|screenSize"></activity>
+	    android:configChanges="orientation|screenSize"></activity>
 	
 	<activity android:name="StationMainActivity" 
 	    android:screenOrientation="portrait"
-	    android:theme="@style/CustomThemeNoActionBar" />
+	    android:theme="@style/CustomThemeNoActionBar">
+	</activity>
 	<activity android:name="StationDetailActivity" 
 	    android:screenOrientation="portrait"
 	    android:label="@string/station" 
@@ -100,13 +101,24 @@
             android:value="com.ui.MainPageActivity" />
 	</activity>
 	<activity android:name="StationQueryActivity" 
-	    android:configChanges="orientation|screenSize"></activity>
+	    android:configChanges="orientation|screenSize"
+	    android:theme="@style/CustomThemeDark">
+	    <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="com.ui.StationMainActivity" />
+	</activity>
 	<activity android:name="MsgUpMainActivity"
 	    android:windowSoftInputMode="stateVisible|adjustResize"
 	    android:configChanges="orientation|screenSize" >
 	</activity>
 	<activity android:name="KnowledgeBaseDetailActivity" android:configChanges="orientation|screenSize"></activity>
 	<activity android:name="KnowledgeBaseListActivity" android:configChanges="orientation|screenSize"></activity>
+	<activity android:name="VersionActivity" android:configChanges="orientation|screenSize"
+	    	android:theme="@style/CustomThemeDark" 
+            android:label="@string/title_activity_version">
+	    <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="com.ui.StationMainActivity" />
+	</activity>
     </application>
-   
 </manifest>

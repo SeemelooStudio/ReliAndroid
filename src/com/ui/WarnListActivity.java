@@ -42,16 +42,15 @@ public class WarnListActivity extends Activity implements android.view.View.OnCl
     private List<HashMap<String, Object>> listData;
     private ArrayList<WarnListItem>  warnings = new ArrayList<WarnListItem>();  
     private WarnListItem searchCon = null;
-    
+    private Activity _activity;
 	 @Override
      public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.warn_list);
+        _activity = this;
         listView = (ListView) findViewById(R.id.list2); 
-        
         searchCon = new WarnListItem();
         this.getWarnListbyCondition();
-        
         listView.setTextFilterEnabled(true); 
         listView.setOnItemClickListener(
     		new OnItemClickListener(){                                                                                    
@@ -97,7 +96,6 @@ public class WarnListActivity extends Activity implements android.view.View.OnCl
 
 			@Override
 			public boolean onQueryTextSubmit(String query) {
-				 
 				return false;
 			}
 			
@@ -105,7 +103,7 @@ public class WarnListActivity extends Activity implements android.view.View.OnCl
 		
         searchView.setSubmitButtonEnabled(true);
 
-	     return super.onCreateOptionsMenu(menu);
+	    return super.onCreateOptionsMenu(menu);
 	 }
 	 
 	 @Override
@@ -187,7 +185,7 @@ public class WarnListActivity extends Activity implements android.view.View.OnCl
 	private List<HashMap<String, Object>> getWarnListData(WarnListItem pSearchCon) throws Exception {  
        
         //get weatherList
-    	warnings =  BusinessRequest.getWarnList(pSearchCon);
+    	warnings =  BusinessRequest.getWarnList(pSearchCon, _activity);
         
         //adapt weatherList
         List<HashMap<String, Object>> warnList = new ArrayList<HashMap<String, Object>>(); 
@@ -200,7 +198,7 @@ public class WarnListActivity extends Activity implements android.view.View.OnCl
 	        item.put("warn_id", oneRec.getWarningId()); 
 	        item.put("warn_title", oneRec.getWarningTitle()); 
 	        item.put("warn_content", oneRec.getWarningContent()); 
-	        item.put("warn_date", new SimpleDateFormat("MM-dd").format(createAt) + " " + DateHelper.getDayOfWeekInChinese(createAt) + " " + new SimpleDateFormat("HH:mm").format(createAt) ); 
+	        item.put("warn_date", new SimpleDateFormat("yyyy-MM-dd").format(createAt) + " " + DateHelper.getDayOfWeekInChinese(createAt) + " " + new SimpleDateFormat("HH:mm").format(createAt) ); 
 	        item.put("list_other", oneRec.getStrWarnOther()); 
 	        warnList.add(item);  
         }

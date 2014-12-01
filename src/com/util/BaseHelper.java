@@ -28,6 +28,10 @@ import android.widget.Toast;
 
 public class BaseHelper {
 
+
+	public static final int Saved_Station_Request = 0;
+	public static final int Result_OK = 1;
+	public static final int Result_Error = 2;
     /**
      * @param context
      * @param title

@@ -10,6 +10,7 @@ import com.reqst.BusinessRequest;
 
 import android.support.v4.app.Fragment;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -27,10 +28,11 @@ public class WeatherDetailHistoryFragment extends Fragment implements SearchView
 	private ListView _lvWeatherHistory;
 	private EditText _searchFromDate;
     private EditText _searchToDate;
-    
+    private Activity _activity;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		_activity = getActivity();
 	}
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -42,10 +44,15 @@ public class WeatherDetailHistoryFragment extends Fragment implements SearchView
 		_lvWeatherHistory = (ListView)getView().findViewById(R.id.weather_history_list);
 		initHistorySearchView();
 	}
-	
+	@Override
+	public void onAttach(Activity activity){
+		super.onAttach(activity);
+		_activity = activity;
+	}
 	@Override
 	public void onResume() {
 		super.onResume();
+		_activity = getActivity();
 		initHistorySearchView();
 		renderWeatherDetailData();
 	}
@@ -54,7 +61,7 @@ public class WeatherDetailHistoryFragment extends Fragment implements SearchView
 	public void search() throws Exception {
 		Date fromDate = new SimpleDateFormat("yyyy-MM-dd").parse(_searchFromDate.getText().toString());
 		Date toDate =  new SimpleDateFormat("yyyy-MM-dd").parse(_searchToDate.getText().toString());
-		_originWeatherDetails = BusinessRequest.getWeatherHisListData(fromDate, toDate);
+		_originWeatherDetails = BusinessRequest.getWeatherHisListData(fromDate, toDate, _activity);
 		_parsedWeatherDetails = parseWeatherDetails(_originWeatherDetails);
 	}
 	
@@ -108,6 +115,13 @@ public class WeatherDetailHistoryFragment extends Fragment implements SearchView
    @SuppressLint("SimpleDateFormat")
 private List<HashMap<String, Object>> parseWeatherDetails(ArrayList<WeatherDetailItem> originWeatherDetails) {  
 	   List<HashMap<String, Object>> parsedWeatherDetails = new ArrayList<HashMap<String, Object>>(); 
+	   
+	   HashMap title =  new HashMap<String, Object>();
+	   title.put("day", "日期");
+	   title.put("forecast", "预报平均°");
+	   title.put("actual","实际平均°");
+	   parsedWeatherDetails.add(title);
+	   
 	   for (WeatherDetailItem oneRec: originWeatherDetails) 
 	   {   
 			HashMap<String, Object> item = new HashMap<String, Object>();  

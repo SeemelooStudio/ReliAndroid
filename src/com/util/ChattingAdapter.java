@@ -4,11 +4,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,6 +72,7 @@ public class ChattingAdapter extends BaseAdapter {
 		else {
 			setImage(message, convertView);
 		}
+		setTime(message, convertView);
 		convertView.setTag(holder);
 		
 		return convertView;
@@ -96,9 +101,12 @@ public class ChattingAdapter extends BaseAdapter {
 	{
 		try {
 			holder.image = (ImageView) convertView.findViewById(R.id.chatting_content_iv);
-			Bitmap bitmap;
-			bitmap = BitmapFactory.decodeStream((InputStream)new URL("file://" + message.getImageUri()).getContent());
-			holder.image.setImageBitmap(Bitmap.createScaledBitmap(bitmap, bitmap.getWidth()/8, bitmap.getHeight()/8, true)); 
+			String imageUrl = message.getImageUri();
+			if(!TextUtils.isEmpty(imageUrl) && imageUrl != "null"){
+				Bitmap bitmap;
+				bitmap = BitmapFactory.decodeStream((InputStream)new URL("file://" +imageUrl).getContent());
+				holder.image.setImageBitmap(Bitmap.createScaledBitmap(bitmap, bitmap.getWidth()/8, bitmap.getHeight()/8, true)); 
+			}
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -110,5 +118,12 @@ public class ChattingAdapter extends BaseAdapter {
 	{
 		holder.text = (TextView) convertView.findViewById(R.id.chatting_content_itv);
 		holder.text.setText(message.getMessageContent());
+	}
+	
+	private void setTime(ChatMessage message, View convertView)
+	{
+		holder.text = (TextView) convertView.findViewById(R.id.chatting_time_tv);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
+		holder.text.setText(sdf.format((message.getCreatedAt())));
 	}
 }

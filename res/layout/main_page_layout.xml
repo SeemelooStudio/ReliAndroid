@@ -56,19 +56,20 @@
                         android:contentDescription="@string/zero"
                         android:focusable="true"
                         android:padding="@dimen/medium_margin"
-                        android:src="@drawable/setting_normal" />
+                        android:src="@drawable/setting_normal"
+                        android:visibility="gone" />
 
                     <ImageView
                         android:id="@+id/main_page_menu"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_above="@id/settingMenu"
+                        android:layout_alignParentBottom="true"
                         android:layout_marginBottom="@dimen/medium_margin"
                         android:clickable="true"
                         android:contentDescription="@string/zero"
                         android:focusable="true"
                         android:padding="@dimen/medium_margin"
-                        android:src="@drawable/main_menu_normal" />
+                        android:src="@drawable/main_about_normal" />
                 </RelativeLayout>
             </FrameLayout>
 

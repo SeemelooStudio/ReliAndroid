@@ -1,6 +1,9 @@
 package com.model;
 
-public class StationListItem {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class StationListItem implements Parcelable{
 
 	private int stationId;
 	
@@ -42,4 +45,36 @@ public class StationListItem {
 		this.eastOrWest = eastOrWest;
 	}
 
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel out, int flags) {
+		out.writeInt(stationId);
+		out.writeString(stationName);
+		out.writeString(type);
+		out.writeString(eastOrWest);
+	}
+
+	public static final Parcelable.Creator<StationListItem> CREATOR = new Parcelable.Creator<StationListItem>() {
+		public StationListItem createFromParcel(Parcel in) {
+		    return new StationListItem(in);
+		}
+		public StationListItem[] newArray(int size) {
+		    return new StationListItem[size];
+		}
+	};
+		
+	private StationListItem(Parcel in) {
+		stationId = in.readInt();
+		stationName = in.readString();
+		type = in.readString();
+		eastOrWest = in.readString();
+	}
+	
+	public StationListItem()
+	{
+	}
 }

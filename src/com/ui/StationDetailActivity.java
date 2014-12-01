@@ -1,16 +1,20 @@
 package com.ui;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 import com.chart.impl.SupplyAndBackwardDetailChart;
 import com.model.StationDetail;
+import com.model.SupplyAndBackwardItem;
 import com.reqst.BusinessRequest;
 import com.util.BaseHelper;
 import com.util.ConstDefine;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,6 +25,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -35,7 +40,10 @@ public class StationDetailActivity extends FragmentActivity  {
 	private String _stationName = "";
 	private int _stationId;
 	private StationDetail _stationDetail= null;
+	private List<SupplyAndBackwardItem> _supplyAndBackwards = null;
+	
 	private ProgressDialog _diaLogProgress = null;
+	private ProgressDialog _dialogGraphProgress = null;
 	private DetailGraphFragment _frgTemperatureGraph = null;
 	private DetailGraphFragment _frgPressureGraph = null;
 	private DetailHistoryFragment _frgHistory = null;
@@ -50,13 +58,15 @@ public class StationDetailActivity extends FragmentActivity  {
 	private ArrayList<View> _tabs = new ArrayList<View>();
 	private ArrayList<View> _indicators = new ArrayList<View>();
 	
+	private Activity _activity;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.station_detail);
-
+		_activity = this;
+		
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setIcon(R.drawable.main_item_six_image);
 
@@ -78,6 +88,7 @@ public class StationDetailActivity extends FragmentActivity  {
 		initFragmentPagerAdapter();
 		initTabs();
 		getDetail();
+		getSupplyAndBackwards() ;
 	}
 	
 	@Override
@@ -104,13 +115,16 @@ public class StationDetailActivity extends FragmentActivity  {
 		_frgTemperatureGraph.setDataType(SupplyAndBackwardDetailChart.TYPE_TEMPERATURE);
 		_frgTemperatureGraph.setSourceType(DetailGraphFragment.SOURCE_TYPE_STATION);
 		_frgTemperatureGraph.setSourceId(_stationId +"");
+		_frgTemperatureGraph.setDefaultSpan();
 		
 		_frgPressureGraph = new DetailGraphFragment();
 		_frgPressureGraph.setDataType(SupplyAndBackwardDetailChart.TYPE_PRESSURE);
 		_frgPressureGraph.setSourceType(DetailGraphFragment.SOURCE_TYPE_STATION);
 		_frgPressureGraph.setSourceId(_stationId +"");
+		_frgPressureGraph.setDefaultSpan();
 		
 		_frgHistory = new DetailHistoryFragment();
+		_frgHistory.setSourceId(_stationId + "");
 		_frgHistory.setSourceType(DetailGraphFragment.SOURCE_TYPE_STATION);
 	}
 	private void initFragmentPagerAdapter() {
@@ -145,6 +159,7 @@ public class StationDetailActivity extends FragmentActivity  {
 			_tabs.get(i).setOnClickListener(onClickTabListener);
 		}
 	}
+	
 	private OnClickListener onClickTabListener = new OnClickListener() {
 		@Override
 		public void onClick(View view) {
@@ -161,17 +176,18 @@ public class StationDetailActivity extends FragmentActivity  {
 					_indicators.get(i).setVisibility(View.INVISIBLE);
 				}
 			}
-			
 		}
 	};
+	
+	
 	private void getDetail() {
 		_diaLogProgress = BaseHelper.showProgress(StationDetailActivity.this, ConstDefine.I_MSG_0003, false);
 		new Thread() {
             public void run() { 
                 Message msgSend = new Message();
         	    try {
-        			_stationDetail = BusinessRequest.getStationDetail( _stationId );
-
+        			_stationDetail = BusinessRequest.getStationDetail( _stationId, _activity );
+        				
         	    	msgSend.what = ConstDefine.MSG_I_HANDLE_OK;
 					} catch (Exception e) {
 						msgSend.what = ConstDefine.MSG_I_HANDLE_Fail;
@@ -188,9 +204,46 @@ public class StationDetailActivity extends FragmentActivity  {
         		 	_diaLogProgress.dismiss();
         			renderDetail();
                     break;
+                case ConstDefine.MSG_I_HANDLE_Fail:         
+                	_diaLogProgress.dismiss();
+                	BaseHelper.showToastMsg(StationDetailActivity.this,ConstDefine.E_MSG_0001);
+                	break;
+	            }
+	        }
+	  };
+
+		public void getSupplyAndBackwards() {
+			_dialogGraphProgress = BaseHelper.showProgress(StationDetailActivity.this, ConstDefine.I_MSG_0003, false);
+			new Thread() {
+	            public void run() { 
+	                Message msgSend = new Message();
+	        	    try {
+	        	    	Calendar calendar =  Calendar.getInstance();
+	        			Date toDate = calendar.getTime();
+	        			calendar.add(Calendar.HOUR, -24);
+	        			Date fromDate = calendar.getTime();
+	        			_supplyAndBackwards = BusinessRequest.getStationSupplyAndReturnList(_stationId+"", fromDate, toDate, _activity);
+	        	    	msgSend.what = ConstDefine.MSG_I_HANDLE_OK;
+						} 
+	        	    catch (Exception e) {
+						msgSend.what = ConstDefine.MSG_I_HANDLE_Fail;
+					}
+	        	    graphHandler.sendMessage(msgSend);
+	            }
+	        }.start();	
+		}
+	@SuppressLint("HandlerLeak")
+	private Handler graphHandler = new Handler() {               
+        public void handleMessage(Message message) {
+                switch (message.what) {
+                case ConstDefine.MSG_I_HANDLE_OK:                                        
+                	_dialogGraphProgress.dismiss();
+        		 	_frgTemperatureGraph.setData(_supplyAndBackwards);
+        		 	_frgPressureGraph.setData(_supplyAndBackwards);
+                    break;
                 case ConstDefine.MSG_I_HANDLE_Fail:                                        
                 	//close process
-                	_diaLogProgress.dismiss();
+                	_dialogGraphProgress.dismiss();
                 	BaseHelper.showToastMsg(StationDetailActivity.this,ConstDefine.E_MSG_0001);
                 	break;
 	            }

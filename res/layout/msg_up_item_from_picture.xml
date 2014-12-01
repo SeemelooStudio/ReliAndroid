@@ -9,23 +9,20 @@
     <TextView 
     	android:id="@+id/chatting_time_tv" 
     	style="@style/ChattingUISplit"
-    	 />
-    
-    	
-    	<FrameLayout 
-        	android:background="@drawable/chatfrom_bg" 
-        	android:layout_width="wrap_content" 
-        	android:layout_height="wrap_content" 
-        	android:maxWidth="200.0dip">
-        	<ImageView 
-		    	android:id="@+id/chatting_content_iv" 
-		    	android:layout_width="wrap_content" 
-		    	android:layout_height="wrap_content" 
-		    	android:maxWidth="200.0dip" />
-		    	 <TextView 
+   	 />
+   	<FrameLayout 
+       	android:background="@drawable/chatfrom_bg" 
+       	android:layout_width="wrap_content" 
+       	android:layout_height="wrap_content" 
+       	android:maxWidth="200.0dip">
+       	<ImageView 
+	    	android:id="@+id/chatting_content_iv" 
+	    	android:layout_width="wrap_content" 
+	    	android:layout_height="wrap_content" 
+	    	android:maxWidth="200.0dip" />
+	   	<TextView 
 	    	android:id="@+id/chatting_content_itv" 
 	    	android:autoLink="web" 
 	    	style="@style/ChattingUIText" />
-		    	
-        </FrameLayout>
+    </FrameLayout>
 </LinearLayout>

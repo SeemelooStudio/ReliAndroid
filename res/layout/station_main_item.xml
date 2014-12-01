@@ -4,12 +4,44 @@
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
     android:background="@color/blue" >
+    <LinearLayout
+        android:id="@+id/hot_station_item_out"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        
+        android:orientation="horizontal" >
+        <ImageView
+            android:id="@+id/hot_station_ic_out"
+            style="@style/HotSourceSmallIcon"
+            android:contentDescription="@string/station"
+            android:src="@drawable/ic_out" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+            <TextView 
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:id="@+id/hot_station_temperature_out"
+			    android:textSize="@dimen/medium_font_size"
+			    android:textColor="@color/white"/>
+			<TextView
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:id="@+id/hot_station_pressure_out"
+			    android:textSize="@dimen/small_font_size"
+			    android:textColor="@color/white"
+			></TextView>
+		</LinearLayout>
+ 	</LinearLayout>
+ 	
 	<LinearLayout
 	    android:id="@+id/hot_station_item_in"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:layout_marginTop="@dimen/small_margin"
+        android:layout_below="@+id/hot_station_item_out"
         android:orientation="horizontal" >
         <ImageView
             android:id="@+id/hot_station_ic_in"
@@ -24,47 +56,17 @@
 			    android:layout_width="wrap_content"
 			    android:layout_height="wrap_content"
 			    android:id="@+id/hot_station_temperature_in"
-			     android:textSize="@dimen/medium_font_size"
+			    android:textSize="@dimen/medium_font_size"
 			    android:textColor="@color/white"/>
 		   <TextView
 			    android:layout_width="wrap_content"
 			    android:layout_height="wrap_content"
 			    android:id="@+id/hot_station_pressure_in"
-			     android:textSize="@dimen/small_font_size"
+			    android:textSize="@dimen/small_font_size"
 			    android:textColor="@color/white"/>
 		</LinearLayout>
 	</LinearLayout>
-    <LinearLayout
-        android:id="@+id/hot_station_item_out"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/hot_station_item_in"
-        android:orientation="horizontal" >
-        <ImageView
-            android:id="@+id/hot_station_ic_out"
-            style="@style/HotSourceSmallIcon"
-            android:contentDescription="@string/station"
-            android:src="@drawable/ic_out" />
-        	<LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
-			<TextView 
-			    android:layout_width="wrap_content"
-			    android:layout_height="wrap_content"
-			    android:id="@+id/hot_station_temperature_out"
-			     android:textSize="@dimen/medium_font_size"
-			    android:textColor="@color/white"/>
-			<TextView
-			    android:layout_width="wrap_content"
-			    android:layout_height="wrap_content"
-			    android:id="@+id/hot_station_pressure_out"
-			     android:textSize="@dimen/small_font_size"
-			    android:textColor="@color/white"/>
-
-			</LinearLayout>
- 		</LinearLayout>
-	    <TextView
+	<TextView
 	        android:id="@+id/hot_station_name"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
@@ -73,14 +75,12 @@
 	        android:ellipsize="end"
 	        android:lines="1"
 	        android:textColor="@color/white"
-	        android:layout_below="@+id/hot_station_item_out"
-	        android:textSize="@dimen/cell_title_font_size" />
-	
-	    <TextView
-	        android:id="@+id/hotPosItemId"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:visibility="gone" />
-		 
-
+	        android:layout_below="@+id/hot_station_item_in"
+	        android:textSize="@dimen/cell_title_font_size" 
+	        android:layout_alignParentBottom="true"/>
+    <TextView
+        android:id="@+id/hotPosItemId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
 </RelativeLayout>

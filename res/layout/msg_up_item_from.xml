@@ -8,9 +8,9 @@
     <TextView 
     	android:id="@+id/chatting_time_tv" 
     	style="@style/ChattingUISplit" />
-    	<TextView 
-	    	android:id="@+id/chatting_content_itv" 
-	    	android:autoLink="web" 
-	    	android:background="@drawable/chatfrom_bg" 
-    		style="@style/ChattingUIText" />
+   	<TextView 
+    	android:id="@+id/chatting_content_itv" 
+    	android:autoLink="web" 
+    	android:background="@drawable/chatfrom_bg" 
+   		style="@style/ChattingUIText" />
 </LinearLayout>
