@@ -50,7 +50,7 @@ public class ConstDefine
 	public static final String S_POST_IMAGE = "/MobileService/{UserName}/Messages/UploadPhoto";
 	public static final String S_PUT_IMAGE = "/MobileService/{UserName}/Messages/UploadPhoto/{MessageId}";
 	
-	public static final String S_DOWNLOAD_LATEST = "http://192.168.1.100:14562/downloads/ReliMobile{VersionName}.apk";
+	public static final String S_DOWNLOAD_LATEST = "http://192.168.57.238/downloads/ReliMobile{VersionName}.apk";
 	public static final String S_CHECKVERSION = "/MobileService/Version";
 	//show msg info
 	public static final String I_MSG_0001 = "fail";

@@ -154,6 +154,23 @@ public class MsgUpMainActivity extends Activity {
 	        	sendImage(_currentPhotoPath);
 	        }
 	    }
+		else if(requestCode == SELECT_PHOTO_ACTIVITY_REQUEST_CODE)
+		{
+			if (resultCode == RESULT_OK) {
+	        	if (data != null) {
+		        	String imagePath = getRealPathFromURI( this.getApplicationContext(), data.getData());
+		        	sendImage(imagePath);
+	        	}
+	        	else {
+	        		sendImage(_currentPhotoPath);
+	        	}
+	        } else if (resultCode == RESULT_CANCELED) {
+	        	
+	        } else {
+	        	// maybe the file got saved but...
+	        	sendImage(_currentPhotoPath);
+	        }
+		}
 	}
 	// set adapter
 	private void setAdapterForThis() {

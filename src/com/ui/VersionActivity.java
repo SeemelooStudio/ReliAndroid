@@ -99,6 +99,7 @@ public class VersionActivity extends Activity {
     					if( version.toLowerCase().equals(latestVersion.toLowerCase())) {
     						download_latest.setText(string.already_latest);
     						download_latest.setClickable(false);
+
     						download_latest.setEnabled(false);
     					}
     					else {
