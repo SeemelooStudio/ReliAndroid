@@ -40,6 +40,8 @@
             android:name="android.support.PARENT_ACTIVITY"
             android:value="com.ui.MainPageActivity" />
 	</activity>
+	<activity android:name="OverviewActivity" android:configChanges="orientation|screenSize"></activity>
+	
 	<activity android:name="DailyDetailActivity" android:configChanges="orientation|screenSize"></activity>
 	<activity android:name="CustomerServiceListActivity" 
 	    android:label="@string/customer_service_daily"

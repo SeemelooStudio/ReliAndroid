@@ -37,8 +37,8 @@ public class HeatSourceListFragment extends Fragment {
 	public void onStart(){
 		super.onResume();
 		_lvHeatSource = (ListView) getView().findViewById(R.id.heat_source_list);
-		_lvHeatSource.setOnItemClickListener( new OnItemClickListener() {
-
+		_lvHeatSource.setOnItemClickListener( 
+			new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View arg1, int position, long id) {
 				HashMap<String, Object> ListItem = (HashMap<String, Object>) _lvHeatSource.getItemAtPosition(position);

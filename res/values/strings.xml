@@ -13,6 +13,8 @@
     <string name="main_item_five_name">热源信息</string>
     <string name="main_item_six_name">热力站信息</string>
     <string name="main_item_serven_name">知识库</string>
+    <string name="customer_service_daily">客服日报</string>
+    <string name="main_item_overview_name">供热概况</string>
     <string name="heat_daily">热力日报</string>
     <string name="warning">预警信息</string>
     <string name="weather_forecast">天气预报</string>
@@ -20,7 +22,6 @@
     <string name="heat_source">热源信息</string>
     <string name="station">热力站信息</string>
     <string name="knowledge_base">知识库</string>
-    <string name="customer_service_daily">客服日报</string>
     <!-- Login -->
     <string name="username">用户名</string>
     <string name="username_hint">请输入用户名</string>
@@ -79,6 +80,7 @@
     <string name="heat_source_steam_line">蒸汽线名称</string>
     <string name="heat_source_is_connect">是否并网</string>
     <string name="heat_source_unit_type">机组类型</string>
+    
     <!-- Station -->
     <string name="tap_to_search">点击查询</string>
     <string name="station_realtime_heat">瞬时热量(GJ/h)</string>

@@ -37,7 +37,16 @@ import com.util.WeatherIconHelper;
 public class MainPageActivity extends Activity {
 	
 	public static final String TAG = "MainPageActivity";
-
+	public static final char DailyReportCell = '1';
+	public static final char AlertCell = '2';
+	public static final char WeatherCell = '3';
+	public static final char MessageCell = '4';
+	public static final char HeatSourceCell = '5';
+	public static final char StationCell = '6';
+	public static final char KnowledgeCell = '7';
+	public static final char CustomerReportCell = '8';
+	
+	
 	private MainScrollLayout scrollLayout;
 	private ViewPager viewpage;
 	private LayoutInflater layflater;
@@ -51,7 +60,6 @@ public class MainPageActivity extends Activity {
 	private TextView txtAboutMenu;
 	
 	private ImageView imgSetMenu;
-	
 	private TextView txtShowPage;
 	
 	//event
@@ -110,22 +118,17 @@ public class MainPageActivity extends Activity {
 		layflater = LayoutInflater.from(this);
 		listViews = new ArrayList<View>();
 		mainItemClickListener= new MainItemOnClickListener();
-		
-		
-
 		List<View> itemList = new ArrayList<View>();
-		for(int i = 0; i < strMenu.length(); i++ )
-		{   
-			if (strMenu.charAt(i) == '1') itemList.add(layflater.inflate(R.layout.main_page_item_1, null));
-			if (strMenu.charAt(i) == '2') itemList.add(layflater.inflate(R.layout.main_page_item_2, null));
-			if (strMenu.charAt(i) == '3') itemList.add(layflater.inflate(R.layout.main_page_item_3, null));
-			if (strMenu.charAt(i) == '4') itemList.add(layflater.inflate(R.layout.main_page_item_4, null));
-			if (strMenu.charAt(i) == '5') itemList.add(layflater.inflate(R.layout.main_page_item_5, null));
-			if (strMenu.charAt(i) == '6') itemList.add(layflater.inflate(R.layout.main_page_item_6, null));
-			if (strMenu.charAt(i) == '7') itemList.add(layflater.inflate(R.layout.main_page_item_7, null));
-			if (strMenu.charAt(i) == '8') itemList.add(layflater.inflate(R.layout.main_page_item_8, null));
-		}
-
+		itemList.add(layflater.inflate(R.layout.main_page_item_overview, null));
+		if (strMenu.indexOf(WeatherCell) >= 0) itemList.add(layflater.inflate(R.layout.main_page_item_3, null));
+		if (strMenu.indexOf(DailyReportCell) >= 0) itemList.add(layflater.inflate(R.layout.main_page_item_1, null));
+		if (strMenu.indexOf(CustomerReportCell) >= 0) itemList.add(layflater.inflate(R.layout.main_page_item_8, null));
+		if (strMenu.indexOf(HeatSourceCell) >= 0 ) itemList.add(layflater.inflate(R.layout.main_page_item_5, null));
+		if (strMenu.indexOf(StationCell) >= 0) itemList.add( layflater.inflate(R.layout.main_page_item_6, null));
+		if (strMenu.indexOf(AlertCell) >= 0 ) itemList.add(layflater.inflate(R.layout.main_page_item_2, null));
+		if (strMenu.indexOf(MessageCell) >= 0 ) itemList.add(layflater.inflate(R.layout.main_page_item_4, null));
+		if (strMenu.indexOf(KnowledgeCell) >= 0) itemList.add( layflater.inflate(R.layout.main_page_item_7, null));
+		
 		int pageNum = (int) Math.ceil((float) itemList.size() / PAGE_SIZE);
 		
 
@@ -259,6 +262,10 @@ public class MainPageActivity extends Activity {
 
 		public void onClick(View v) {
 			switch (v.getId()) {
+			case R.id.main_page_overview:
+				Intent intent_overview = new Intent(MainPageActivity.this, OverviewActivity.class); 
+				startActivity(intent_overview);
+				break;
 			case R.id.main_page_item1:
 				Intent intent_1 = new Intent(MainPageActivity.this, DailyListActivity.class); 
 				startActivity(intent_1);
@@ -292,10 +299,6 @@ public class MainPageActivity extends Activity {
 				startActivity(intent_8);
 				break;
 			case R.id.main_page_menu:
-//				DisplayMetrics metrics = new DisplayMetrics();
-//				MainPageActivity.this.getWindowManager().getDefaultDisplay().getMetrics(metrics);
-//				int width = metrics.widthPixels;
-//				scrollLayout.scrollToRight(width);
 				Intent intent_version = new Intent(MainPageActivity.this, VersionActivity.class); 
 				startActivity(intent_version);
 				break;

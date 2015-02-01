@@ -61,23 +61,23 @@ public class HeatSourceMainActivity extends Activity
 		titleInfo = new HeatSourceTitle();
 		dbHeatSources = new ArrayList<HeatSourceMainItem>();
 		diaLogProgress = BaseHelper.showProgress(HeatSourceMainActivity.this,ConstDefine.I_MSG_0003,false);
-	    new Thread() {
-	        public void run() { 
-	                Message msgSend = new Message();
-	        	    try {
-	        	    	// get itemList
-	        	    	dbHeatSources = BusinessRequest.getHeatSourceMainList(_activity);
-	        	    	
-	        	    	//get static Info
-	        	    	titleInfo = BusinessRequest.getHeatSourceAllStatic(_activity);
-	
-	        	        //get mapList
-	        	    	msgSend.what = ConstDefine.MSG_I_HANDLE_OK;
-					} catch (Exception e) {
-						msgSend.what = ConstDefine.MSG_I_HANDLE_Fail;
-					}
-	                handler.sendMessage(msgSend);
-	        	}
+	    new Thread() 
+	    {
+	        public void run() 
+	        { 
+                Message msgSend = new Message();
+        	    try 
+        	    {
+        	    	dbHeatSources = BusinessRequest.getHeatSourceMainList(_activity);
+        	    	titleInfo = BusinessRequest.getHeatSourceAllStatic(_activity);
+        	    	msgSend.what = ConstDefine.MSG_I_HANDLE_OK;
+				} 
+        	    catch (Exception e) 
+        	    {
+					msgSend.what = ConstDefine.MSG_I_HANDLE_Fail;
+				}
+                handler.sendMessage(msgSend);
+        	}
 	    }.start();
 	}  
 	
@@ -116,10 +116,50 @@ public class HeatSourceMainActivity extends Activity
 		TextView txtAllDay= (TextView) viewHeatSource.findViewById(R.id.hotSrcTitleAllDay);
 		TextView txtWest = (TextView) viewHeatSource.findViewById(R.id.hotSrcTitleAllWest);
 		TextView txtAllNet = (TextView) viewHeatSource.findViewById(R.id.hotSrcTitleAllNet);
+		TextView txtCountHeatSources = (TextView) viewHeatSource.findViewById(R.id.countHeatSources);
+		TextView txtCountIC = (TextView) viewHeatSource.findViewById(R.id.countIC);
+		TextView txtCountAuto = (TextView) viewHeatSource.findViewById(R.id.countAuto);
+		TextView txtCountActive = (TextView) viewHeatSource.findViewById(R.id.countActive);
+		TextView txtTodaysGJ = (TextView) viewHeatSource.findViewById(R.id.todaysGJ);
+		TextView txtYesterdaysGJ = (TextView) viewHeatSource.findViewById(R.id.yesterdaysGJ);
+		TextView txtArea = (TextView) viewHeatSource.findViewById(R.id.area);
+		TextView txtEastArea = (TextView) viewHeatSource.findViewById(R.id.eastArea);
+		TextView txtWestArea= (TextView) viewHeatSource.findViewById(R.id.westArea);
+		TextView txtActualArea = (TextView) viewHeatSource.findViewById(R.id.actualArea);
+		TextView txtHeatLoad = (TextView) viewHeatSource.findViewById(R.id.heatLoad);
+		TextView txtEastHeatLoad = (TextView) viewHeatSource.findViewById(R.id.eastHeatLoad);
+		TextView txtWestHeatLoad = (TextView) viewHeatSource.findViewById(R.id.westHeatLoad);
+		TextView txtHeatLoadPlanned = (TextView) viewHeatSource.findViewById(R.id.heatLoadPlanned);
+		TextView txtEastHeatLoadPlanned = (TextView) viewHeatSource.findViewById(R.id.heatLoadEastPlanned);
+		TextView txtWestHeatLoadPlanned = (TextView) viewHeatSource.findViewById(R.id.heatLoadWestPlanned);
+		TextView txtHeatLoadCalculated = (TextView) viewHeatSource.findViewById(R.id.heatLoadCalculated);
+		TextView txtEastHeatLoadCalculated = (TextView) viewHeatSource.findViewById(R.id.heatLoadEastCalculated);
+		TextView txtWestHeatLoadCalculated = (TextView) viewHeatSource.findViewById(R.id.heatLoadWestCalculated);
+		
 		txtAllnum.setText( getString(R.string.heat_source_count) + dbHeatSources.size() ); 
-		txtAllDay.setText( getString(R.string.east_area) + titleInfo.getStrEastArea() + getString(R.string.area_unit) );
-		txtWest.setText( getString(R.string.west_area) +  titleInfo.getStrWestArea() + getString(R.string.area_unit) ); 
-		txtAllNet.setText( getString(R.string.total_heat_load) + titleInfo.getStrHeatLoad() + getString(R.string.heat_unit) ); 
+		txtAllDay.setText( getString(R.string.east_area) + titleInfo.getEastArea() + getString(R.string.area_unit) );
+		txtWest.setText( getString(R.string.west_area) +  titleInfo.getWestArea() + getString(R.string.area_unit) ); 
+		txtAllNet.setText( getString(R.string.total_heat_load) + titleInfo.getHeatLoad() + getString(R.string.heat_unit) ); 
+		txtCountHeatSources.setText(  getString(R.string.heat_source_count) + titleInfo.getCountHeatSources() );
+		txtCountAuto.setText( "监控站个数: "+ titleInfo.getCountAuto() + "" );
+		txtCountIC.setText("智能卡站个数:" + titleInfo.getCountIC() + "" );
+		txtCountActive.setText( "有效站个数:" + titleInfo.getCountActive() + "");
+		txtTodaysGJ.setText( "今日累计供热量:" + titleInfo.getTodaysGJ() + "");
+		txtYesterdaysGJ.setText( "昨日累计供热量:" + titleInfo.getYesterdaysGJ() + "");
+		txtArea.setText("总面积:" + titleInfo.getArea() );
+		txtEastArea.setText("东部面积:" + titleInfo.getEastArea() );
+		txtWestArea.setText("西部面积:" + titleInfo.getWestArea() );
+		txtActualArea.setText("实际投入面积面积:" + titleInfo.getActualArea() );
+		txtHeatLoad.setText("全网GJ：" + titleInfo.getHeatLoad());
+		txtEastHeatLoad.setText("东部GJ：" + titleInfo.getEastHeatLoad());
+		txtWestHeatLoad.setText("西部GJ：" + titleInfo.getWestHeatLoad());
+		txtHeatLoadPlanned.setText("全网计划GJ：" + titleInfo.getHeatLoadPlanned());
+		txtEastHeatLoadPlanned.setText("东部计划GJ：" + titleInfo.getHeatLoadEastPlanned());
+		txtWestHeatLoadPlanned.setText("西部计划GJ：" + titleInfo.getHeatLoadWestPlanned());
+		txtHeatLoadCalculated.setText("全网核算GJ：" + titleInfo.getHeatLoadCalculated());
+		txtEastHeatLoadCalculated.setText("东部核算GJ：" + titleInfo.getHeatLoadEastCalculated());
+		txtWestHeatLoadCalculated.setText("西部核算GJ：" + titleInfo.getHeatLoadWestCalculated());
+
 	}
 	  
 	private View getHeatSourceSummaryCell(HeatSourceTitle title, int rowIndex, int columnIndex, int cellWidth, int cellHeight)
@@ -223,8 +263,7 @@ public class HeatSourceMainActivity extends Activity
 		int ceilMargin = (int)getResources().getDimension(R.dimen.small_margin) * 2;
 		int cellWidth = (int)( screenWidth  / COLUMN_COUNT - ceilMargin); 
 		int cellHeight = (int) ( screenHeight / ROW_COUNT - ceilMargin);
-		int bigCellWidth = cellWidth * 3 + ceilMargin * 2;
-		int bigCellHeight = cellHeight *4 + ceilMargin * 3;  
+		int bigCellWidth = cellWidth * 3 + ceilMargin * 2; 
 		views = new ArrayList<View>();
 		for(int pageIndex = 0; pageIndex < pageNum; pageIndex++ )
 		{
@@ -303,7 +342,7 @@ public class HeatSourceMainActivity extends Activity
 		int peakGasCount;
 		String waterLine;
 		String gasLine;
-		boolean isInSystem; // shifou bingwanggongre
+		boolean isInSystem; 
 			
 		public heatSourceCellOnClickListener(String heatSourceName, int heatSourceId, String eastOrWest, String innerOrOuter,
 											 int peakCoalCount, int peakGasCount, String waterLine, String gasLine, boolean isInSystem) 
