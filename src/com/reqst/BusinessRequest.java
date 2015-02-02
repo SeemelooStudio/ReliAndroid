@@ -21,6 +21,7 @@ import android.util.Log;
 import com.model.ChatMessage;
 import com.model.HeatSourceDetail;
 import com.model.HeatSourceHistoryListItem;
+import com.model.Overview;
 import com.model.StationDetail;
 import com.model.StationHistoryListItem;
 import com.model.StationListItem;
@@ -562,5 +563,19 @@ public class BusinessRequest {
 			throw ex;
 		}
 	}
-	
+
+    public static Overview getOverview(String userName, Activity activity) throws Exception
+    {
+        Overview overview = new Overview();
+        try {
+            ServerHttpRequest httpReq = new ServerHttpRequest();
+            String strRequestAddress = (AccountHelper.getBaseUrl(activity) + ConstDefine.S_GET_OVERVIEW).replace("{UserName}", userName);
+            String strResp = httpReq.doGet(strRequestAddress);
+            overview = JsonHelper.parseObject(strResp, Overview.class);
+        } catch (Exception ex) {
+            throw ex;
+        }
+
+        return overview;
+    }
 }

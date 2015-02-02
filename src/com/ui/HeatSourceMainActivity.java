@@ -110,86 +110,6 @@ public class HeatSourceMainActivity extends Activity
 		tvHeatSourceName.setText(item.getHeatSourceName());
 	}
 
-	private void setHeatSourceSummaryContent( View viewHeatSource, HeatSourceTitle title)
-	{			
-		TextView txtAllnum = (TextView) viewHeatSource.findViewById(R.id.hotSrcTitleAllnum);
-		TextView txtAllDay= (TextView) viewHeatSource.findViewById(R.id.hotSrcTitleAllDay);
-		TextView txtWest = (TextView) viewHeatSource.findViewById(R.id.hotSrcTitleAllWest);
-		TextView txtAllNet = (TextView) viewHeatSource.findViewById(R.id.hotSrcTitleAllNet);
-		TextView txtCountHeatSources = (TextView) viewHeatSource.findViewById(R.id.countHeatSources);
-		TextView txtCountIC = (TextView) viewHeatSource.findViewById(R.id.countIC);
-		TextView txtCountAuto = (TextView) viewHeatSource.findViewById(R.id.countAuto);
-		TextView txtCountActive = (TextView) viewHeatSource.findViewById(R.id.countActive);
-		TextView txtTodaysGJ = (TextView) viewHeatSource.findViewById(R.id.todaysGJ);
-		TextView txtYesterdaysGJ = (TextView) viewHeatSource.findViewById(R.id.yesterdaysGJ);
-		TextView txtArea = (TextView) viewHeatSource.findViewById(R.id.area);
-		TextView txtEastArea = (TextView) viewHeatSource.findViewById(R.id.eastArea);
-		TextView txtWestArea= (TextView) viewHeatSource.findViewById(R.id.westArea);
-		TextView txtActualArea = (TextView) viewHeatSource.findViewById(R.id.actualArea);
-		TextView txtHeatLoad = (TextView) viewHeatSource.findViewById(R.id.heatLoad);
-		TextView txtEastHeatLoad = (TextView) viewHeatSource.findViewById(R.id.eastHeatLoad);
-		TextView txtWestHeatLoad = (TextView) viewHeatSource.findViewById(R.id.westHeatLoad);
-		TextView txtHeatLoadPlanned = (TextView) viewHeatSource.findViewById(R.id.heatLoadPlanned);
-		TextView txtEastHeatLoadPlanned = (TextView) viewHeatSource.findViewById(R.id.heatLoadEastPlanned);
-		TextView txtWestHeatLoadPlanned = (TextView) viewHeatSource.findViewById(R.id.heatLoadWestPlanned);
-		TextView txtHeatLoadCalculated = (TextView) viewHeatSource.findViewById(R.id.heatLoadCalculated);
-		TextView txtEastHeatLoadCalculated = (TextView) viewHeatSource.findViewById(R.id.heatLoadEastCalculated);
-		TextView txtWestHeatLoadCalculated = (TextView) viewHeatSource.findViewById(R.id.heatLoadWestCalculated);
-		
-		txtAllnum.setText( getString(R.string.heat_source_count) + dbHeatSources.size() ); 
-		txtAllDay.setText( getString(R.string.east_area) + titleInfo.getEastArea() + getString(R.string.area_unit) );
-		txtWest.setText( getString(R.string.west_area) +  titleInfo.getWestArea() + getString(R.string.area_unit) ); 
-		txtAllNet.setText( getString(R.string.total_heat_load) + titleInfo.getHeatLoad() + getString(R.string.heat_unit) ); 
-		txtCountHeatSources.setText(  getString(R.string.heat_source_count) + titleInfo.getCountHeatSources() );
-		txtCountAuto.setText( "监控站个数: "+ titleInfo.getCountAuto() + "" );
-		txtCountIC.setText("智能卡站个数:" + titleInfo.getCountIC() + "" );
-		txtCountActive.setText( "有效站个数:" + titleInfo.getCountActive() + "");
-		txtTodaysGJ.setText( "今日累计供热量:" + titleInfo.getTodaysGJ() + "");
-		txtYesterdaysGJ.setText( "昨日累计供热量:" + titleInfo.getYesterdaysGJ() + "");
-		txtArea.setText("总面积:" + titleInfo.getArea() );
-		txtEastArea.setText("东部面积:" + titleInfo.getEastArea() );
-		txtWestArea.setText("西部面积:" + titleInfo.getWestArea() );
-		txtActualArea.setText("实际投入面积面积:" + titleInfo.getActualArea() );
-		txtHeatLoad.setText("全网GJ：" + titleInfo.getHeatLoad());
-		txtEastHeatLoad.setText("东部GJ：" + titleInfo.getEastHeatLoad());
-		txtWestHeatLoad.setText("西部GJ：" + titleInfo.getWestHeatLoad());
-		txtHeatLoadPlanned.setText("全网计划GJ：" + titleInfo.getHeatLoadPlanned());
-		txtEastHeatLoadPlanned.setText("东部计划GJ：" + titleInfo.getHeatLoadEastPlanned());
-		txtWestHeatLoadPlanned.setText("西部计划GJ：" + titleInfo.getHeatLoadWestPlanned());
-		txtHeatLoadCalculated.setText("全网核算GJ：" + titleInfo.getHeatLoadCalculated());
-		txtEastHeatLoadCalculated.setText("东部核算GJ：" + titleInfo.getHeatLoadEastCalculated());
-		txtWestHeatLoadCalculated.setText("西部核算GJ：" + titleInfo.getHeatLoadWestCalculated());
-
-	}
-	  
-	private View getHeatSourceSummaryCell(HeatSourceTitle title, int rowIndex, int columnIndex, int cellWidth, int cellHeight)
-	{
-		int ceilMargin = (int)getResources().getDimension(R.dimen.small_margin);
-		LayoutInflater inflater = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-		View viewSummary = inflater.inflate(R.layout.heat_source_main_title_item, null);
-		setHeatSourceSummaryContent(viewSummary, title);  
-		Spec row = GridLayout.spec(rowIndex, 4);
-		Spec colspan = GridLayout.spec(columnIndex, 3);
-		GridLayout.LayoutParams param =new GridLayout.LayoutParams(row, colspan);
-		param.setGravity(Gravity.FILL);
-		param.width = cellWidth;
-		param.height = cellHeight;
-		param.setMargins(ceilMargin, ceilMargin, ceilMargin, ceilMargin);
-		viewSummary.setLayoutParams (param);
-	    viewSummary.setBackgroundResource(R.color.midnight_blue);
-	     
-    	param.setGravity(Gravity.FILL);                                                          
-    	viewSummary.setOnClickListener(new OnClickListener()
-    	{                                                                                    
-			  public void onClick(View v) 
-			  {   
-				  Intent intent = new Intent(HeatSourceMainActivity.this, HeatSourceQueryActivity.class); 
-				  startActivity(intent);
-			  }
-		});
-    	return viewSummary;
-    }
-	  
 	private View getHeatSourceCell(HeatSourceMainItem heatSource, int rowIndex, int columnIndex, int cellWidth, int cellHeight)
 	{
 		int ceilMargin = (int)getResources().getDimension(R.dimen.small_margin);
@@ -272,29 +192,23 @@ public class HeatSourceMainActivity extends Activity
 			gridLayout.setRowCount(ROW_COUNT);
 			gridLayout.setOrientation(GridLayout.HORIZONTAL);
 			gridLayout.setUseDefaultMargins(true);
-			if(pageIndex == 0)
-			{
-				gridLayout.addView( getHeatSourceSummaryCell(titleInfo, 0, 0, bigCellWidth, cellHeight) );
-			}
-			else 
-			{
-				for(int cell = 0, rowIndex = 0, columnIndex=0, itemIndex = (pageIndex-1) * PAGE_SIZE + cell; 
-		        		cell < PAGE_SIZE && itemIndex < dbHeatSources.size(); 
-		        		cell ++, columnIndex++, itemIndex++)
-				{
-					if(columnIndex == COLUMN_COUNT) 
-					{
-						columnIndex = 0;
-						rowIndex++;
-					}
-					gridLayout.addView(getHeatSourceCell(dbHeatSources.get(itemIndex), rowIndex, columnIndex, cellWidth, cellHeight));
-				}
-			}
-			    
+
+			//	gridLayout.addView( getHeatSourceSummaryCell(titleInfo, 0, 0, bigCellWidth, cellHeight) );
+
+            for(int cell = 0, rowIndex = 0, columnIndex=0, itemIndex = (pageIndex) * PAGE_SIZE + cell;
+                cell < PAGE_SIZE && itemIndex < dbHeatSources.size();
+                cell ++, columnIndex++, itemIndex++)
+            {
+                if(columnIndex == COLUMN_COUNT)
+                {
+                    columnIndex = 0;
+                    rowIndex++;
+                }
+                gridLayout.addView(getHeatSourceCell(dbHeatSources.get(itemIndex), rowIndex, columnIndex, cellWidth, cellHeight));
+            }
 			gridLayout.setId(pageIndex);
 			views.add(gridLayout);
 		}
-        
 		setIndicatorView();
 		viewpage.setAdapter(new ViewPageAdapter(views));
 		viewpage.setOnPageChangeListener(new ViewPageChangeListener(indicators)); 
