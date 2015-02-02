@@ -501,7 +501,7 @@ public class JsonHelper {
                     Object o = parseCollection(ja, clazz, c);  
                     setFiedlValue(obj, fieldSetMethod, clazz.getSimpleName(), o);  
                 }  
-            } else if (isSingle(clazz)) { // ֵ����  
+            } else if (isSingle(clazz)) {
                 Object o = jo.opt(name);  
                 if (o != null) {  
                     setFiedlValue(obj, fieldSetMethod, clazz.getSimpleName(), o);  
@@ -513,18 +513,13 @@ public class JsonHelper {
             	Object o = jo.opt(name);
             	setFiedlValue(obj, fieldSetMethod, clazz.getSimpleName(), o);
             }
-            else if (isObject(clazz)) { // ����  
+            else if (isObject(clazz)) { 
                 JSONObject j = jo.optJSONObject(name);  
                 if (!isNull(j)) {  
                     Object o = parseObject(j, clazz);  
                     setFiedlValue(obj, fieldSetMethod, clazz.getSimpleName(), o);  
                 }  
-            } else if (isList(clazz)) { // �б�  
-//              JSONObject j = jo.optJSONObject(name);  
-//              if (!isNull(j)) {  
-//                  Object o = parseObject(j, clazz);  
-//                  f.set(obj, o);  
-//              }  
+            } else if (isList(clazz)) {
             } else {  
                 throw new Exception("unknow type!");  
             }  
