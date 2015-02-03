@@ -6,9 +6,11 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.model.GenericListItem;
 import com.model.Overview;
 import com.reqst.BusinessRequest;
 import com.util.AccountHelper;
@@ -21,25 +23,42 @@ import android.annotation.SuppressLint;
 
 public class OverviewActivity extends Activity 
 {
-     Activity _activity;
+	Activity _activity;
 
-    private Overview overview = null;
-    private ProgressDialog diaLogProgress = null;
-	 @Override
-	 public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.over_view);
-        _activity=this;
-        initOverviewData();
-	 }
-	 @Override
-	 public void onResume()
-	 {
-		 super.onResume();
-	 }
+	private Overview overview = null;
+	private ProgressDialog diaLogProgress = null;
+     
+	@Override
+	public void onCreate(Bundle savedInstanceState) 
+	{
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.over_view);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+		_activity=this;
+		initOverviewData();
+	}
+	 
+	@Override
+	public void onResume()
+	{
+		super.onResume();
+	}
 
-    private void initOverviewData(){
-
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) 
+	{
+		 switch(item.getItemId()) 
+		 {
+			 case android.R.id.home:
+			     this.finish();
+			     return true;
+			 default :
+				 return super.onOptionsItemSelected(item);
+		 }
+	}
+	
+    private void initOverviewData()
+    {
         diaLogProgress = BaseHelper.showProgress(OverviewActivity.this, ConstDefine.I_MSG_0003,false);
         new Thread() {
             public void run() {

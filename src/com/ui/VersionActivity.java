@@ -10,6 +10,7 @@ import com.model.DownloadPDFTask;
 import com.model.GenericListItem;
 import com.reqst.BusinessRequest;
 import com.ui.R.string;
+import com.util.AccountHelper;
 import com.util.BaseHelper;
 import com.util.ConstDefine;
 
@@ -106,7 +107,7 @@ public class VersionActivity extends Activity {
     						download_latest.setOnClickListener(new OnClickListener() {
     							@Override
     							public void onClick(View v) {
-    								String versionUrl =  ConstDefine.S_DOWNLOAD_LATEST.replace("{VersionName}", latestVersion);
+    								String versionUrl = AccountHelper.getBaseUrl(activity).replace(":11223", "") + ConstDefine.S_DOWNLOAD_LATEST.replace("{VersionName}", latestVersion);
     							    try {
     							    	new DownloadPDFTask(activity).execute(versionUrl);
     							    }
