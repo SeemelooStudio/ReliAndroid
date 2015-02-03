@@ -11,10 +11,8 @@ public class ConstDefine
 	public static final int HTTP_BUFF_SIZE = 8192;
 	public static final String HTTP_ENCODE = "UTF-8";
 	
-    public static final String WEB_SERVICE_URL = "http://192.168.1.102:11223";
+    public static final String WEB_SERVICE_URL = "http://10.0.0.6:11223";
 	public static final String WEB_SERVICE_OUTER_URL = "http://192.180.1.251:11223";
-//	public static final String WEB_SERVICE_URL = "http://192.168.1.101:11223";
-//	public static final String WEB_SERVICE_OUTER_URL = "http://192.168.1.101:11223";
 	
 	public static final String S_GET_USERINFO = "/MobileService/Users/{UserName}";
 	public static final String S_GET_DAILYREPORTS = "/MobileService/DailyReports";

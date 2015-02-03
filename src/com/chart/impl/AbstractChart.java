@@ -59,8 +59,11 @@ public abstract class AbstractChart implements IChart {
       XYSeriesRenderer r = new XYSeriesRenderer();
       r.setColor(colors[i]);
       r.setPointStyle(styles[i]);
-      renderer.addSeriesRenderer(r);
+      renderer.addSeriesRenderer(r );
     }
+
+      renderer.setMargins( new int[] {0, 10, 60, 10});
+      renderer.setLegendHeight(50);
     return renderer;
   }
 

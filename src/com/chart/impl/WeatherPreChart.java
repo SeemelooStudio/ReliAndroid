@@ -43,10 +43,17 @@ public class WeatherPreChart extends AbstractChart {
 	
 	   private List<WeatherPreChartItem> lstWeather;
 	   
-	   private String[] titles = new String[] {"最高温度" , "最低温度", "平均温度"};
+	   private String[] titles = new String[] {
+               "最高温度",
+               "最低温度",
+               "平均温度"
+       };
 	   
-	   private int[] colors =  new int[] { Color.parseColor("#ffec8000"),
-				Color.parseColor("#ff33b5e5"), Color.parseColor("#ff33b5a2") };
+	   private int[] colors =  new int[] {
+               Color.parseColor("#ffec8000"),
+               Color.parseColor("#ff33b5e5"),
+               Color.parseColor("#ff33b5a2")
+       };
 	   
 	   private  List<Date[]> dates = new ArrayList<Date[]>();
 	   
@@ -157,19 +164,19 @@ public class WeatherPreChart extends AbstractChart {
 	                    .getSeriesRendererAt(i);                
 	            seriesRenderer.setLineWidth(4f);
 	            seriesRenderer.setChartValuesSpacing(10);
-	            seriesRenderer.setChartValuesTextSize(16);
+	            seriesRenderer.setChartValuesTextSize(32);
 	            seriesRenderer.setDisplayChartValues(true);
 	        }
 	        
 
 	        renderer.setExternalZoomEnabled(true);
 			renderer.setShowGrid(true);
-			renderer.setChartTitleTextSize(24);
-			renderer.setAxisTitleTextSize(16);
-			renderer.setLegendTextSize(18);
+			renderer.setChartTitleTextSize(40);
+			renderer.setAxisTitleTextSize(32);
+			renderer.setLegendTextSize(36);
 			renderer.setXLabelsAlign(Align.CENTER);
 			renderer.setXLabelsPadding(10f);
-
+            renderer.setLabelsTextSize(20);
 			return renderer;
 
 	  }
