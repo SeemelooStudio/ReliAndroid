@@ -9,7 +9,6 @@ import org.json.JSONException;
 import com.model.DownloadPDFTask;
 import com.model.GenericListItem;
 import com.reqst.BusinessRequest;
-import com.ui.R.string;
 import com.util.AccountHelper;
 import com.util.BaseHelper;
 import com.util.ConstDefine;
@@ -98,7 +97,7 @@ public class VersionActivity extends Activity {
             		 	pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
     					String version = pInfo.versionName;
     					if( version.toLowerCase().equals(latestVersion.toLowerCase())) {
-    						download_latest.setText(string.already_latest);
+    						download_latest.setText(R.string.already_latest);
     						download_latest.setClickable(false);
 
     						download_latest.setEnabled(false);

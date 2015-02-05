@@ -23,10 +23,22 @@ public class HeatSourceDetail {
 	private float accuHeat;
 	
 	private float accuWater;
+
+    private float accuWaterIn;
 	
 	private float waterSupply;
 	
 	private String name;
+
+    public String getLastUpdatedAt() {
+        return lastUpdatedAt;
+    }
+
+    public void setLastUpdatedAt(String lastUpdatedAt) {
+        this.lastUpdatedAt = lastUpdatedAt;
+    }
+
+    private String lastUpdatedAt;
 	
 	public int getHeatSourceId() {
 		return heatSourceId;
@@ -131,5 +143,12 @@ public class HeatSourceDetail {
 	public void setWaterSupply(float waterSupply) {
 		this.waterSupply = waterSupply;
 	}
-	
+
+    public float getAccuWaterIn() {
+        return accuWaterIn;
+    }
+
+    public void setAccuWaterIn(float accuWaterIn) {
+        this.accuWaterIn = accuWaterIn;
+    }
 }

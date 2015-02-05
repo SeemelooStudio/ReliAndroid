@@ -11,8 +11,8 @@ public class CellBackgroundHelper {
 	public static int CELL_STATE_DEFAULT = 0;
 	public static int CELL_STATE_EXCEED_STANDARD = 1;
 	public static int CELL_STATE_BELOW_STANDARD = 2;
-	public static int CELL_STATE_OUTTER = 3;
-	public static int CELL_STATE_EAST = 4;
+	public static int CELL_STATE_OUTTER = 4;
+	public static int CELL_STATE_EAST = 3;
 	public static int CELL_STATE_WEST = 5;
 	static
     {

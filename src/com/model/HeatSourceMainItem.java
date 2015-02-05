@@ -1,16 +1,26 @@
 package com.model;
 
 import java.util.Date;
+import java.util.ArrayList;
 
 public class HeatSourceMainItem {
+
+    public ArrayList<HeatSourceDetail> getHeatSourceRecents() {
+        return heatSourceRecents;
+    }
+
+    public void setHeatSourceRecents(ArrayList<HeatSourceDetail> heatSourceRecents) {
+        this.heatSourceRecents = heatSourceRecents;
+    }
+
+    private ArrayList<HeatSourceDetail> heatSourceRecents;
 
 	private int heatSourceId;
 	
 	private String heatSourceName;
 	
 	private Date  lastUpdatedAt;
-	
-	
+
 	private String heatSourceType;
 	
 	private String eastOrWest;

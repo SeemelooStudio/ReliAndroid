@@ -21,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.GridLayout.Spec;
 
+import com.model.HeatSourceDetail;
 import com.model.HeatSourceMainItem;
 import com.model.HeatSourceTitle;
 import com.reqst.BusinessRequest;
@@ -41,9 +42,9 @@ public class HeatSourceMainActivity extends Activity
 	private ArrayList<View> views;
 	private ArrayList<HeatSourceMainItem>  dbHeatSources = null;
 	
-	private static int ROW_COUNT = 4;
+	private static int ROW_COUNT = 1;
 	private static int COLUMN_COUNT = 3;
-	private static int PAGE_SIZE =12;
+	private static int PAGE_SIZE =3;
 	
 	private Activity _activity;
 	
@@ -100,22 +101,40 @@ public class HeatSourceMainActivity extends Activity
 		}
 	};
 	    
-	private void setHeatSourceItemContent( View viewHeatSource, HeatSourceMainItem item)
+	private void setHeatSourceItemContent( View viewHeatSource, HeatSourceMainItem item, int recentIndex)
 	{
 		TextView tvSourceArea =  (TextView) viewHeatSource.findViewById(R.id.heat_source_area);
 		tvSourceArea.setText(item.getEastOrWest() + ", " + item.getInnerOrOuter() );
-		TextView tvSourceType =  (TextView) viewHeatSource.findViewById(R.id.heat_source_unit_type);
-		tvSourceType.setText(item.getHeatSourceType() );
 		TextView tvHeatSourceName = (TextView) viewHeatSource.findViewById(R.id.hot_source_name);
 		tvHeatSourceName.setText(item.getHeatSourceName());
+        TextView tvHeatSourceRecentName = (TextView) viewHeatSource.findViewById(R.id.heat_source_recent_name);
+        tvHeatSourceRecentName.setText(item.getHeatSourceRecents().get(recentIndex).getName());
+        TextView tvHeatSourceRecentLastUpdatedAt = (TextView) viewHeatSource.findViewById(R.id.last_updated_at);
+        tvHeatSourceRecentLastUpdatedAt.setText(item.getHeatSourceRecents().get(recentIndex).getLastUpdatedAt());
+        TextView tvHeatSourcePressureOut = (TextView) viewHeatSource.findViewById(R.id.heat_source_pressure_out);
+        tvHeatSourcePressureOut.setText( String.format("%.2f", item.getHeatSourceRecents().get(recentIndex).getPressureOut() ) );
+        TextView tvHeatSourcePressureIn = (TextView) viewHeatSource.findViewById(R.id.heat_source_pressure_in);
+        tvHeatSourcePressureIn.setText( String.format("%.2f", item.getHeatSourceRecents().get(recentIndex).getPressureIn () ) );
+        TextView tvHeatSourceTemperatureOut = (TextView) viewHeatSource.findViewById(R.id.heat_source_temperature_out);
+        tvHeatSourceTemperatureOut.setText( String.format("%.1f", item.getHeatSourceRecents().get(recentIndex).getTemperatureOut() ) );
+        TextView tvHeatSourceTemperatureIn = (TextView) viewHeatSource.findViewById(R.id.heat_source_temperature_in);
+        tvHeatSourceTemperatureIn.setText( String.format("%.1f", item.getHeatSourceRecents().get(recentIndex).getTemperatureIn() ) );
+        TextView tvHeatSourceFlowOut = (TextView) viewHeatSource.findViewById(R.id.heat_source_flow_out);
+        tvHeatSourceFlowOut.setText( String.format("%.0f", item.getHeatSourceRecents().get(recentIndex).getAccuWater()) );
+        TextView tvHeatSourceFlowIn = (TextView) viewHeatSource.findViewById(R.id.heat_source_flow_in);
+        tvHeatSourceFlowIn.setText( String.format("%.0f", item.getHeatSourceRecents().get(recentIndex).getAccuWaterIn() ) );
+        TextView tvHeatSourceInstantHeat = (TextView) viewHeatSource.findViewById(R.id.heat_source_instant_heat);
+        tvHeatSourceInstantHeat.setText( String.format("%.0f", item.getHeatSourceRecents().get(recentIndex).getInstHeat()) );
+        TextView tvHeatSourceSupply = (TextView) viewHeatSource.findViewById(R.id.heat_source_supply);
+        tvHeatSourceSupply.setText( String.format("%.0f", item.getHeatSourceRecents().get(recentIndex).getWaterSupply() ) );
 	}
 
-	private View getHeatSourceCell(HeatSourceMainItem heatSource, int rowIndex, int columnIndex, int cellWidth, int cellHeight)
+	private View getHeatSourceCell(HeatSourceMainItem heatSource, int rowIndex, int columnIndex, int cellWidth, int cellHeight, int recentIndex)
 	{
 		int ceilMargin = (int)getResources().getDimension(R.dimen.small_margin);
 		LayoutInflater inflater = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
 		View viewHeatSource = inflater.inflate(R.layout.heat_source_main_item, null);
-		setHeatSourceItemContent(viewHeatSource, heatSource);
+		setHeatSourceItemContent(viewHeatSource, heatSource, recentIndex);
 		  
 		Spec row = GridLayout.spec(rowIndex, 1);
 		Spec colspan = GridLayout.spec(columnIndex, 1);
@@ -126,17 +145,10 @@ public class HeatSourceMainActivity extends Activity
 		param.setMargins(ceilMargin, ceilMargin, ceilMargin, ceilMargin);
 	      
 		int intState = CellBackgroundHelper.CELL_STATE_OUTTER;
-	    if ( !heatSource.isOuter() ) 
-	    {
-	    	if ( heatSource.isEast() ) 
-	    	{
-	    		intState = CellBackgroundHelper.CELL_STATE_EAST;
-	    	} 
-	    	else 
-	    	{
-	    		  intState = CellBackgroundHelper.CELL_STATE_WEST;
-	    	}
-	    }
+        if ( ! heatSource.isEast() )
+        {
+            intState = CellBackgroundHelper.CELL_STATE_WEST;
+        }
 		Integer intBackgroundResource = CellBackgroundHelper.getBackgroundResourceByCellState(intState);
 		  
       	viewHeatSource.setBackgroundResource(intBackgroundResource);
@@ -151,23 +163,45 @@ public class HeatSourceMainActivity extends Activity
       			heatSource.getPeakGasCount(),
       			heatSource.getWaterLine(),
       			heatSource.getGasLine(),
-      			heatSource.isInSystem())
+      			heatSource.isInSystem(),
+                heatSource.getHeatSourceRecents().get(recentIndex)
+                )
   			{                                                                                    
   				public void onClick(View v) 
-  				{   
-					Intent intent = new Intent(HeatSourceMainActivity.this, HeatSourceDetailActivity.class);
-					Bundle bundle = new Bundle();
-					bundle.putString("heat_source_name", heatSourceName);
-					bundle.putInt("heat_source_id", heatSourceId);
-					bundle.putString("heat_source_east_or_west", eastOrWest);
-					bundle.putString("heat_source_inner_or_outer", innerOrOuter);
-					bundle.putInt("heat_source_peak_coal_count", peakCoalCount);
-					bundle.putInt("heat_source_peak_gas_count", peakGasCount);
-					bundle.putString("heat_source_water_line", waterLine);
-					bundle.putString("heat_source_gas_line", gasLine);
-					bundle.putBoolean("heat_source_is_in_system", isInSystem);
-					intent.putExtras(bundle);
-					startActivity(intent);
+  				{
+                    Intent intent = new Intent(HeatSourceMainActivity.this, UnitDetailActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("heat_source_recent_name", detail.getName());
+                    bundle.putInt("heat_source_recent_id", detail.getHeatSourceRecentId());
+                    bundle.putInt("heat_source_id", detail.getHeatSourceId());
+                    bundle.putFloat("heat_source_recent_instHeat", detail.getInstHeat());
+                    bundle.putFloat("heat_source_recent_instWater", detail.getInstWater());
+                    bundle.putFloat("heat_source_recent_accuHeat", detail.getAccuHeat());
+                    bundle.putFloat("heat_source_recent_accuWater", detail.getAccuWater());
+                    bundle.putFloat("heat_source_recent_waterSupply", detail.getWaterSupply());
+
+                    bundle.putFloat("heat_source_recent_temperatureIn", detail.getTemperatureIn());
+                    bundle.putFloat("heat_source_recent_temperatureOut", detail.getTemperatureOut());
+                    bundle.putFloat("heat_source_recent_pressureIn", detail.getPressureIn());
+                    bundle.putFloat("heat_source_recent_pressureOut", detail.getPressureOut());
+
+
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+
+//					Intent intent = new Intent(HeatSourceMainActivity.this, HeatSourceDetailActivity.class);
+//					Bundle bundle = new Bundle();
+//					bundle.putString("heat_source_name", heatSourceName);
+//					bundle.putInt("heat_source_id", heatSourceId);
+//					bundle.putString("heat_source_east_or_west", eastOrWest);
+//					bundle.putString("heat_source_inner_or_outer", innerOrOuter);
+//					bundle.putInt("heat_source_peak_coal_count", peakCoalCount);
+//					bundle.putInt("heat_source_peak_gas_count", peakGasCount);
+//					bundle.putString("heat_source_water_line", waterLine);
+//					bundle.putString("heat_source_gas_line", gasLine);
+//					bundle.putBoolean("heat_source_is_in_system", isInSystem);
+//					intent.putExtras(bundle);
+//					startActivity(intent);
   				}
 			}
 		);
@@ -183,7 +217,7 @@ public class HeatSourceMainActivity extends Activity
 		int ceilMargin = (int)getResources().getDimension(R.dimen.small_margin) * 2;
 		int cellWidth = (int)( screenWidth  / COLUMN_COUNT - ceilMargin); 
 		int cellHeight = (int) ( screenHeight / ROW_COUNT - ceilMargin);
-		int bigCellWidth = cellWidth * 3 + ceilMargin * 2; 
+		int bigCellHeight = cellHeight * 4 + ceilMargin * 3;
 		views = new ArrayList<View>();
 		for(int pageIndex = 0; pageIndex < pageNum; pageIndex++ )
 		{
@@ -193,18 +227,21 @@ public class HeatSourceMainActivity extends Activity
 			gridLayout.setOrientation(GridLayout.HORIZONTAL);
 			gridLayout.setUseDefaultMargins(true);
 
-			//	gridLayout.addView( getHeatSourceSummaryCell(titleInfo, 0, 0, bigCellWidth, cellHeight) );
-
             for(int cell = 0, rowIndex = 0, columnIndex=0, itemIndex = (pageIndex) * PAGE_SIZE + cell;
                 cell < PAGE_SIZE && itemIndex < dbHeatSources.size();
-                cell ++, columnIndex++, itemIndex++)
+                cell ++,  itemIndex++)
             {
-                if(columnIndex == COLUMN_COUNT)
-                {
-                    columnIndex = 0;
-                    rowIndex++;
+                HeatSourceMainItem heatSource = dbHeatSources.get(itemIndex);
+                if(columnIndex + heatSource.getHeatSourceRecents().size() <= 3) {
+                    for (int recentIndex = 0; recentIndex < heatSource.getHeatSourceRecents().size();
+                         columnIndex++, recentIndex++) {
+                        gridLayout.addView(getHeatSourceCell(heatSource, rowIndex, columnIndex, cellWidth, bigCellHeight, recentIndex));
+                    }
                 }
-                gridLayout.addView(getHeatSourceCell(dbHeatSources.get(itemIndex), rowIndex, columnIndex, cellWidth, cellHeight));
+                else {
+                    cell--;
+                    break;
+                }
             }
 			gridLayout.setId(pageIndex);
 			views.add(gridLayout);
@@ -256,10 +293,12 @@ public class HeatSourceMainActivity extends Activity
 		int peakGasCount;
 		String waterLine;
 		String gasLine;
-		boolean isInSystem; 
-			
+		boolean isInSystem;
+        HeatSourceDetail detail;
+
 		public heatSourceCellOnClickListener(String heatSourceName, int heatSourceId, String eastOrWest, String innerOrOuter,
-											 int peakCoalCount, int peakGasCount, String waterLine, String gasLine, boolean isInSystem) 
+											 int peakCoalCount, int peakGasCount, String waterLine, String gasLine, boolean isInSystem,
+                                             HeatSourceDetail detail)
 		{
 			this.heatSourceName = heatSourceName;
 			this.heatSourceId = heatSourceId;
@@ -270,6 +309,7 @@ public class HeatSourceMainActivity extends Activity
 			this.waterLine = waterLine;
 			this.gasLine = gasLine;
 			this.isInSystem = isInSystem;
+            this.detail = detail;
 		}
 	};
 }  

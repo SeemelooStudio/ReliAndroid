@@ -80,7 +80,14 @@
     <string name="heat_source_steam_line">蒸汽线名称</string>
     <string name="heat_source_is_connect">是否并网</string>
     <string name="heat_source_unit_type">机组类型</string>
-    
+    <string name="heat_source_pressure_out">供压</string>
+    <string name="heat_source_pressure_in">回压</string>
+    <string name="heat_source_temperature_out">供温</string>
+    <string name="heat_source_temperature_in">回温</string>
+    <string name="heat_source_flow_out">供流</string>
+    <string name="heat_source_flow_in">回流</string>
+    <string name="heat_source_instant_heat">瞬热</string>
+    <string name="heat_source_supply">补流</string>
     <!-- Station -->
     <string name="tap_to_search">点击查询</string>
     <string name="station_realtime_heat">瞬时热量(GJ/h)</string>
@@ -131,8 +138,8 @@
     <string name="version_info">版本信息</string>
     <string name="title_activity_version">版本信息</string>
     <string name="action_settings">Settings</string>
-    <string name="version_description">当前版本：V2.1</string>
-    <string name="version_published_at">更新时间：2014/12/1</string>
+    <string name="version_description">当前版本：V2.2</string>
+    <string name="version_published_at">更新时间：2015/2/5</string>
     <string name="download_latest">点击下载最新版本</string>
     <string name="already_latest">已经是最新版本</string>
 

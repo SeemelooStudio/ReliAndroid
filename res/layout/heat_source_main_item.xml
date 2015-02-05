@@ -4,47 +4,199 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/dodger_blue" >
-
-	<TextView 
-	    android:id="@+id/heat_source_area"
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:layout_marginLeft="@dimen/small_margin"
-	    android:layout_marginTop="@dimen/medium_margin"
-	    android:textColor="@color/white"
-	    android:layout_alignParentTop="true"
-	    android:textSize="@dimen/cell_title_font_size" />
-	<TextView 
-	    android:id="@+id/heat_source_type"
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:layout_marginLeft="@dimen/small_margin"
-	    android:layout_marginTop="@dimen/medium_margin"
-	    android:textSize="@dimen/small_font_size"
-	    android:text="@string/heat_source_unit_type"
-	    android:textColor="@color/transparent_white"
-	     android:layout_below="@+id/heat_source_area" />
-	<TextView 
-	    android:id="@+id/heat_source_unit_type"
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:layout_marginLeft="@dimen/small_margin"
-	    android:textColor="@color/white"
-	    android:layout_below="@+id/heat_source_type"
-	    android:textSize="@dimen/cell_title_font_size" />
-
     <TextView
         android:id="@+id/hot_source_name"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/small_margin"
+        android:layout_marginTop="@dimen/medium_margin"
         android:layout_marginLeft="@dimen/small_margin"
         android:ellipsize="end"
         android:lines="1"
+        android:layout_alignParentTop="true"
         android:textColor="@color/white"
-        android:layout_below="@+id/heat_source_unit_type"
-         />
+        />
+    <TextView
+        android:id="@+id/last_updated_at"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/small_margin"
+        android:layout_marginTop="@dimen/small_margin"
+        android:textSize="@dimen/small_font_size"
+        android:text="@string/heat_source_pressure_out"
+        android:textColor="@color/transparent_white"
+        android:layout_below="@+id/hot_source_name" />
+    <TextView
+        android:id="@+id/heat_source_recent_name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/small_margin"
+        android:layout_marginTop="@dimen/small_margin"
+        android:textColor="@color/white"
+        android:textSize="@dimen/cell_title_font_size"
+        android:layout_below="@+id/last_updated_at"/>
+    <TextView
+        android:id="@+id/heat_source_area"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+	    android:layout_marginLeft="@dimen/small_margin"
+	    android:layout_marginTop="@dimen/small_margin"
+	    android:textColor="@color/white"
+	    android:textSize="@dimen/cell_title_font_size"
+        android:layout_below="@+id/heat_source_recent_name"/>
+    <TextView
+        android:id="@+id/heat_source_pressure_out_text"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/small_margin"
+        android:layout_marginTop="@dimen/medium_margin"
+        android:textSize="@dimen/small_font_size"
+        android:text="@string/heat_source_pressure_out"
+        android:textColor="@color/transparent_white"
+        android:layout_below="@+id/heat_source_area" />
+    <TextView
+        android:id="@+id/heat_source_pressure_out"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/small_margin"
+        android:textColor="@color/white"
+        android:layout_below="@+id/heat_source_pressure_out_text"
+        android:textSize="@dimen/cell_title_font_size" />
 
+    <TextView
+        android:id="@+id/heat_source_pressure_in_text"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/small_margin"
+        android:layout_marginTop="@dimen/medium_margin"
+        android:textSize="@dimen/small_font_size"
+        android:text="@string/heat_source_pressure_in"
+        android:textColor="@color/transparent_white"
+        android:layout_below="@+id/heat_source_pressure_out" />
+    <TextView
+        android:id="@+id/heat_source_pressure_in"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/small_margin"
+        android:textColor="@color/white"
+        android:layout_below="@+id/heat_source_pressure_in_text"
+        android:textSize="@dimen/cell_title_font_size" />
+
+
+    <TextView
+        android:id="@+id/heat_source_temperature_out_text"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/small_margin"
+        android:layout_marginTop="@dimen/medium_margin"
+        android:textSize="@dimen/small_font_size"
+        android:text="@string/heat_source_temperature_out"
+        android:textColor="@color/transparent_white"
+        android:layout_below="@+id/heat_source_pressure_in" />
+    <TextView
+        android:id="@+id/heat_source_temperature_out"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/small_margin"
+        android:textColor="@color/white"
+        android:layout_below="@+id/heat_source_temperature_out_text"
+        android:textSize="@dimen/cell_title_font_size" />
+
+    <TextView
+        android:id="@+id/heat_source_temperature_in_text"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/small_margin"
+        android:layout_marginTop="@dimen/medium_margin"
+        android:textSize="@dimen/small_font_size"
+        android:text="@string/heat_source_temperature_in"
+        android:textColor="@color/transparent_white"
+        android:layout_below="@+id/heat_source_temperature_out" />
+    <TextView
+        android:id="@+id/heat_source_temperature_in"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/small_margin"
+        android:textColor="@color/white"
+        android:layout_below="@+id/heat_source_temperature_in_text"
+        android:textSize="@dimen/cell_title_font_size" />
+
+
+    <TextView
+        android:id="@+id/heat_source_flow_out_text"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/small_margin"
+        android:layout_marginTop="@dimen/medium_margin"
+        android:textSize="@dimen/small_font_size"
+        android:text="@string/heat_source_flow_out"
+        android:textColor="@color/transparent_white"
+        android:layout_below="@+id/heat_source_temperature_in" />
+    <TextView
+        android:id="@+id/heat_source_flow_out"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/small_margin"
+        android:textColor="@color/white"
+        android:layout_below="@+id/heat_source_flow_out_text"
+        android:textSize="@dimen/cell_title_font_size" />
+
+    <TextView
+        android:id="@+id/heat_source_flow_in_text"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/small_margin"
+        android:layout_marginTop="@dimen/medium_margin"
+        android:textSize="@dimen/small_font_size"
+        android:text="@string/heat_source_flow_in"
+        android:textColor="@color/transparent_white"
+        android:layout_below="@+id/heat_source_flow_out" />
+    <TextView
+        android:id="@+id/heat_source_flow_in"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/small_margin"
+        android:textColor="@color/white"
+        android:layout_below="@+id/heat_source_flow_in_text"
+        android:textSize="@dimen/cell_title_font_size" />
+
+    <TextView
+        android:id="@+id/heat_source_instant_heat_text"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/small_margin"
+        android:layout_marginTop="@dimen/medium_margin"
+        android:textSize="@dimen/small_font_size"
+        android:text="@string/heat_source_instant_heat"
+        android:textColor="@color/transparent_white"
+        android:layout_below="@+id/heat_source_flow_in" />
+    <TextView
+        android:id="@+id/heat_source_instant_heat"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/small_margin"
+        android:textColor="@color/white"
+        android:layout_below="@+id/heat_source_instant_heat_text"
+        android:textSize="@dimen/cell_title_font_size" />
+
+    <TextView
+        android:id="@+id/heat_source_supply_text"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/small_margin"
+        android:layout_marginTop="@dimen/medium_margin"
+        android:textSize="@dimen/small_font_size"
+        android:text="@string/heat_source_supply"
+        android:textColor="@color/transparent_white"
+        android:layout_below="@+id/heat_source_instant_heat" />
+    <TextView
+        android:id="@+id/heat_source_supply"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/small_margin"
+        android:textColor="@color/white"
+        android:layout_below="@+id/heat_source_supply_text"
+        android:textSize="@dimen/cell_title_font_size" />
+    
     <TextView
         android:id="@+id/hotSrcItemId"
         android:layout_width="wrap_content"
