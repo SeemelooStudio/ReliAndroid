@@ -11,7 +11,7 @@ public class ConstDefine
 	public static final int HTTP_BUFF_SIZE = 8192;
 	public static final String HTTP_ENCODE = "UTF-8";
 	
-    public static final String WEB_SERVICE_URL = "http://192.168.1.102:11223";
+    public static final String WEB_SERVICE_URL = "http://192.168.57.238:11223";
 	public static final String WEB_SERVICE_OUTER_URL = "http://192.180.1.251:11223";
 	
 	public static final String S_GET_USERINFO = "/MobileService/Users/{UserName}";
@@ -51,7 +51,7 @@ public class ConstDefine
 	public static final String S_POST_IMAGE = "/MobileService/{UserName}/Messages/UploadPhoto";
 	public static final String S_PUT_IMAGE = "/MobileService/{UserName}/Messages/UploadPhoto/{MessageId}";
 	
-	public static final String S_DOWNLOAD_LATEST = "http://192.168.57.238/downloads/ReliMobile{VersionName}.apk";
+	public static final String S_DOWNLOAD_LATEST = "/downloads/ReliMobile{VersionName}.apk";
 	public static final String S_CHECKVERSION = "/MobileService/Version";
 	//show msg info
 	public static final String I_MSG_0001 = "fail";

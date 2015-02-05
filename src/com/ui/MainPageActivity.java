@@ -251,7 +251,7 @@ public class MainPageActivity extends Activity {
 		  TextView tvPhotoCount = (TextView) findViewById(R.id.main_item_four_txt1);
 		  TextView tvMessageCount = (TextView) findViewById(R.id.main_item_four_txt2);
 		  tvPhotoCount.setText(mainPageSummary.getCountPhotos()+"");
-		  tvMessageCount.setText(mainPageSummary.getCountMessages()+"");
+		  tvMessageCount.setText(mainPageSummary.getCountMessages()+" ");
 	  }
     /**
      * click listren
