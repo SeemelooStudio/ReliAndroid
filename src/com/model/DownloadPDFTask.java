@@ -34,7 +34,7 @@ public class DownloadPDFTask extends AsyncTask<String, Void, Integer>
     @Override
     protected Integer doInBackground(String... urls)
     {
-    	byte[] dataBuffer = new byte[30720];
+    	byte[] dataBuffer = new byte[0x300000];
         int nRead = 0;
 
         // set local filename to last part of URL

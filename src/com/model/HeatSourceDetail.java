@@ -19,6 +19,16 @@ public class HeatSourceDetail {
 	private float instHeat;
 	
 	private float instWater;
+
+    public float getInstWaterIn() {
+        return instWaterIn;
+    }
+
+    public void setInstWaterIn(float instWaterIn) {
+        this.instWaterIn = instWaterIn;
+    }
+
+    private float instWaterIn;
 	
 	private float accuHeat;
 	
