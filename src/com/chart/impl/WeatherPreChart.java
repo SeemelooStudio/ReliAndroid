@@ -164,18 +164,19 @@ public class WeatherPreChart extends AbstractChart {
 	                    .getSeriesRendererAt(i);                
 	            seriesRenderer.setLineWidth(4f);
 	            seriesRenderer.setChartValuesSpacing(10);
-	            seriesRenderer.setChartValuesTextSize(32);
+	            seriesRenderer.setChartValuesTextSize(30);
 	            seriesRenderer.setDisplayChartValues(true);
 	        }
 	        
 
+	        renderer.setMargins( new int[] {0, 10, 60, 10});
 	        renderer.setExternalZoomEnabled(true);
 			renderer.setShowGrid(true);
-			renderer.setChartTitleTextSize(40);
-			renderer.setAxisTitleTextSize(32);
-			renderer.setLegendTextSize(36);
 			renderer.setXLabelsAlign(Align.CENTER);
 			renderer.setXLabelsPadding(10f);
+			renderer.setChartTitleTextSize(20);
+			renderer.setAxisTitleTextSize(20);
+			renderer.setLegendTextSize(20);
             renderer.setLabelsTextSize(20);
 			return renderer;
 

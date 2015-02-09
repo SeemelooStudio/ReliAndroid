@@ -98,7 +98,7 @@ public class SupplyAndBackwardDetailChart extends AbstractChart {
 
 		return ChartFactory.getTimeChartIntent(context,
 				buildDateDataset(titles, dates, values), getRender(),
-				"yyyy-MM-dd HH:mm");
+				"MM-dd HH:mm");
 	}
 
 	public GraphicalView createChart(Context context) {
@@ -111,7 +111,7 @@ public class SupplyAndBackwardDetailChart extends AbstractChart {
 
 		return ChartFactory.getTimeChartView(context,
 				buildDateDataset(titles, dates, values), getRender(),
-				"yyyy-MM-dd HH:mm");
+				"MM-dd HH:mm");
 	}
 	
 	private void sortDatalistAscendingByDate() {
@@ -156,7 +156,7 @@ public class SupplyAndBackwardDetailChart extends AbstractChart {
 		case TYPE_TEMPERATURE:
 
 			setChartSettings(renderer, chartName, yAxisName, xAxisName,
-					0, 0,0, 120,
+					0, 0,0, 150,
 					Color.parseColor("#33FFFFFF"), Color.WHITE);
 			break;
 		case TYPE_PRESSURE:
@@ -173,19 +173,22 @@ public class SupplyAndBackwardDetailChart extends AbstractChart {
                     .getSeriesRendererAt(i);                
             seriesRenderer.setLineWidth(4f);
             seriesRenderer.setChartValuesSpacing(10);
-            seriesRenderer.setChartValuesTextSize(16);
             seriesRenderer.setDisplayChartValues(true);
             
             NumberFormat nFormat=NumberFormat.getNumberInstance();
             nFormat.setMaximumFractionDigits(2);
             seriesRenderer.setChartValuesFormat(nFormat);
-
+            seriesRenderer.setChartValuesTextSize(30);
         }
         
 
+        renderer.setMargins( new int[] {0, 10, 50, 10});
         renderer.setExternalZoomEnabled(true);
 		renderer.setShowGrid(true);
-		renderer.setChartTitleTextSize(24);
+		renderer.setChartTitleTextSize(20);
+		renderer.setLegendTextSize(20);
+		renderer.setAxisTitleTextSize(20);
+        renderer.setLabelsTextSize(20);
 		return renderer;
 	}
 	private class SupplyAndBackwardItemComparator implements Comparator<SupplyAndBackwardItem> {

@@ -227,21 +227,28 @@ public class HeatSourceMainActivity extends Activity
 			gridLayout.setOrientation(GridLayout.HORIZONTAL);
 			gridLayout.setUseDefaultMargins(true);
 
-            for(int cell = 0, rowIndex = 0, columnIndex=0, itemIndex = (pageIndex) * PAGE_SIZE + cell;
+            for(int cell = 0, rowIndex = 0, columnIndex=0, itemIndex = (pageIndex) * PAGE_SIZE + cell, recentIndex = 0;
                 cell < PAGE_SIZE && itemIndex < dbHeatSources.size();
-                cell ++,  itemIndex++)
+                cell ++)
             {
                 HeatSourceMainItem heatSource = dbHeatSources.get(itemIndex);
-                if(columnIndex + heatSource.getHeatSourceRecents().size() <= 3) {
-                    for (int recentIndex = 0; recentIndex < heatSource.getHeatSourceRecents().size();
-                         columnIndex++, recentIndex++) {
-                        gridLayout.addView(getHeatSourceCell(heatSource, rowIndex, columnIndex, cellWidth, bigCellHeight, recentIndex));
-                    }
-                }
-                else {
-                    cell--;
-                    break;
-                }
+            	gridLayout.addView(getHeatSourceCell(heatSource, rowIndex, columnIndex, cellWidth, bigCellHeight, recentIndex));
+            	if(recentIndex == heatSource.getHeatSourceRecents().size()-1)
+            	{
+            		recentIndex = 0;
+            		itemIndex++;
+            	}
+            	else {
+            		recentIndex++;
+            	}
+            	
+            	if( columnIndex == COLUMN_COUNT -1 )
+            	{
+            		columnIndex = 0;
+            	}
+            	else {
+            		columnIndex++;
+            	}
             }
 			gridLayout.setId(pageIndex);
 			views.add(gridLayout);
