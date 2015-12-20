@@ -120,9 +120,9 @@ public class HeatSourceMainActivity extends Activity
         TextView tvHeatSourceTemperatureIn = (TextView) viewHeatSource.findViewById(R.id.heat_source_temperature_in);
         tvHeatSourceTemperatureIn.setText( String.format("%.1f", item.getHeatSourceRecents().get(recentIndex).getTemperatureIn() ) );
         TextView tvHeatSourceFlowOut = (TextView) viewHeatSource.findViewById(R.id.heat_source_flow_out);
-        tvHeatSourceFlowOut.setText( String.format("%.0f", item.getHeatSourceRecents().get(recentIndex).getAccuWater()) );
+        tvHeatSourceFlowOut.setText( String.format("%.0f", item.getHeatSourceRecents().get(recentIndex).getInstWater()) );
         TextView tvHeatSourceFlowIn = (TextView) viewHeatSource.findViewById(R.id.heat_source_flow_in);
-        tvHeatSourceFlowIn.setText( String.format("%.0f", item.getHeatSourceRecents().get(recentIndex).getAccuWaterIn() ) );
+        tvHeatSourceFlowIn.setText( String.format("%.0f", item.getHeatSourceRecents().get(recentIndex).getInstWaterIn() ) );
         TextView tvHeatSourceInstantHeat = (TextView) viewHeatSource.findViewById(R.id.heat_source_instant_heat);
         tvHeatSourceInstantHeat.setText( String.format("%.0f", item.getHeatSourceRecents().get(recentIndex).getInstHeat()) );
         TextView tvHeatSourceSupply = (TextView) viewHeatSource.findViewById(R.id.heat_source_supply);
@@ -211,7 +211,12 @@ public class HeatSourceMainActivity extends Activity
 	private void setHotSourceGridView()
 	{
 		viewpage = (ViewPager) findViewById(R.id.hotMainPager);
-		int pageNum = (int)Math.ceil( (float)dbHeatSources.size() / PAGE_SIZE );
+        int totalItems = 0;
+        for(int i = 0; i< dbHeatSources.size(); i++)
+        {
+            totalItems += dbHeatSources.get(i).getHeatSourceRecents().size();
+        }
+        int pageNum = (int)Math.ceil( (float)totalItems / PAGE_SIZE );
 		int screenWidth = viewpage.getWidth();
 		int screenHeight = viewpage.getHeight();
 		int ceilMargin = (int)getResources().getDimension(R.dimen.small_margin) * 2;
@@ -219,7 +224,7 @@ public class HeatSourceMainActivity extends Activity
 		int cellHeight = (int) ( screenHeight / ROW_COUNT - ceilMargin);
 		int bigCellHeight = cellHeight * 4 + ceilMargin * 3;
 		views = new ArrayList<View>();
-		for(int pageIndex = 0; pageIndex < pageNum; pageIndex++ )
+		for(int pageIndex = 0, itemIndex = 0, recentIndex = 0; pageIndex < pageNum; pageIndex++ )
 		{
 			GridLayout gridLayout = new GridLayout(this);
 			gridLayout.setColumnCount(COLUMN_COUNT);
@@ -227,7 +232,7 @@ public class HeatSourceMainActivity extends Activity
 			gridLayout.setOrientation(GridLayout.HORIZONTAL);
 			gridLayout.setUseDefaultMargins(true);
 
-            for(int cell = 0, rowIndex = 0, columnIndex=0, itemIndex = (pageIndex) * PAGE_SIZE + cell, recentIndex = 0;
+            for(int cell = 0, rowIndex = 0, columnIndex=0;
                 cell < PAGE_SIZE && itemIndex < dbHeatSources.size();
                 cell ++)
             {
