@@ -101,6 +101,13 @@ public class OverviewActivity extends Activity
     	instant_heat_east.setText( String.format("%.0f", overview.getInstanceHeat0() ) );
     	instant_heat_west.setText( String.format("%.0f", overview.getInstanceHeat1() ) );
     	
+    	TextView instant_heat_total_gk = (TextView) findViewById(R.id.overview_instant_heat_total_gk);
+    	TextView instant_heat_east_gk = (TextView) findViewById(R.id.overview_instant_heat_east_gk);
+    	TextView instant_heat_west_gk = (TextView) findViewById(R.id.overview_instant_heat_west_gk);
+    	instant_heat_total_gk.setText( String.format("%.0f(GK/h)", overview.getInstanceHeat2() * 0.239 ) );
+    	instant_heat_east_gk.setText( String.format("%.0f(GK/h)", overview.getInstanceHeat0() * 0.239  ) );
+    	instant_heat_west_gk.setText( String.format("%.0f(Gk/h)", overview.getInstanceHeat1() * 0.239  ) );
+    	
     	TextView area_total = (TextView) findViewById(R.id.overview_area_total);
     	TextView areat_east = (TextView) findViewById(R.id.overview_area_east);
     	TextView area_west = (TextView) findViewById(R.id.overview_area_west);

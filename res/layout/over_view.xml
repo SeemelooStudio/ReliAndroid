@@ -63,21 +63,47 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="16779.71" />
+                android:text="0" />
 
             <TextView
                 android:id="@+id/overview_instant_heat_east"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="10343.09" />
+                android:text="0" />
 
             <TextView
                 android:id="@+id/overview_instant_heat_west"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="6436.62" />
+                android:text="0" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/medium_margin" >
+
+            <TextView
+                android:id="@+id/overview_instant_heat_total_gk"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="0" />
+
+            <TextView
+                android:id="@+id/overview_instant_heat_east_gk"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="0" />
+
+            <TextView
+                android:id="@+id/overview_instant_heat_west_gk"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="0" />
         </LinearLayout>
     </LinearLayout>
 
